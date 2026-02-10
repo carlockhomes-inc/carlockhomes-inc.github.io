@@ -23,7 +23,7 @@
     - [x] **Instagram Post**: "Calendar Promo" (Draft ready)
     - [x] **Instagram Post**: "Calendar Promo" (Draft ready)
     - [x] **System**: Session Log for First Brain (Created)
-    - [ ] **Note/IG**: "Safe even if PC breaks" (Drafting... ✍️)
+    - [x] **Note/IG**: "Safe even if PC breaks" (Draft Ready 📝)
 - [ ] **Project: E-book (Kindle)**
     - [ ] **Concept A**: "Nutrition of the Heart" (Essay & Photos)
         - [ ] Create Directory: `01_プロジェクト/Kindle_Essay`
