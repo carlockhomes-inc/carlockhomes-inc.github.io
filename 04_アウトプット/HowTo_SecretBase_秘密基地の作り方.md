@@ -40,3 +40,13 @@ fumikoさん、安心してください。
 
 今は全部覚えなくてOK。このメモが残っていますからね。
 焦らず、ゆっくりお支度してくださいね！💄👗
+
+---
+
+## 📍 わたしの秘密基地 (My Secret Base)
+*   **基地の名前**: `m-lab` (Mama's Lab)
+*   **URL**: [https://github.com/fmfmfm0207-max/m-lab](https://github.com/fmfmfm0207-max/m-lab)
+*   **所有者**: `fmfmfm0207-max`
+
+> [!IMPORTANT]
+> このURLをクリックすれば、いつでも秘密基地に入れます！
