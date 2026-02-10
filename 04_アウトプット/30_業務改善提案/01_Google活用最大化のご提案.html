@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;700&display=swap');
+
+        @page {
+            size: A4;
+            margin: 0;
+        }
+
+        body {
+            font-family: 'Noto Sans JP', sans-serif;
+            margin: 0;
+            padding: 20px;
+            background: #f0f2f5;
+            color: #333;
+            -webkit-print-color-adjust: exact;
+        }
+
+        .page {
+            width: 210mm;
+            min-height: 297mm;
+            padding: 15mm 20mm;
+            margin: 0 auto;
+            background: white;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            box-sizing: border-box;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+        }
+
+        @media print {
+            body {
+                background: none;
+                padding: 0;
+            }
+
+            .page {
+                width: 100%;
+                height: 100%;
+                margin: 0;
+                box-shadow: none;
+                page-break-after: always;
+            }
+
+            .no-print {
+                display: none;
+            }
+        }
+
+        h1 {
+            text-align: center;
+            color: #0d47a1;
+            border-bottom: 3px double #0d47a1;
+            padding-bottom: 15px;
+            margin-bottom: 30px;
+            font-size: 22pt;
+            letter-spacing: 2px;
+        }
+
+        .executive-summary {
+            background: #e3f2fd;
+            border: 1px solid #90caf9;
+            padding: 20px;
+            border-radius: 5px;
+            margin-bottom: 30px;
+        }
+
+        .exec-title {
+            font-weight: bold;
+            color: #0d47a1;
+            font-size: 1.2em;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+        }
+
+        .waste-visual {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 30px;
+            margin-bottom: 30px;
+        }
+
+        .waste-box {
+            text-align: center;
+            border: 2px dashed #d93025;
+            background: #fce8e6;
+            padding: 20px;
+            border-radius: 10px;
+            width: 45%;
+            position: relative;
+        }
+
+        .waste-icon {
+            font-size: 3em;
+            margin-bottom: 10px;
+        }
+
+        .waste-text {
+            color: #c62828;
+            font-weight: bold;
+        }
+
+        .arrow-right {
+            font-size: 3em;
+            color: #999;
+        }
+
+        .solution-box {
+            background: #e8f5e9;
+            border: 2px solid #43a047;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+        .solution-title {
+            font-size: 1.5em;
+            font-weight: bold;
+            color: #2e7d32;
+            margin-bottom: 15px;
+        }
+
+        .benefit-list {
+            text-align: left;
+            display: inline-block;
+        }
+
+        .benefit-item {
+            margin-bottom: 10px;
+            font-size: 1.1em;
+        }
+
+        .money-box {
+            background: #fff3e0;
+            border-left: 5px solid #ff9800;
+            padding: 15px;
+            margin-top: 20px;
+            font-weight: bold;
+            color: #e65100;
+        }
+
+        .footer {
+            text-align: right;
+            font-size: 9pt;
+            color: #9aa0a6;
+            margin-top: auto;
+            border-top: 1px solid #f1f3f4;
+            padding-top: 10px;
+        }
+
+        /* Matsuura Mon Style */
+        .matsuura-mon {
+            display: inline-flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            vertical-align: middle;
+            line-height: 1;
+            margin: 0 4px;
+            position: relative;
+            top: -2px;
+        }
+
+        .matsuura-mon span {
+            display: block;
+            line-height: 1;
+        }
+
+        .matsuura-mon .top {
+            font-size: 0.7em;
+            margin-bottom: -1px;
+        }
+
+        .matsuura-mon .bottom {
+            font-size: 0.7em;
+            letter-spacing: -2px;
+        }
+
+        .btn-print {
+            position: fixed;
+            top: 30px;
+            right: 30px;
+            padding: 12px 24px;
+            background: linear-gradient(135deg, #0d47a1, #1976d2);
+            color: white;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 16px;
+            box-shadow: 0 4px 15px rgba(13, 71, 161, 0.4);
+            z-index: 1000;
+        }
+    </style>
+    <title>IT環境最適化のご提案</title>
+</head>
+
+<body>
+
+    <button class="btn-print no-print" onclick="window.print()">🖨️ このページを印刷する (A4)</button>
+
+    <div class="page">
+        <h1>💎 Google Workspace 活用最大化のご提案</h1>
+        <div style="text-align: center; color: #666; margin-top: -20px; margin-bottom: 30px;">
+            〜 すでに払っているコストを「利益」に変える 〜
+        </div>
+
+        <div class="executive-summary">
+            <div class="exec-title">🔔 現状の課題：宝の持ち腐れ状態</div>
+            <div>現在、会社で契約している有料版Google（Workspace）が、<b>ほとんど活用されずに眠っています。</b><br>
+                その一方で、使いにくいOutlookや、バラバラのファイル管理で業務効率が落ちています。</div>
+        </div>
+
+        <div class="waste-visual">
+            <div class="waste-box">
+                <div class="waste-icon">🏎️</div>
+                <div class="waste-text">高級スポーツカー<br>(Google Workspace)</div>
+                <div style="font-size: 0.8em; margin-top: 5px;">毎月課金中...💸</div>
+            </div>
+            <div class="arrow-right">≠</div>
+            <div class="waste-box">
+                <div class="waste-icon">🚜</div>
+                <div class="waste-text">軽トラで移動<br>(Outlook & 手作業)</div>
+                <div style="font-size: 0.8em; margin-top: 5px;">不便で遅い...🐢</div>
+            </div>
+        </div>
+
+        <div class="solution-box">
+            <div class="solution-title">✨ 改善案：すべてGoogleに集約する</div>
+            <div class="benefit-list">
+                <div class="benefit-item">✅ <b>Outlook廃止</b> ➡ Gmail画面で会社のメールを送受信</div>
+                <div class="benefit-item">✅ <b>PCとiPhone連携</b> ➡ Chromeで履歴もお気に入りも共有</div>
+                <div class="benefit-item">✅ <b>ファイル探しゼロ</b> ➡ 全データGoogleドライブで一発検索</div>
+            </div>
+        </div>
+
+        <div style="font-size: 1.1em; font-weight: bold; margin-bottom: 10px;">📊 期待される効果</div>
+        <table style="width: 100%; border-collapse: collapse; margin-bottom: 20px;">
+            <tr style="background: #eee;">
+                <th style="border: 1px solid #ccc; padding: 10px;">比較項目</th>
+                <th style="border: 1px solid #ccc; padding: 10px; color: #666;">現在 (Outlook)</th>
+                <th style="border: 1px solid #ccc; padding: 10px; color: #d93025; background: #ffebee;">改善後 (Gmail)</th>
+            </tr>
+            <tr>
+                <td style="border: 1px solid #ccc; padding: 10px; text-align: center; font-weight: bold;">スマホ連携</td>
+                <td style="border: 1px solid #ccc; padding: 10px;">× 設定が面倒で見れない</td>
+                <td style="border: 1px solid #ccc; padding: 10px; font-weight: bold;">◎ アプリ入れるだけ</td>
+            </tr>
+            <tr>
+                <td style="border: 1px solid #ccc; padding: 10px; text-align: center; font-weight: bold;">検索スピード</td>
+                <td style="border: 1px solid #ccc; padding: 10px;">△ 遅い・見つからない</td>
+                <td style="border: 1px solid #ccc; padding: 10px; font-weight: bold;">◎ Google検索と同じ爆速</td>
+            </tr>
+            <tr>
+                <td style="border: 1px solid #ccc; padding: 10px; text-align: center; font-weight: bold;">コスト</td>
+                <td style="border: 1px solid #ccc; padding: 10px;">二重払い状態</td>
+                <td style="border: 1px solid #ccc; padding: 10px; font-weight: bold;">活用による実質黒字化</td>
+            </tr>
+        </table>
+
+        <div class="money-box">
+            💡 社長へのメッセージ：<br>
+            追加費用は0円です。すでにあるものを「使う」に変えるだけで、業務スピードは倍になります。
+        </div>
+
+        <div class="footer">
+            Proposed by おまつさん
+            <span class="matsuura-mon" style="margin-left: 5px;">
+                <span class="top">⭐</span>
+                <span class="bottom">⭐ ⭐</span>
+            </span>
+        </div>
+
+    </div>
+</body>
+
+</html>

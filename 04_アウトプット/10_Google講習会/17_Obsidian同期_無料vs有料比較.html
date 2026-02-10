@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;700&display=swap');
+
+        body {
+            font-family: 'Noto Sans JP', sans-serif;
+            margin: 0;
+            padding: 40px;
+            background: #f0f2f5;
+            color: #333;
+            display: flex;
+            justify-content: center;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 800px;
+            background: white;
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            text-align: center;
+            color: #2e3b4e;
+            margin-bottom: 10px;
+            font-size: 24pt;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #666;
+            margin-bottom: 40px;
+            font-weight: bold;
+        }
+
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 30px;
+        }
+
+        .comparison-table th,
+        .comparison-table td {
+            padding: 20px;
+            text-align: center;
+            border-bottom: 1px solid #eee;
+        }
+
+        .comparison-table th {
+            font-size: 1.2em;
+            width: 33%;
+        }
+
+        /* Free Column */
+        .col-free {
+            background: #f9f9f9;
+            color: #777;
+            border-radius: 15px 15px 0 0;
+        }
+
+        .col-free-header {
+            background: #e0e0e0;
+            color: #555;
+            border-radius: 15px 15px 0 0;
+            padding: 15px;
+        }
+
+        /* Paid Column (Highlight) */
+        .col-paid {
+            background: #f3e5f5;
+            /* Light Purple */
+            color: #4527a0;
+            font-weight: bold;
+            border: 2px solid #7c4dff;
+            border-bottom: 2px solid #7c4dff;
+            /* Ensure bottom border matches */
+            position: relative;
+            box-shadow: 0 4px 15px rgba(124, 77, 255, 0.2);
+        }
+
+        .col-paid-header {
+            background: #7c4dff;
+            color: white;
+            padding: 15px;
+            border-radius: 10px 10px 0 0;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Fix for bottom corners of the paid column */
+        .comparison-table tr:last-child td.col-paid {
+            border-radius: 0 0 10px 10px;
+        }
+
+        .badge {
+            background: #ffd700;
+            color: #000;
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 0.8em;
+            position: absolute;
+            top: -10px;
+            right: 10px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+            transform: rotate(10deg);
+        }
+
+        .row-header {
+            text-align: left !important;
+            font-weight: bold;
+            color: #333;
+            font-size: 1.1em;
+        }
+
+        .emoji-lg {
+            font-size: 2em;
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        .verdict-box {
+            background: #e8f5e9;
+            /* Green tint */
+            border: 2px solid #4caf50;
+            border-radius: 10px;
+            padding: 20px;
+            margin-top: 30px;
+            text-align: center;
+            font-weight: bold;
+            color: #2e7d32;
+        }
+
+        .footer {
+            text-align: right;
+            margin-top: 30px;
+            color: #aaa;
+            font-size: 0.9em;
+        }
+    </style>
+    <title>Obsidian同期 無料vs有料</title>
+</head>
+
+<body>
+
+    <div class="container">
+        <h1>📱 Obsidian同期、どっちにする？</h1>
+        <div class="subtitle">「時間」を買うか、「お金」を節約するか。</div>
+
+        <table class="comparison-table">
+            <thead>
+                <tr>
+                    <th></th>
+                    <th class="col-free-header">
+                        <div class="emoji-lg">🛠️</div>
+                        無料プラン<br>
+                        <span style="font-size:0.7em; font-weight:normal;">(iCloud, Drive等)</span>
+                    </th>
+                    <th class="col-paid-header">
+                        <div class="badge">おまつさん採用✨</div>
+                        <div class="emoji-lg">💎</div>
+                        公式 Sync<br>
+                        <span style="font-size:0.7em; font-weight:normal;">(有料サブスク)</span>
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td class="row-header">月額料金</td>
+                    <td class="col-free">0円</td>
+                    <td class="col-paid">約 1,000円<br><span style="font-size:0.8em">($8 USD)</span></td>
+                </tr>
+                <tr>
+                    <td class="row-header">設定の難しさ</td>
+                    <td class="col-free">激ムズ 😱<br><span style="font-size:0.7em">PC知識が必要</span></td>
+                    <td class="col-paid">超かんたん 😊<br><span style="font-size:0.7em">ログインするだけ</span></td>
+                </tr>
+                <tr>
+                    <td class="row-header">iPhoneとの相性</td>
+                    <td class="col-free">△ 悪い<br><span style="font-size:0.7em">エラーが出やすい</span></td>
+                    <td class="col-paid">◎ 最高<br><span style="font-size:0.7em">爆速で繋がる</span></td>
+                </tr>
+                <tr>
+                    <td class="row-header">安心感<br>(バックアップ)</td>
+                    <td class="col-free">× なし<br><span style="font-size:0.7em">消えたら終わり</span></td>
+                    <td class="col-paid">◎ あり<br><span style="font-size:0.7em">「1時間前に戻す」が可能</span></td>
+                </tr>
+                <tr>
+                    <td class="row-header">結論</td>
+                    <td class="col-free">エンジニア向け</td>
+                    <td class="col-paid">忙しい人向け</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div class="verdict-box">
+            💡 結論：<br>
+            ランチ1回分(1000円)を我慢してでも、<br>
+            <b>「公式Sync」にした方が絶対に幸せになれます！</b><br>
+            <span style="font-size: 0.9em; font-weight: normal;">（設定で悩む3時間を、1000円で買ったと思えば安い！）</span>
+        </div>
+
+        <div class="footer">
+            2026.02.04 Created by おまつさん & AI
+        </div>
+    </div>
+
+</body>
+
+</html>

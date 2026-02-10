@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;700&display=swap');
+
+        @page {
+            size: A4;
+            margin: 0;
+        }
+
+        body {
+            font-family: 'Noto Sans JP', sans-serif;
+            margin: 0;
+            padding: 20px;
+            background: #f0f2f5;
+            color: #333;
+            -webkit-print-color-adjust: exact;
+        }
+
+        .page {
+            width: 210mm;
+            min-height: 297mm;
+            padding: 15mm 20mm;
+            margin: 0 auto;
+            background: white;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            box-sizing: border-box;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+        }
+
+        @media print {
+            body {
+                background: none;
+                padding: 0;
+            }
+
+            .page {
+                width: 100%;
+                height: 100%;
+                margin: 0;
+                box-shadow: none;
+                page-break-after: always;
+            }
+
+            .no-print {
+                display: none;
+            }
+        }
+
+        h1 {
+            text-align: center;
+            color: #ea4335;
+            border-bottom: 3px solid #fbbc04;
+            padding-bottom: 15px;
+            margin-bottom: 30px;
+            font-size: 20pt;
+        }
+
+        .section {
+            margin-bottom: 40px;
+            padding: 20px;
+            background: #fff;
+            border-radius: 10px;
+            border: 1px solid #eee;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+        }
+
+        h2 {
+            color: #1a73e8;
+            border-left: 6px solid #1a73e8;
+            padding-left: 10px;
+            margin-top: 0;
+        }
+
+        /* Q1 Styles */
+        .account-row {
+            display: flex;
+            justify-content: space-around;
+            margin-top: 20px;
+        }
+
+        .mini-card {
+            width: 120px;
+            height: 70px;
+            border-radius: 8px;
+            color: white;
+            padding: 10px;
+            font-size: 0.8em;
+            position: relative;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        }
+
+        .card-main {
+            background: linear-gradient(135deg, #4285f4, #1967d2);
+        }
+
+        .card-sub {
+            background: linear-gradient(135deg, #34a853, #188038);
+        }
+
+        .card-hobby {
+            background: linear-gradient(135deg, #ea4335, #b31412);
+        }
+
+        .mini-card::after {
+            content: "G";
+            position: absolute;
+            top: 5px;
+            right: 5px;
+            font-weight: bold;
+            opacity: 0.5;
+        }
+
+        /* Q2 Styles - Analogy */
+        .analogy-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 30px;
+            margin-top: 20px;
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 10px;
+        }
+
+        .icon-box {
+            text-align: center;
+        }
+
+        .big-icon {
+            font-size: 4em;
+            display: block;
+            margin-bottom: 10px;
+        }
+
+        .label-box {
+            font-weight: bold;
+            color: #555;
+        }
+
+        .math {
+            font-size: 2em;
+            color: #999;
+        }
+
+        /* Browser Window Mockup */
+        .browser-mockup {
+            border: 3px solid #ccc;
+            border-top: 25px solid #ccc;
+            /* Title bar */
+            border-radius: 5px 5px 0 0;
+            height: 120px;
+            width: 100%;
+            margin-top: 10px;
+            position: relative;
+            background: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #aaa;
+        }
+
+        .browser-mockup::before {
+            content: "Chrome (お店/建物)";
+            position: absolute;
+            top: -22px;
+            left: 10px;
+            color: white;
+            font-size: 0.8em;
+            font-weight: bold;
+        }
+
+        .browser-user {
+            color: #1a73e8;
+            font-weight: bold;
+            font-size: 1.2em;
+        }
+
+        /* Footer */
+        .footer {
+            text-align: right;
+            font-size: 9pt;
+            color: #9aa0a6;
+            margin-top: auto;
+            border-top: 1px solid #f1f3f4;
+            padding-top: 10px;
+        }
+
+        /* Matsuura Mon Style */
+        .matsuura-mon {
+            display: inline-flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            vertical-align: middle;
+            line-height: 1;
+            margin: 0 4px;
+            position: relative;
+            top: -2px;
+        }
+
+        .matsuura-mon span {
+            display: block;
+            line-height: 1;
+        }
+
+        .matsuura-mon .top {
+            font-size: 0.7em;
+            margin-bottom: -1px;
+        }
+
+        .matsuura-mon .bottom {
+            font-size: 0.7em;
+            letter-spacing: -2px;
+        }
+
+        .btn-print {
+            position: fixed;
+            top: 30px;
+            right: 30px;
+            padding: 12px 24px;
+            background: linear-gradient(135deg, #1a73e8, #4285f4);
+            color: white;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 16px;
+            box-shadow: 0 4px 15px rgba(26, 115, 232, 0.4);
+            z-index: 1000;
+        }
+
+        .comment-box {
+            margin-top: 15px;
+            padding: 10px;
+            background: #fff8e1;
+            border-left: 4px solid #fbbc04;
+            color: #5f6368;
+            font-size: 0.9em;
+        }
+    </style>
+    <title>GoogleアカウントとChromeの謎</title>
+</head>
+
+<body>
+
+    <button class="btn-print no-print" onclick="window.print()">🖨️ このページを印刷する (A4)</button>
+
+    <div class="page">
+        <h1>🤔 GoogleアカウントとChromeの謎</h1>
+
+        <!-- Q1 Multiple Accounts -->
+        <div class="section">
+            <h2>Q1. Googleアカウントは何個も持てる？</h2>
+            <p style="font-size: 1.5em; font-weight: bold; color: #34a853; text-align: center;">A. はい！いくつでも持てます🙆‍♀️</p>
+            <p>用途に合わせて使い分けるのが「デキる人」の使い方です。</p>
+
+            <div class="account-row">
+                <div class="mini-card card-main">
+                    <div style="font-weight:bold;">メイン用</div>
+                    <div>プライベート<br>スマホのバックアップ</div>
+                </div>
+                <div class="mini-card card-sub">
+                    <div style="font-weight:bold;">お仕事用</div>
+                    <div>役員連絡・資料作成<br>Google講習会</div>
+                </div>
+                <div class="mini-card card-hobby">
+                    <div style="font-weight:bold;">趣味・捨てアド</div>
+                    <div>メルマガ登録<br>推し活専用</div>
+                </div>
+            </div>
+
+            <div class="comment-box">
+                💡 <b>ポイント：</b> 銀行口座を「生活費」と「貯金」で分けるのと同じ感覚です！
+            </div>
+        </div>
+
+        <!-- Q2 Chrome vs Account -->
+        <div class="section">
+            <h2>Q2. アカウントとChrome（クローム）の違いは？</h2>
+            <p>これ、めちゃくちゃややこしいですよね。<br><b>「お店（建物）」</b>と<b>「会員証（人）」</b>で考えるとスッキリします！</p>
+
+            <div class="analogy-container">
+                <div class="icon-box">
+                    <span class="big-icon">🏠</span>
+                    <div class="label-box" style="color:#d93025;">Chrome<br>(クローム)</div>
+                    <small>インターネットを見る<br>「建物・ブラウザ」</small>
+                </div>
+                <div class="math">×</div>
+                <div class="icon-box">
+                    <span class="big-icon">💳</span>
+                    <div class="label-box" style="color:#1967d2;">Google<br>アカウント</div>
+                    <small>ログインする<br>「会員証・ユーザー」</small>
+                </div>
+            </div>
+
+            <div style="margin-top: 20px; text-align: center; font-weight: bold;">
+                ⬇️ つまりこういうことです
+            </div>
+
+            <div class="browser-mockup">
+                <div class="browser-user">🏠 Chrome という建物の中に、💳 おまつ花子さんが入店中</div>
+            </div>
+
+            <div class="comment-box">
+                ⚠️ <b>注意：</b><br>
+                1つのChrome（建物）の中で、無理やり「仕事用のアカウント」と「個人のアカウント」を切り替えると、<b>「あれ？今どっちだっけ？」</b>と大混乱します。<br>
+                <br>
+                ✅ <b>解決策：</b><br>
+                パソコンなら、<b>「仕事用のChrome（窓）」</b>と<b>「個人用のChrome（窓）」</b>を分けることができます（プロファイル機能）。<br>
+                これなら「建物ごと」分けられるので絶対に混ざりません！
+            </div>
+        </div>
+
+        <div class="footer">
+            Created by おまつさん
+            <span class="matsuura-mon" style="margin-left: 5px;">
+                <span class="top">⭐</span>
+                <span class="bottom">⭐ ⭐</span>
+            </span>
+        </div>
+
+    </div>
+</body>
+
+</html>

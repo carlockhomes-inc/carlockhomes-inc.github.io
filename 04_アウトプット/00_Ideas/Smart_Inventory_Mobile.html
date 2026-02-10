@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smart Inventory ガイド</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: #f5f7fa;
+            color: #333;
+            line-height: 1.6;
+            margin: 0;
+            padding: 20px;
+        }
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 12px;
+            padding: 24px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #2c3e50;
+            font-size: 24px;
+            text-align: center;
+            margin-bottom: 24px;
+            border-bottom: 2px solid #3498db;
+            padding-bottom: 12px;
+        }
+        h2 {
+            color: #34495e;
+            font-size: 20px;
+            margin-top: 32px;
+            border-left: 5px solid #3498db;
+            padding-left: 12px;
+        }
+        h3 {
+            color: #555;
+            font-size: 18px;
+            margin-top: 20px;
+        }
+        p {
+            margin-bottom: 16px;
+        }
+        img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            margin: 16px 0;
+            display: block;
+        }
+        .caption {
+            text-align: center;
+            font-size: 0.9em;
+            color: #7f8c8d;
+            margin-top: -10px;
+            margin-bottom: 24px;
+        }
+        .step {
+            background: #eef7fc;
+            padding: 16px;
+            border-radius: 8px;
+            margin-bottom: 16px;
+        }
+        strong {
+            color: #e74c3c;
+        }
+        ul {
+            padding-left: 20px;
+        }
+        li {
+            margin-bottom: 8px;
+        }
+        .highlight {
+            background: #fff3cd;
+            padding: 2px 6px;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>次世代・在庫管理アプリ<br>「Smart Inventory」ガイド</h1>
+
+    <img src="img_dash.png" alt="Concept">
+    <p class="caption">（スマホとパソコンがつながる！）</p>
+
+    <h2>1. はじめに：仕事がラクになる！</h2>
+    <p>社長、これを見てください。<br>
+    今まで紙に書いたり、記憶に頼っていた在庫チェックを、<span class="highlight">「スマホ1つ」で「その場ですぐに」</span>終わらせる仕組みを作りました。</p>
+    
+    <p>この「Smart Inventory（スマート・インベントリ）」は、現場の「めんどくさい」を減らして、会社の大事な荷物を守る<strong>魔法のような道具</strong>です。</p>
+
+    <h3>ここがすごい！3つのポイント</h3>
+    <ul>
+        <li><strong>スマホでOK</strong>: みんなのスマホがスキャナーになります。</li>
+        <li><strong>すぐに共有</strong>: その場で社長のパソコンに数字が出ます。</li>
+        <li><strong>ミス・ゼロ</strong>: 手書きのメモや打ち間違いがなくなります。</li>
+    </ul>
+
+    <h2>2. アプリの基本画面</h2>
+    <p>アプリを開くと、倉庫の部品リストが写真付きで見れます。<br>
+    「何が」「どこに」「いくつあるか」がパッと分かります。</p>
+
+    <img src="img_home.png" alt="Home Screen">
+    <p class="caption">（写真付きで見やすい画面）</p>
+
+    <h3>何ができるの？</h3>
+    <ul>
+        <li><strong>写真で探せる</strong>: 写真があるから間違えません。</li>
+        <li><strong>数がわかる</strong>: 今の在庫数がすぐ分かります。</li>
+        <li><strong>すぐに検索</strong>: 名前ですぐに見つかります。</li>
+    </ul>
+
+    <h2>3. 使い方はかんたん！3ステップ</h2>
+    <p>一番見てほしいのが、この<strong>スキャン機能</strong>です。<br>
+    カメラを向けるだけで入力完了。まるでスーパーのレジみたいです。</p>
+
+    <img src="img_scan.png" alt="Scan Action">
+    <p class="caption">（カメラで読み取るだけでOK！）</p>
+
+    <div class="step">
+        <h3>Step 1: 「スキャン」を押す</h3>
+        <p>画面下のバーコードのマークを押して、カメラを起動します。</p>
+    </div>
+
+    <div class="step">
+        <h3>Step 2: 文字・コードを読み取る</h3>
+        <p>箱の「商品コード（例: A-001）」にカメラを向けます。<br>
+        <strong>AIが自動で文字を読み取って</strong>、商品を見つけます。</p>
+    </div>
+
+    <div class="step">
+        <h3>Step 3: 数を入れて完了！</h3>
+        <p>「入庫」か「出庫」を選んで、数を入れて保存。<br>
+        これだけでおしまい。<strong>たった5秒</strong>です。</p>
+    </div>
+
+    <h2>4. 社長が見る画面</h2>
+    <p>現場でスマホを使うと、自動的に社長のパソコン（Googleスプレッドシート）に記録されます。</p>
+    <ul>
+        <li><strong>誰が</strong>：〇〇さんが</li>
+        <li><strong>いつ</strong>：2月1日 14:30に</li>
+        <li><strong>何を</strong>：ネジ(大)を</li>
+        <li><strong>どうした</strong>：10個 使った</li>
+    </ul>
+    <p>これらが全て残るので、「いつの間にか無くなっていた！」というトラブルはもう起きません。</p>
+
+    <h2>5. さいごに</h2>
+    <p>このシステムは、AppSheet（アップシート）という最新技術を使って、<strong>お金をかけずに</strong>作りました。</p>
+    <p>まずは試しに使ってみませんか？<br>
+    ぜひ、社長のスマホでも試してみてください。<strong>あまりの便利さに、腰を抜かすかもしれませんよ！</strong></p>
+</div>
+
+</body>
+</html>

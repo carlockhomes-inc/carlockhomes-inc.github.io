@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>コモン企画 事務処理フロー</title>
+    <script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
+    <style>
+        :root {
+            --primary-color: #3498db;
+            /* ブルー */
+            --bg-color: #f4f7f6;
+            --box-bg: #eaf6ff;
+            --text-color: #333;
+        }
+
+        body {
+            font-family: "Helvetica Neue", Arial, "Hiragino Kaku Gothic ProN", "Hiragino Sans", Meiryo, sans-serif;
+            color: var(--text-color);
+            background-color: var(--bg-color);
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+        }
+
+        .container {
+            background-color: white;
+            width: 100%;
+            max-width: 800px;
+            padding: 50px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
+            border-radius: 8px;
+            border-top: 8px solid var(--primary-color);
+        }
+
+        h1 {
+            text-align: center;
+            color: #2c3e50;
+            margin-bottom: 40px;
+            font-size: 1.8rem;
+            letter-spacing: 1px;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 20px;
+        }
+
+        .flow-section {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 50px;
+            padding: 20px;
+            background-color: #fff;
+            border: 1px solid #eee;
+            border-radius: 8px;
+        }
+
+        .mermaid {
+            width: 100%;
+            text-align: center;
+        }
+
+        .instruction-box {
+            background-color: var(--box-bg);
+            border-left: 6px solid var(--primary-color);
+            padding: 25px;
+            margin-bottom: 25px;
+            border-radius: 0 6px 6px 0;
+        }
+
+        .instruction-box h2 {
+            margin-top: 0;
+            color: var(--primary-color);
+            font-size: 1.3rem;
+            border-bottom: 1px dashed rgba(0, 0, 0, 0.1);
+            padding-bottom: 10px;
+            margin-bottom: 15px;
+        }
+
+        .instruction-box ul {
+            margin: 0;
+            padding-left: 20px;
+        }
+
+        .instruction-box li {
+            margin-bottom: 8px;
+            line-height: 1.6;
+        }
+
+        .important {
+            color: #e74c3c;
+            font-weight: bold;
+            background-color: #fff0f0;
+            padding: 2px 5px;
+            border-radius: 3px;
+        }
+
+        .footer {
+            margin-top: 50px;
+            text-align: right;
+            font-size: 0.8rem;
+            color: #95a5a6;
+            border-top: 1px solid #eee;
+            padding-top: 10px;
+        }
+
+        @media print {
+            body {
+                background-color: white;
+                padding: 0;
+            }
+
+            .container {
+                box-shadow: none;
+                width: 100%;
+                max-width: 100%;
+                border: none;
+            }
+
+            .flow-section {
+                border: none;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+        <h1>コモン企画 事務処理フロー</h1>
+
+        <!-- フローチャート -->
+        <div class="flow-section">
+            <div class="mermaid">
+                graph TD
+                Start([🟢 作業完了]) --> Step1[📋 クラフトバンク確認]
+                Step1 --> Check{入力済み？}
+
+                Check -- YES --> Step2[💰 入金データの入力]
+                Check -- NO --> Alert[❌ 未入力！担当へ確認]
+
+                Step2 --> Note1[⚠️ 伝票日付の順に入力]
+                Note1 --> Step3[📄 請求書の出力]
+
+                Step3 --> Step4[📮 請求書の送付]
+                Step4 --> End([🔴 完了])
+
+                classDef default fill:#fff,stroke:#333,stroke-width:2px;
+                classDef highlight fill:#eaf6ff,stroke:#3498db,stroke-width:2px;
+                classDef alert fill:#fff0f0,stroke:#e74c3c,stroke-width:2px,color:#e74c3c;
+
+                class Step1,Step2,Step3,Step4 highlight;
+                class Alert alert;
+            </div>
+        </div>
+
+        <!-- 詳細手順 -->
+        <div class="instruction-box">
+            <h2>1. 作業完了時のチェック</h2>
+            <ul>
+                <li>「クラフトバンク」の一覧表を開く。</li>
+                <li>該当案件が正しく入力されているか確認する。</li>
+            </ul>
+        </div>
+
+        <div class="instruction-box">
+            <h2>2. 入金データの入力</h2>
+            <ul>
+                <li><span class="important">伝票日付</span> の早い順番に入力を行う。</li>
+                <li>（※日付の基準を間違えないように注意）</li>
+            </ul>
+        </div>
+
+        <div class="instruction-box">
+            <h2>3. 請求書の発行（毎月）</h2>
+            <ul>
+                <li>クラフトバンクから請求書データを出力する。</li>
+                <li>コモン企画様へ送付して完了！</li>
+            </ul>
+        </div>
+
+        <div class="footer">
+            作成日: 2026/02/04 | 作成者: F.Matsuura
+        </div>
+    </div>
+
+    <script>
+        mermaid.initialize({ startOnLoad: true });
+    </script>
+
+</body>
+
+</html>

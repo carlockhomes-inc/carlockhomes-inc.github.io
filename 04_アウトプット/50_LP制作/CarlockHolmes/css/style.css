@@ -1,0 +1,283 @@
+:root {
+    /* Corporate Navy x White */
+    --navy-900: #0b1b34;
+    --navy-800: #102443;
+    --navy-700: #183156;
+    --ink: #0f172a;
+    /* text on white */
+    --muted-ink: #475569;
+    /* slate */
+    --line: #e2e8f0;
+    /* light border */
+    --surface: #ffffff;
+    /* cards */
+    --surface-2: #f8fafc;
+    /* section alt */
+    --brand: #0b3a82;
+    /* corporate blue */
+    --brand-2: #1d4ed8;
+    /* accent */
+    --danger: #b91c1c;
+
+    --shadow: 0 10px 24px rgba(15, 23, 42, 0.08);
+    --shadow-2: 0 18px 48px rgba(15, 23, 42, 0.10);
+
+    --radius: 16px;
+    --radius2: 22px;
+    --container: 1160px;
+    --gap: 20px;
+
+    --h1: clamp(28px, 3.6vw, 46px);
+    --h2: clamp(22px, 2.4vw, 32px);
+    --p: 16px;
+}
+
+body {
+    margin: 0;
+    font-family: ui-sans-serif, system-ui, -apple-system, "Hiragino Kaku Gothic ProN",
+        "Hiragino Sans", "Noto Sans JP", "Yu Gothic", Meiryo, sans-serif;
+    color: var(--ink);
+
+    /* white base + subtle navy tint (trustworthy, calm) */
+    background:
+        radial-gradient(1100px 600px at 20% 0%, rgba(29, 78, 216, 0.08), transparent 55%),
+        radial-gradient(900px 520px at 90% 10%, rgba(11, 58, 130, 0.06), transparent 55%),
+        linear-gradient(180deg, #ffffff 0%, #f6f8fc 45%, #ffffff 100%);
+    line-height: 1.7;
+}
+
+/* Links */
+a {
+    color: inherit;
+    text-decoration: none;
+}
+
+/* Header */
+.header {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: rgba(255, 255, 255, 0.92);
+    border-bottom: 1px solid var(--line);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+}
+
+.brand-title strong {
+    font-size: 14px;
+    letter-spacing: .02em;
+    color: var(--ink);
+}
+
+.brand-title span {
+    font-size: 12px;
+    color: var(--muted-ink);
+}
+
+.nav {
+    color: #1f2937;
+}
+
+.nav a:hover {
+    background: #f1f5f9;
+}
+
+/* Logo square: corporate */
+.logo {
+    width: 38px;
+    height: 38px;
+    border-radius: 12px;
+    background: linear-gradient(135deg, var(--brand), var(--brand-2));
+    box-shadow: 0 10px 24px rgba(29, 78, 216, 0.18);
+}
+
+/* Buttons */
+.btn {
+    border: 1px solid var(--line);
+    background: #fff;
+    color: #0f172a;
+    box-shadow: none;
+}
+
+.btn:hover {
+    transform: translateY(-1px);
+    background: #f8fafc;
+}
+
+.btn.primary {
+    border-color: rgba(29, 78, 216, 0.25);
+    background: linear-gradient(135deg, var(--brand), var(--brand-2));
+    color: #fff;
+}
+
+.btn.primary:hover {
+    background: linear-gradient(135deg, #0b3a82, #1e40af);
+}
+
+.btn.danger {
+    border-color: rgba(185, 28, 28, 0.25);
+    background: linear-gradient(135deg, #b91c1c, #991b1b);
+    color: #fff;
+}
+
+.btn.ghost {
+    background: transparent;
+    border-color: var(--line);
+    color: var(--ink);
+}
+
+/* Pills */
+.pill {
+    border: 1px solid var(--line);
+    background: #ffffff;
+    color: var(--muted-ink);
+}
+
+.pill strong {
+    color: var(--ink);
+}
+
+/* Sections */
+.section {
+    padding: 76px 0;
+}
+
+.section .kicker {
+    color: var(--brand);
+    font-weight: 800;
+    letter-spacing: .12em;
+    font-size: 12px;
+}
+
+.section p {
+    color: var(--muted-ink);
+}
+
+/* Cards */
+.card,
+.hero-side,
+.promises,
+.service,
+.reason,
+.step,
+.mapbox,
+.areainfo,
+.company-media,
+.company-kv,
+details,
+.contact-box {
+    background: var(--surface);
+    border: 1px solid var(--line);
+    box-shadow: var(--shadow);
+}
+
+/* Alternate section background to create corporate rhythm */
+.section.alt {
+    background: var(--surface-2);
+    border-top: 1px solid var(--line);
+    border-bottom: 1px solid var(--line);
+}
+
+/* Hero */
+.hero {
+    padding: 56px 0 18px;
+    background: transparent;
+}
+
+.hero::before {
+    display: none;
+}
+
+/* remove flashy glow */
+.hero h1 {
+    color: var(--navy-900);
+}
+
+.hero .lead {
+    color: var(--muted-ink);
+}
+
+.hero-side {
+    box-shadow: var(--shadow-2);
+}
+
+.hero-side::after {
+    display: none;
+}
+
+.mini .row {
+    background: #f8fafc;
+    border: 1px solid var(--line);
+}
+
+.dot {
+    background: var(--brand-2);
+}
+
+/* Promises */
+.promises {
+    background: #fff;
+}
+
+.promise {
+    background: #f8fafc;
+    border: 1px solid var(--line);
+}
+
+/* Service cards */
+.service {
+    min-height: 208px;
+}
+
+.service::before {
+    display: none;
+}
+
+.icon {
+    background: rgba(29, 78, 216, 0.08);
+    border: 1px solid rgba(29, 78, 216, 0.18);
+}
+
+/* Proof bar */
+.proofbar {
+    border: 1px solid var(--line);
+    background: #f8fafc;
+}
+
+/* Inputs */
+input,
+select,
+textarea {
+    border: 1px solid var(--line);
+    background: #fff;
+    color: var(--ink);
+}
+
+input:focus,
+select:focus,
+textarea:focus {
+    border-color: rgba(29, 78, 216, 0.45);
+    box-shadow: 0 0 0 4px rgba(29, 78, 216, 0.10);
+}
+
+/* Footer */
+footer {
+    border-top: 1px solid var(--line);
+    color: var(--muted-ink);
+    background: #fff;
+}
+
+.footer-links a {
+    border: 1px solid var(--line);
+    background: #fff;
+}
+
+.footer-links a:hover {
+    background: #f8fafc;
+}
+
+/* Mobile sticky CTA */
+.mobile-cta {
+    background: rgba(255, 255, 255, 0.92);
+    border-top: 1px solid var(--line);
+}

@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;700&display=swap');
+
+        @page {
+            size: A4;
+            margin: 0;
+        }
+
+        body {
+            font-family: 'Noto Sans JP', sans-serif;
+            margin: 0;
+            padding: 20px;
+            background: #f0f2f5;
+            color: #333;
+            -webkit-print-color-adjust: exact;
+        }
+
+        .page {
+            width: 210mm;
+            min-height: 297mm;
+            padding: 15mm 20mm;
+            margin: 0 auto;
+            background: white;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            box-sizing: border-box;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+        }
+
+        @media print {
+            body {
+                background: none;
+                padding: 0;
+            }
+
+            .page {
+                width: 100%;
+                height: 100%;
+                margin: 0;
+                box-shadow: none;
+                page-break-after: always;
+            }
+
+            .no-print {
+                display: none;
+            }
+        }
+
+        h1 {
+            text-align: center;
+            color: #4285f4;
+            border-bottom: 3px solid #ea4335;
+            padding-bottom: 15px;
+            margin-bottom: 30px;
+            font-size: 20pt;
+            letter-spacing: 1px;
+        }
+
+        .step-container {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .step-row {
+            display: flex;
+            align-items: flex-start;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            padding: 15px;
+            background: #fff;
+        }
+
+        .step-num {
+            background: #4285f4;
+            color: white;
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            text-align: center;
+            line-height: 35px;
+            font-weight: bold;
+            flex-shrink: 0;
+            margin-right: 15px;
+            margin-top: 5px;
+        }
+
+        .step-content {
+            flex-grow: 1;
+        }
+
+        .step-head {
+            font-weight: bold;
+            font-size: 1.1em;
+            margin-bottom: 8px;
+            color: #1a73e8;
+        }
+
+        .step-mockup {
+            background: #f8f9fa;
+            border: 1px solid #ccc;
+            padding: 10px;
+            border-radius: 5px;
+            font-family: sans-serif;
+            font-size: 0.9em;
+            margin-top: 10px;
+        }
+
+        .input-field {
+            background: white;
+            border: 1px solid #aaa;
+            padding: 5px;
+            width: 80%;
+            margin-bottom: 5px;
+            color: #aaa;
+            font-size: 0.8em;
+        }
+
+        .btn-sample {
+            background: #1a73e8;
+            color: white;
+            border: none;
+            padding: 5px 15px;
+            border-radius: 4px;
+            font-size: 0.8em;
+            display: inline-block;
+        }
+
+        /* Two Column Layout for Account vs Chrome */
+        .col-section {
+            display: flex;
+            gap: 30px;
+            margin-bottom: 20px;
+        }
+
+        .col-box {
+            flex: 1;
+        }
+
+        .col-title {
+            text-align: center;
+            font-weight: bold;
+            font-size: 1.2em;
+            margin-bottom: 15px;
+            padding: 10px;
+            border-radius: 8px;
+            color: white;
+        }
+
+        .col-account .col-title {
+            background: #ea4335;
+        }
+
+        /* Red for Account */
+        .col-chrome .col-title {
+            background: #34a853;
+        }
+
+        /* Green for Chrome */
+
+        .guide-note {
+            background: #fff8e1;
+            border: 1px solid #ffe0b2;
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 20px;
+            font-size: 0.9em;
+        }
+
+        .footer {
+            text-align: right;
+            font-size: 9pt;
+            color: #9aa0a6;
+            margin-top: auto;
+            border-top: 1px solid #f1f3f4;
+            padding-top: 10px;
+        }
+
+        /* Matsuura Mon Style */
+        .matsuura-mon {
+            display: inline-flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            vertical-align: middle;
+            line-height: 1;
+            margin: 0 4px;
+            position: relative;
+            top: -2px;
+        }
+
+        .matsuura-mon span {
+            display: block;
+            line-height: 1;
+        }
+
+        .matsuura-mon .top {
+            font-size: 0.7em;
+            margin-bottom: -1px;
+        }
+
+        .matsuura-mon .bottom {
+            font-size: 0.7em;
+            letter-spacing: -2px;
+        }
+
+        .btn-print {
+            position: fixed;
+            top: 30px;
+            right: 30px;
+            padding: 12px 24px;
+            background: linear-gradient(135deg, #4285f4, #1a73e8);
+            color: white;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 16px;
+            box-shadow: 0 4px 15px rgba(26, 115, 232, 0.4);
+            z-index: 1000;
+        }
+    </style>
+    <title>Googleアカウント＆Chrome導入ガイド</title>
+</head>
+
+<body>
+
+    <button class="btn-print no-print" onclick="window.print()">🖨️ このページを印刷する (A4)</button>
+
+    <div class="page">
+        <h1>🚀 Googleアカウント ＆ Chrome 導入ガイド</h1>
+
+        <div style="text-align: center; margin-bottom: 20px; font-weight: bold;">
+            まずはこの2つを設定すれば、すべての準備が完了します！
+        </div>
+
+        <div class="col-section">
+
+            <!-- LEFT: Account Creation -->
+            <div class="col-box col-account">
+                <div class="col-title">💳 アカウントを作る</div>
+
+                <div class="step-container">
+                    <div class="step-row">
+                        <div class="step-num" style="background:#ea4335;">1</div>
+                        <div class="step-content">
+                            <div class="step-head">作成ページへ</div>
+                            <small>「Google アカウント 作成」で検索する。</small>
+                        </div>
+                    </div>
+                    <div class="step-row">
+                        <div class="step-num" style="background:#ea4335;">2</div>
+                        <div class="step-content">
+                            <div class="step-head">情報の入力</div>
+                            <div class="step-mockup">
+                                <div class="input-field">姓：おまつ</div>
+                                <div class="input-field">名：花子</div>
+                                <div class="input-field">ユーザー名：omatsu.hana</div>
+                                <div class="input-field">パスワード：********</div>
+                            </div>
+                            <small style="color:#d93025;">※ユーザー名は早い者勝ちです！</small>
+                        </div>
+                    </div>
+                    <div class="step-row">
+                        <div class="step-num" style="background:#ea4335;">3</div>
+                        <div class="step-content">
+                            <div class="step-head">電話番号の確認</div>
+                            <small>自分のスマホの番号を入れて、届いたSMSのコード（6桁の数字）を入力すれば完了！</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- RIGHT: Chrome Setup -->
+            <div class="col-box col-chrome">
+                <div class="col-title">🏠 Chromeを入れる</div>
+
+                <div class="step-container">
+                    <div class="step-row">
+                        <div class="step-num" style="background:#34a853;">1</div>
+                        <div class="step-content">
+                            <div class="step-head">ダウンロード</div>
+                            <small>まだChromeが入っていない場合、「Chrome ダウンロード」で検索してインストール。</small>
+                        </div>
+                    </div>
+                    <div class="step-row">
+                        <div class="step-num" style="background:#34a853;">2</div>
+                        <div class="step-content">
+                            <div class="step-head">ログイン（重要！）</div>
+                            <div class="step-mockup" style="text-align: center;">
+                                <br>
+                                <div><b>Chromeへのログイン</b></div>
+                                <small>同期を有効にしますか？</small><br><br>
+                                <div class="btn-sample">有効にする</div><br><br>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="step-row">
+                        <div class="step-num" style="background:#34a853;">3</div>
+                        <div class="step-content">
+                            <div class="step-head">ブックマーク同期</div>
+                            <small>これで、家のパソコンでも会社のパソコンでも<b>「同じお気に入り」</b>が使えるようになります！</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="guide-note">
+            <div style="font-weight: bold; margin-bottom: 5px;">🦁 おまつさんの鉄則</div>
+            <div>
+                ✅ <b>パスワードは必ずメモする！</b>（手帳など、自分しか見ない場所に）<br>
+                ✅ <b>「同期を有効にしますか？」は「はい」でOK！</b>（これをしないと便利さが半減します）
+            </div>
+        </div>
+
+        <div class="footer">
+            Created by おまつさん
+            <span class="matsuura-mon" style="margin-left: 5px;">
+                <span class="top">⭐</span>
+                <span class="bottom">⭐ ⭐</span>
+            </span>
+        </div>
+
+    </div>
+</body>
+
+</html>

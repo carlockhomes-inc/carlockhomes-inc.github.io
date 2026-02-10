@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;700&display=swap');
+
+        @page {
+            size: A4;
+            margin: 0;
+        }
+
+        body {
+            font-family: 'Noto Sans JP', sans-serif;
+            margin: 0;
+            padding: 20px;
+            background: #fff8e1;
+            /* Friendly Yellow bg */
+            color: #333;
+            -webkit-print-color-adjust: exact;
+        }
+
+        .page {
+            width: 210mm;
+            min-height: 297mm;
+            padding: 15mm 20mm;
+            margin: 0 auto;
+            background: white;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            box-sizing: border-box;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+        }
+
+        @media print {
+            body {
+                background: none;
+                padding: 0;
+            }
+
+            .page {
+                width: 100%;
+                height: 100%;
+                margin: 0;
+                box-shadow: none;
+                page-break-after: always;
+            }
+
+            .no-print {
+                display: none;
+            }
+        }
+
+        h1 {
+            text-align: center;
+            color: #f57f17;
+            background: #fffde7;
+            border: 3px dashed #f57f17;
+            padding: 15px;
+            margin-bottom: 25px;
+            font-size: 20pt;
+            border-radius: 15px;
+        }
+
+        .intro-box {
+            text-align: center;
+            font-weight: bold;
+            margin-bottom: 30px;
+            font-size: 1.1em;
+        }
+
+        /* Step Cards */
+        .step-card {
+            display: flex;
+            align-items: center;
+            margin-bottom: 25px;
+            border: 2px solid #eee;
+            padding: 15px;
+            border-radius: 12px;
+            position: relative;
+            background: #fff;
+        }
+
+        .step-num {
+            background: #f57f17;
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            text-align: center;
+            line-height: 40px;
+            font-weight: bold;
+            font-size: 1.2em;
+            margin-right: 20px;
+            flex-shrink: 0;
+        }
+
+        .step-content {
+            flex-grow: 1;
+        }
+
+        .step-title {
+            font-weight: bold;
+            color: #ef6c00;
+            font-size: 1.1em;
+            margin-bottom: 5px;
+        }
+
+        .step-desc {
+            font-size: 0.9em;
+            color: #666;
+        }
+
+        .step-img {
+            width: 80px;
+            height: 80px;
+            background: #f0f0f0;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2em;
+            margin-left: 15px;
+        }
+
+        .voice-box {
+            background: #e1f5fe;
+            border-radius: 10px;
+            padding: 15px;
+            margin-top: 20px;
+            display: flex;
+            align-items: flex-start;
+        }
+
+        .voice-icon {
+            font-size: 2em;
+            margin-right: 15px;
+        }
+
+        .checklist {
+            background: #fafafa;
+            border: 1px solid #ddd;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+
+        .check-item {
+            margin-bottom: 8px;
+        }
+
+        .footer {
+            text-align: right;
+            font-size: 9pt;
+            color: #9aa0a6;
+            margin-top: auto;
+            border-top: 1px solid #f1f3f4;
+            padding-top: 10px;
+        }
+
+        /* Matsuura Mon Style */
+        .matsuura-mon {
+            display: inline-flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            vertical-align: middle;
+            line-height: 1;
+            margin: 0 4px;
+            position: relative;
+            top: -2px;
+        }
+
+        .matsuura-mon span {
+            display: block;
+            line-height: 1;
+        }
+
+        .matsuura-mon .top {
+            font-size: 0.7em;
+            margin-bottom: -1px;
+        }
+
+        .matsuura-mon .bottom {
+            font-size: 0.7em;
+            letter-spacing: -2px;
+        }
+
+        .btn-print {
+            position: fixed;
+            top: 30px;
+            right: 30px;
+            padding: 12px 24px;
+            background: linear-gradient(135deg, #f57f17, #f9a825);
+            color: white;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 16px;
+            box-shadow: 0 4px 15px rgba(245, 127, 23, 0.4);
+            z-index: 1000;
+        }
+    </style>
+    <title>現場向けカンタン操作マニュアル</title>
+</head>
+
+<body>
+
+    <button class="btn-print no-print" onclick="window.print()">🖨️ このページを印刷する (A4)</button>
+
+    <div class="page">
+        <h1>📱 スマホでピッ！在庫管理アプリの使い方</h1>
+
+        <div class="intro-box">
+            もう紙に書く必要はありません。<br>
+            あなたのスマホが「在庫管理マシン」になります！
+        </div>
+
+        <h2>💡 3ステップで終わります</h2>
+
+        <div class="step-card">
+            <div class="step-num">1</div>
+            <div class="step-content">
+                <div class="step-title">アプリを開く</div>
+                <div class="step-desc">スマホに入れた「AppSheet」のアイコンをタップ。<br>水色の紙飛行機のマークです。</div>
+            </div>
+            <div class="step-img">📲</div>
+        </div>
+
+        <div class="step-card">
+            <div class="step-num">2</div>
+            <div class="step-content">
+                <div class="step-title">バーコードを撮る</div>
+                <div class="step-desc">画面の「スキャン」ボタンを押して、商品のバーコードにカメラを向けます。<br>「ピピッ」となればOK！</div>
+            </div>
+            <div class="step-img">📷</div>
+        </div>
+
+        <div class="step-card">
+            <div class="step-num">3</div>
+            <div class="step-content">
+                <div class="step-title">数字を入れて保存</div>
+                <div class="step-desc">「何個使った？」「何個入ってきた？」<br>数字を入れて「Save（保存）」ボタンを押すだけで完了！</div>
+            </div>
+            <div class="step-img">💾</div>
+        </div>
+
+        <div class="checklist">
+            <div style="font-weight:bold; margin-bottom:10px;">⚠️ よくある質問</div>
+            <div class="check-item">Q. 間違えて入力しちゃったら？</div>
+            <div class="check-item" style="color:#666; margin-bottom:10px; margin-left: 20px;">➡ A.
+                「履歴」からすぐに消したり直したりできます。</div>
+            <div class="check-item">Q. 電波がない倉庫では？</div>
+            <div class="check-item" style="color:#666; margin-left: 20px;">➡ A. 大丈夫！保存しておけば、電波が入った瞬間に自動で送信されます。</div>
+        </div>
+
+        <div class="voice-box">
+            <div class="voice-icon">🦁</div>
+            <div>
+                <strong>おまつさんよりメッセージ：</strong><br>
+                最初は慣れないかもしれませんが、慣れると「なんで今まで手で書いてたんだろう？」って思うくらい楽ちんです！<br>
+                わからないことがあれば、いつでも私（おまつ）に聞いてくださいね！⭐⭐⭐
+            </div>
+        </div>
+
+        <div class="footer">
+            Created by おまつさん
+            <span class="matsuura-mon" style="margin-left: 5px;">
+                <span class="top">⭐</span>
+                <span class="bottom">⭐ ⭐</span>
+            </span>
+        </div>
+
+    </div>
+</body>
+
+</html>

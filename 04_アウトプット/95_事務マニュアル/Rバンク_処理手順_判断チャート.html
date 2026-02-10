@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rバンク 金額判断チャート</title>
+    <style>
+        body {
+            font-family: "Helvetica Neue", Arial, sans-serif;
+            background-color: #fdf2e9;
+            /* 薄いオレンジ背景 */
+            color: #333;
+            display: flex;
+            justify-content: center;
+            padding: 30px;
+        }
+
+        .container {
+            background-color: white;
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+            max-width: 600px;
+            width: 100%;
+            border-top: 10px solid #e67e22;
+        }
+
+        h1 {
+            text-align: center;
+            color: #d35400;
+            border-bottom: 2px dashed #e67e22;
+            padding-bottom: 20px;
+        }
+
+        .question-box {
+            background-color: #fff8e1;
+            border: 2px solid #f39c12;
+            padding: 20px;
+            border-radius: 8px;
+            text-align: center;
+            margin: 20px 0;
+        }
+
+        .question-title {
+            font-weight: bold;
+            font-size: 1.2rem;
+            color: #d35400;
+            margin-bottom: 15px;
+        }
+
+        .arrow-container {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+        }
+
+        .arrow {
+            width: 45%;
+            text-align: center;
+            padding: 10px;
+            border-radius: 8px;
+            color: white;
+            font-weight: bold;
+            position: relative;
+        }
+
+        .arrow::after {
+            content: "▼";
+            position: absolute;
+            bottom: -20px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: #7f8c8d;
+            font-size: 1.2rem;
+        }
+
+        .yes {
+            background-color: #27ae60;
+        }
+
+        /* 緑 */
+        .no {
+            background-color: #c0392b;
+        }
+
+        /* 赤 */
+
+        .result-box {
+            border: 2px solid #ddd;
+            padding: 20px;
+            border-radius: 8px;
+            margin-top: 25px;
+            background-color: #fafafa;
+        }
+
+        .result-title {
+            font-weight: bold;
+            margin-bottom: 5px;
+            display: block;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+        <h1>Rバンク 金額決定チャート</h1>
+        <p style="text-align: center;">請求金額に迷ったらここを見よう！</p>
+
+        <!-- 質問 -->
+        <div class="question-box">
+            <div class="question-title">Q. 見積書は出していますか？</div>
+            （または、見積もりの合意がありますか？）
+        </div>
+
+        <!-- 分岐 -->
+        <div class="arrow-container">
+            <div class="arrow yes">YES (ある)</div>
+            <div class="arrow no">NO (ない)</div>
+        </div>
+
+        <!-- 結果 -->
+        <div class="arrow-container">
+            <!-- YESの結果 -->
+            <div class="result-box" style="width: 45%; border-color: #27ae60; background-color: #eafaf1;">
+                <span class="result-title" style="color: #27ae60;">🟢 見積通りの金額</span>
+                <p>提出した見積書の金額を入力してください。</p>
+            </div>
+
+            <!-- NOの結果 -->
+            <div class="result-box" style="width: 45%; border-color: #c0392b; background-color: #fdedec;">
+                <span class="result-title" style="color: #c0392b;">🔴 規定の金額</span>
+                <p>いつもの決まった金額（または指示された金額）を入力してください。</p>
+            </div>
+        </div>
+
+        <div style="margin-top: 30px; text-align: center; font-size: 0.9rem; color: #7f8c8d;">
+            ※どちらの場合も、必ず担当者の確認をとってください。
+        </div>
+    </div>
+
+</body>
+
+</html>

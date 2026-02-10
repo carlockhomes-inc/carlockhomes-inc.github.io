@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;700&display=swap');
+
+        @page {
+            size: A4;
+            margin: 0;
+        }
+
+        body {
+            font-family: 'Noto Sans JP', sans-serif;
+            margin: 0;
+            padding: 20px;
+            background: #f0f2f5;
+            color: #333;
+            -webkit-print-color-adjust: exact;
+        }
+
+        .page {
+            width: 210mm;
+            min-height: 297mm;
+            padding: 15mm 20mm;
+            margin: 0 auto;
+            background: white;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            box-sizing: border-box;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+        }
+
+        @media print {
+            body {
+                background: none;
+                padding: 0;
+            }
+
+            .page {
+                width: 100%;
+                height: 100%;
+                margin: 0;
+                box-shadow: none;
+                page-break-after: always;
+            }
+
+            .no-print {
+                display: none;
+            }
+        }
+
+        h1 {
+            text-align: center;
+            color: #e91e63;
+            /* Photo Pink */
+            border-bottom: 3px solid #fce4ec;
+            padding-bottom: 15px;
+            margin-bottom: 30px;
+            font-size: 20pt;
+        }
+
+        /* Problem Section */
+        .problem-box {
+            background: #fce4ec;
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 30px;
+            text-align: center;
+            color: #880e4f;
+            font-weight: bold;
+        }
+
+        /* Solution Grid - 3 methods */
+        .methods-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+
+        .method-card {
+            border: 2px solid #eee;
+            padding: 15px;
+            border-radius: 10px;
+            text-align: center;
+        }
+
+        .method-icon {
+            font-size: 2.5em;
+            display: block;
+            margin-bottom: 10px;
+        }
+
+        .method-title {
+            font-weight: bold;
+            color: #e91e63;
+            margin-bottom: 5px;
+        }
+
+        .method-desc {
+            font-size: 0.85em;
+            color: #666;
+        }
+
+        /* Search Magic Section */
+        .magic-section {
+            border: 2px dashed #4285f4;
+            background: #e8f0fe;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 30px;
+            position: relative;
+        }
+
+        .magic-title {
+            font-weight: bold;
+            color: #1967d2;
+            font-size: 1.2em;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+        }
+
+        /* Search Bar Mockup */
+        .search-mockup {
+            background: white;
+            border-radius: 20px;
+            padding: 10px 20px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            display: flex;
+            align-items: center;
+            color: #555;
+            margin: 15px 0;
+        }
+
+        /* Album Section */
+        .album-section {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: #fff3e0;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+
+        .footer {
+            text-align: right;
+            font-size: 9pt;
+            color: #9aa0a6;
+            margin-top: auto;
+            border-top: 1px solid #f1f3f4;
+            padding-top: 10px;
+        }
+
+        /* Matsuura Mon Style */
+        .matsuura-mon {
+            display: inline-flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            vertical-align: middle;
+            line-height: 1;
+            margin: 0 4px;
+            position: relative;
+            top: -2px;
+        }
+
+        .matsuura-mon span {
+            display: block;
+            line-height: 1;
+        }
+
+        .matsuura-mon .top {
+            font-size: 0.7em;
+            margin-bottom: -1px;
+        }
+
+        .matsuura-mon .bottom {
+            font-size: 0.7em;
+            letter-spacing: -2px;
+        }
+
+        .btn-print {
+            position: fixed;
+            top: 30px;
+            right: 30px;
+            padding: 12px 24px;
+            background: linear-gradient(135deg, #e91e63, #f06292);
+            color: white;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 16px;
+            box-shadow: 0 4px 15px rgba(233, 30, 99, 0.4);
+            z-index: 1000;
+        }
+    </style>
+    <title>魔法の写真整理術</title>
+</head>
+
+<body>
+
+    <button class="btn-print no-print" onclick="window.print()">🖨️ このページを印刷する (A4)</button>
+
+    <div class="page">
+        <h1>📷 魔法の写真整理術（Googleフォト編）</h1>
+
+        <div class="problem-box">
+            「スマホの中が写真でパンパン💦」「あの写真どこだっけ？」<br>
+            そんな悩み、Googleフォトなら一瞬で解決します！
+        </div>
+
+        <h2>💡 3つの「整理しない」整理術</h2>
+
+        <div class="methods-grid">
+            <div class="method-card">
+                <span class="method-icon">🔄</span>
+                <div class="method-title">勝手に保存</div>
+                <div class="method-desc">アプリを入れておけば、寝ている間に自動でバックアップ。スマホが壊れても安心です。</div>
+            </div>
+            <div class="method-card">
+                <span class="method-icon">🗑️</span>
+                <div class="method-title">容量スッキリ</div>
+                <div class="method-desc">バックアップ済みの写真は、スマホ本体から消してもOK！「容量不足」から解放されます。</div>
+            </div>
+            <div class="method-card">
+                <span class="method-icon">🤖</span>
+                <div class="method-title">AIが仕分け</div>
+                <div class="method-desc">「犬」「食べ物」「旅行」など、AIが勝手にカテゴリー分けしてくれます。</div>
+            </div>
+        </div>
+
+        <div class="magic-section">
+            <div class="magic-title">✨ 魔法の「検索」機能</div>
+            <div>フォルダ分けはもう不要です。探したいものを<b>言葉で入れるだけ</b>で見つかります！</div>
+
+            <div class="search-mockup">
+                <span>🔍 <b>猫</b></span>
+                <span style="margin-left: auto; color: #aaa;">➡ 🐱の写真を全表示！</span>
+            </div>
+            <div class="search-mockup">
+                <span>🔍 <b>2023年 和歌山</b></span>
+                <span style="margin-left: auto; color: #aaa;">➡ 旅行写真だけズラリ！</span>
+            </div>
+            <div class="search-mockup">
+                <span>🔍 <b>書類</b></span>
+                <span style="margin-left: auto; color: #aaa;">➡ メモ代わりの書類写真も一発！</span>
+            </div>
+        </div>
+
+        <div class="album-section">
+            <div style="flex: 1;">
+                <h3 style="color: #e65100; margin-top: 0;">👥 家族や友達と共有</h3>
+                <div>
+                    「共有アルバム」を作れば、リンクを送るだけで写真を渡せます。<br>
+                    LINEで画質が落ちる心配もありません。
+                </div>
+            </div>
+            <div style="font-size: 3em;">🎁</div>
+        </div>
+
+        <div style="background: #f5f5f5; padding: 15px; border-radius: 10px; font-size: 0.9em;">
+            <b>💡 おまつさんの裏技：</b><br>
+            紙の書類や説明書も、全部パシャっと撮ってGoogleフォトに入れておきましょう。<br>
+            必要な時に「説明書」と検索すれば一瞬出てくるので、家の中の紙ゴミも減らせますよ！
+        </div>
+
+        <div class="footer">
+            Created by おまつさん
+            <span class="matsuura-mon" style="margin-left: 5px;">
+                <span class="top">⭐</span>
+                <span class="bottom">⭐ ⭐</span>
+            </span>
+        </div>
+
+    </div>
+</body>
+
+</html>

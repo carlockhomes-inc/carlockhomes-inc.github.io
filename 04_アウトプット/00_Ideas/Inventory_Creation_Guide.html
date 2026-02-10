@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>在庫表（データ）の作り方ガイド</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: #f5f7fa;
+            color: #333;
+            line-height: 1.6;
+            margin: 0;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 12px;
+            padding: 24px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            color: #27ae60;
+            font-size: 24px;
+            text-align: center;
+            margin-bottom: 24px;
+            border-bottom: 2px solid #2ecc71;
+            padding-bottom: 12px;
+        }
+
+        h2 {
+            color: #2c3e50;
+            font-size: 20px;
+            margin-top: 32px;
+            border-left: 5px solid #27ae60;
+            padding-left: 12px;
+        }
+
+        h3 {
+            color: #555;
+            font-size: 18px;
+            margin-top: 20px;
+            font-weight: bold;
+        }
+
+        p {
+            margin-bottom: 16px;
+        }
+
+        img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            margin: 16px 0;
+            display: block;
+        }
+
+        .caption {
+            text-align: center;
+            font-size: 0.9em;
+            color: #7f8c8d;
+            margin-top: -10px;
+            margin-bottom: 24px;
+        }
+
+        .step {
+            background: #e9f7ef;
+            padding: 16px;
+            border-radius: 8px;
+            margin-bottom: 16px;
+        }
+
+        strong {
+            color: #c0392b;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 16px 0;
+        }
+
+        th,
+        td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #f2f2f2;
+            font-weight: bold;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+        <h1>在庫表（データ）の作り方</h1>
+
+        <p>アプリを使うためには、最初に「商品のリスト」を作る必要があります。<br>
+            といっても、難しくありません。<strong>ExcelやGoogleスプレッドシート</strong>を使うだけです。</p>
+
+        <img src="img_excel.png" alt="Spreadsheet Example">
+        <p class="caption">（完成イメージ：こんな表を作ります）</p>
+
+        <h2>Step 1: 項目（見出し）を作る</h2>
+        <p>新しいシートを開いて、<strong>1行目</strong>に以下の項目を入力してください。</p>
+
+        <table>
+            <tr>
+                <th>列</th>
+                <th>おすすめの項目名</th>
+                <th>意味</th>
+            </tr>
+            <tr>
+                <td>A列</td>
+                <td><strong>ID</strong></td>
+                <td>商品コード（重要！）</td>
+            </tr>
+            <tr>
+                <td>B列</td>
+                <td><strong>商品名</strong></td>
+                <td>ネジ、テープなど</td>
+            </tr>
+            <tr>
+                <td>C列</td>
+                <td><strong>カテゴリ</strong></td>
+                <td>文房具、工具など</td>
+            </tr>
+            <tr>
+                <td>D列</td>
+                <td><strong>在庫数</strong></td>
+                <td>今の数（最初は0でもOK）</td>
+            </tr>
+        </table>
+
+        <div class="step">
+            <h3>💡 重要なポイント</h3>
+            <p>A列の「ID」は、商品固有の背番号です。<br>
+                箱に貼る番号と同じにします（例: A-001, B-105）。<br>
+                <strong>これが「スキャンする文字」になります。</strong>
+            </p>
+        </div>
+
+        <h2>Step 2: 現場の箱に「名前」を貼る</h2>
+        <p>アプリでピッと読み取るために、箱や棚にラベルを貼ります。<br>
+            手書きでもいいですが、大きくはっきり書くのがコツです。</p>
+
+        <img src="img_label.png" alt="Label Example">
+        <p class="caption">（ラベルの例：IDを大きく書こう！）</p>
+
+        <h2>Step 3: 写真はアプリで撮るだけ</h2>
+        <p>「商品画像」の列は作らなくて大丈夫？<br>
+            → 大丈夫です！</p>
+        <p>最初は空欄にしておいて、アプリが完成してから<strong>スマホでパシャっと撮るほうが100倍ラク</strong>です。<br>
+            自動的に表に追加されていきます。</p>
+
+        <h2>まとめ</h2>
+        <p>まずはシンプルに、<strong>「ID」と「商品名」だけの表</strong>があればスタートできます。<br>
+            完璧じゃなくても大丈夫。まずは始めてみましょう！</p>
+
+    </div>
+
+</body>
+
+</html>

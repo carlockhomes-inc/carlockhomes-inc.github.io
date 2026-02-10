@@ -1,0 +1,478 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;700&display=swap');
+
+        @page {
+            size: A4;
+            margin: 0;
+        }
+
+        body {
+            font-family: 'Noto Sans JP', sans-serif;
+            margin: 0;
+            padding: 20px;
+            background: #f0f2f5;
+            color: #333;
+            -webkit-print-color-adjust: exact;
+        }
+
+        .page {
+            width: 210mm;
+            min-height: 297mm;
+            padding: 15mm 20mm;
+            margin: 0 auto;
+            background: white;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            box-sizing: border-box;
+            position: relative;
+        }
+
+        @media print {
+            body {
+                background: none;
+                padding: 0;
+            }
+
+            .page {
+                width: 100%;
+                height: 100%;
+                margin: 0;
+                box-shadow: none;
+                page-break-after: always;
+            }
+
+            .no-print {
+                display: none;
+            }
+        }
+
+        h1 {
+            text-align: center;
+            color: #1a73e8;
+            border-bottom: 3px solid #ea4335;
+            padding-bottom: 15px;
+            margin-bottom: 25px;
+            font-size: 24pt;
+        }
+
+        .intro {
+            text-align: center;
+            margin-bottom: 25px;
+            background: #e8f0fe;
+            padding: 15px;
+            border-radius: 8px;
+            font-weight: bold;
+            color: #444;
+            border: 1px solid #d2e3fc;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 30px;
+            font-size: 10.5pt;
+        }
+
+        th,
+        td {
+            border: 1px solid #ccc;
+            padding: 10px 12px;
+            vertical-align: middle;
+            line-height: 1.4;
+        }
+
+        th {
+            background-color: #f8f9fa;
+            text-align: center;
+            font-weight: bold;
+            color: #202124;
+        }
+
+        th:nth-child(2) {
+            background-color: #e8f0fe;
+            color: #1967d2;
+            border-bottom: 2px solid #4285f4;
+            position: relative;
+        }
+
+        th:nth-child(2)::after {
+            content: "G";
+            position: absolute;
+            top: -10px;
+            right: -5px;
+            font-size: 30px;
+            color: rgba(66, 133, 244, 0.1);
+            z-index: 0;
+        }
+
+        td:nth-child(2) {
+            background-color: #fff;
+            border-left: 2px solid #aecbfa;
+        }
+
+        th:nth-child(3) {
+            background-color: #e5f4fd;
+            color: #0078d4;
+            border-bottom: 2px solid #00a4ef;
+            position: relative;
+        }
+
+        th:nth-child(3)::after {
+            content: "M";
+            position: absolute;
+            top: -10px;
+            right: -5px;
+            font-size: 30px;
+            color: rgba(0, 164, 239, 0.1);
+            z-index: 0;
+        }
+
+        td:nth-child(3) {
+            background-color: #fff;
+            border-left: 2px solid #ccecfd;
+        }
+
+        th:nth-child(4) {
+            background-color: #fff8e1;
+            color: #bfa00d;
+            border-bottom: 2px solid #fbbc04;
+            width: 25%;
+        }
+
+        td:nth-child(4) {
+            background-color: #fffcf5;
+            font-size: 0.95em;
+            color: #5f6368;
+        }
+
+        .section-title {
+            font-size: 1.4em;
+            font-weight: bold;
+            margin-top: 30px;
+            margin-bottom: 15px;
+            padding-left: 15px;
+            border-left: 6px solid #fbbc04;
+            color: #202124;
+            display: flex;
+            align-items: center;
+        }
+
+        .chart-container {
+            display: flex;
+            gap: 25px;
+            margin-bottom: 25px;
+        }
+
+        .chart-box {
+            flex: 1;
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+        }
+
+        .chart-google {
+            background-color: #f6f9fe;
+            border: 2px solid #4285f4;
+        }
+
+        .chart-ms {
+            background-color: #f3f9fe;
+            border: 2px solid #00a4ef;
+        }
+
+        .chart-title {
+            font-weight: bold;
+            text-align: center;
+            margin-bottom: 15px;
+            font-size: 1.25em;
+            padding-bottom: 10px;
+            border-bottom: 1px dashed rgba(0, 0, 0, 0.1);
+        }
+
+        .chart-google .chart-title {
+            color: #ea4335;
+        }
+
+        .chart-ms .chart-title {
+            color: #0078d4;
+        }
+
+        ul {
+            margin: 0;
+            padding-left: 25px;
+        }
+
+        li {
+            margin-bottom: 8px;
+            list-style-type: none;
+            position: relative;
+        }
+
+        li::before {
+            content: "✔️";
+            position: absolute;
+            left: -25px;
+            top: 0;
+            font-size: 0.8em;
+        }
+
+        .compatibility {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 12px;
+            border: 1px solid #eee;
+            font-size: 1em;
+            color: #444;
+        }
+
+        .compatibility strong {
+            color: #1a73e8;
+        }
+
+        .footer {
+            text-align: right;
+            font-size: 9pt;
+            color: #9aa0a6;
+            margin-top: 40px;
+            border-top: 1px solid #f1f3f4;
+            padding-top: 10px;
+            font-family: 'Helvetica Neue', Arial, sans-serif;
+        }
+
+        .btn-print {
+            position: fixed;
+            top: 30px;
+            right: 30px;
+            padding: 12px 24px;
+            background: linear-gradient(135deg, #1a73e8, #4285f4);
+            color: white;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 16px;
+            box-shadow: 0 4px 15px rgba(26, 115, 232, 0.4);
+            transition: transform 0.2s, box-shadow 0.2s;
+            z-index: 1000;
+        }
+
+        .btn-print:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(26, 115, 232, 0.5);
+        }
+
+        .item-title {
+            font-weight: bold;
+            display: block;
+            margin-bottom: 2px;
+        }
+
+        .item-sub {
+            font-size: 0.85em;
+            color: #666;
+        }
+
+        /* Matsuura Mon Style */
+        .matsuura-mon {
+            display: inline-flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            vertical-align: middle;
+            line-height: 1;
+            margin: 0 4px;
+            position: relative;
+            top: -2px;
+        }
+
+        .matsuura-mon span {
+            display: block;
+            line-height: 1;
+        }
+
+        .matsuura-mon .top {
+            font-size: 0.7em;
+            margin-bottom: -1px;
+        }
+
+        .matsuura-mon .bottom {
+            font-size: 0.7em;
+            letter-spacing: -2px;
+            /* Close the gap between stars */
+        }
+    </style>
+    <title>Google vs Microsoft 徹底比較表</title>
+</head>
+
+<body>
+
+    <button class="btn-print no-print" onclick="window.print()">🖨️ このページを印刷する (A4)</button>
+
+    <div class="page">
+        <h1>🆚 Google vs Microsoft 徹底比較表</h1>
+
+        <div class="intro">
+            生徒さんからのよくある質問「これとこれ、何が違うの？」に一発で回答するための比較表。<br>
+            <span style="color: #ea4335;">「似ているけど、お店（会社）が違うライバル関係」</span>と覚えるとわかりやすいです！
+        </div>
+
+        <table>
+            <thead>
+                <tr>
+                    <th style="width: 12%;">分野</th>
+                    <th style="width: 32%;">Google (グーグル)</th>
+                    <th style="width: 32%;">Microsoft (マイクロソフト)</th>
+                    <th style="width: 24%;">
+                        <span class="matsuura-mon">
+                            <span class="top">⭐</span>
+                            <span class="bottom">⭐ ⭐</span>
+                        </span>
+                        おまつさんによる解説
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><b>会社</b></td>
+                    <td>🇺🇸 検索エンジンの王様</td>
+                    <td>🇺🇸 パソコン(Windows)の王様</td>
+                    <td>どちらもアメリカの超巨大企業です。</td>
+                </tr>
+                <tr>
+                    <td><b>基本ID</b></td>
+                    <td>
+                        <span class="item-title">Google アカウント</span>
+                        <span class="item-sub">(〇〇@gmail.com)</span>
+                    </td>
+                    <td>
+                        <span class="item-title">Microsoft アカウント</span>
+                        <span class="item-sub">(〇〇@outlook.jp など)</span>
+                    </td>
+                    <td>スマホはGoogle！会社のPCはMicrosoft！という使い分けが主流。</td>
+                </tr>
+                <tr>
+                    <td><b>クラウド</b></td>
+                    <td><span class="item-title">Google ドライブ</span></td>
+                    <td><span class="item-title">OneDrive (ワンドライブ)</span></td>
+                    <td>どちらもデータをネットに預ける「金庫」だと思ってください。</td>
+                </tr>
+                <tr>
+                    <td><b>文章作成</b></td>
+                    <td><span class="item-title">Google ドキュメント</span></td>
+                    <td><span class="item-title">Word (ワード)</span></td>
+                    <td>Wordの方が高機能ですが、ドキュメントは「共有」が楽です。</td>
+                </tr>
+                <tr>
+                    <td><b>表計算</b></td>
+                    <td><span class="item-title">Google スプレッドシート</span></td>
+                    <td><span class="item-title">Excel (エクセル)</span></td>
+                    <td>最近はスプレッドシートも大人気。同時編集が得意です。</td>
+                </tr>
+                <tr>
+                    <td><b>プレゼン</b></td>
+                    <td><span class="item-title">Google スライド</span></td>
+                    <td><span class="item-title">PowerPoint (パワポ)</span></td>
+                    <td>基本的な使い方はほぼ同じです。</td>
+                </tr>
+                <tr>
+                    <td><b>メール</b></td>
+                    <td><span class="item-title">Gmail (ジーメール)</span></td>
+                    <td><span class="item-title">Outlook (アウトルック)</span></td>
+                    <td>プライベートはGmail、仕事はOutlookが多いですね。</td>
+                </tr>
+                <tr>
+                    <td><b>会議</b></td>
+                    <td><span class="item-title">Google Meet</span></td>
+                    <td><span class="item-title">Microsoft Teams</span></td>
+                    <td>Teamsはチャットや電話もセットになった仕事道具。</td>
+                </tr>
+                <tr>
+                    <td><b>ブラウザ</b></td>
+                    <td><span class="item-title">Chrome (クローム)</span></td>
+                    <td><span class="item-title">Edge (エッジ)</span></td>
+                    <td>ネットを見る窓。実は中身は親戚のような関係です。</td>
+                </tr>
+                <tr>
+                    <td><b>保存</b></td>
+                    <td><span class="item-title">勝手に保存 (自動保存)</span></td>
+                    <td><span class="item-title">手動で保存</span> <br><span class="item-sub">(設定で自動も可)</span></td>
+                    <td>Googleは「保存忘れ」が絶対にないので安心（神機能）！</td>
+                </tr>
+                <tr>
+                    <td><b>料金</b></td>
+                    <td><span class="item-title">基本無料</span> <span class="item-sub">(15GBまで)</span></td>
+                    <td><span class="item-title">基本有料</span> <span class="item-sub">(サブスク)</span></td>
+                    <td>仕事でガッツリ使うならMicrosoftにお金を払う価値アリ。</td>
+                </tr>
+                <tr>
+                    <td><b>環境</b></td>
+                    <td><span class="item-title">ネットが必要</span> <span class="item-sub">(ブラウザ)</span></td>
+                    <td><span class="item-title">オフラインOK</span> <span class="item-sub">(アプリ)</span></td>
+                    <td>ネットがない場所(飛行機など)ではMicrosoftが最強です。</td>
+                </tr>
+                <tr>
+                    <td><b>AI</b></td>
+                    <td>
+                        <span class="item-title">Gemini (ジェミニ)</span>
+                    </td>
+                    <td>
+                        <span class="item-title">Copilot (コパイロット)</span>
+                    </td>
+                    <td>私(Gemini)はGoogle生まれ！CopilotはMicrosoft生まれです。</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div class="section-title">
+            <span class="matsuura-mon">
+                <span class="top">⭐</span>
+                <span class="bottom">⭐ ⭐</span>
+            </span>
+            どっちを使えばいいの？（判定チャート）
+        </div>
+
+        <div class="chart-container">
+            <div class="chart-box chart-google">
+                <div class="chart-title">🅰️ Google 派 がおすすめ！✨</div>
+                <ul>
+                    <li>スマホ（Android / iPhone）で手軽に使いたい</li>
+                    <li><b>無料</b>でいろいろやりたい</li>
+                    <li><b>みんなで同時</b>に文章を直したりしたい</li>
+                    <li>「保存し忘れ」の悲劇を避けたい！</li>
+                </ul>
+            </div>
+            <div class="chart-box chart-ms">
+                <div class="chart-title">🅱️ Microsoft 派 がおすすめ！🏢</div>
+                <ul>
+                    <li><b>会社の仕事</b>でバリバリ使う</li>
+                    <li><b>WordやExcel</b>の難しい機能が必要</li>
+                    <li>Windowsパソコンとの相性重視</li>
+                    <li><b>ネット環境がない場所</b>でも作業したい</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="compatibility">
+            <b>💡 互換性（ごかんせい）について</b><br>
+            <div style="margin-top: 5px; color: #555;">
+                「Googleで作ったものをWordで開けますか？」とよく聞かれますが… <b>どちらも可能です！</b><br>
+                ただし、<strong style="color: #d93025;">「レイアウト（見た目）」が少しズレる</strong>ことがあるので、提出用書類などは最後に必ずチェックしましょう⚠️
+            </div>
+        </div>
+
+        <div class="footer">
+            Created by おまつさん
+            <span class="matsuura-mon" style="margin-left: 5px;">
+                <span class="top">⭐</span>
+                <span class="bottom">⭐ ⭐</span>
+            </span>
+        </div>
+
+    </div>
+</body>
+
+</html>

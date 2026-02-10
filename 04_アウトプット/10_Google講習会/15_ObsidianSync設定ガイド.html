@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;700&display=swap');
+
+        @page {
+            size: A4;
+            margin: 0;
+        }
+
+        body {
+            font-family: 'Noto Sans JP', sans-serif;
+            margin: 0;
+            padding: 20px;
+            background: #f3e5f5;
+            /* Obsidian Purple-ish tint */
+            color: #333;
+            -webkit-print-color-adjust: exact;
+        }
+
+        .page {
+            width: 210mm;
+            min-height: 297mm;
+            padding: 15mm 20mm;
+            margin: 0 auto;
+            background: white;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            box-sizing: border-box;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+        }
+
+        @media print {
+            body {
+                background: none;
+                padding: 0;
+            }
+
+            .page {
+                width: 100%;
+                height: 100%;
+                margin: 0;
+                box-shadow: none;
+                page-break-after: always;
+            }
+
+            .no-print {
+                display: none;
+            }
+        }
+
+        h1 {
+            text-align: center;
+            color: #7c4dff;
+            /* Obsidian Purple */
+            border-bottom: 3px solid #b388ff;
+            padding-bottom: 15px;
+            margin-bottom: 30px;
+            font-size: 20pt;
+        }
+
+        .answer-box {
+            background: #ede7f6;
+            border: 2px solid #7c4dff;
+            border-radius: 10px;
+            padding: 20px;
+            text-align: center;
+            font-weight: bold;
+            color: #4527a0;
+            margin-bottom: 30px;
+            font-size: 1.1em;
+        }
+
+        .diagram {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 30px;
+        }
+
+        .device-box {
+            border: 2px solid #ccc;
+            padding: 15px;
+            border-radius: 10px;
+            text-align: center;
+            width: 100px;
+        }
+
+        .cloud-box {
+            background: #7c4dff;
+            color: white;
+            padding: 20px;
+            border-radius: 50%;
+            width: 120px;
+            height: 120px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 15px rgba(124, 77, 255, 0.4);
+            position: relative;
+        }
+
+        .arrow-line {
+            font-size: 2em;
+            color: #7c4dff;
+            font-weight: bold;
+        }
+
+        .step-container {
+            display: flex;
+            gap: 20px;
+        }
+
+        .step-panel {
+            flex: 1;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 15px;
+            background: #fff;
+        }
+
+        .step-title {
+            font-weight: bold;
+            color: #7c4dff;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 5px;
+            margin-bottom: 10px;
+        }
+
+        .status-check {
+            margin-top: 20px;
+            background: #fff8e1;
+            border-left: 5px solid #ffc107;
+            padding: 15px;
+            font-size: 0.9em;
+        }
+
+        .footer {
+            text-align: right;
+            font-size: 9pt;
+            color: #9aa0a6;
+            margin-top: auto;
+            border-top: 1px solid #f1f3f4;
+            padding-top: 10px;
+        }
+
+        /* Matsuura Mon Style */
+        .matsuura-mon {
+            display: inline-flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            vertical-align: middle;
+            line-height: 1;
+            margin: 0 4px;
+            position: relative;
+            top: -2px;
+        }
+
+        .matsuura-mon span {
+            display: block;
+            line-height: 1;
+        }
+
+        .matsuura-mon .top {
+            font-size: 0.7em;
+            margin-bottom: -1px;
+        }
+
+        .matsuura-mon .bottom {
+            font-size: 0.7em;
+            letter-spacing: -2px;
+        }
+
+        .btn-print {
+            position: fixed;
+            top: 30px;
+            right: 30px;
+            padding: 12px 24px;
+            background: linear-gradient(135deg, #7c4dff, #651fff);
+            color: white;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 16px;
+            box-shadow: 0 4px 15px rgba(101, 31, 255, 0.4);
+            z-index: 1000;
+        }
+    </style>
+    <title>Obsidian同期の謎</title>
+</head>
+
+<body>
+
+    <button class="btn-print no-print" onclick="window.print()">🖨️ このページを印刷する (A4)</button>
+
+    <div class="page">
+        <h1>💎 「リモート保管庫」ってなに？</h1>
+
+        <div class="answer-box">
+            ずばり、おまつさんがお金を払ってGetした<br>
+            <b>「Obsidian専用のクラウド倉庫」</b>です！
+        </div>
+
+        <div class="diagram">
+            <div class="device-box">
+                <div style="font-size: 2.5em;">💻</div>
+                <div>PC</div>
+                <div style="font-size: 0.8em; color: #666;">2nd-Brain</div>
+            </div>
+            <div class="arrow-line">➡</div>
+            <div class="cloud-box">
+                <div style="font-size: 2.5em;">☁️</div>
+                <div style="font-weight: bold; font-size: 0.9em;">リモート<br>保管庫</div>
+                <div style="font-size: 0.7em; color: rgba(255,255,255,0.8);">おまつ様専用</div>
+            </div>
+            <div class="arrow-line">➡</div>
+            <div class="device-box">
+                <div style="font-size: 2.5em;">📱</div>
+                <div>スマホ</div>
+                <div style="font-size: 0.8em; color: #666;">Pixel 8</div>
+            </div>
+        </div>
+
+        <div style="text-align: center; margin-bottom: 20px;">
+            これを使えば、OneDriveアプリなんて不要。<br>
+            <b>「Obsidianアプリ」で直接見れるようになります！</b>（最強！）
+        </div>
+
+        <h2>⚙️ 接続手順（あと一歩です！）</h2>
+
+        <div class="step-container">
+            <div class="step-panel">
+                <div class="step-title">1. パソコン側</div>
+                <div>
+                    ① Obsidianの「設定」➡「Sync」を開く<br>
+                    ② 「リモート保管庫を選択」を押す<br>
+                    ③ 作った保管庫（名前は「2nd-Brain」とか？）を選ぶ<br>
+                    ④ <b>「接続」</b>を押すと、アップロードが始まります！
+                </div>
+            </div>
+            <div class="step-panel">
+                <div class="step-title">2. スマホ側</div>
+                <div>
+                    ① スマホのObsidianアプリを開く<br>
+                    ② 「Setup Obsidian Sync」を選ぶ<br>
+                    ③ リモート保管庫を選ぶ<br>
+                    ④ <b>「接続」</b>を押すと、データが降ってきます！
+                </div>
+            </div>
+        </div>
+
+        <div class="status-check">
+            <b>🦁 おまつさんへの確認：</b><br>
+            もし「リモート保管庫」という言葉が出ているなら、おまつさんは<b>「Obsidian Sync（有料版）」を契約している可能性が高い</b>です！<br>
+            （たしか月額 1,000円くらいです）<br>
+            <br>
+            せっかくなら、これを使い倒しましょう！<br>
+            これが繋がれば、会社のPCからでも、家のPCからでも、スマホからでも、<b>完全に同じ「脳みそ」にアクセス</b>できます！
+        </div>
+
+        <div class="footer">
+            Created by おまつさん
+            <span class="matsuura-mon" style="margin-left: 5px;">
+                <span class="top">⭐</span>
+                <span class="bottom">⭐ ⭐</span>
+            </span>
+        </div>
+
+    </div>
+</body>
+
+</html>

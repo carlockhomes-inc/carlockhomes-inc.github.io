@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;700&display=swap');
+
+        @page {
+            size: A4;
+            margin: 0;
+        }
+
+        body {
+            font-family: 'Noto Sans JP', sans-serif;
+            margin: 0;
+            padding: 20px;
+            background: #f0f2f5;
+            color: #333;
+            -webkit-print-color-adjust: exact;
+        }
+
+        .page {
+            width: 210mm;
+            min-height: 297mm;
+            padding: 15mm 20mm;
+            margin: 0 auto;
+            background: white;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            box-sizing: border-box;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+        }
+
+        @media print {
+            body {
+                background: none;
+                padding: 0;
+            }
+
+            .page {
+                width: 100%;
+                height: 100%;
+                margin: 0;
+                box-shadow: none;
+                page-break-after: always;
+            }
+
+            .no-print {
+                display: none;
+            }
+        }
+
+        h1 {
+            text-align: center;
+            color: #00897b;
+            /* Craft Green-ish */
+            border-bottom: 3px solid #80cbc4;
+            padding-bottom: 15px;
+            margin-bottom: 25px;
+            font-size: 20pt;
+        }
+
+        .intro-box {
+            text-align: center;
+            font-size: 1.1em;
+            margin-bottom: 30px;
+            font-weight: bold;
+            color: #004d40;
+        }
+
+        /* The Problem Visual */
+        .problem-visual {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 20px;
+            background: #e0f2f1;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+
+        .paper-doc {
+            background: white;
+            width: 100px;
+            height: 140px;
+            border: 1px solid #ccc;
+            padding: 10px;
+            box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
+            font-size: 0.5em;
+            color: #aaa;
+            position: relative;
+        }
+
+        .paper-doc::after {
+            content: "依頼書\n--------------\n--------------\n--------------";
+            white-space: pre;
+        }
+
+        .arrow-cross {
+            font-size: 2em;
+            color: #ccc;
+            font-weight: bold;
+        }
+
+        .system-screen {
+            background: #fff;
+            width: 180px;
+            height: 120px;
+            border: 2px solid #00897b;
+            border-radius: 5px;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            color: #00897b;
+        }
+
+        /* The Solution Visual */
+        .magic-bridge {
+            text-align: center;
+            margin: 30px 0;
+            position: relative;
+        }
+
+        .lens-bridge-icon {
+            font-size: 4em;
+            background: white;
+            border-radius: 50%;
+            padding: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            position: relative;
+            z-index: 2;
+        }
+
+        .magic-line {
+            position: absolute;
+            top: 50%;
+            left: 10%;
+            right: 10%;
+            height: 5px;
+            background: linear-gradient(to right, #ccc, #4285f4, #ea4335, #fbbc04, #34a853, #00897b);
+            z-index: 1;
+        }
+
+        /* Step Cards */
+        .step-row {
+            display: flex;
+            justify-content: space-between;
+            gap: 15px;
+        }
+
+        .step-card {
+            flex: 1;
+            border: 2px solid #b2dfdb;
+            background: #fff;
+            padding: 15px;
+            border-radius: 8px;
+            text-align: center;
+        }
+
+        .step-num {
+            background: #00897b;
+            color: white;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            line-height: 30px;
+            margin: 0 auto 10px auto;
+            font-weight: bold;
+        }
+
+        .demo-box {
+            margin-top: 20px;
+            border: 2px dashed #4285f4;
+            padding: 15px;
+            border-radius: 10px;
+            background: #e8f0fe;
+        }
+
+        .copy-btn {
+            background: #1a73e8;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 4px;
+            font-size: 0.8em;
+        }
+
+        .footer {
+            text-align: right;
+            font-size: 9pt;
+            color: #9aa0a6;
+            margin-top: auto;
+            border-top: 1px solid #f1f3f4;
+            padding-top: 10px;
+        }
+
+        /* Matsuura Mon Style */
+        .matsuura-mon {
+            display: inline-flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            vertical-align: middle;
+            line-height: 1;
+            margin: 0 4px;
+            position: relative;
+            top: -2px;
+        }
+
+        .matsuura-mon span {
+            display: block;
+            line-height: 1;
+        }
+
+        .matsuura-mon .top {
+            font-size: 0.7em;
+            margin-bottom: -1px;
+        }
+
+        .matsuura-mon .bottom {
+            font-size: 0.7em;
+            letter-spacing: -2px;
+        }
+
+        .btn-print {
+            position: fixed;
+            top: 30px;
+            right: 30px;
+            padding: 12px 24px;
+            background: linear-gradient(135deg, #00897b, #26a69a);
+            color: white;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 16px;
+            box-shadow: 0 4px 15px rgba(0, 137, 123, 0.4);
+            z-index: 1000;
+        }
+    </style>
+    <title>コピペの錬金術</title>
+</head>
+
+<body>
+
+    <button class="btn-print no-print" onclick="window.print()">🖨️ このページを印刷する (A4)</button>
+
+    <div class="page">
+        <h1>🪄 どんなシステムにも使える「コピペの錬金術」</h1>
+
+        <div class="intro-box">
+            「クラフトバンク」でも「エクセル」でも何でもOK。<br>
+            紙の文字を一瞬でデータに変える裏技です！
+        </div>
+
+        <div class="problem-visual">
+            <div class="paper-doc"></div>
+            <div class="arrow-cross">💔</div>
+            <div class="system-screen">入力画面</div>
+        </div>
+        <div style="text-align: center; color: #666; font-size: 0.9em; margin-top: -15px; margin-bottom: 20px;">
+            「自動連携できない…」と諦めて手打ちしていませんか？
+        </div>
+
+        <div class="magic-bridge">
+            <div class="magic-line"></div>
+            <span class="lens-bridge-icon">📷</span><br>
+            <span style="font-weight: bold; color: #4285f4; background: white; padding: 5px;">Googleレンズが橋渡し！</span>
+        </div>
+
+        <div class="step-row">
+            <div class="step-card">
+                <div class="step-num">1</div>
+                <div>依頼書を<br><b>Googleレンズ</b>で見る</div>
+                <div style="margin-top: 10px; font-size: 2em;">📄🔍</div>
+            </div>
+            <div class="step-card">
+                <div class="step-num">2</div>
+                <div>文字をなぞって<br><b>「コピー」</b>を押す</div>
+                <div style="margin-top: 10px; font-size: 2em;">📝✨</div>
+            </div>
+            <div class="step-card">
+                <div class="step-num">3</div>
+                <div>システムの画面に<br><b>「貼り付け」</b>する</div>
+                <div style="margin-top: 10px; font-size: 2em;">💻📌</div>
+            </div>
+        </div>
+
+        <div class="demo-box">
+            <div style="font-weight: bold; color: #1967d2; margin-bottom: 10px;">🦁 PCへの「神ワザ」転送テクニック</div>
+            <div>
+                スマホのGoogleレンズでコピーした文字を…<br>
+                なんと、<b>「パソコンにコピー」</b>というボタンで飛ばせます！<br>
+                <br>
+                1. スマホで紙をスキャンして「パソコンにコピー」<br>
+                2. 会社のPCでクラフトバンクを開いて「貼り付け」<br>
+                <br>
+                これで、<b>スマホが最強の「文字読み取りスキャナー」</b>に変身します！
+            </div>
+        </div>
+
+        <div class="footer">
+            Created by おまつさん
+            <span class="matsuura-mon" style="margin-left: 5px;">
+                <span class="top">⭐</span>
+                <span class="bottom">⭐ ⭐</span>
+            </span>
+        </div>
+
+    </div>
+</body>
+
+</html>
