@@ -65,14 +65,18 @@ The user pointed out a crucial market signal.
         *   "Ver. 2.0: I found courage."
         *   Showing this *evolution* is powerful content. It proves human growth.
 
-## 1.9. Defense Strategy (IP & Patents)
-> "DeepSFX is an expert in Patents. He can stop copycats."
+## 1.9. Defense Strategy (IP & Fair Return)
+> "Imitation is fine, BUT there must be a fair return. The weak must not be eaten by the strong."
 
-*   **The Threat:** Simple ideas are easily stolen.
-*   **The Defense:**
-    *   **DeepSFX's Role:** He has "Patents & Awards" on his profile. He knows how to protect *systems*.
-    *   **Action:** When we build the "Words to World" system, consulting him about Intellectual Property (IP) is a priority.
-    *   **Unique Selling Point (USP):** The "Algorithm of Kindness" (Safety Filter) might be patentable.
+This is Fumiko-Max's **"Ecosystem Philosophy"**.
+*   **The Problem:** Gentle creators often get their ideas stolen by aggressive businesses, and get nothing.
+*   **The Policy:**
+    *   **Open:** "You can use my method." (We are not stingy).
+    *   **Fair:** "But you must pay a License Fee / Royalty to the Originator."
+    *   **System:** We need a **Smart Contract** or clear **Licensing Agreement** that automatically sends money back to the creator when the method is used.
+*   **DeepSFX's Role:**
+    *   Ask him: "How can we build a system where the *creator* gets paid every time their 'World' is downloaded?"
+    *   This protects the "Gentle Souls" from being exploited.
 
 ## 2. なぜ「今は」難しいのか？ (The Friction)
 「すごい！」と感動はしますが、毎日使うには**「面倒くさい」**が勝ちます。
