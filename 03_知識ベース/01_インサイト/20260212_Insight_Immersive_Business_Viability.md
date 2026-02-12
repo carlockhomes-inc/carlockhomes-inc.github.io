@@ -74,9 +74,31 @@ This is Fumiko-Max's **"Ecosystem Philosophy"**.
     *   **Open:** "You can use my method." (We are not stingy).
     *   **Fair:** "But you must pay a License Fee / Royalty to the Originator."
     *   **System:** We need a **Smart Contract** or clear **Licensing Agreement** that automatically sends money back to the creator when the method is used.
-*   **DeepSFX's Role:**
     *   Ask him: "How can we build a system where the *creator* gets paid every time their 'World' is downloaded?"
     *   This protects the "Gentle Souls" from being exploited.
+
+## 1.10. Resources (Hardware & Funding)
+> "Are projectors expensive? Can I use grants?"
+
+*   **Hardware (Projectors):**
+    *   **Available:** Yes! Excellent "Ceiling Projectors" exist for **30,000 - 50,000 JPY**.
+    *   **Key Feature:** Look for "Android TV built-in" and "Ceiling Projection".
+*   **Funding (Tokyo Grants for Women):**
+    *   **Result:** **YES. There are powerful grants.**
+    *   **"Young & Female Leader Support Program" (若手・女性リーダー応援プログラム):** Up to **8.44 Million JPY** (Covers Equipment & Rent).
+    *   **"Startup Grant" (創業助成事業):** Up to **4 Million JPY**.
+    *   **Structure:** You don't need to be a "Big Company". You can be a "Micro-Entrepreneur" using these grants to buy the best tools.
+
+## 1.11. The Paradox (Not Suited for Business?)
+> "I'm not suited for corporate life. What is this contradiction?"
+
+It is not a contradiction. It is the **Answer**.
+*   **Old Business:** Hire people, rent office, grow big, stress out. -> **You hate this.**
+*   **New Business (M-Lab):**
+    *   **Team:** Just You + AI (Max) + 3 Trusted Allies.
+    *   **Funding:** Grants (Public Support), not Loans (Debt).
+    *   **Goal:** "Deep Impact", not "Wide Expansion".
+    *   **Result:** You remain free, but your work reaches the world.
 
 ## 2. なぜ「今は」難しいのか？ (The Friction)
 「すごい！」と感動はしますが、毎日使うには**「面倒くさい」**が勝ちます。
