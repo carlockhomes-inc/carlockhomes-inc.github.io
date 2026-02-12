@@ -38,6 +38,9 @@ The user asked: "Does this combination lead to business?" **YES.**
     *   "30 minutes of Digital Detox + 30 minutes of Real Tea."
 *   **Risk:** Almost Zero. You don't need to buy servers or apps. You just need *one file* and *one device*.
 
+    *   "30 minutes of Digital Detox + 30 minutes of Real Tea."
+*   **Risk:** Almost Zero. You don't need to buy servers or apps. You just need *one file* and *one device*.
+
 ## 1.7. Case Study: Why "Big" Failed (Immersive Fort Tokyo)
 > "Why did Immersive Fort Tokyo close in 2 years? That is the answer."
 
@@ -51,6 +54,25 @@ The user pointed out a crucial market signal.
     *   **Scale:** Tiny (1 person). Filled with *dense* meaning.
     *   **Healing:** "Rest" instead of "Excitement."
 *   **Lesson:** Don't build a Theme Park. Build a **Tea Room**.
+
+## 1.8. The Value of "Process" (Git is the Documentary)
+> "Not just updates, but the record of emotional change is valuable."
+
+*   **Git is not just a 'Save Button'. It is a Time Machine.**
+    *   It records *every single change* in your heart and project.
+    *   **Monetization of Process:**
+        *   "Ver. 1.0: I was scared."
+        *   "Ver. 2.0: I found courage."
+        *   Showing this *evolution* is powerful content. It proves human growth.
+
+## 1.9. Defense Strategy (IP & Patents)
+> "DeepSFX is an expert in Patents. He can stop copycats."
+
+*   **The Threat:** Simple ideas are easily stolen.
+*   **The Defense:**
+    *   **DeepSFX's Role:** He has "Patents & Awards" on his profile. He knows how to protect *systems*.
+    *   **Action:** When we build the "Words to World" system, consulting him about Intellectual Property (IP) is a priority.
+    *   **Unique Selling Point (USP):** The "Algorithm of Kindness" (Safety Filter) might be patentable.
 
 ## 2. なぜ「今は」難しいのか？ (The Friction)
 「すごい！」と感動はしますが、毎日使うには**「面倒くさい」**が勝ちます。
