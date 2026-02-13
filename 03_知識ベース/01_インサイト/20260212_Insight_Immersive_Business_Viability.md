@@ -87,6 +87,10 @@ This is Fumiko-Max's **"Ecosystem Philosophy"**.
     *   **Result:** **YES. There are powerful grants.**
     *   **"Young & Female Leader Support Program" (若手・女性リーダー応援プログラム):** Up to **8.44 Million JPY** (Covers Equipment & Rent).
     *   **"Startup Grant" (創業助成事業):** Up to **4 Million JPY**.
+    *   **Local Victory Path (Higashimurayama City):**
+        *   **Step 1:** Take the "Specific Entrepreneurship Support" seminar in Higashimurayama.
+        *   **Step 2:** Get Certified.
+        *   **Step 3:** This **UNLOCKS** the big Tokyo grants above!
     *   **Structure:** You don't need to be a "Big Company". You can be a "Micro-Entrepreneur" using these grants to buy the best tools.
 
 ## 1.11. The Paradox (Not Suited for Business?)
