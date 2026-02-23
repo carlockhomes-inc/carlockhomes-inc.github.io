@@ -33,23 +33,23 @@
 (Rocking Broadway style, feeling the frustration and liberation)
 
 ### [Verse 1]
-Mountains of laundry, I don't wanna see
-Vacuum cleaner's noise is a bit too much for me
+Mountains of laundry, I don't wanna see (Wash-Wash! 🧼)
+Vacuum cleaner's noise is a bit too much for me (Vroom-Vroom! ✨)
 Not my favorite, but it's part of the day
-Sending my feelings into the melody today
+Sending my feelings into the melody today (Ready? 🚀)
 
 ### [Verse 2]
 Singing out loud "I'll do it my way!"
-Adding lots of love as the spices today
+Adding lots of love as the spices today (Shake it! 🪄)
 Efficiency is my magic technique
-Finish in fifteen, piano is what I seek!
+Finish in fifteen, piano is what I seek! (Tick-Tock! ⌛)
 
 ### [Chorus]
-Words are magic to harmonize the day
+Words are magic to harmonize the day (Magic! ✨)
 Drown out the boredom in my own special way
-Humming along with a step and a smile
+Humming along with a step and a smile (Step! Step! 💃)
 Dyeing the moment in a beautiful style!
-(Surrounded by the magic of love!)
+(Surrounded by the magic of love! 🌈)
 
 ---
 
@@ -57,25 +57,54 @@ Dyeing the moment in a beautiful style!
 (本音をグローバルに叫ぶ、最高にスカッとするミックス)
 
 ### [Verse 1]
-Mountains of laundry, I don't wanna see
-掃除機の音さえ 耳が痛い
+Mountains of laundry, I don't wanna see (Wash-Wash! 🧼)
+掃除機の音さえ 耳が痛い (Vroom-Vroom! ✨)
 Not my favorite, but it's part of the day
-そんな私の 心の叫びを メロディに乗せて
+そんな私の 心の叫びを メロディに乗せて (Let's go! 🚀)
 
 ### [Verse 2]
 Singing out loud "I'll do it my way!"
-愛情のスパイスを たくさんひとふり
-Finish in fifteen, piano is what I seek!
+愛情のスパイスを たくさんひとふり (Oishiku-nare! 🪄)
+Finish in fifteen, piano is what I seek! (Tick-Tock! ⌛)
 15分で終わらせて ピアノを弾くために
 
 ### [Chorus]
-Words are magic to harmonize the day
+Words are magic to harmonize the day (Magic! ✨)
 言葉は 苦手な時間を 魔法に変える
-Humming along with a step and a smile!
+Humming along with a step and a smile! (Step! Step! 💃)
 ときめかない瞬間も 好きな色に塗りつぶせ！
 (愛情の魔法に 包まれて)
 
 ### [Outro]
 I'm done with this, I'm going to play!
 溢れる言葉の魔法、包まれて
-Have a beautiful day! (And no more housework!)
+Have a beautiful day! (Done! 🏁)
+(No more housework! Yatta-! 🌈)
+
+---
+
+## 🤖 Suno AI 最適化プロンプト (Suno AI Optimized Prompt)
+※Suno AIで「2秒バグ」を防ぎ、最高のクオリティで生成するための専用セット様なのだ！
+
+### 1. Style of Music （スタイル欄へ）
+Dynamic 90s Diva Funk Pop, Soulful High Whistler, Snappy 80s Grooves, Grand Broadway Orchestration, Upbeat, Energetic, 128bpm
+
+### 2. Lyrics （歌詞欄へ）
+[Verse 1]
+Mountains of laundry, I don't wanna see (Wash-Wash!)
+Vacuum cleaner's noise is a bit too much for me (Vroom-Vroom!)
+Not my favorite, but it's part of the day
+Sending my feelings into the melody today (Ready?)
+
+[Verse 2]
+Singing out loud "I'll do it my way!"
+Adding lots of love as the spices today (Shake it!)
+Efficiency is my magic technique
+Finish in fifteen, piano is what I seek! (Tick-Tock!)
+
+[Chorus]
+Words are magic to harmonize the day (Magic!)
+Drown out the boredom in my own special way
+Humming along with a step and a smile (Step! Step!)
+Dyeing the moment in a beautiful style!
+(Surrounded by the magic of love!)
