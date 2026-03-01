@@ -49,6 +49,7 @@ yarn-error.log
 *.mov
 *.avi
 *.mkv
+*.exe
 
 # Logs
 *.log

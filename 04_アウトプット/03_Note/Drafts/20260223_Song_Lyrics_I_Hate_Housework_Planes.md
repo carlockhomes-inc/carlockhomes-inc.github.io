@@ -87,24 +87,26 @@ Have a beautiful day! (Done! 🏁)
 ※Suno AIで「2秒バグ」を防ぎ、最高のクオリティで生成するための専用セット様なのだ！
 
 ### 1. Style of Music （スタイル欄へ）
-Dynamic 90s Diva Funk Pop, Soulful High Whistler, Snappy 80s Grooves, Grand Broadway Orchestration, Upbeat, Energetic, 128bpm
+Magical Disney Musical Pop, Grand Broadway Orchestration, Dynamic 90s Diva Funk, Soulful High Whistler, Snappy 80s Grooves, Upbeat, Energetic, 128bpm
 
 ### 2. Lyrics （歌詞欄へ）
+[Magical Intro]
+
 [Verse 1]
-Mountains of laundry, I don't wanna see (Wash-Wash!)
-Vacuum cleaner's noise is a bit too much for me (Vroom-Vroom!)
+Mountains of laundry, I don't wanna see (Wash-Wash! 🧼)
+Vacuum cleaner's noise is a bit too much for me (Vroom-Vroom! ✨)
 Not my favorite, but it's part of the day
-Sending my feelings into the melody today (Ready?)
+Sending my feelings into the melody today (Ready? 🚀)
 
 [Verse 2]
 Singing out loud "I'll do it my way!"
-Adding lots of love as the spices today (Shake it!)
+Adding lots of love as the spices today (Shake it! 🪄)
 Efficiency is my magic technique
-Finish in fifteen, piano is what I seek! (Tick-Tock!)
+Finish in fifteen, piano is what I seek! (Tick-Tock! ⌛)
 
 [Chorus]
-Words are magic to harmonize the day (Magic!)
+Words are magic to harmonize the day (Magic! ✨)
 Drown out the boredom in my own special way
-Humming along with a step and a smile (Step! Step!)
+Humming along with a step and a smile (Step! Step! 💃)
 Dyeing the moment in a beautiful style!
-(Surrounded by the magic of love!)
+(Surrounded by the magic of love! 🌈)
