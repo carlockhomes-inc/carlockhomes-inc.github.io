@@ -29,6 +29,19 @@
 
 ---
 
+## 🇯🇵 パターン1-改：日本語フルバージョン（リズム改良／再生成用）
+(よりポジティブに、ハッピーに踊れるフレーズに調整)
+
+### [Chorus]
+言葉の魔法が 嫌いな時間を 楽しい時間に変える
+ときめかない瞬間も 好きな色に塗りつぶせ！
+鼻歌まじりに ステップ踏んで
+今日も一日 お疲れ様
+愛情の魔法に 包まれて
+(Yes! Everything is sparkling!)
+
+---
+
 ## 🇺🇸 パターン2：英語フルバージョン (English Version)
 (Rocking Broadway style, feeling the frustration and liberation)
 
@@ -71,6 +84,18 @@ Finish in fifteen, piano is what I seek! (Tick-Tock! ⌛)
 ### [Chorus]
 Words are magic to harmonize the day (Magic! ✨)
 言葉は 苦手な時間を 魔法に変える
+Humming along with a step and a smile! (Step! Step! 💃)
+ときめかない瞬間も 好きな色に塗りつぶせ！
+(愛情の魔法に 包まれて)
+
+---
+
+## 🌏 パターン3-改：日本語・英語ミックス（リズム改良／再生成用）
+(コーラスの一番盛り上がる部分の日本語を、よりポジティブに改良)
+
+### [Chorus]
+Words are magic to harmonize the day (Magic! ✨)
+言葉の魔法が 嫌いな時間を 楽しい時間に変える
 Humming along with a step and a smile! (Step! Step! 💃)
 ときめかない瞬間も 好きな色に塗りつぶせ！
 (愛情の魔法に 包まれて)
