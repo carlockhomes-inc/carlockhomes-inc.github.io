@@ -1,0 +1,745 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>会社案内 | カーロックホームズ株式会社</title>
+    <link href="https://fonts.googleapis.com/css2?family=Crimson+Text:wght@400;700&family=Outfit:wght@400;700&family=Zen+Kaku+Gothic+New:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --brand-blue: #002e5d;
+            --brand-blue-mid: #005696;
+            --brand-blue-light: #00aef0;
+            --brand-gold: #c5a059;
+            --brand-gold-pale: #e6d5b8;
+            --background: #fbfbfb;
+            --surface: rgba(255, 255, 255, 0.98);
+            --text-dark: #121c2d;
+            --text-muted: #5e6d82;
+            --gradient-gold: linear-gradient(135deg, #b38b3f 0%, #d4af37 100%);
+            --gradient-blue: linear-gradient(135deg, #002e5d 0%, #005696 100%);
+            --text-white: #ffffff;
+            --glass: rgba(255, 255, 255, 0.05);
+            --glass-border: rgba(255, 255, 255, 0.1);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Zen Kaku Gothic New', 'Outfit', sans-serif;
+            background-color: var(--background);
+            color: var(--text-dark);
+            line-height: 1.8;
+            overflow-x: hidden;
+        }
+
+        .bg-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -2;
+            background: #001a33;
+        }
+
+        .bg-waves {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            opacity: 0.4;
+            background: 
+                radial-gradient(circle at 50% 50%, rgba(0, 174, 240, 0.1) 0%, transparent 70%),
+                url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='1000' height='1000' viewBox='0 0 1000 1000'%3E%3Cpath d='M0,500 C250,550 250,450 500,500 C750,550 750,450 1000,500 L1000,1000 L0,1000 Z' fill='%23004a99' fill-opacity='0.1'/%3E%3C/svg%3E");
+            background-size: cover;
+            filter: blur(50px);
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Hero Section */
+        .hero {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            position: relative;
+        }
+
+        .hero-logo {
+            font-family: 'Outfit', sans-serif;
+            font-size: clamp(3rem, 10vw, 6rem);
+            font-weight: 700;
+            letter-spacing: -2px;
+            background: var(--gradient-blue);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 0.5rem;
+        }
+
+        .hero-tagline {
+            font-size: 1.25rem;
+            color: var(--brand-gold-pale);
+            letter-spacing: 0.4em;
+            font-weight: 700;
+            margin-bottom: 4rem;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .helix-logo {
+            width: 420px;
+            height: 420px;
+            margin-bottom: 1rem;
+            filter: drop-shadow(0 15px 30px rgba(0, 46, 93, 0.15));
+        }
+
+        /* High Fidelity Logo Elements */
+        .logo-text {
+            font-family: 'Crimson Text', serif;
+            fill: #00477a;
+            font-weight: 700;
+            text-anchor: middle;
+            letter-spacing: 0.05em;
+        }
+
+        .logo-text.main {
+            font-size: 34px;
+        }
+
+        .logo-text.sub {
+            font-size: 16px;
+            fill: #777;
+            letter-spacing: 0.2em;
+        }
+
+        .crescent {
+            fill-opacity: 0.9;
+        }
+
+        /* Section Styling */
+        section {
+            padding: 120px 0;
+        }
+
+        .section-header {
+            margin-bottom: 80px;
+            text-align: center;
+        }
+
+        .section-title {
+            font-size: 2.8rem;
+            margin-bottom: 20px;
+            position: relative;
+            display: inline-block;
+            color: var(--text-white);
+        }
+
+        .section-title::after {
+            content: "";
+            position: absolute;
+            bottom: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 4px;
+            background: var(--brand-gold);
+            border-radius: 2px;
+        }
+
+        /* Service Cards */
+        .service-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 40px;
+        }
+
+        .service-card {
+            background: var(--surface);
+            border: 1px solid rgba(0, 0, 0, 0.05);
+            border-radius: 32px;
+            padding: 50px 40px;
+            transition: all 0.4s ease;
+            position: relative;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.03);
+        }
+
+        .service-card:hover {
+            transform: translateY(-10px);
+            border-color: var(--brand-gold);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.08);
+        }
+
+        .service-card h3 {
+            font-size: 1.6rem;
+            color: var(--brand-blue);
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            border-bottom: 2px solid var(--brand-gold-pale);
+            padding-bottom: 10px;
+        }
+
+        .service-card ul {
+            list-style: none;
+        }
+
+        .service-card li {
+            position: relative;
+            padding-left: 25px;
+            margin-bottom: 12px;
+            color: var(--text-dim);
+            font-size: 1.05rem;
+        }
+
+        .service-card li::before {
+            content: "✦";
+            position: absolute;
+            left: 0;
+            color: var(--brand-gold);
+        }
+
+        /* Client Lists */
+        .client-section {
+            background: rgba(255, 255, 255, 0.02);
+            padding: 100px 0;
+            border-radius: 60px;
+            margin: 60px 0;
+        }
+
+        .client-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 15px;
+            text-align: center;
+        }
+
+        @media (max-width: 900px) {
+            .client-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+
+        @media (max-width: 600px) {
+            .client-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        .client-item {
+            padding: 12px 8px;
+            background: rgba(255, 255, 255, 0.08);
+            border-radius: 12px;
+            font-size: 0.82rem;
+            color: var(--text-white);
+            transition: all 0.3s ease;
+            border: 1px solid var(--glass-border);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 75px;
+            line-height: 1.5;
+            word-break: keep-all;
+            overflow-wrap: anywhere;
+        }
+
+        .client-item:hover {
+            background: rgba(255, 255, 255, 0.2);
+            border-color: var(--brand-gold);
+            transform: translateY(-5px);
+        }
+
+        /* Profile Table */
+        .profile-card {
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid var(--glass-border);
+            border-radius: 40px;
+            padding: 60px;
+            margin-top: 60px;
+            backdrop-filter: blur(10px);
+        }
+
+        .profile-row {
+            display: grid;
+            grid-template-columns: 200px 1fr;
+            padding: 25px 0;
+            border-bottom: 1px solid var(--glass-border);
+        }
+
+        .profile-row:last-child {
+            border-bottom: none;
+        }
+
+        .profile-label {
+            font-weight: 700;
+            color: var(--brand-gold);
+            font-size: 1.1rem;
+        }
+
+        .profile-value {
+            font-size: 1.1rem;
+            color: var(--text-white);
+        }
+
+        /* Highlight Boxes */
+        .highlight-box {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 30px;
+            border-radius: 20px;
+            border: 1px solid var(--brand-gold);
+            margin-top: 20px;
+            color: var(--text-white);
+        }
+
+        /* Presentation Enhancements */
+        .slide-footer {
+            position: absolute;
+            bottom: 30px;
+            left: 0;
+            width: 100%;
+            padding: 0 60px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: rgba(255, 255, 255, 0.4);
+            font-size: 0.8rem;
+            letter-spacing: 0.1em;
+            pointer-events: none;
+        }
+
+        .slide-number {
+            font-weight: 700;
+        }
+
+        .slide-brand {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .slide-brand-mark {
+            width: 24px;
+            height: 24px;
+            border: 1px solid var(--brand-gold);
+            color: var(--brand-gold);
+        }
+
+        /* Final A4 Landscape Print Optimization - MASTER VERSION */
+        @media print {
+            @page {
+                size: A4 landscape;
+                margin: 0;
+            }
+            * {
+                -webkit-print-color-adjust: exact !important;
+                print-color-adjust: exact !important;
+                box-sizing: border-box !important;
+                text-shadow: none !important;
+                filter: none !important;
+            }
+            body {
+                background: white !important;
+                color: #001a33 !important;
+                margin: 0;
+                padding: 0;
+                width: 297mm;
+                height: 210mm;
+            }
+            .bg-overlay, .bg-waves, script, .footer { display: none !important; }
+            
+            header, section {
+                display: flex !important;
+                flex-direction: column !important;
+                justify-content: center !important;
+                align-items: center !important;
+                width: 297mm !important;
+                height: 209mm !important;
+                padding: 10mm 15mm 20mm 15mm !important; /* Extra space at bottom */
+                background-color: white !important;
+                overflow: hidden !important;
+                position: relative !important;
+                border: none !important;
+                page-break-after: always !important;
+                page-break-inside: avoid !important;
+            }
+
+            /* Animations Reset */
+            section, .service-card, .profile-card, .client-item {
+                opacity: 1 !important;
+                visibility: visible !important;
+                transform: none !important;
+                transition: none !important;
+            }
+
+            /* Slide 1 Logo: Precise Print Centering */
+            .helix-logo {
+                width: 80mm !important;
+                height: 80mm !important;
+                margin: 0 !important;
+            }
+            
+            .helix-logo path {
+                stroke: #001a33 !important;
+                stroke-opacity: 1 !important;
+                fill: none !important;
+            }
+            .helix-logo text {
+                fill: #001a33 !important;
+                filter: none !important;
+                font-weight: 800 !important;
+            }
+            .helix-logo circle {
+                display: none !important;
+            }
+
+            /* General Typography */
+            h2, h3, h4, p, span, div, strong, li, td, th {
+                color: #001a33 !important;
+            }
+            
+            .section-title {
+                color: #001a33 !important;
+                border-bottom: 2px solid #b38b3f !important;
+                font-size: 17pt !important;
+                margin-bottom: 5mm !important;
+            }
+            
+            .hero-tagline {
+                color: #001a33 !important;
+                border-top: 2px solid #b38b3f !important;
+                margin-top: 5mm !important;
+                padding-top: 3mm !important;
+                width: auto !important;
+                font-size: 12pt !important;
+            }
+
+            /* Compact Grid Layouts */
+            .service-grid {
+                display: grid !important;
+                grid-template-columns: 1fr 1fr !important;
+                gap: 8px !important;
+            }
+            .service-card {
+                padding: 4mm !important;
+                border: 1px solid #eee !important;
+            }
+            .service-card h3 { font-size: 11pt !important; margin-bottom: 1.5mm !important; }
+            .service-card p { font-size: 8.5pt !important; line-height: 1.4 !important; }
+            
+            .client-grid {
+                display: grid !important;
+                grid-template-columns: repeat(4, 1fr) !important;
+                gap: 5px !important;
+            }
+            .client-item {
+                font-size: 7.5pt !important;
+                min-height: 10mm !important;
+            }
+
+            .profile-card {
+                border: 1px solid #ddd !important;
+                padding: 6mm !important;
+                width: 90% !important;
+                margin-top: 0 !important;
+            }
+            .profile-row { padding: 8px 0 !important; }
+            .highlight-box { padding: 12px !important; margin-top: 5px !important; }
+
+            /* Slide 5 Map Adjustment */
+            iframe { height: 55mm !important; border: 1px solid #ddd !important; }
+
+            .slide-footer {
+                color: #888 !important;
+                bottom: 10mm !important;
+                width: 90% !important;
+                font-size: 7pt !important;
+            }
+            .slide-brand-mark { border: 1px solid #b38b3f !important; width: 16px !important; height: 16px !important; }
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero-logo { font-size: 4rem; }
+            .profile-row { grid-template-columns: 1fr; gap: 10px; }
+            .section-title { font-size: 2.2rem; }
+            .char-img { width: 70px; height: 70px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="bg-overlay"></div>
+    <div class="bg-waves"></div>
+
+    <div class="container">
+        <!-- Page 1: Hero (Cover) -->
+        <header class="hero">
+            <div class="helix-container">
+                <svg class="helix-logo" viewBox="0 0 500 500" xmlns="http://www.w3.org/2000/svg">
+                    <defs>
+                        <linearGradient id="grad-blue-dark" x1="0%" y1="0%" x2="100%" y2="100%">
+                            <stop offset="0%" style="stop-color:#003366;stop-opacity:1" />
+                            <stop offset="100%" style="stop-color:#004a99;stop-opacity:1" />
+                        </linearGradient>
+                        <linearGradient id="grad-blue-mid" x1="0%" y1="0%" x2="100%" y2="100%">
+                            <stop offset="0%" style="stop-color:#005696;stop-opacity:1" />
+                            <stop offset="100%" style="stop-color:#0072bc;stop-opacity:1" />
+                        </linearGradient>
+                        <linearGradient id="grad-blue-light" x1="0%" y1="0%" x2="100%" y2="100%">
+                            <stop offset="0%" style="stop-color:#00aef0;stop-opacity:1" />
+                            <stop offset="100%" style="stop-color:#48d1ff;stop-opacity:1" />
+                        </linearGradient>
+                    </defs>
+                    
+                    <!-- Ultimate Canva-style "C" Spiral Logo with Improved Legibility -->
+                    <g transform="translate(250, 250)">
+                        <!-- Outer C shape (Stronger, cleaner Arcs) -->
+                        <path d="M-50,-160 A160,160 0 1,0 60,150" fill="none" stroke="url(#grad-blue-dark)" stroke-width="48" stroke-linecap="round" opacity="1" />
+                        <path d="M-40,-125 A125,125 0 1,0 50,115" fill="none" stroke="url(#grad-blue-mid)" stroke-width="36" stroke-linecap="round" opacity="1" />
+                        <path d="M-30,-90 A90,90 0 1,0 40,80" fill="none" stroke="url(#grad-blue-light)" stroke-width="24" stroke-linecap="round" opacity="1" />
+                        
+                        <!-- Dark backing for text legibility (Matches Canva blur) -->
+                        <circle cx="0" cy="0" r="130" fill="rgba(0,30,60,0.6)" filter="blur(30px)" />
+                        
+                        <!-- Logo Text Overlaid in White (Bold and Shadowed for clarity) -->
+                        <text y="5" class="logo-text main" style="fill: #ffffff; font-size: 50px; font-weight: 800; filter: drop-shadow(0 0 10px rgba(0,0,0,0.8));">Carlock Homes</text>
+                        <text y="50" class="logo-text sub" style="fill: #ffffff; font-size: 26px; font-weight: 700; letter-spacing: 0.1em; filter: drop-shadow(0 0 8px rgba(0,0,0,0.8));">Co., Ltd.</text>
+                    </g>
+                </svg>
+            </div>
+            <p class="hero-tagline" style="font-size: 1.6rem; color: #ffffff; letter-spacing: 0.5em; border-top: 2px solid var(--brand-gold); padding-top: 1.5rem; margin-top: 1rem; text-shadow: 0 0 10px rgba(255,255,255,0.3);">SECURITY & LIFE SUPPORT SOLUTIONS</p>
+            
+            <div class="slide-footer">
+                <div class="slide-brand">
+                    <div class="slide-brand-mark">C</div>
+                    <span>Carlock Homes Co., Ltd.</span>
+                </div>
+                <div class="slide-number">01 / 05</div>
+            </div>
+        </header>
+        <!-- Page 2: Service Details -->
+        <section id="services">
+            <div class="section-header">
+                <h2 class="section-title">Business Content</h2>
+                <h3 style="color: var(--text-white); margin-top: 0.5rem; font-size: 2rem; font-weight: 800; line-height: 1.4; text-shadow: 0 2px 10px rgba(0,0,0,0.5); text-align: center;">
+                    24時間３６５日カギのトラブル対応<br>
+                    24時間緊急対応サービス（ライフサポート）
+                </h3>
+                
+                <div style="text-align: center; margin: 1.5rem 0;">
+                    <p style="max-width: 850px; margin: 0 auto; font-size: 1.15rem; line-height: 1.8; color: var(--text-dark); background: rgba(255,255,255,0.95); padding: 15px 30px; border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.3); text-align: center; display: inline-block;">
+                        カギ、水回り、ガラス、サッシなど生活に直結する突発的なトラブルに対し、<br>
+                        全国180の協力店とともに、24時間365日体制で迅速な駆けつけ対応を行います。
+                    </p>
+                </div>
+
+                <div class="service-grid" style="margin-top: 2rem;">
+                    <article class="service-card shadow-lg" style="text-align: left; background: #ffffff; padding: 25px;">
+                        <h3 style="border-bottom: 2px solid var(--brand-gold); padding-bottom: 10px; font-size: 1.6rem; margin-top: 0;">◆カギのトラブル・防犯対策</h3>
+                        <div style="margin-top: 1.5rem; line-height: 1.8;">
+                            <p style="font-size: 1.05rem; margin-bottom: 1rem;"><strong>＜解錠＞</strong><br><span style="color: #4a5568;">家、金庫などのカギの紛失や<br>インロック時の緊急解錠。</span></p>
+                            <p style="margin-top: 1rem; font-size: 1.05rem; margin-bottom: 1rem;"><strong>＜交換・取付＞</strong><br><span style="color: #4a5568;">鍵穴の破損、古くなったカギの交換、<br>ICロック取付等による強固な防犯対策。</span></p>
+                            <p style="margin-top: 1rem; font-size: 1.05rem; margin-bottom: 1rem;"><strong>＜修理＞</strong><br><span style="color: #4a5568;">カギの不具合や折れカギの除去、調整。</span></p>
+                            <p style="margin-top: 1rem; font-size: 1.05rem;"><strong>＜防犯対策＞</strong><br><span style="color: #4a5568;">ピッキング対策、補助錠の設置など、<br>電気錠工事（オートロック）にも対応。</span></p>
+                        </div>
+                    </article>
+
+                    <article class="service-card shadow-lg" style="text-align: left; background: #ffffff; padding: 25px;">
+                        <h3 style="border-bottom: 2px solid var(--brand-gold); padding-bottom: 10px; font-size: 1.6rem; margin-top: 0;">住宅設備・サッシメンテナンス</h3>
+                        <div style="margin-top: 1.5rem; line-height: 1.8;">
+                            <p style="font-size: 1.05rem; margin-bottom: 1rem;"><strong>＜窓・サッシ関連＞</strong><br><span style="color: #4a5568;">サッシの戸車交換、クレセント修理、<br>網戸の張り替え等。</span></p>
+                            <p style="margin-top: 1rem; font-size: 1.05rem; margin-bottom: 1rem;"><strong>＜水回り・ガラス＞</strong><br><span style="color: #4a5568;">突然の水漏れや排水詰まり、<br>窓ガラスの破損に対する緊急対応。</span></p>
+                            <p style="margin-top: 1rem; font-size: 1.05rem;"><strong>＜バリューアップ施工＞</strong><br><span style="color: #4a5568;">入居前清掃、除菌施工、資産価値を<br>高めるリフレッシュ工事。</span></p>
+                        </div>
+                    </article>
+                </div>
+            </div>
+        </section>
+
+        <!-- Page 3: Trust & Alliances -->
+        <section class="client-section" style="padding: 15mm 20mm; display: flex; flex-direction: column; justify-content: center; position: relative; box-sizing: border-box;">
+            <div class="section-header" style="margin-bottom: 1.5rem;">
+                <h2 class="section-title">Trust & Partnership</h2>
+            </div>
+
+            <div style="margin: 0.5rem auto 1rem; max-width: 1000px; width: 100%;">
+                <h4 style="color: var(--brand-gold); margin-bottom: 15px; font-size: 1.25rem; text-align: center; text-shadow: 0 2px 4px rgba(0,0,0,0.5);">加盟・特約店</h4>
+                <div class="client-grid" style="gap: 15px;">
+                    <div class="client-item shadow-sm" style="font-size: 0.85rem; padding: 12px 5px; min-height: 70px;">内閣総理大臣認可<br>日本ロックセキュリティ<br>協同組合 加盟店</div>
+                    <div class="client-item shadow-sm" style="font-size: 0.85rem; padding: 12px 5px; min-height: 70px;">株式会社長沢製作所 特約店<br>（キーレックスサービス<br>ショップ加盟店）</div>
+                    <div class="client-item shadow-sm" style="font-size: 0.85rem; padding: 12px 5px; min-height: 70px;">東邦金属工業株式会社<br>特約店</div>
+                    <div class="client-item shadow-sm" style="font-size: 0.85rem; padding: 12px 5px; min-height: 70px;">全国180の<br>協力パートナー</div>
+                </div>
+            </div>
+
+            <div style="margin-top: 1rem; width: 100%;">
+                <h4 style="color: var(--brand-gold); margin-bottom: 15px; font-size: 1.25rem; text-align: center; text-shadow: 0 2px 4px rgba(0,0,0,0.5);">主要取引先企業</h4>
+                <div class="client-grid" style="gap: 10px; grid-template-columns: repeat(4, 1fr);">
+                    <div class="client-item" style="font-size: 0.85rem; padding: 8px 5px; min-height: 45px;">綜合警備保障株式会社</div>
+                    <div class="client-item" style="font-size: 0.85rem; padding: 8px 5px; min-height: 45px;">株式会社シブタニ</div>
+                    <div class="client-item" style="font-size: 0.85rem; padding: 8px 5px; min-height: 45px;">大和リビング株式会社</div>
+                    <div class="client-item" style="font-size: 0.78rem; padding: 8px 5px; min-height: 45px;">株式会社プレステージ・<br>コアソリューション</div>
+                    <div class="client-item" style="font-size: 0.85rem; padding: 8px 5px; min-height: 45px;">株式会社日本ロックサービス</div>
+                    <div class="client-item" style="font-size: 0.85rem; padding: 8px 5px; min-height: 45px;">株式会社ミスタークリーン</div>
+                    <div class="client-item" style="font-size: 0.85rem; padding: 8px 5px; min-height: 45px;">株式会社東建コーポレーション</div>
+                    <div class="client-item" style="font-size: 0.85rem; padding: 8px 5px; min-height: 45px;">美和ロック株式会社</div>
+                    <div class="client-item" style="font-size: 0.85rem; padding: 8px 5px; min-height: 45px;">株式会社ゴール</div>
+                    <div class="client-item" style="font-size: 0.85rem; padding: 8px 5px; min-height: 45px;">伊藤忠アーバンコミュニティー</div>
+                    <div class="client-item" style="font-size: 0.85rem; padding: 8px 5px; min-height: 45px;">株式会社ハウスメイト</div>
+                    <div class="client-item" style="font-size: 0.85rem; padding: 8px 5px; min-height: 45px;">株式会社リロクリエイト</div>
+                    <div class="client-item" style="font-size: 0.85rem; padding: 8px 5px; min-height: 45px;">株式会社TOKAI</div>
+                    <div class="client-item" style="font-size: 0.85rem; padding: 8px 5px; min-height: 45px;">株式会社 穴吹ハウジングサービス</div>
+                    <div class="client-item" style="font-size: 0.8rem; padding: 8px 5px; min-height: 45px;">三井不動産<br>レジデンシャルリース株式会社</div>
+                    <div class="client-item" style="font-size: 0.85rem; padding: 8px 5px; min-height: 45px;">スターツアメニティー株式会社</div>
+                    <div class="client-item" style="font-size: 0.85rem; padding: 8px 5px; min-height: 45px;">ALSOKファシリティーズ株式会社</div>
+                </div>
+                <p style="text-align: center; font-size: 0.8rem; color: rgba(255,255,255,0.7); margin-top: 1.5rem; letter-spacing: 0.05em;">
+                    ※掲載順は五十音・取引規模等とは関係なく、順一度で表記しています。
+                </p>
+            </div>
+
+            <div class="slide-footer">
+                <div class="slide-brand">
+                    <div class="slide-brand-mark">C</div>
+                    <span>Carlock Homes Co., Ltd.</span>
+                </div>
+                <div class="slide-number">03 / 05</div>
+            </div>
+        </section>
+
+        <!-- Page 4: Company Profile & Contact -->
+        <section id="profile" style="padding: 15mm 20mm; display: flex; flex-direction: column; justify-content: center; position: relative; box-sizing: border-box;">
+            <div class="section-header" style="margin-bottom: 1.5rem;">
+                <h2 class="section-title">Company Profile</h2>
+            </div>
+            
+            <div class="profile-card" style="padding: 30px; margin-bottom: 1.5rem;">
+                <div class="profile-row" style="margin-bottom: 15px;">
+                    <div class="profile-label">商号</div>
+                    <div class="profile-value">カーロックホームズ株式会社 (Carlock Homes Co., Ltd.)</div>
+                </div>
+                <div class="profile-row" style="margin-bottom: 15px;">
+                    <div class="profile-label">所在地</div>
+                    <div class="profile-value">〒167-0042 東京都杉並区西荻北2-37-12 ブランシュ西荻 中2階</div>
+                </div>
+                <div class="profile-row" style="margin-bottom: 15px;">
+                    <div class="profile-label">創業</div>
+                    <div class="profile-value">平成14年8月</div>
+                </div>
+                <div class="profile-row" style="margin-bottom: 15px;">
+                    <div class="profile-label">取引銀行</div>
+                    <div class="profile-value">三菱UFJ銀行 入間支店</div>
+                </div>
+                <div class="profile-row" style="margin-bottom: 20px;">
+                    <div class="profile-label">連絡先</div>
+                    <div class="profile-value">
+                        TEL: 03-5311-0556（代表） / FAX: 03-5311-0558<br>
+                        Mail: office@carlock.co.jp
+                    </div>
+                </div>
+                
+                <div class="highlight-box" style="padding: 20px; margin-top: 10px;">
+                    <strong style="color: var(--brand-gold); font-size: 1.2rem; display: block; margin-bottom: 0.5rem; border-bottom: 1px solid rgba(197, 160, 89, 0.3); padding-bottom: 5px;">Our Promise</strong>
+                    <p style="font-size: 0.95rem; line-height: 1.7; margin: 0;">私たちは、単にカギを交換・修理するだけの会社ではありません。お客様が心から「ほっ」とできる空間を、技術と情熱で創り出す「セキュリティ・コンシェルジュ」です。主要メーカーの知見を最大限に活かし、最高水準の「安心」と「信頼」を 24時間お届けします。</p>
+                </div>
+            </div>
+
+            <div class="slide-footer">
+                <div class="slide-brand">
+                    <div class="slide-brand-mark">C</div>
+                    <span>Carlock Homes Co., Ltd.</span>
+                </div>
+                <div class="slide-number">04 / 05</div>
+            </div>
+        </section>
+
+        <!-- Page 5: Contact & Closing -->
+        <section id="contact" style="display: flex; flex-direction: column; justify-content: center; position: relative; padding: 0 40px; box-sizing: border-box; overflow: hidden;">
+            <div style="text-align: center; margin-bottom: 1.5rem;">
+                <div style="color: var(--brand-gold); font-size: 1.3rem; font-weight: 700; letter-spacing: 0.1em; margin-bottom: 0.3rem;">【Contact Us】</div>
+                <h2 style="font-size: 2.5rem; color: var(--text-white); letter-spacing: 0.05em; text-shadow: 0 2px 15px rgba(0,0,0,0.5); margin: 0;">カーロックホームズ株式会社</h2>
+            </div>
+            
+            <div style="display: flex; gap: 30px; align-items: stretch; max-width: 1050px; margin: 0 auto; width: 100%;">
+                <!-- Left Column: Details -->
+                <div style="flex: 1; background: rgba(255, 255, 255, 0.05); padding: 30px; border-radius: 15px; border: 1px solid var(--glass-border); display: flex; flex-direction: column; justify-content: center;">
+                    <div style="font-size: 1.05rem; line-height: 1.8; color: rgba(255,255,255,0.95); text-align: left;">
+                        <p style="margin-bottom: 1.2rem;">
+                            <span style="color: var(--brand-gold); font-size: 0.8rem; display: block; margin-bottom: 0.3rem; letter-spacing: 0.1em;">ADDRESS</span>
+                            〒167-0042<br>
+                            東京都杉並区西荻北2-37-12<br>
+                            ブランシュ西荻 中2階
+                        </p>
+                        <p style="margin-bottom: 1.2rem;">
+                            <span style="color: var(--brand-gold); font-size: 0.8rem; display: block; margin-bottom: 0.3rem; letter-spacing: 0.1em;">CONTACT</span>
+                            TEL: <strong style="color: var(--brand-gold-pale); font-size: 1.2rem;">03-5311-0556</strong><br>
+                            FAX: 03-5311-0558
+                        </p>
+                        <p>
+                            <span style="color: var(--brand-gold); font-size: 0.8rem; display: block; margin-bottom: 0.3rem; letter-spacing: 0.1em;">E-MAIL</span>
+                            office@carlock.co.jp
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Right Column: Map -->
+                <div style="flex: 1.4; height: 320px; border-radius: 15px; overflow: hidden; border: 1px solid var(--brand-gold); box-shadow: 0 10px 30px rgba(0,0,0,0.5);">
+                    <iframe 
+                        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3240.261274534887!2d139.6006129!3d35.7037708!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x6018ee398553ca41%3A0x6e7e171dc8217bb4!2z44CSMTY3LTAwNDIg5p2x5Lqs6YO95p2J5Lim5Yy66KW_6I275YyX77yS5LiB55uu77yT77yX4oiS77yR77yS!5e0!3m2!1sja!2sjp!4v1710500000000!5m2!1sja!2sjp" 
+                        width="100%" 
+                        height="100%" 
+                        style="border:0;" 
+                        allowfullscreen="" 
+                        loading="lazy" 
+                        referrerpolicy="no-referrer-when-downgrade">
+                    </iframe>
+                </div>
+            </div>
+
+            <div class="slide-footer" style="bottom: 20px;">
+                <div class="slide-brand">
+                    <div class="slide-brand-mark">C</div>
+                    <span>Carlock Homes Co., Ltd.</span>
+                </div>
+                <div class="slide-number">05 / 05</div>
+            </div>
+        </section>
+
+        <!-- Footer (Hidden in Print) -->
+        <footer class="footer" style="display: none;">
+            <p>&copy; 2026 CARLOCK HOMES Co., Ltd. / SECURITY & LIFE SUPPORT SOLUTIONS</p>
+        </footer>
+    </div>
+
+    <script>
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = 1;
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, { threshold: 0.1 });
+
+        document.querySelectorAll('section, .service-card, .profile-card').forEach(el => {
+            el.style.opacity = 0;
+            el.style.transform = 'translateY(30px)';
+            el.style.transition = 'all 0.8s ease-out';
+            observer.observe(el);
+        });
+    </script>
+</body>
+</html>
