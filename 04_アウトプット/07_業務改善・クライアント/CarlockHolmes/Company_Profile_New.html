@@ -338,7 +338,7 @@
             color: var(--brand-gold);
         }
 
-        /* Final A4 Landscape Print Optimization - MASTER VERSION */
+        /* THE ABSOLUTE FINAL PRINT ENGINE - GUARANTEED SEPARATION & VISIBILITY */
         @media print {
             @page {
                 size: A4 landscape;
@@ -350,125 +350,156 @@
                 box-sizing: border-box !important;
                 text-shadow: none !important;
                 filter: none !important;
+                backdrop-filter: none !important;
+                transition: none !important;
+                animation: none !important;
+                transform: none !important;
+                opacity: 1 !important;
+                visibility: visible !important;
             }
-            body {
-                background: white !important;
-                color: #001a33 !important;
-                margin: 0;
-                padding: 0;
-                width: 297mm;
-                height: 210mm;
+            body, html {
+                background: #001223 !important;
+                margin: 0 !important;
+                padding: 0 !important;
+                width: 297mm !important;
+                height: auto !important;
+                overflow: visible !important;
+            }
+            body { position: static !important; }
+            
+            /* Flatten structure so breaks are ignored by flex-parents */
+            .container {
+                display: contents !important;
             }
             .bg-overlay, .bg-waves, script, .footer { display: none !important; }
             
+            /* FORCE RIGID BLOCKS FOR EACH SLIDE */
             header, section {
-                display: flex !important;
-                flex-direction: column !important;
-                justify-content: center !important;
-                align-items: center !important;
+                display: block !important;
                 width: 297mm !important;
-                height: 209mm !important;
-                padding: 10mm 15mm 20mm 15mm !important; /* Extra space at bottom */
-                background-color: white !important;
-                overflow: hidden !important;
+                height: 165mm !important; /* Maximized safety for browser margins */
+                padding: 10mm 25mm !important;
+                margin: 0 !important;
+                background-color: #001223 !important;
                 position: relative !important;
-                border: none !important;
                 page-break-after: always !important;
+                break-after: page !important;
+                overflow: hidden !important;
+                clear: both !important;
+            }
+
+            /* Content Visibility Fixes */
+            .hero-content, #services, #profile, #contact {
+                display: block !important;
+                opacity: 1 !important;
+                visibility: visible !important;
                 page-break-inside: avoid !important;
             }
 
-            /* Animations Reset */
-            section, .service-card, .profile-card, .client-item {
-                opacity: 1 !important;
-                visibility: visible !important;
-                transform: none !important;
-                transition: none !important;
+            .helix-logo { 
+                width: 150px !important; 
+                height: 150px !important; 
+                margin: 0 auto 10px !important; 
+                display: block !important;
             }
+            .helix-logo path { stroke: #c5a059 !important; stroke-opacity: 1 !important; fill: none !important; }
+            .helix-logo text { fill: #ffffff !important; font-weight: 800 !important; font-size: 14px !important; }
 
-            /* Slide 1 Logo: Precise Print Centering */
-            .helix-logo {
-                width: 80mm !important;
-                height: 80mm !important;
-                margin: 0 !important;
-            }
-            
-            .helix-logo path {
-                stroke: #001a33 !important;
-                stroke-opacity: 1 !important;
-                fill: none !important;
-            }
-            .helix-logo text {
-                fill: #001a33 !important;
-                filter: none !important;
-                font-weight: 800 !important;
-            }
-            .helix-logo circle {
-                display: none !important;
-            }
+            .hero-tagline { color: #ffffff !important; text-align: center !important; font-size: 14pt !important; margin-top: 10px !important; }
 
-            /* General Typography */
-            h2, h3, h4, p, span, div, strong, li, td, th {
-                color: #001a33 !important;
-            }
-            
             .section-title {
-                color: #001a33 !important;
-                border-bottom: 2px solid #b38b3f !important;
-                font-size: 17pt !important;
-                margin-bottom: 5mm !important;
+                color: #c5a059 !important;
+                border-bottom: 2px solid #c5a059 !important;
+                font-size: 18pt !important;
+                margin: 0 auto 15px !important;
+                text-align: center !important;
+                width: fit-content !important;
+                padding-bottom: 5px !important;
             }
             
-            .hero-tagline {
-                color: #001a33 !important;
-                border-top: 2px solid #b38b3f !important;
-                margin-top: 5mm !important;
-                padding-top: 3mm !important;
-                width: auto !important;
-                font-size: 12pt !important;
-            }
+            h3 { color: #c5a059 !important; text-align: center !important; }
 
-            /* Compact Grid Layouts */
             .service-grid {
-                display: grid !important;
-                grid-template-columns: 1fr 1fr !important;
-                gap: 8px !important;
+                display: flex !important;
+                flex-direction: row !important;
+                gap: 8mm !important;
+                width: 100% !important;
+                justify-content: center !important;
             }
             .service-card {
-                padding: 4mm !important;
-                border: 1px solid #eee !important;
+                flex: 1 !important;
+                border: 2px solid #c5a059 !important;
+                padding: 5mm !important;
+                background-color: #0a172a !important; /* SOLID DARK NAVY FIXES WHITE BOXES */
+                border-radius: 12px !important;
             }
-            .service-card h3 { font-size: 11pt !important; margin-bottom: 1.5mm !important; }
-            .service-card p { font-size: 8.5pt !important; line-height: 1.4 !important; }
-            
-            .client-grid {
-                display: grid !important;
-                grid-template-columns: repeat(4, 1fr) !important;
-                gap: 5px !important;
-            }
+            .service-card h3 { font-size: 11pt !important; margin-bottom: 4mm !important; text-align: left !important; border-bottom: 1px solid #c5a059 !important; padding-bottom: 2mm !important; }
+            .service-card p, .service-card span, .service-card li { font-size: 8.5pt !important; line-height: 1.4 !important; color: #ffffff !important; display: block !important; }
+
+            .client-grid { display: grid !important; grid-template-columns: repeat(4, 1fr) !important; gap: 5px !important; width: 100% !important; }
             .client-item {
-                font-size: 7.5pt !important;
-                min-height: 10mm !important;
+                font-size: 7pt !important;
+                padding: 5px !important;
+                background: #0a172a !important;
+                border: 1px solid #c5a059 !important;
+                color: white !important;
+                min-height: 35px !important;
+                display: flex !important;
+                align-items: center !important;
+                justify-content: center !important;
             }
 
             .profile-card {
-                border: 1px solid #ddd !important;
-                padding: 6mm !important;
-                width: 90% !important;
-                margin-top: 0 !important;
+                width: 85% !important;
+                margin: 0 auto !important;
+                padding: 8mm !important;
+                border: 2px solid #c5a059 !important;
+                background: #0a172a !important; /* SOLID COLOR */
             }
-            .profile-row { padding: 8px 0 !important; }
-            .highlight-box { padding: 12px !important; margin-top: 5px !important; }
+            .profile-row { display: flex !important; font-size: 9.5pt !important; padding: 6px 0 !important; border-bottom: 1px solid rgba(255,255,255,0.1) !important; color: white !important; }
+            .profile-label { color: #c5a059 !important; width: 45mm !important; font-weight: bold !important; flex-shrink: 0; }
 
-            /* Slide 5 Map Adjustment */
-            iframe { height: 55mm !important; border: 1px solid #ddd !important; }
+            /* SLIDE 5 SPECIFIC: Openness & Premium Spacing */
+            #contact {
+                padding: 15mm 35mm 5mm !important; /* Maximized vertical space to avoid footer */
+                display: block !important;
+            }
+            #contact div[style*="text-align: center"] { margin-bottom: 3mm !important; }
+            #contact div[style*="font-size: 1.3rem"] { font-size: 10pt !important; margin-bottom: 1mm !important; }
+            #contact h2 { font-size: 16pt !important; margin: 0 !important; }
+
+            .contact-container {
+                display: flex !important;
+                flex-direction: row !important;
+                gap: 40px !important;
+                width: 100% !important;
+                align-items: center !important;
+                margin-top: 2mm !important;
+            }
+            .contact-info { 
+                flex: 1 !important; 
+                text-align: left !important; 
+                color: white !important;
+                background: rgba(255, 255, 255, 0.05) !important;
+                padding: 12px 20px !important;
+                border-radius: 15px !important;
+                border: 1px solid rgba(197, 160, 89, 0.4) !important;
+                font-size: 9pt !important;
+            }
+            .map-container { flex: 1.3 !important; }
+            iframe { height: 40mm !important; width: 100% !important; border: 2.5px solid #c5a059 !important; border-radius: 12px !important; }
 
             .slide-footer {
-                color: #888 !important;
-                bottom: 10mm !important;
+                color: rgba(255, 255, 255, 0.4) !important;
+                position: static !important; /* Static flow prevents floating overlaps */
+                margin: 8mm auto 0 !important;
                 width: 90% !important;
-                font-size: 7pt !important;
+                display: flex !important;
+                justify-content: space-between !important;
+                font-size: 8pt !important;
+                border-top: 1px solid rgba(197, 160, 89, 0.2) !important;
+                padding-top: 3mm !important;
             }
-            .slide-brand-mark { border: 1px solid #b38b3f !important; width: 16px !important; height: 16px !important; }
         }
 
         /* Responsive */
@@ -623,7 +654,7 @@
         <!-- Page 4: Company Profile & Contact -->
         <section id="profile" style="padding: 15mm 20mm; display: flex; flex-direction: column; justify-content: center; position: relative; box-sizing: border-box;">
             <div class="section-header" style="margin-bottom: 1.5rem;">
-                <h2 class="section-title">Company Profile</h2>
+                <h2 class="section-title">Company Profile & Access</h2>
             </div>
             
             <div class="profile-card" style="padding: 30px; margin-bottom: 1.5rem;">
@@ -673,32 +704,35 @@
                 <h2 style="font-size: 2.5rem; color: var(--text-white); letter-spacing: 0.05em; text-shadow: 0 2px 15px rgba(0,0,0,0.5); margin: 0;">カーロックホームズ株式会社</h2>
             </div>
             
-            <div style="display: flex; gap: 30px; align-items: stretch; max-width: 1050px; margin: 0 auto; width: 100%;">
+            <div class="contact-container" style="display: flex; gap: 30px; align-items: stretch; max-width: 1050px; margin: 0 auto; width: 100%;">
                 <!-- Left Column: Details -->
                 <div style="flex: 1; background: rgba(255, 255, 255, 0.05); padding: 30px; border-radius: 15px; border: 1px solid var(--glass-border); display: flex; flex-direction: column; justify-content: center;">
                     <div style="font-size: 1.05rem; line-height: 1.8; color: rgba(255,255,255,0.95); text-align: left;">
-                        <p style="margin-bottom: 1.2rem;">
-                            <span style="color: var(--brand-gold); font-size: 0.8rem; display: block; margin-bottom: 0.3rem; letter-spacing: 0.1em;">ADDRESS</span>
-                            〒167-0042<br>
-                            東京都杉並区西荻北2-37-12<br>
+                        <p style="margin-bottom: 1.0rem;">
+                            <span style="color: var(--brand-gold); font-size: 0.8rem; display: block; margin-bottom: 0.2rem; letter-spacing: 0.1em;">ADDRESS</span>
+                            〒167-0042 東京都杉並区西荻北2-37-12<br>
                             ブランシュ西荻 中2階
                         </p>
-                        <p style="margin-bottom: 1.2rem;">
-                            <span style="color: var(--brand-gold); font-size: 0.8rem; display: block; margin-bottom: 0.3rem; letter-spacing: 0.1em;">CONTACT</span>
-                            TEL: <strong style="color: var(--brand-gold-pale); font-size: 1.2rem;">03-5311-0556</strong><br>
+                        <p style="margin-bottom: 1.0rem;">
+                            <span style="color: var(--brand-gold); font-size: 0.8rem; display: block; margin-bottom: 0.2rem; letter-spacing: 0.1em;">ACCESS</span>
+                            JR中央・総武線「西荻窪駅」より徒歩5分
+                        </p>
+                        <p style="margin-bottom: 1.0rem;">
+                            <span style="color: var(--brand-gold); font-size: 0.8rem; display: block; margin-bottom: 0.2rem; letter-spacing: 0.1em;">CONTACT</span>
+                            TEL: <strong style="color: var(--brand-gold-pale); font-size: 1.1rem;">03-5311-0556</strong><br>
                             FAX: 03-5311-0558
                         </p>
-                        <p>
-                            <span style="color: var(--brand-gold); font-size: 0.8rem; display: block; margin-bottom: 0.3rem; letter-spacing: 0.1em;">E-MAIL</span>
+                        <p style="margin-bottom: 0;">
+                            <span style="color: var(--brand-gold); font-size: 0.8rem; display: block; margin-bottom: 0.2rem; letter-spacing: 0.1em;">E-MAIL</span>
                             office@carlock.co.jp
                         </p>
                     </div>
                 </div>
 
                 <!-- Right Column: Map -->
-                <div style="flex: 1.4; height: 320px; border-radius: 15px; overflow: hidden; border: 1px solid var(--brand-gold); box-shadow: 0 10px 30px rgba(0,0,0,0.5);">
+                <div class="map-container" style="flex: 1.4; height: 350px; border-radius: 15px; overflow: hidden; border: 1px solid var(--brand-gold); box-shadow: 0 10px 30px rgba(0,0,0,0.5);">
                     <iframe 
-                        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3240.261274534887!2d139.6006129!3d35.7037708!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x6018ee398553ca41%3A0x6e7e171dc8217bb4!2z44CSMTY3LTAwNDIg5p2x5Lqs6YO95p2J5Lim5Yy66KW_6I275YyX77yS5LiB55uu77yT77yX4oiS77yR77yS!5e0!3m2!1sja!2sjp!4v1710500000000!5m2!1sja!2sjp" 
+                        src="https://www.google.com/maps?q=%E3%82%AB%E3%83%BC%E3%83%AD%E3%83%83%E3%82%AF%E3%83%9B%E3%83%BC%E3%83%A0%E3%82%BA%E6%A0%AA%E5%BC%8F%E4%BC%9A%E7%A4%BE+%E6%9D%B1%E4%BA%AC%E9%83%BD%E6%9D%89%E4%B8%A6%E5%8C%BA%E8%A5%BF%E8%81%BB%E5%8C%972-37-12&hl=ja&z=17&ie=UTF8&iwloc=B&output=embed" 
                         width="100%" 
                         height="100%" 
                         style="border:0;" 

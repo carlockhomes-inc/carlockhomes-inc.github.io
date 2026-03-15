@@ -353,8 +353,8 @@
                 backdrop-filter: none !important;
                 transition: none !important;
                 animation: none !important;
-                transform: none !important; /* CRITICAL: Stop animation offset */
-                opacity: 1 !important; /* CRITICAL: Stop scroll fade out */
+                transform: none !important;
+                opacity: 1 !important;
                 visibility: visible !important;
             }
             body, html {
@@ -364,7 +364,6 @@
                 width: 297mm !important;
                 height: auto !important;
                 overflow: visible !important;
-                color: #ffffff !important;
             }
             body { position: static !important; }
             
@@ -381,24 +380,19 @@
                 height: 165mm !important; /* Maximized safety for browser margins */
                 padding: 10mm 25mm !important;
                 margin: 0 !important;
-                background: linear-gradient(135deg, #001223 0%, #002e5d 100%) !important; /* VIBRANT GRADIENT FOR PRINT */
+                background-color: #001223 !important;
                 position: relative !important;
                 page-break-after: always !important;
                 break-after: page !important;
                 overflow: hidden !important;
                 clear: both !important;
-                text-rendering: optimizeLegibility !important;
-                opacity: 1 !important;
-                visibility: visible !important;
-                transform: none !important;
             }
 
-            /* Content Visibility Fixes (Kill animations for print) */
-            .hero-content, #services, #profile, #contact, .client-section, .service-card, .profile-card {
+            /* Content Visibility Fixes */
+            .hero-content, #services, #profile, #contact {
                 display: block !important;
                 opacity: 1 !important;
                 visibility: visible !important;
-                transform: none !important;
                 page-break-inside: avoid !important;
             }
 
@@ -407,15 +401,9 @@
                 height: 180px !important; 
                 margin: 0 auto 10px !important; 
                 display: block !important;
-                opacity: 1 !important;
-                visibility: visible !important;
             }
-            .helix-logo text { 
-                fill: #ffffff !important; 
-                opacity: 1 !important;
-                visibility: visible !important;
-                font-family: 'Zen Kaku Gothic New', sans-serif !important;
-            }
+            .helix-logo path { stroke: #c5a059 !important; stroke-opacity: 1 !important; fill: none !important; }
+            .helix-logo text { fill: #ffffff !important; font-weight: 800 !important; font-size: 14px !important; }
 
             .hero-tagline { color: #ffffff !important; text-align: center !important; font-size: 14pt !important; margin-top: 10px !important; }
 

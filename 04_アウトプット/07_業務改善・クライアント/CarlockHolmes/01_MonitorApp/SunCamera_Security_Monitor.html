@@ -1,0 +1,472 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sun Camera | Professional Security Monitor</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Zen+Kaku+Gothic+New:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-color: #05070a;
+            --panel-bg: rgba(15, 23, 42, 0.7);
+            --accent-blue: #3aa6ff;
+            --accent-neon: #67ffd8;
+            --accent-magic: #ffd700; /* Gold for Magic */
+            --alert-red: #ff4d4d;
+            --text-color: #eaf0ff;
+            --muted-text: rgba(234, 240, 255, 0.6);
+            --border-color: rgba(58, 166, 255, 0.3);
+            --glow: 0 0 15px rgba(58, 166, 255, 0.4);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Zen Kaku Gothic New', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            height: 100vh;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Scanline Effect Overlay */
+        body::after {
+            content: "";
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.15) 50%),
+                        linear-gradient(90deg, rgba(255, 0, 0, 0.03), rgba(0, 255, 0, 0.01), rgba(0, 0, 255, 0.03));
+            background-size: 100% 3px, 3px 100%;
+            pointer-events: none;
+            z-index: 100;
+        }
+
+        /* Header */
+        header {
+            padding: 15px 25px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(0, 0, 0, 0.8);
+            border-bottom: 1px solid var(--border-color);
+            z-index: 110;
+        }
+
+        .logo-area {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .logo-icon {
+            width: 32px;
+            height: 32px;
+            background: linear-gradient(135deg, var(--accent-blue), var(--accent-neon));
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: var(--glow);
+        }
+
+        .logo-icon::after {
+            content: "👁️";
+            font-size: 18px;
+        }
+
+        h1 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.2rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            background: linear-gradient(to right, #fff, var(--accent-blue));
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .status-badge {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(255, 255, 255, 0.05);
+            padding: 6px 14px;
+            border-radius: 20px;
+            border: 1px solid var(--border-color);
+            font-size: 12px;
+            font-weight: bold;
+        }
+
+        .rec-dot {
+            width: 10px;
+            height: 10px;
+            background-color: var(--alert-red);
+            border-radius: 50%;
+            animation: pulse 1s infinite;
+        }
+
+        @keyframes pulse {
+            0% { opacity: 1; transform: scale(1); box-shadow: 0 0 0 0 rgba(255, 77, 77, 0.7); }
+            50% { opacity: 0.5; transform: scale(1.1); box-shadow: 0 0 0 8px rgba(255, 77, 77, 0); }
+            100% { opacity: 1; transform: scale(1); }
+        }
+
+        /* Main Viewport */
+        main {
+            flex: 1;
+            position: relative;
+            background: #000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        #video-container {
+            width: 100%;
+            height: 100%;
+            position: relative;
+            overflow: hidden;
+        }
+
+        video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: filter 0.5s ease;
+        }
+
+        /* UI Overlays on Video */
+        .overlay {
+            position: absolute;
+            inset: 0;
+            pointer-events: none;
+            z-index: 10;
+        }
+
+        .corner {
+            position: absolute;
+            width: 40px;
+            height: 40px;
+            border: 2px solid var(--accent-blue);
+        }
+        .top-left { top: 30px; left: 30px; border-right: 0; border-bottom: 0; }
+        .top-right { top: 30px; right: 30px; border-left: 0; border-bottom: 0; }
+        .bottom-left { bottom: 30px; left: 30px; border-right: 0; border-top: 0; }
+        .bottom-right { bottom: 30px; right: 30px; border-left: 0; border-top: 0; }
+
+        .vignette {
+            position: absolute;
+            inset: 0;
+            box-shadow: inset 0 0 150px rgba(0,0,0,0.8);
+        }
+
+        .osd-text {
+            position: absolute;
+            font-family: 'Orbitron', monospace;
+            font-size: 14px;
+            color: var(--accent-neon);
+            text-shadow: 0 0 5px rgba(103, 255, 216, 0.8);
+        }
+
+        .osd-top-left { top: 40px; left: 80px; }
+        .osd-top-right { top: 40px; right: 80px; text-align: right; }
+        .osd-bottom-left { bottom: 40px; left: 80px; }
+        .osd-bottom-right { bottom: 40px; right: 80px; text-align: right; }
+
+        /* Scanning Grid */
+        .grid-overlay {
+            position: absolute;
+            inset: 0;
+            background-image: 
+                linear-gradient(rgba(58, 166, 255, 0.05) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(58, 166, 255, 0.05) 1px, transparent 1px);
+            background-size: 50px 50px;
+        }
+
+        /* Controls Panel */
+        .controls-bar {
+            background: rgba(0, 0, 0, 0.9);
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            border-top: 1px solid var(--border-color);
+            z-index: 110;
+        }
+
+        .btn-ctrl {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--border-color);
+            color: var(--text-color);
+            padding: 12px 24px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-family: 'Zen Kaku Gothic New', sans-serif;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            backdrop-filter: blur(10px);
+        }
+
+        .btn-ctrl:hover {
+            background: var(--accent-blue);
+            color: black;
+            box-shadow: 0 0 20px rgba(58, 166, 255, 0.6);
+            transform: translateY(-2px);
+        }
+
+        /* Character floating icon */
+        .character-icon {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            width: 120px;
+            z-index: 100;
+            filter: drop-shadow(0 0 10px rgba(255, 215, 0, 0.6));
+            animation: float 3s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0) rotate(0); }
+            50% { transform: translateY(-10px) rotate(5deg); }
+        }
+
+        .speech-bubble {
+            position: absolute;
+            top: 150px;
+            right: 40px;
+            background: white;
+            color: #05070a;
+            padding: 10px 15px;
+            border-radius: 15px;
+            font-size: 14px;
+            font-weight: bold;
+            z-index: 100;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+            max-width: 200px;
+        }
+
+        .speech-bubble::after {
+            content: '';
+            position: absolute;
+            top: -10px;
+            right: 30px;
+            border-width: 0 10px 10px;
+            border-style: solid;
+            border-color: transparent transparent white;
+        }
+
+        .btn-ctrl.active {
+            background: var(--accent-neon);
+            color: black;
+            border-color: var(--accent-neon);
+        }
+
+        .btn-snapshot {
+            background: linear-gradient(135deg, var(--accent-blue), var(--accent-neon));
+            color: #000;
+            border: none;
+            padding: 12px 32px;
+            border-radius: 30px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-weight: 900;
+        }
+
+        /* Night Vision Mode */
+        .night-vision video {
+            filter: sepia(100%) hue-rotate(80deg) saturate(3) brightness(1.2) contrast(1.5);
+        }
+
+        .night-vision .osd-text, .night-vision .corner, .night-vision .grid-overlay {
+            color: #0f0;
+            border-color: #0f0;
+            text-shadow: 0 0 10px rgba(0, 255, 0, 1);
+        }
+
+        .night-vision .rec-dot {
+            background-color: #0f0;
+        }
+
+        /* Hidden Canvas for Snapshots */
+        #snapshot-canvas {
+            display: none;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .osd-text { font-size: 10px; }
+            .controls-bar { padding: 10px; gap: 10px; flex-wrap: wrap; }
+            .btn-ctrl { padding: 8px 16px; font-size: 13px; }
+        }
+    </style>
+</head>
+<body class="standard-mode">
+
+    <header>
+        <div class="logo-area">
+            <div class="logo-icon"></div>
+            <h1>SUN CAMERA SYSTEM</h1>
+        </div>
+        <div class="status-badge">
+            <div class="rec-dot"></div>
+            LIVE STREAMING
+        </div>
+    </header>
+
+    <main>
+        <!-- Pika Pika Camera Character -->
+        <img src="media__1773554577003.jpg" class="character-icon" alt="まほうのカギとぴかぴかカメラ">
+        <div class="speech-bubble">
+            左側のボクが「防犯カメラ」として、みんなを優しく見守っているよ！カギ君と一緒に戸締まりもチェック✨
+        </div>
+
+        <div id="video-container">
+            <video id="webcam" autoplay playsinline muted></video>
+            
+            <!-- Overlays -->
+            <div class="overlay">
+                <div class="vignette"></div>
+                <div class="grid-overlay"></div>
+                
+                <!-- Corner Decorations -->
+                <div class="corner top-left"></div>
+                <div class="corner top-right"></div>
+                <div class="corner bottom-left"></div>
+                <div class="corner bottom-right"></div>
+
+                <!-- On-Screen Display -->
+                <div class="osd-text osd-top-left">
+                    CH: SUN-01<br>
+                    ROLE: みまもり(防犯カメラ)<br>
+                    SEC: まほうのバリア
+                </div>
+                <div class="osd-text osd-top-right">
+                    KIND: ぴかぴかカメラシステム<br>
+                    LOC: やさしいお部屋<br>
+                    SENS: ハートセンサー
+                </div>
+                <div class="osd-text osd-bottom-left">
+                    <span id="osd-date">2026.03.15</span><br>
+                    <span id="osd-time">14:57:36</span>
+                </div>
+                <div class="osd-text osd-bottom-right">
+                    RES: 1080p<br>
+                    FPS: 30<br>
+                    STORAGE: 84%
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="controls-bar">
+        <button class="btn-ctrl" id="mode-toggle">
+            <span>🌙</span> 暗視モード切替
+        </button>
+        <button class="btn-ctrl btn-snapshot" id="snapshot-btn">
+            <span>📸</span> 記録保存 (Snap)
+        </button>
+        <button class="btn-ctrl" id="grid-toggle">
+            <span>🌐</span> グリッド表示
+        </button>
+    </footer>
+
+    <canvas id="snapshot-canvas"></canvas>
+
+    <script>
+        const video = document.getElementById('webcam');
+        const modeToggle = document.getElementById('mode-toggle');
+        const gridToggle = document.getElementById('grid-toggle');
+        const snapshotBtn = document.getElementById('snapshot-btn');
+        const canvas = document.getElementById('snapshot-canvas');
+        const osdDate = document.getElementById('osd-date');
+        const osdTime = document.getElementById('osd-time');
+        const body = document.body;
+        const gridOverlay = document.querySelector('.grid-overlay');
+
+        // カメラアクセス
+        async function initCamera() {
+            try {
+                const stream = await navigator.mediaDevices.getUserMedia({ 
+                    video: { facingMode: "environment", width: { ideal: 1920 }, height: { ideal: 1080 } }, 
+                    audio: false 
+                });
+                video.srcObject = stream;
+            } catch (err) {
+                console.error("Camera access denied:", err);
+                alert("カメラへのアクセスを許可してください。");
+            }
+        }
+
+        // 時刻同期
+        function updateClock() {
+            const now = new Date();
+            const year = now.getFullYear();
+            const month = String(now.getMonth() + 1).padStart(2, '0');
+            const day = String(now.getDate()).padStart(2, '0');
+            const hours = String(now.getHours()).padStart(2, '0');
+            const minutes = String(now.getMinutes()).padStart(2, '0');
+            const seconds = String(now.getSeconds()).padStart(2, '0');
+            const ms = String(now.getMilliseconds()).padStart(3, '0');
+
+            osdDate.textContent = `${year}.${month}.${day}`;
+            osdTime.textContent = `${hours}:${minutes}:${seconds}.${ms}`;
+        }
+
+        // モード切替
+        modeToggle.addEventListener('click', () => {
+            body.classList.toggle('night-vision');
+            const isActive = body.classList.contains('night-vision');
+            modeToggle.innerHTML = isActive ? '<span>☀️</span> 標準モード切替' : '<span>🌙</span> 暗視モード切替';
+        });
+
+        // グリッド切替
+        gridToggle.addEventListener('click', () => {
+            const isVisible = gridOverlay.style.display !== 'none';
+            gridOverlay.style.display = isVisible ? 'none' : 'block';
+            gridToggle.classList.toggle('active', !isVisible);
+        });
+
+        // スナップショット
+        snapshotBtn.addEventListener('click', () => {
+            const context = canvas.getContext('2d');
+            canvas.width = video.videoWidth;
+            canvas.height = video.videoHeight;
+            
+            // フィルタ適用
+            if (body.classList.contains('night-vision')) {
+                context.filter = 'sepia(100%) hue-rotate(80deg) saturate(3) brightness(1.2) contrast(1.5)';
+            }
+            
+            context.drawImage(video, 0, 0, canvas.width, canvas.height);
+            
+            // UIを書き込む（オプション：タイムスタンプを入れる）
+            context.filter = 'none';
+            context.font = 'bold 30px Orbitron, sans-serif';
+            context.fillStyle = '#67ffd8';
+            context.fillText(`RECORD: ${osdDate.textContent} ${osdTime.textContent}`, 50, canvas.height - 50);
+
+            // 保存
+            const link = document.createElement('a');
+            link.download = `SunCamera_Record_${Date.now()}.jpg`;
+            link.href = canvas.toDataURL('image/jpeg', 0.95);
+            link.click();
+        });
+
+        setInterval(updateClock, 10);
+        initCamera();
+
+    </script>
+</body>
+</html>

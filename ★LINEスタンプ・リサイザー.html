@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LINE Stamp Resizer | CarlockHolmes Edition</title>
+    <style>
+        :root {
+            --primary: #FFD700;
+            --secondary: #0047AB;
+            --bg: #1a1a1a;
+            --card: #2a2a2a;
+            --text: #ffffff;
+        }
+
+        body {
+            font-family: 'Helvetica Neue', Arial, sans-serif;
+            background-color: var(--bg);
+            color: var(--text);
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            background: linear-gradient(45deg, var(--primary), #fff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 800px;
+            background: var(--card);
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            text-align: center;
+        }
+
+        #drop-zone {
+            border: 3px dashed var(--primary);
+            border-radius: 15px;
+            padding: 60px 20px;
+            margin-bottom: 30px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            position: relative;
+        }
+
+        #drop-zone.hover {
+            background: rgba(255, 215, 0, 0.1);
+            transform: scale(1.02);
+        }
+
+        .drop-msg {
+            font-size: 1.2rem;
+            color: var(--primary);
+        }
+
+        #file-input {
+            display: none;
+        }
+
+        .controls {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            margin-bottom: 30px;
+        }
+
+        button {
+            background: var(--primary);
+            color: #000;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 30px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(255, 215, 0, 0.4);
+        }
+
+        #result-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .preview-card {
+            background: #333;
+            border-radius: 10px;
+            padding: 10px;
+            text-align: center;
+        }
+
+        .preview-card img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 5px;
+            background: #444; /* Grid pattern would be better for transparency */
+            background-image: 
+                linear-gradient(45deg, #444 25%, transparent 25%), 
+                linear-gradient(-45deg, #444 25%, transparent 25%), 
+                linear-gradient(45deg, transparent 75%, #444 75%), 
+                linear-gradient(-45deg, transparent 75%, #444 75%);
+            background-size: 10px 10px;
+            background-position: 0 0, 0 5px, 5px 5px, 5px 0;
+        }
+
+        .preview-card p {
+            font-size: 0.8rem;
+            margin: 10px 0;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .badge {
+            font-size: 0.7rem;
+            background: var(--secondary);
+            padding: 2px 8px;
+            border-radius: 10px;
+            margin-bottom: 5px;
+            display: inline-block;
+        }
+
+        footer {
+            margin-top: auto;
+            padding: 20px;
+            color: #666;
+            font-size: 0.9rem;
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>LINE Stamp Resizer</h1>
+    <p>CarlockHolmes & Wizard Key Project</p>
+</header>
+
+<div class="container">
+    <div id="drop-zone" onclick="document.getElementById('file-input').click()">
+        <p class="drop-msg">画像をここにドラッグ＆ドロップ<br>またはクリックして選択</p>
+        <span style="font-size: 0.9rem; color: #888;">(最大 370 x 320 px / 余白10px 自動調整)</span>
+    </div>
+    <input type="file" id="file-input" multiple accept="image/*">
+
+    <div class="controls">
+        <button onclick="downloadAll()">すべてダウンロード</button>
+        <button style="background: #555; color: #fff;" onclick="clearAll()">リセット</button>
+    </div>
+
+    <div id="result-grid"></div>
+</div>
+
+<footer>
+    &copy; 2026 M-Lab Business Tools
+</footer>
+
+<canvas id="convert-canvas" style="display: none;"></canvas>
+
+<script>
+    const dropZone = document.getElementById('drop-zone');
+    const fileInput = document.getElementById('file-input');
+    const resultGrid = document.getElementById('result-grid');
+    const canvas = document.getElementById('convert-canvas');
+    const ctx = canvas.getContext('2d');
+
+    const MAX_W = 370;
+    const MAX_H = 320;
+    const PADDING = 10;
+
+    // Handle Drag and Drop
+    dropZone.addEventListener('dragover', (e) => {
+        e.preventDefault();
+        dropZone.classList.add('hover');
+    });
+
+    dropZone.addEventListener('dragleave', () => {
+        dropZone.classList.remove('hover');
+    });
+
+    dropZone.addEventListener('drop', (e) => {
+        e.preventDefault();
+        dropZone.classList.remove('hover');
+        processFiles(e.dataTransfer.files);
+    });
+
+    fileInput.addEventListener('change', (e) => {
+        processFiles(e.target.files);
+    });
+
+    function processFiles(files) {
+        Array.from(files).forEach(file => {
+            if (file.type.startsWith('image/')) {
+                const reader = new FileReader();
+                reader.onload = (event) => {
+                    resizeImage(event.target.result, file.name);
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+    }
+
+    function resizeImage(dataUrl, filename) {
+        const img = new Image();
+        img.onload = () => {
+            // Target size minus double padding
+            const targetW = MAX_W - (PADDING * 2);
+            const targetH = MAX_H - (PADDING * 2);
+
+            let drawW = img.width;
+            let drawH = img.height;
+
+            // Scale to fit target dimensions while maintaining aspect ratio
+            const ratio = Math.min(targetW / drawW, targetH / drawH);
+            drawW *= ratio;
+            drawH *= ratio;
+
+            // Set canvas to EXACT LINE SPECS (or at least within max)
+            // LINE prefers even numbers usually.
+            canvas.width = MAX_W;
+            canvas.height = MAX_H;
+
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            
+            // Draw centered with padding
+            const x = (MAX_W - drawW) / 2;
+            const y = (MAX_H - drawH) / 2;
+            
+            ctx.drawImage(img, x, y, drawW, drawH);
+
+            const resultUrl = canvas.toDataURL('image/png');
+            addPreview(resultUrl, filename);
+        };
+        img.src = dataUrl;
+    }
+
+    function addPreview(url, filename) {
+        const div = document.createElement('div');
+        div.className = 'preview-card';
+        
+        const nameClean = filename.split('.')[0] + '_line.png';
+        
+        div.innerHTML = `
+            <div class="badge">PROCESSED</div>
+            <img src="${url}">
+            <p title="${nameClean}">${nameClean}</p>
+            <button onclick="downloadSingle('${url}', '${nameClean}')">保存</button>
+        `;
+        resultGrid.appendChild(div);
+    }
+
+    function downloadSingle(url, filename) {
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = filename;
+        a.click();
+    }
+
+    function downloadAll() {
+        const buttons = resultGrid.querySelectorAll('button');
+        buttons.forEach((btn, index) => {
+            setTimeout(() => btn.click(), index * 200);
+        });
+    }
+
+    function clearAll() {
+        resultGrid.innerHTML = '';
+        fileInput.value = '';
+    }
+</script>
+
+</body>
+</html>

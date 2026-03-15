@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Photo Magic Converter | Heartful Family</title>
+    <style>
+        :root {
+            --primary-bg: #fdf6e3;
+            --accent-color: #3498db;
+            --text-color: #2c3e50;
+        }
+
+        body {
+            font-family: 'Helvetica Neue', Arial, 'Hiragino Kaku Gothic ProN', 'Hiragino Sans', Meiryo, sans-serif;
+            background-color: #f0f3f5;
+            color: var(--text-color);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+            margin: 0;
+        }
+
+        .container {
+            max-width: 900px;
+            width: 100%;
+            background: white;
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.08);
+        }
+
+        h1 { color: var(--accent-color); text-align: center; margin-bottom: 5px; font-size: 1.8em; }
+        .description { text-align: center; margin-bottom: 30px; font-size: 0.9em; color: #7f8c8d; }
+
+        .editor-layout {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin-bottom: 30px;
+        }
+
+        @media (max-width: 768px) {
+            .editor-layout { grid-template-columns: 1fr; }
+        }
+
+        .control-panel {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 15px;
+            border: 1px solid #eee;
+        }
+
+        .input-group {
+            margin-bottom: 20px;
+        }
+
+        label { font-weight: bold; display: block; margin-bottom: 8px; color: var(--accent-color); font-size: 0.9em; }
+
+        input[type="file"] {
+            width: 100%;
+            padding: 10px;
+            border: 2px dashed #bdc3c7;
+            border-radius: 10px;
+            background: white;
+            cursor: pointer;
+            box-sizing: border-box;
+        }
+
+        .size-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 8px;
+        }
+
+        .size-box {
+            padding: 10px;
+            border: 2px solid #ddd;
+            border-radius: 10px;
+            text-align: center;
+            cursor: pointer;
+            background: white;
+            font-size: 0.85em;
+            transition: 0.2s;
+        }
+
+        .size-box.active {
+            border-color: var(--accent-color);
+            background: var(--accent-color);
+            color: white;
+        }
+
+        input[type="range"] {
+            width: 100%;
+            accent-color: var(--accent-color);
+            margin-top: 5px;
+        }
+
+        .preview-area {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background: #eee;
+            border-radius: 15px;
+            aspect-ratio: 1/1;
+            overflow: hidden;
+            position: relative;
+        }
+
+        #result-preview {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+        }
+
+        .btn-download {
+            margin-top: 20px;
+            padding: 15px 50px;
+            background: var(--accent-color);
+            color: white;
+            border: none;
+            border-radius: 30px;
+            font-weight: bold;
+            font-size: 1.1em;
+            cursor: pointer;
+            transition: 0.3s;
+            box-shadow: 0 5px 15px rgba(52, 152, 219, 0.3);
+            width: 100%;
+        }
+
+        .btn-download:hover { transform: translateY(-2px); box-shadow: 0 8px 20px rgba(52, 152, 219, 0.4); }
+        .btn-download:active { transform: translateY(0); }
+
+        .status-msg { font-size: 0.8em; color: #7f8c8d; text-align: center; margin-top: 10px; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>Photo Magic Converter</h1>
+    <p class="description">写真を伸ばすことなく、SNSサイズへ「魔法」のように変換</p>
+
+    <div class="editor-layout">
+        <!-- 左側：設定パネル -->
+        <div class="control-panel">
+            <div class="input-group">
+                <label>1. 写真をアップロード</label>
+                <input type="file" id="photo-input" accept="image/*">
+            </div>
+
+            <div class="input-group">
+                <label>2. 変換したいサイズ</label>
+                <div class="size-grid" id="size-selector">
+                    <div class="size-box active" data-ratio="1:1">正方形 (Instagram)</div>
+                    <div class="size-box" data-ratio="4:5">縦長投稿 (Instagram)</div>
+                    <div class="size-box" data-ratio="9:16">ストーリー / リール</div>
+                    <div class="size-box" data-ratio="16:9">X (Twitter) 横長</div>
+                </div>
+            </div>
+
+            <div class="input-group">
+                <label>3. 表示の大きさ</label>
+                <input type="range" id="zoom-slider" min="0.4" max="1.0" step="0.01" value="1.0">
+                <div style="text-align:right; font-size:0.8em; color:#7f8c8d;"><span id="zoom-percent">100</span>%</div>
+            </div>
+
+            <div class="input-group">
+                <label>4. 背景のぼかし具合</label>
+                <input type="range" id="blur-slider" min="0" max="100" step="5" value="40">
+                <div style="text-align:right; font-size:0.8em; color:#7f8c8d;"><span id="blur-value">40</span> px</div>
+            </div>
+        </div>
+
+        <!-- 右側：プレビュー -->
+        <div style="display: flex; flex-direction: column;">
+            <label>プレビュー表示</label>
+            <div class="preview-area">
+                <canvas id="main-canvas" style="display:none;"></canvas>
+                <img id="result-preview" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='100' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' fill='%23eee'/%3E%3Ctext x='50%25' y='50%25' font-family='sans-serif' font-size='10' text-anchor='middle' alignment-baseline='middle' fill='%23999'%3ENo Image%3C/text%3E%3C/svg%3E">
+            </div>
+            <button class="btn-download" id="download-btn">魔法で保存する ✨</button>
+            <p class="status-msg">※写真は引き伸ばされず、中央に最適化されます</p>
+        </div>
+    </div>
+</div>
+
+<script>
+    const photoInput = document.getElementById('photo-input');
+    const sizeSelector = document.getElementById('size-selector');
+    const zoomSlider = document.getElementById('zoom-slider');
+    const blurSlider = document.getElementById('blur-slider');
+    const canvas = document.getElementById('main-canvas');
+    const ctx = canvas.getContext('2d');
+    const previewImg = document.getElementById('result-preview');
+    const downloadBtn = document.getElementById('download-btn');
+
+    let sourceImg = null;
+    let currentRatio = '1:1';
+
+    // サイズ選択
+    sizeSelector.addEventListener('click', (e) => {
+        if (e.target.classList.contains('size-box')) {
+            document.querySelectorAll('.size-box').forEach(b => b.classList.remove('active'));
+            e.target.classList.add('active');
+            currentRatio = e.target.dataset.ratio;
+            processImage();
+        }
+    });
+
+    // 写真読み込み
+    photoInput.addEventListener('change', (e) => {
+        const file = e.target.files[0];
+        if (!file) return;
+        const reader = new FileReader();
+        reader.onload = (event) => {
+            const img = new Image();
+            img.onload = () => {
+                sourceImg = img;
+                processImage();
+            };
+            img.src = event.target.result;
+        };
+        reader.readAsDataURL(file);
+    });
+
+    // スライダー連動
+    [zoomSlider, blurSlider].forEach(s => {
+        s.addEventListener('input', () => {
+            document.getElementById('zoom-percent').innerText = Math.round(zoomSlider.value * 100);
+            document.getElementById('blur-value').innerText = blurSlider.value;
+            processImage();
+        });
+    });
+
+    function processImage() {
+        if (!sourceImg) return;
+
+        // 解像度設定（高画質用）
+        let targetW = 1080;
+        let targetH = 1080;
+
+        if (currentRatio === '4:5') { targetW = 1080; targetH = 1350; }
+        else if (currentRatio === '9:16') { targetW = 1080; targetH = 1920; }
+        else if (currentRatio === '16:9') { targetW = 1200; targetH = 675; }
+
+        canvas.width = targetW;
+        canvas.height = targetH;
+
+        const zoom = parseFloat(zoomSlider.value);
+        const blur = parseInt(blurSlider.value);
+
+        const canvasRatio = targetW / targetH;
+        const imgRatio = sourceImg.width / sourceImg.height;
+
+        // 1. 背景のぼかし描画
+        ctx.save();
+        if (blur > 0) ctx.filter = `blur(${blur}px) brightness(0.7)`;
+        
+        // ぼかし背景は「カバー」で描画
+        let sw, sh, sx, sy;
+        if (imgRatio > canvasRatio) {
+            sh = sourceImg.height;
+            sw = sourceImg.height * canvasRatio;
+            sx = (sourceImg.width - sw) / 2;
+            sy = 0;
+        } else {
+            sw = sourceImg.width;
+            sh = sourceImg.width / canvasRatio;
+            sx = 0;
+            sy = (sourceImg.height - sh) / 2;
+        }
+        ctx.drawImage(sourceImg, sx, sy, sw, sh, -20, -20, targetW + 40, targetH + 40);
+        ctx.restore();
+
+        // 2. 中央の写真を「コンテイン（収まるように）」描画
+        let dw, dh, dx, dy;
+        if (imgRatio > canvasRatio) {
+            dw = targetW * zoom;
+            dh = (targetW / imgRatio) * zoom;
+        } else {
+            dh = targetH * zoom;
+            dw = (targetH * imgRatio) * zoom;
+        }
+        dx = (targetW - dw) / 2;
+        dy = (targetH - dh) / 2;
+
+        ctx.shadowColor = 'rgba(0,0,0,0.3)';
+        ctx.shadowBlur = 20;
+        ctx.drawImage(sourceImg, 0, 0, sourceImg.width, sourceImg.height, dx, dy, dw, dh);
+
+        // プレビュー反映
+        previewImg.src = canvas.toDataURL('image/jpeg', 0.9);
+    }
+
+    // ダウンロード
+    downloadBtn.addEventListener('click', () => {
+        if (!sourceImg) {
+            alert('まずは写真をアップロードしてください');
+            return;
+        }
+        const link = document.createElement('a');
+        link.download = `magic_photo_${Date.now()}.jpg`;
+        link.href = canvas.toDataURL('image/jpeg', 0.95);
+        link.click();
+    });
+
+</script>
+
+</body>
+</html>
