@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Message Card Maker | Simple Edition</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Noto+Serif+JP:wght@500;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-blue: #6366f1;
+            --primary-gold: #c5a059;
+            --bg-dark: #0f172a;
+            --card-glass: rgba(255, 255, 255, 0.03);
+            --border-glass: rgba(255, 255, 255, 0.1);
+            --text-light: #f1f5f9;
+        }
+
+        body {
+            font-family: 'Inter', 'Hiragino Kaku Gothic ProN', sans-serif;
+            background: radial-gradient(circle at top right, #1e293b, #0f172a);
+            color: var(--text-light);
+            margin: 0;
+            padding: 40px 20px;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+
+        .header h1 {
+            font-family: 'Noto Serif JP', serif;
+            font-size: 2.5em;
+            margin: 0;
+            background: linear-gradient(135deg, #fff 0%, #94a3b8 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            letter-spacing: 0.05em;
+        }
+
+        .header p {
+            color: var(--primary-blue);
+            text-transform: uppercase;
+            letter-spacing: 0.3em;
+            font-size: 0.8em;
+            margin-top: 10px;
+            font-weight: 600;
+        }
+
+        .container {
+            max-width: 900px;
+            width: 100%;
+            background: var(--card-glass);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid var(--border-glass);
+            border-radius: 24px;
+            padding: 40px;
+            box-shadow: 0 25px 50px rgba(0,0,0,0.3);
+            box-sizing: border-box;
+        }
+
+        .config-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin-bottom: 30px;
+        }
+
+        @media (max-width: 768px) {
+            .config-grid { grid-template-columns: 1fr; }
+        }
+
+        .config-item {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .label {
+            font-weight: 600;
+            font-size: 0.85em;
+            color: #94a3b8;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+        }
+
+        textarea {
+            width: 100%;
+            height: 180px;
+            background: rgba(0,0,0,0.2);
+            border: 1px solid var(--border-glass);
+            border-radius: 16px;
+            padding: 20px;
+            color: white;
+            font-size: 16px;
+            line-height: 1.6;
+            resize: none;
+            box-sizing: border-box;
+            transition: 0.3s;
+        }
+
+        textarea:focus {
+            outline: none;
+            border-color: var(--primary-blue);
+            box-shadow: 0 0 15px rgba(99, 102, 241, 0.2);
+        }
+
+        .setting-input {
+            background: rgba(255,255,255,0.05);
+            border: 1px solid var(--border-glass);
+            border-radius: 12px;
+            padding: 12px 15px;
+            color: white;
+            font-size: 14px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .setting-input:hover {
+            background: rgba(255,255,255,0.1);
+        }
+
+        .custom-file-input {
+            border: 2px dashed var(--border-glass);
+            border-radius: 16px;
+            padding: 25px;
+            text-align: center;
+            cursor: pointer;
+            transition: 0.3s;
+            background: rgba(255,255,255,0.02);
+            color: #64748b;
+        }
+
+        .custom-file-input:hover {
+            border-color: var(--primary-blue);
+            background: rgba(99, 102, 241, 0.05);
+            color: white;
+        }
+
+        .btn-generate {
+            width: 100%;
+            background: linear-gradient(135deg, var(--primary-blue), #4f46e5);
+            color: white;
+            border: none;
+            padding: 18px;
+            border-radius: 16px;
+            font-size: 1.1em;
+            font-weight: 700;
+            cursor: pointer;
+            transition: 0.3s;
+            box-shadow: 0 10px 20px rgba(99, 102, 241, 0.2);
+            margin-top: 10px;
+        }
+
+        .btn-generate:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 15px 30px rgba(99, 102, 241, 0.4);
+        }
+
+        .preview-grid {
+            margin-top: 60px;
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 30px;
+            width: 100%;
+        }
+
+        .card-wrapper {
+            background: var(--card-glass);
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.3);
+            position: relative;
+            transition: 0.4s ease;
+        }
+
+        .card-wrapper:hover {
+            transform: translateY(-10px);
+        }
+
+        .card-wrapper img {
+            width: 100%;
+            display: block;
+        }
+
+        .download-btn {
+            position: absolute;
+            bottom: 20px;
+            right: 20px;
+            background: white;
+            color: black;
+            padding: 10px 20px;
+            border-radius: 30px;
+            text-decoration: none;
+            font-size: 13px;
+            font-weight: 800;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.3);
+            transition: 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .download-btn:hover {
+            transform: scale(1.1);
+            background: var(--primary-blue);
+            color: white;
+        }
+
+        footer {
+            margin-top: 80px;
+            color: #475569;
+            font-size: 0.7em;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+        }
+    </style>
+</head>
+<body>
+
+<div class="header">
+    <h1>Message Card Maker</h1>
+    <p>Standard Edition | Elegance & Simplicity</p>
+</div>
+
+<div class="container">
+    <div class="config-grid">
+        <div class="config-item">
+            <span class="label">01. Visual Background</span>
+            <select id="preset-bg-select" class="setting-input">
+                <option value="">カスタム画像をアップロード...</option>
+                <option value="silk">ELEGANCE: Silk (シルク)</option>
+                <option value="city">URBAN: Abstract Night (夜景)</option>
+                <option value="marble">MODERN: Marble (大理石)</option>
+            </select>
+            <label class="custom-file-input">
+                <input type="file" id="bg-input" accept="image/*" style="display:none;">
+                <span id="file-status">または画像をアップロード</span>
+            </label>
+        </div>
+
+        <div class="config-item">
+            <span class="label">02. Design Options</span>
+            <select id="font-select" class="setting-input">
+                <option value="'Noto Serif JP', serif">ELEGANT SERIF (明朝体)</option>
+                <option value="'Hiragino Kaku Gothic ProN', sans-serif">MODERN SANS (ゴシック体)</option>
+            </select>
+            <div style="display: flex; gap: 10px; align-items: center;">
+                <span class="label" style="margin:0; font-size: 0.7em;">FRAME:</span>
+                <input type="color" id="frame-color" value="#ffffff" style="width:100%; height:30px; border:none; border-radius:5px; background:none; cursor:pointer;">
+            </div>
+        </div>
+    </div>
+
+    <div class="config-item" style="margin-bottom:30px;">
+        <span class="label">03. Message Stream</span>
+        <textarea id="text-input" placeholder="メッセージを入力。">いつもありがとうございます。
+素敵な一日になりますように。</textarea>
+    </div>
+
+    <button class="btn-generate" onclick="generateCards()">GENERATE CARDS</button>
+</div>
+
+<div id="preview-grid" class="preview-grid"></div>
+
+<footer>
+    &copy; 2026 M-LAB DIGITAL CREATIVE
+</footer>
+
+<canvas id="worker-canvas" style="display:none;"></canvas>
+
+<script>
+    let userBgImage = null;
+
+    // Preset Images (Strictly Verified Professional Textures)
+    const presetImages = {
+        'silk': 'https://images.unsplash.com/photo-1638303322579-343c8154b80e?q=80&w=1080&auto=format&fit=crop',
+        'city': 'https://images.unsplash.com/photo-1628154439767-844031fb03f8?q=80&w=1080&auto=format&fit=crop',
+        'marble': 'https://images.unsplash.com/photo-1738664926482-1a986adb3e6c?q=80&w=1080&auto=format&fit=crop'
+    };
+
+    // BG Load Helper
+    function loadAndGenerate(url) {
+        const img = new Image();
+        img.crossOrigin = "anonymous";
+        img.onload = () => {
+            userBgImage = img;
+            generateCards();
+        };
+        img.src = url;
+    }
+
+    // Auto-load on startup
+    window.onload = () => {
+        loadAndGenerate(presetImages.silk);
+        document.getElementById('preset-bg-select').value = "silk";
+    };
+
+    // Events
+    document.getElementById('preset-bg-select').addEventListener('change', function(e) {
+        if (!e.target.value) return;
+        loadAndGenerate(presetImages[e.target.value]);
+    });
+
+    document.getElementById('bg-input').addEventListener('change', function(e) {
+        const file = e.target.files[0];
+        if (!file) return;
+        document.getElementById('file-status').innerText = 'LOADED: ' + file.name;
+        document.getElementById('preset-bg-select').value = "";
+        const reader = new FileReader();
+        reader.onload = (event) => {
+            const img = new Image();
+            img.onload = () => { userBgImage = img; generateCards(); };
+            img.src = event.target.result;
+        };
+        reader.readAsDataURL(file);
+    });
+
+    // Real-time
+    document.getElementById('text-input').addEventListener('input', generateCards);
+    document.getElementById('font-select').addEventListener('change', generateCards);
+    document.getElementById('frame-color').addEventListener('input', generateCards);
+
+    function generateCards() {
+        const text = document.getElementById('text-input').value;
+        const font = document.getElementById('font-select').value;
+        const frameColor = document.getElementById('frame-color').value;
+        const container = document.getElementById('preview-grid');
+        const canvas = document.getElementById('worker-canvas');
+        const ctx = canvas.getContext('2d');
+        
+        if (!text.trim()) return;
+
+        canvas.width = 1080;
+        canvas.height = 1080;
+        container.innerHTML = '';
+
+        const blocks = text.split(/\n\s*\n/).filter(b => b.trim() !== '');
+
+        blocks.forEach((block, index) => {
+            ctx.clearRect(0, 0, 1080, 1080);
+            
+            // Draw BG
+            if (userBgImage) {
+                const aspect = 1;
+                const imgAspect = userBgImage.width / userBgImage.height;
+                let dw, dh, dx, dy;
+                if (imgAspect > aspect) {
+                    dh = userBgImage.height; dw = dh * aspect; dx = (userBgImage.width - dw) / 2; dy = 0;
+                } else {
+                    dw = userBgImage.width; dh = dw / aspect; dx = 0; dy = (userBgImage.height - dh) / 2;
+                }
+                ctx.drawImage(userBgImage, dx, dy, dw, dh, 0, 0, 1080, 1080);
+            } else {
+                const grad = ctx.createRadialGradient(540, 540, 0, 540, 540, 1000);
+                grad.addColorStop(0, '#1e293b');
+                grad.addColorStop(1, '#0f172a');
+                ctx.fillStyle = grad;
+                ctx.fillRect(0, 0, 1080, 1080);
+            }
+
+            // Cinematic Overlay
+            ctx.fillStyle = 'rgba(0,0,0,0.4)';
+            ctx.fillRect(0, 0, 1080, 1080);
+
+            // Frame
+            ctx.strokeStyle = frameColor;
+            ctx.lineWidth = 6;
+            ctx.strokeRect(60, 60, 960, 960);
+
+            // Text Layer
+            const lines = block.trim().split('\n');
+            ctx.fillStyle = 'white';
+            ctx.textAlign = 'center';
+            ctx.textBaseline = 'middle';
+            ctx.shadowColor = 'rgba(0,0,0,0.8)';
+            ctx.shadowBlur = 20;
+            
+            let fs = 60;
+            if (block.length > 50) fs = 45;
+            ctx.font = `700 ${fs}px ${font}`;
+            
+            const lh = fs * 1.8;
+            const th = lines.length * lh;
+            let sy = 540 - (th / 2) + (lh / 2);
+
+            lines.forEach((line, i) => {
+                ctx.fillText(line.trim(), 540, sy + (i * lh));
+            });
+
+            const dataUrl = canvas.toDataURL('image/png');
+            const wrapper = document.createElement('div');
+            wrapper.className = 'card-wrapper';
+            wrapper.style.animation = `fadeInUp 0.6s ease-out ${index * 0.1}s backwards`;
+            wrapper.innerHTML = `
+                <img src="${dataUrl}">
+                <a href="${dataUrl}" download="M-LAB_Card_${index+1}.png" class="download-btn">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                    SAVE
+                </a>
+            `;
+            container.appendChild(wrapper);
+        });
+    }
+</script>
+
+</body>
+</html>

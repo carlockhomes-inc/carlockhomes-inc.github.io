@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>M-LAB | Standard Mob T-Studio V12.1</title>
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;700;900&family=Inter:wght@400;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --m-lab-gold: #c5a059;
+            --bg-base: #0a0b0d;
+            --card-bg: rgba(255, 255, 255, 0.03);
+            --border: rgba(255, 255, 255, 0.1);
+        }
+
+        * { box-sizing: border-box; }
+        body { 
+            font-family: 'Inter', 'Noto Sans JP', sans-serif;
+            background: var(--bg-base); color: #fff; margin: 0; padding: 0;
+            height: 100vh; display: flex; flex-direction: column; overflow: hidden;
+        }
+
+        header {
+            padding: 15px 40px; border-bottom: 1px solid var(--border);
+            display: flex; justify-content: space-between; align-items: center;
+            background: #000;
+        }
+        .logo-area h1 { font-size: 0.9rem; letter-spacing: 0.2em; margin: 0; text-transform: uppercase; font-weight: 800; }
+        .tag-mob { font-size: 8px; color: var(--m-lab-gold); border: 1px solid var(--m-lab-gold); padding: 2px 7px; border-radius: 3px; font-weight: 900; margin-left: 10px; vertical-align: middle; }
+
+        .main { display: grid; grid-template-columns: 310px 1fr 290px; flex: 1; overflow: hidden; }
+
+        .side { background: rgba(10, 10, 15, 0.9); padding: 30px; border-right: 1px solid var(--border); overflow-y: auto; }
+        .side-r { border-right: none; border-left: 1px solid var(--border); }
+
+        .sec-label { color: var(--m-lab-gold); font-size: 0.65rem; font-weight: 900; letter-spacing: 0.15em; margin-bottom: 25px; display: flex; align-items: center; gap: 10px; }
+        .sec-label::after { content:""; flex:1; height:1px; background: rgba(197, 160, 89, 0.2); }
+
+        /* --- Mockup Display --- */
+        .preview { position: relative; background: radial-gradient(circle at 50% 50%, #1a1b21 0%, #050505 100%); display: flex; align-items: center; justify-content: center; overflow: hidden; }
+        .t-canvas { 
+            position: relative; width: 750px; height: 750px; 
+            filter: drop-shadow(0 30px 60px rgba(0,0,0,0.6));
+        }
+
+        .svg-mock { width: 100%; height: 100%; }
+        #body-layer { fill: #ffffff; transition: fill 0.4s ease; }
+        .lighting { mix-blend-mode: overlay; opacity: 0.5; pointer-events: none; }
+        .tex-fabric { mix-blend-mode: multiply; opacity: 0.1; pointer-events: none; }
+
+        /* --- Interaction --- */
+        .logo-box { position: absolute; pointer-events: none; top:0; left:0; width:100%; height:100%; }
+        .logo-item { 
+            position: absolute; pointer-events: all; cursor: move;
+            display: flex; align-items: center; justify-content: center;
+        }
+        .logo-item img { width: 100%; height: 100%; object-fit: contain; pointer-events: none; }
+        .resizer { position: absolute; width:12px; height:12px; background:var(--m-lab-gold); border-radius:50%; right:-6px; bottom:-6px; cursor:nwse-resize; display:none; border:2px solid #000; }
+        .logo-item:hover { border: 1.5px dashed var(--m-lab-gold); }
+        .logo-item:hover .resizer { display: block; }
+
+        /* --- UI Controls --- */
+        .swatches { display: grid; grid-template-columns: repeat(5, 1fr); gap: 10px; margin-bottom: 35px; }
+        .sw { width:100%; aspect-ratio:1; border-radius:4px; border:2px solid transparent; cursor:pointer; transition: 0.3s; }
+        .sw.active { border-color: var(--m-lab-gold); transform: translateY(-3px); }
+
+        .btn-l { background: rgba(255,255,255,0.04); border: 1px solid var(--border); color: #888; padding: 14px; border-radius: 8px; width: 100%; font-size: 13px; font-weight: 600; cursor: pointer; margin-bottom: 10px; text-align: left; transition: 0.2s; }
+        .btn-l:hover { color: #fff; background: rgba(255,255,255,0.08); }
+        .btn-l.active { background: var(--m-lab-gold); color: #000; font-weight: 800; border-color: transparent; }
+
+        .up-box { border: 2px dashed #222; border-radius: 12px; padding: 30px; text-align: center; cursor: pointer; transition: 0.3s; margin-top: 20px; display: block; }
+        .up-box:hover { border-color: var(--m-lab-gold); background: rgba(197, 160, 89, 0.05); }
+
+        .ctrl { margin-bottom: 25px; }
+        .ctrl label { display: flex; justify-content: space-between; font-size: 10px; color: #666; font-weight: 800; margin-bottom: 10px; letter-spacing: 0.1em; }
+        .ctrl span { color: var(--m-lab-gold); font-family: monospace; }
+        input[type="range"] { width: 100%; accent-color: var(--m-lab-gold); height: 4px; appearance: none; background: #1a1a1b; border-radius: 2px; }
+        input[type="range"]::-webkit-slider-thumb { appearance: none; width: 14px; height: 14px; background: var(--m-lab-gold); border-radius: 50%; cursor: pointer; border: 2px solid #000; }
+
+        footer { padding: 30px; background: #000; border-top: 1px solid var(--border); display: flex; justify-content: center; }
+        .save-btn { padding: 15px 80px; border-radius: 5px; border: none; font-weight: 900; cursor: pointer; font-size: 15px; background: var(--m-lab-gold); color: #000; transition: 0.4s; letter-spacing: 0.1em; }
+        .save-btn:hover { background: #e8c68c; transform: translateY(-3px); box-shadow: 0 10px 30px rgba(197, 160, 89, 0.3); }
+
+    </style>
+</head>
+<body>
+
+<header>
+    <div class="logo-area">
+        <h1>M-LAB T-Studio Standard</h1>
+        <span class="tag-mob">MOB BALANCED V12.1</span>
+    </div>
+</header>
+
+<div class="main">
+    <div class="side">
+        <div class="sec-label">Color Selection</div>
+        <div class="swatches">
+            <button class="sw active" style="background:#ffffff" onclick="uC('#ffffff', this)"></button>
+            <button class="sw" style="background:#0c0d0e" onclick="uC('#0c0d0e', this)"></button>
+            <button class="sw" style="background:#2a3a5a" onclick="uC('#2a3a5a', this)"></button>
+            <button class="sw" style="background:#4a4a4c" onclick="uC('#4a4a4c', this)"></button>
+            <button class="sw" style="background:#88888a" onclick="uC('#88888a', this)"></button>
+            <button class="sw" style="background:#ffdbdb" onclick="uC('#ffdbdb', this)"></button>
+            <button class="sw" style="background:#fff2bc" onclick="uC('#fff2bc', this)"></button>
+            <button class="sw" style="background:#c6e5ff" onclick="uC('#c6e5ff', this)"></button>
+            <button class="sw" style="background:#4b1818" onclick="uC('#4b1818', this)"></button>
+            <button class="sw" style="background:#1d4d38" onclick="uC('#1d4d38', this)"></button>
+        </div>
+
+        <div class="sec-label">Logo Presets</div>
+        <button class="btn-l active" onclick="uL('c', this)">胸中央 (Center)</button>
+        <button class="btn-l" onclick="uL('l', this)">左胸 (Pocket)</button>
+        <button class="btn-l" onclick="uL('b', this)">背面 (Large Back)</button>
+        <button class="btn-l" onclick="uL('s', this)">左袖 (Sleeve)</button>
+
+        <label class="up-box" for="fu">
+            <span style="font-size:32px"> ✨ </span><br>
+            <span style="font-size:10px; font-weight:900; color:#444; margin-top:15px; display:block;">LOGO画像をアップロード</span>
+            <input type="file" id="fu" style="display:none" onchange="ha(event)">
+        </label>
+    </div>
+
+    <div class="preview">
+        <div class="t-canvas">
+            <svg class="svg-mock" viewBox="0 0 1000 1000">
+                <defs>
+                    <linearGradient id="gradTop" x1="0%" y1="0%" x2="0%" y2="100%">
+                        <stop offset="0%" style="stop-color:black;stop-opacity:0.2" />
+                        <stop offset="100%" style="stop-color:white;stop-opacity:0.05" />
+                    </linearGradient>
+                    <filter id="fNoise">
+                        <feTurbulence type="fractalNoise" baseFrequency="0.85" numOctaves="4" result="n" />
+                        <feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.12 0" />
+                    </filter>
+                </defs>
+                
+                <!-- 👕 THE MOB BALANCED SILHOUETTE (V12.1 Original Logic) -->
+                <g id="t-body">
+                    <!-- Standard Mob Path -->
+                    <path id="body-layer" d="M500,225 C420,225 360,250 330,285 L200,325 L80,580 L220,640 L300,510 L300,960 C300,985 410,1000 500,1000 S700,985 700,960 L700,510 L780,640 L920,580 L800,325 L670,285 C640,250 580,225 500,225 Z" />
+                    
+                    <!-- Lighting Overlay -->
+                    <path class="lighting" fill="url(#gradTop)" d="M500,225 C420,225 360,250 330,285 L200,325 L80,580 L220,640 L300,510 L300,960 C300,985 410,1000 500,1000 S700,985 700,960 L700,510 L780,640 L920,580 L800,325 L670,285 C640,250 580,225 500,225 Z" />
+                    
+                    <!-- Crew Neck Detail - Clean & Recognized -->
+                    <path fill="rgba(0,0,0,0.15)" d="M335,285 C360,320 420,340 500,340 S640,320 665,285 C640,255 580,230 500,230 S360,255 335,285 Z" />
+                    <path fill="none" stroke="rgba(0,0,0,0.06)" stroke-width="2" d="M335,285 C360,320 420,340 500,340 S640,320 665,285" />
+                    
+                    <!-- Fabrication Texture Rect -->
+                    <rect width="100%" height="100%" filter="url(#fNoise)" pointer-events="none" />
+                </g>
+            </svg>
+            <div class="logo-box">
+                <div class="logo-item" id="ln" style="width:180px; left:50%; top:50%; transform:translate(-50%, -50%)">
+                    <img id="li" src="" style="display:none">
+                    <div class="resizer" id="rd"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="side side-r">
+        <div class="sec-label">Calibrations</div>
+        <div class="ctrl">
+            <label>Size (サイズ) <span id="vs">180px</span></label>
+            <input type="range" id="rs" min="20" max="600" value="180" oninput="ud()">
+        </div>
+        <div class="ctrl">
+            <label>Opacity (透明度) <span id="vo">100%</span></label>
+            <input type="range" id="ro" min="0" max="1" step="0.01" value="1" oninput="ud()">
+        </div>
+        <div class="ctrl">
+             <label>Rotation (回転) <span id="vr">0°</span></label>
+             <input type="range" id="rr" min="-180" max="180" value="0" oninput="ud()">
+        </div>
+        
+        <div class="ctrl" style="margin-top:25px;">
+             <label>Blend Mode</label>
+             <select id="lb" onchange="ud()" style="width:100%; background:#111; color:#fff; border:1px solid var(--border); padding:10px; border-radius:6px; font-size:12px;">
+                 <option value="multiply" selected>生地に馴染ませる (Multiply)</option>
+                 <option value="normal">そのまま表示 (Normal)</option>
+             </select>
+        </div>
+
+        <div style="margin-top:40px; padding:20px; background:rgba(255,255,255,0.02); border-radius:12px; border:1px solid var(--border);">
+            <p style="font-size:11px; color:#555; line-height:1.7; margin:0;">
+                👔 <b>Standard Mob Version:</b><br>
+                「ちょうどいい普通」の完成形。迷ったときはこのシルエットが最適です。
+            </p>
+        </div>
+    </div>
+</div>
+
+<footer>
+    <button class="save-btn" onclick="alert('デザインを保存しました。')">デザインを確定・保存</button>
+</footer>
+
+<script>
+    const ln = document.getElementById('ln');
+    const li = document.getElementById('li');
+    const rd = document.getElementById('rd');
+    let isD = false, isR = false;
+
+    function uC(c, el) {
+        document.getElementById('body-layer').style.fill = c;
+        document.querySelectorAll('.sw').forEach(s => s.classList.remove('active'));
+        el.classList.add('active');
+    }
+
+    function uL(l, el) {
+        document.querySelectorAll('.btn-l').forEach(b => b.classList.remove('active'));
+        el.classList.add('active');
+        ln.style.transition = "all 0.5s cubic-bezier(0.2, 1, 0.3, 1)";
+        
+        switch(l) {
+            case 'c': // Center
+                ln.style.left="50%"; ln.style.top="50%"; 
+                document.getElementById('rs').value = 240;
+                break;
+            case 'l': // Left Chest
+                ln.style.left="40%"; ln.style.top="45%"; 
+                document.getElementById('rs').value = 100;
+                break;
+            case 'b': // Back
+                ln.style.left="50%"; ln.style.top="55%"; 
+                document.getElementById('rs').value = 400;
+                break;
+            case 's': // Left Sleeve
+                ln.style.left="18%"; ln.style.top="46%"; 
+                document.getElementById('rs').value = 90;
+                break;
+        }
+        ud();
+        setTimeout(() => ln.style.transition="none", 500);
+    }
+
+    function ha(e) {
+        const f = e.target.files[0]; if(!f) return;
+        const r = new FileReader();
+        r.onload = (ae) => { 
+            li.src = ae.target.result; li.style.display='block';
+            ln.style.left="50%"; ln.style.top="50%";
+            ud();
+        };
+        r.readAsDataURL(f);
+    }
+
+    function ud() {
+        const s = document.getElementById('rs').value;
+        const o = document.getElementById('ro').value;
+        const r = document.getElementById('rr').value;
+        const b = document.getElementById('lb').value;
+        
+        ln.style.width = s + 'px';
+        li.style.opacity = o;
+        ln.style.mixBlendMode = b;
+        ln.style.transform = `translate(-50%, -50%) rotate(${r}deg)`;
+        
+        document.getElementById('vs').innerText = s + 'px';
+        document.getElementById('vo').innerText = Math.round(o*100) + '%';
+        document.getElementById('vr').innerText = r + '°';
+    }
+
+    ln.onmousedown = (e) => {
+        if(e.target === rd) return;
+        isD = true;
+        const rect = ln.getBoundingClientRect();
+        const ox = e.clientX - rect.left - rect.width / 2;
+        const oy = e.clientY - rect.top - rect.height / 2;
+        
+        document.onmousemove = (me) => {
+            if(!isD) return;
+            const pRect = document.querySelector('.preview').getBoundingClientRect();
+            ln.style.left = (me.clientX - pRect.left - ox) + 'px';
+            ln.style.top = (me.clientY - pRect.top - oy) + 'px';
+        };
+        document.onmouseup = () => { isD = false; document.onmousemove = null; };
+    };
+
+    rd.onmousedown = (e) => {
+        isR = true; e.preventDefault();
+        const sx = e.clientX, sw = parseInt(getComputedStyle(ln).width);
+        document.onmousemove = (me) => {
+            if(!isR) return;
+            const nw = sw + (me.clientX - sx) * 2;
+            if(nw > 10) { 
+                ln.style.width = nw+'px'; 
+                document.getElementById('rs').value=nw; 
+                ud(); 
+            }
+        };
+        document.onmouseup = () => { isR = false; document.onmousemove = null; };
+    };
+</script>
+</body>
+</html>

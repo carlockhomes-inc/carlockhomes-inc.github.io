@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Magic Card Generator | M-Lab Link</title>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@700&family=Noto+Sans+JP:wght@400&family=Inter:wght@600&display=swap" rel="stylesheet">
+    <style>
+        :root { --gold: #c5a059; --bg: #0f1115; }
+        body { font-family: 'Inter', 'Noto Sans JP', sans-serif; background: var(--bg); color: #e0e0e0; margin: 0; padding: 40px 20px; display: flex; flex-direction: column; align-items: center; }
+        .magic-box { max-width: 600px; width: 100%; background: rgba(255,255,255,0.05); border: 1px solid var(--gold); border-radius: 20px; padding: 30px; box-sizing: border-box; text-align: center; margin-bottom: 30px; }
+        input { width: 100%; padding: 15px; border-radius: 10px; border: 1px solid #444; background: #222; color: #fff; font-size: 18px; text-align: center; margin: 10px 0; }
+        .btn-magic { background: linear-gradient(135deg, var(--gold), #a67c37); color: #000; font-weight: bold; border: none; padding: 15px 30px; border-radius: 50px; cursor: pointer; font-size: 1.1em; transition: 0.3s; margin-top: 10px; }
+        .btn-magic:hover { transform: scale(1.05); box-shadow: 0 0 20px rgba(197, 160, 89, 0.4); }
+        .card-preview { margin-top: 30px; display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 20px; width: 100%; max-width: 1000px; }
+        .card-item { border-radius: 15px; overflow: hidden; position: relative; border: 1px solid rgba(255,255,255,0.1); }
+        .card-item img { width: 100%; display: block; }
+        .dl-group { position: absolute; bottom: 0; left: 0; right: 0; background: rgba(0,0,0,0.8); padding: 10px; display: flex; gap: 10px; backdrop-filter: blur(5px); }
+        .btn-dl { flex: 1; text-decoration: none; background: #fff; color: #000; font-size: 12px; font-weight: bold; padding: 8px; border-radius: 5px; text-align: center; }
+    </style>
+</head>
+<body>
+
+    <h1 style="color:var(--gold); font-family: 'Noto Serif JP', serif;">Magic Card Generator</h1>
+    <p style="opacity:0.6; font-size:0.9em;">スプレッドシートと自動連携する魔法のツール</p>
+
+    <div class="magic-box">
+        <label style="font-size:0.8em; color:var(--gold);">STEP 1: 受付番号を入力</label>
+        <input type="text" id="mmq-id" placeholder="例: MMQ0331">
+        
+        <label style="font-size:0.8em; color:var(--gold); display:block; margin-top:20px;">STEP 2: ウェブアプリURL（最初の一回だけ）</label>
+        <input type="password" id="api-url" placeholder="GASのウェブアプリURLをここに貼り付け">
+        
+        <button class="btn-magic" onclick="fetchAndGenerate()">魔法でカードを生成する</button>
+    </div>
+
+    <div id="preview-area" class="card-preview"></div>
+    <canvas id="canvas" style="display:none;"></canvas>
+
+    <script>
+        // 設定を保存
+        document.getElementById('api-url').value = localStorage.getItem('mq_api_url') || '';
+
+        async function fetchAndGenerate() {
+            const id = document.getElementById('mmq-id').value.trim();
+            const apiUrl = document.getElementById('api-url').value.trim();
+            
+            if (!id || !apiUrl) { alert('受付番号とURLを入力してください'); return; }
+            localStorage.setItem('mq_api_url', apiUrl);
+
+            const btn = document.querySelector('.btn-magic');
+            btn.innerText = 'データ取得中...';
+
+            try {
+                const response = await fetch(`${apiUrl}?id=${id}`);
+                const data = await response.json();
+
+                if (data.error) { alert('データが見つかりませんでした'); return; }
+
+                generateImage(data.name, data.content);
+            } catch (e) {
+                alert('通信に失敗しました。URLが正しいか、公開範囲が「全員」になっているか確認してください。');
+            } finally {
+                btn.innerText = '魔法でカードを生成する';
+            }
+        }
+
+        function generateImage(customerName, content) {
+            const canvas = document.getElementById('canvas');
+            const ctx = canvas.getContext('2d');
+            canvas.width = 1080; canvas.height = 1080;
+
+            // 背景（高級感のあるダーク）
+            ctx.fillStyle = "#1a1c23"; ctx.fillRect(0, 0, 1080, 1080);
+            
+            // オーバーレイ
+            ctx.fillStyle = "rgba(0,0,0,0.5)"; ctx.fillRect(0, 0, 1080, 1080);
+
+            // テキスト描画
+            ctx.fillStyle = "#ffffff";
+            ctx.textAlign = "center";
+            ctx.textBaseline = "middle";
+            ctx.shadowColor = "rgba(0,0,0,0.8)"; ctx.shadowBlur = 20;
+
+            // お客様名
+            ctx.font = "bold 44px 'Noto Serif JP', serif";
+            ctx.fillText(customerName + " 様", 540, 300);
+
+            // 内容
+            ctx.font = "500 60px 'Noto Serif JP', serif";
+            const lines = content.split('\n');
+            lines.forEach((line, i) => {
+                ctx.fillText(line.trim(), 540, 540 + (i - (lines.length-1)/2) * 90);
+            });
+
+            // 署名
+            ctx.font = "bold 24px 'Inter'";
+            ctx.fillStyle = "rgba(197, 160, 89, 0.9)";
+            ctx.fillText("M-LAB PREMIUM SERVICE", 540, 1000);
+
+            const dataPng = canvas.toDataURL('image/png');
+            const dataJpg = canvas.toDataURL('image/jpeg', 0.9);
+
+            const area = document.getElementById('preview-area');
+            area.innerHTML = `
+                <div class="card-item">
+                    <img src="${dataPng}">
+                    <div class="dl-group">
+                        <a href="${dataPng}" download="${customerName}_カード.png" class="btn-dl">PNG保存</a>
+                        <a href="${dataJpg}" download="${customerName}_カード.jpg" class="btn-dl">JPEG保存</a>
+                    </div>
+                </div>
+            `;
+            area.scrollIntoView({ behavior: 'smooth' });
+        }
+    </script>
+</body>
+</html>
