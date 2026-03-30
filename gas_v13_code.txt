@@ -5,7 +5,7 @@
  * ==========================================
  * v13 Changes:
  * - FORM2: 実際の②シートレイアウトに完全一致
- * - B1=受付No, B3=請求先, D5=日付, C5=担当者
+ * - B1=受付No, B3=請求先, B5=日付, C5=担当者
  * - C6=住所, C7=マンション名, C8=お名前, E8=連絡先
  * - C13=依頼内容, C15=作業担当者
  * - H列の浮きデータ問題を解消
@@ -50,8 +50,8 @@ const FORM = {
  *
  *   B1       : 受付No. MMQ___
  *   B3 (結合) : ○○管理組合 御中 (請求先名)
+ *   B5       : 受付日
  *   C5       : 担当者名
- *   D5       : 受付日
  *   B6=住所ラベル, C6 (結合C6:E6) : 住所
  *   C7       : マンション名
  *   B8=お名前ラベル, C8 : お名前
@@ -78,8 +78,8 @@ const FORM = {
 const FORM2 = {
   id:       'B1',    // 受付No. MMQ___
   billing:  'B3',    // ○○管理組合 御中 (結合セル)
+  date:     'B5',    // 受付日
   staff:    'C5',    // 担当者名
-  date:     'D5',    // 受付日
   address:  'C6',    // 住所 (結合 C6:E6)
   mansion:  'C7',    // マンション名
   name:     'C8',    // お名前
@@ -122,15 +122,15 @@ function lookupAddress(ss, mansionName) {
  * ① → ② フィールド変換 (v13 実機確認済み):
  *   ① B1  (受付No.)     → ② B1
  *   ① H18 (請求先)      → ② B3  (+ " 御中" 自動付与)
+ *   ① H4  (受付日)      → ② B5
  *   ① H6  (担当者)      → ② C5
- *   ① H4  (受付日)      → ② D5
  *   ① H9  (住所)        → ② C6
  *   ① H11 (マンション名) → ② C7
  *   ① H13 (お客様名)    → ② C8
  *   ① AE13(連絡先)      → ② E8
  *   ① H6  (担当者)      → ② C9  (MQ依頼者名)
  *   ① B22 (作業内容)    → ② C13
- *   ① H6  (担当者)      → ② C15 (作業担当者)
+ *   Orders col4 (worker) → ② C15 (作業担当者) ※fetchFromOrdersのみ
  */
 function populateForm2(sheet1, sheet2) {
   // 受付No.
@@ -148,14 +148,14 @@ function populateForm2(sheet1, sheet2) {
     }
   }
 
-  // 担当者名
-  sheet2.getRange(FORM2.staff).setValue(
-    sheet1.getRange(FORM.staff).getValue()
-  );
-
   // 受付日
   sheet2.getRange(FORM2.date).setValue(
     sheet1.getRange(FORM.date).getValue()
+  );
+
+  // 担当者名
+  sheet2.getRange(FORM2.staff).setValue(
+    sheet1.getRange(FORM.staff).getValue()
   );
 
   // 住所
@@ -188,10 +188,9 @@ function populateForm2(sheet1, sheet2) {
     sheet1.getRange(FORM.content).getValue()
   );
 
-  // 作業担当者 (デフォルトはMQ担当者と同じ)
-  sheet2.getRange(FORM2.worker).setValue(
-    sheet1.getRange(FORM.staff).getValue()
-  );
+  // 作業担当者 → populateForm2では設定しない
+  // (fetchFromOrdersでOrdersのworker列から直接設定する)
+  // onEdit同期時は②のC15をそのまま維持
 }
 
 /**
@@ -303,7 +302,12 @@ function fetchFromOrders() {
       s2 = sheets[k]; break;
     }
   }
-  if (s2) populateForm2(s1, s2);
+  if (s2) {
+    populateForm2(s1, s2);
+    // 作業担当者はOrdersのworker列(col4)から直接②に設定
+    var workerVal = r[ORD.worker - 1] || '';
+    s2.getRange(FORM2.worker).setValue(workerVal);
+  }
 
   SpreadsheetApp.flush();
   ss.toast('✅ ' + r[0] + ' を①②に反映しました！', '完了', 5);
