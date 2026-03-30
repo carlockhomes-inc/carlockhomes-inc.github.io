@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>M-LAB Magic Photo Lab | Final</title>
+    <style>
+        :root { --purple: #6c5ce7; --blue: #3498db; --bg: #f5f7fa; }
+        body { font-family: sans-serif; background: var(--bg); display: flex; justify-content: center; padding: 40px 20px; margin: 0; min-height: 100vh; }
+        .card { background: #fff; width: 1000px; padding: 40px; border-radius: 30px; box-shadow: 0 20px 60px rgba(0,0,0,0.1); display: grid; grid-template-columns: 350px 1fr; gap: 40px; }
+        h1 { color: var(--purple); margin: 0 0 10px 0; font-size: 1.8em; }
+        .desc { color: #666; font-size: 0.9em; margin-bottom: 30px; }
+        .form-group { margin-bottom: 25px; }
+        label { display: block; font-weight: bold; margin-bottom: 10px; font-size: 0.85em; color: var(--purple); }
+        .btn-toggle-grp { display: flex; gap: 8px; }
+        .btn-toggle { flex: 1; padding: 10px; border: 2px solid #eee; border-radius: 12px; background: #fff; cursor: pointer; font-weight: bold; font-size: 0.75em; transition: 0.3s; }
+        .btn-toggle.active { border-color: var(--purple); background: var(--purple); color: #fff; }
+        .preview-pane { background: #2d3436; border-radius: 20px; padding: 20px; display: flex; flex-direction: column; align-items: center; justify-content: space-between; max-height: 750px; }
+        .img-container { width: 100%; height: 500px; display: flex; justify-content: center; align-items: center; overflow: hidden; border-radius: 10px; background: #000; margin-bottom: 20px; }
+        #p-img { max-width: 100%; max-height: 100%; object-fit: contain; }
+        .btn-save { width: 100%; padding: 18px; background: linear-gradient(135deg, var(--purple), var(--blue)); color: #fff; border: none; border-radius: 30px; font-size: 1.1em; font-weight: bold; cursor: pointer; box-shadow: 0 10px 30px rgba(108, 92, 231, 0.4); }
+        input[type="file"], input[type="text"], input[type="range"] { width: 100%; box-sizing: border-box; }
+        .sub-panel { margin-top: 10px; padding: 15px; background: #f8f9fa; border-radius: 15px; }
+    </style>
+</head>
+<body>
+<div class="card">
+    <div class="controls">
+        <h1>Magic Photo Lab</h1>
+        <p class="desc">M-LAB公式 魔法のSNS変換ツール</p>
+        <div class="form-group">
+            <label>1. 写真をアップロード</label>
+            <input type="file" id="f-in" accept="image/*">
+        </div>
+        <div class="form-group">
+            <label>2. 変換サイズ</label>
+            <div class="btn-toggle-grp" id="ratio-grp">
+                <button class="btn-toggle active" data-r="1:1">正方形</button>
+                <button class="btn-toggle" data-r="4:5">縦長</button>
+                <button class="btn-toggle" data-r="9:16">Story</button>
+            </div>
+        </div>
+        <div class="form-group">
+            <label>3. 表示倍率 <span id="v-zoom">100</span>%</label>
+            <input type="range" id="zoom-sl" min="0.4" max="1.0" step="0.01" value="1.0">
+        </div>
+        <div class="form-group">
+            <label>4. 魔法のウォーターマーク</label>
+            <div class="btn-toggle-grp">
+                <button class="btn-toggle" id="wm-on">入れる</button>
+                <button class="btn-toggle active" id="wm-off">なし</button>
+            </div>
+            <div id="wm-sub" style="display:none;" class="sub-panel">
+                <div class="btn-toggle-grp" style="margin-bottom:15px;">
+                    <button class="btn-toggle active" id="mode-text">文字</button>
+                    <button class="btn-toggle" id="mode-logo">ロゴ</button>
+                </div>
+                <div id="text-opts"><input type="text" id="t-in" value="M-LAB PREMIUM"></div>
+                <div id="logo-opts" style="display:none;">
+                    <label style="color:#888;">種類</label>
+                    <div class="btn-toggle-grp" style="margin-bottom:12px;">
+                        <button class="btn-toggle active" id="l-wand" onclick="setLogo('wand')">ステッキ</button>
+                        <button class="btn-toggle" id="l-main" onclick="setLogo('main')">メイン</button>
+                    </div>
+                    <label style="color:#888;">位置</label>
+                    <div class="btn-toggle-grp" id="pos-grp" style="display:grid; grid-template-columns:1fr 1fr; gap:5px; margin-bottom:12px;">
+                        <button class="btn-toggle" data-p="tl">左上</button><button class="btn-toggle" data-p="tr">右上</button>
+                        <button class="btn-toggle" data-p="bl">左下</button><button class="btn-toggle active" data-p="br">右下</button>
+                    </div>
+                    <label style="color:#888;">ロゴの大きさ <span id="v-lsize">250</span>px</label>
+                    <input type="range" id="logo-size" min="50" max="600" value="250">
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="preview-pane">
+        <div class="img-container">
+            <canvas id="cv" style="display:none;"></canvas>
+            <img id="p-img" src="">
+        </div>
+        <button class="btn-save" id="save-btn">魔法で保存する ✨</button>
+    </div>
+</div>
+<script>
+    const cv = document.getElementById('cv'), ctx = cv.getContext('2d'), pImg = document.getElementById('p-img');
+    let srcImg = null, ratio = '1:1', wmOn = false, mode = 'text', logoType = 'wand', pos = 'br';
+    const wandSVG = `data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCIgdmlld0JveD0iMCAwIDIwMCAyMDAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxkZWZzPgo8ZmlsdGVyIGlkPSJiIiB4PSItNTAlIiB5PSItNTAlIiB3aWR0aD0iMjAwJSIgaGVpZ2h0PSIyMDAlIj48ZmVHYXVzc2lhbkJsdXIgc3REZXZpYXRpb249IjUiLz48L2ZpbHRlcj4KPC9kZWZzPgo8ZyB0cmFuc2Zvcm09InJvdGF0ZSgtMTEsIDEwMCwgMTAwKSI+CjxwYXRoIGQ9Ik00MCAxNzAgTDEzMCA4MCIgc3Ryb2tlPSIjYWJjZWZmIiBzdHJva2Utd2lkdGg9IjQiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIvPgo8ZyB0cmFuc2Zvcm09InRyYW5zbGF0ZSgxMzAsIDgwKSI+CjxlbGxpcHNlIHJ4PSIzNSIgcnk9IjEzIiBmaWxsPSJyZ2JhKDEzNSwgMjA2LCAyMzUsIDAuNCkiIGZpbHRlcj0idXJsKCNiKSIvPgo8ZyBmaWxsPSJyZ2JhKBoxNzMsIDIxNiwgMjMwLCAwLjcpIiBmaWx0ZXI9InVybCgjYikiPgo8ZWxsaXBzZSByeD0iMjUiIHJ5PSI5IiB0cmFuc2Zvcm09InJvdGF0ZSgzNSkiLz4KPGVsbGlwc2Ugcng9IjI1IiByeT0iOSIgdHJhbnNmb3JtPSJyb3RhdGUoLTM1KSIvPgo8L2c+CjxjaXJjbGUgcj0iOCIgZmlsbD0iI2JiZTVmZiIgZmlsdGVyPSJ1cmwoI2IpIi8+CjxjaXJjbGUgcj0iMyIgZmlsbD0iI2ZmZiIvPgo8L2c+CjwvZz4KPC9zdmc+`;
+    const mainLogoB64 = `data:image/png;base64,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`;
+
+    function setLogo(l) {
+        logoType = l;
+        document.getElementById('l-wand').classList.toggle('active', l === 'wand');
+        document.getElementById('l-main').classList.toggle('active', l === 'main');
+        draw();
+    }
+    
+    document.getElementById('wm-on').onclick = () => {
+        wmOn = true; btnAct('wm-on','wm-off'); document.getElementById('wm-sub').style.display='block'; draw();
+    };
+    document.getElementById('wm-off').onclick = () => {
+        wmOn = false; btnAct('wm-off','wm-on'); document.getElementById('wm-sub').style.display='none'; draw();
+    };
+    document.getElementById('mode-text').onclick = () => {
+        mode = 'text'; btnAct('mode-text', 'mode-logo');
+        document.getElementById('text-opts').style.display='block'; document.getElementById('logo-opts').style.display='none'; draw();
+    };
+    document.getElementById('mode-logo').onclick = () => {
+        mode = 'logo'; btnAct('mode-logo', 'mode-text');
+        document.getElementById('text-opts').style.display='none'; document.getElementById('logo-opts').style.display='block'; draw();
+    };
+
+    function btnAct(onId, offId) {
+        document.getElementById(onId).classList.add('active'); document.getElementById(offId).classList.remove('active');
+    }
+
+    document.getElementById('f-in').onchange = (e) => {
+        const f = e.target.files[0]; if(!f) return;
+        const reader = new FileReader(); reader.onload = (ae) => {
+            const i = new Image(); i.onload = () => { srcImg = i; draw(); }; i.src = ae.target.result;
+        }; reader.readAsDataURL(f);
+    };
+
+    document.getElementById('ratio-grp').onclick = (e) => {
+        if(e.target.dataset.r) {
+            document.querySelectorAll('#ratio-grp .btn-toggle').forEach(b => b.classList.remove('active'));
+            e.target.classList.add('active'); ratio = e.target.dataset.r; draw();
+        }
+    };
+    
+    document.getElementById('zoom-sl').oninput = (e) => { document.getElementById('v-zoom').innerText = Math.round(e.target.value * 100); draw(); };
+    document.getElementById('pos-grp').onclick = (e) => {
+        if(e.target.dataset.p) {
+            document.querySelectorAll('#pos-grp .btn-toggle').forEach(b => b.classList.remove('active'));
+            e.target.classList.add('active'); pos = e.target.dataset.p; draw();
+        }
+    };
+    document.getElementById('logo-size').oninput = (e) => { document.getElementById('v-lsize').innerText = e.target.value; draw(); };
+    document.getElementById('t-in').oninput = draw;
+
+    function draw() {
+        if(!srcImg) return;
+        let tw = 1080, th = 1080;
+        if(ratio==='4:5') th=1350; else if(ratio==='9:16') th=1920;
+        cv.width = tw; cv.height = th;
+        const z = parseFloat(document.getElementById('zoom-sl').value);
+        const ir = srcImg.width/srcImg.height, cr = tw/th;
+
+        ctx.save(); ctx.filter = 'blur(40px) brightness(0.7)';
+        let sw, sh, sx, sy;
+        if(ir > cr) { sh = srcImg.height; sw = srcImg.height*cr; sx = (srcImg.width-sw)/2; sy=0; }
+        else { sw = srcImg.width; sh = srcImg.width/cr; sx=0; sy=(srcImg.height-sh)/2; }
+        ctx.drawImage(srcImg, sx, sy, sw, sh, -20, -20, tw+40, th+40);
+        ctx.restore();
+
+        let dw, dh, dx, dy;
+        if(ir > cr) { dw = tw*z; dh = (tw/ir)*z; } else { dh = th*z; dw = (th*ir)*z; }
+        dx=(tw-dw)/2; dy=(th-dh)/2;
+        ctx.shadowColor='rgba(0,0,0,0.5)'; ctx.shadowBlur=30;
+        ctx.drawImage(srcImg, 0, 0, srcImg.width, srcImg.height, dx, dy, dw, dh);
+
+        if(wmOn) {
+            ctx.save(); ctx.shadowBlur = 0;
+            if(mode === 'text') {
+                const t = document.getElementById('t-in').value;
+                ctx.fillStyle = 'rgba(0,0,0,0.3)'; ctx.fillRect(tw-350, th-70, 350, 70);
+                ctx.font = "bold 28px sans-serif"; ctx.fillStyle="#fff"; ctx.textAlign="right"; ctx.fillText(t, tw-30, th-35);
+            } else {
+                const img = new Image();
+                img.onload = () => {
+                    const s = parseInt(document.getElementById('logo-size').value);
+                    ctx.globalAlpha = 0.8;
+                    let lx, ly;
+                    if(pos==='br') { lx = tw-s-30; ly = th-s-30; }
+                    else if(pos==='bl') { lx = 30; ly = th-s-30; }
+                    else if(pos==='tr') { lx = tw-s-30; ly = 30; }
+                    else if(pos==='tl') { lx = 30; ly = 30; }
+                    ctx.drawImage(img, lx, ly, s, s);
+                    pImg.src = cv.toDataURL('image/jpeg', 0.9);
+                };
+                img.src = (logoType === 'wand') ? wandSVG : mainLogoB64;
+                return;
+            }
+            ctx.restore();
+        }
+        pImg.src = cv.toDataURL('image/jpeg', 0.9);
+    }
+    document.getElementById('save-btn').onclick = () => {
+        if(!srcImg) return;
+        const a = document.createElement('a'); a.download=`m-lab_${Date.now()}.jpg`;
+        a.href = cv.toDataURL('image/jpeg', 0.95); a.click();
+    };
+</script>
+</body>
+</html>

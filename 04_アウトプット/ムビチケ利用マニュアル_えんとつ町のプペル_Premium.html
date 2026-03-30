@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ムビチケ利用マニュアル：えんとつ町のプペル ～約束の時計台～</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700&family=Noto+Sans+JP:wght@400;700&display=swap');
+
+        :root {
+            --primary: #2c3e50;
+            --accent: #d35400;
+            --bg: #f5f7fa;
+            --card-bg: rgba(255, 255, 255, 0.95);
+        }
+
+        body {
+            font-family: 'Noto Sans JP', 'Inter', sans-serif;
+            background: linear-gradient(135deg, #e0eafc 0%, #cfdef3 100%);
+            color: #333;
+            margin: 0;
+            padding: 40px 20px;
+            min-height: 100vh;
+        }
+
+        .premium-container {
+            max-width: 850px;
+            margin: 0 auto;
+            background: var(--card-bg);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .header-img {
+            width: 100%;
+            height: 350px;
+            object-fit: cover;
+            border-bottom: 5px solid var(--accent);
+        }
+
+        .content-padding {
+            padding: 40px 60px;
+        }
+
+        h1 {
+            font-size: 2.2rem;
+            color: var(--primary);
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.05);
+            margin-bottom: 10px;
+            letter-spacing: -0.5px;
+        }
+
+        .subtitle {
+            font-size: 1.1rem;
+            color: #666;
+            margin-bottom: 40px;
+        }
+
+        h2 {
+            font-size: 1.6rem;
+            color: var(--primary);
+            border-left: 6px solid var(--accent);
+            padding-left: 15px;
+            margin-top: 50px;
+            margin-bottom: 25px;
+        }
+
+        h3 {
+            font-size: 1.2rem;
+            color: #444;
+            margin-top: 30px;
+        }
+
+        /* ステップリスト */
+        .step-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .step-item {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 25px;
+            padding: 20px;
+            background: rgba(0, 0, 0, 0.02);
+            border-radius: 12px;
+            transition: transform 0.2s;
+        }
+
+        .step-item:hover {
+            transform: translateY(-2px);
+            background: rgba(0, 0, 0, 0.04);
+        }
+
+        .step-number {
+            background: var(--primary);
+            color: white;
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            flex-shrink: 0;
+            margin-right: 20px;
+        }
+
+        .step-text strong {
+            display: block;
+            font-size: 1.1rem;
+            margin-bottom: 5px;
+        }
+
+        /* 警告ボックス */
+        .alert {
+            padding: 20px;
+            margin: 30px 0;
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            animation: fadeIn 0.5s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .alert-danger { background: #ffebee; border: 1px solid #ffcdd2; color: #b71c1c; }
+        .alert-warning { background: #fff3e0; border: 1px solid #ffe0b2; color: #e65100; }
+
+        .alert-icon { font-size: 1.5rem; }
+
+        /* フッター */
+        .footer {
+            text-align: center;
+            padding: 50px;
+            background: #eee;
+            color: #777;
+            font-size: 0.9rem;
+        }
+
+        /* レスポンシブ & プリント */
+        @media (max-width: 600px) {
+            .content-padding { padding: 30px 20px; }
+            h1 { font-size: 1.6rem; }
+        }
+
+        @media print {
+            body {
+                background: none !important;
+                padding: 0;
+                margin: 0;
+                font-size: 12pt;
+            }
+            .premium-container {
+                box-shadow: none !important;
+                border: none !important;
+                width: 100% !important;
+                max-width: 100% !important;
+                margin: 0 !important;
+                border-radius: 0 !important;
+                backdrop-filter: none !important;
+            }
+            .header-img {
+                height: 120px !important; /* さらにコンパクトに */
+                width: 100% !important;
+            }
+            .content-padding {
+                padding: 10px 30px !important;
+            }
+            h1 { font-size: 1.8rem !important; margin-bottom: 5px !important; }
+            .subtitle { margin-bottom: 20px !important; }
+            
+            h2 {
+                font-size: 1.4rem !important;
+                margin-top: 20px !important;
+                margin-bottom: 10px !important;
+                border-left: 8px solid var(--accent) !important;
+            }
+            
+            /* ガイド画像をコンパクトに */
+            img[alt="カードの解説図面"] {
+                max-height: 300px !important;
+                width: auto !important;
+                margin: 0 auto !important;
+            }
+
+            .step-item {
+                background: #fff !important;
+                border: 1px solid #eee !important;
+                margin-bottom: 10px !important;
+                padding: 10px 15px !important;
+                page-break-inside: avoid;
+            }
+            .alert {
+                padding: 10px 15px !important;
+                margin: 15px 0 !important;
+                background: #fff !important;
+                border: 2px solid #ddd !important;
+                page-break-inside: avoid;
+            }
+            .footer {
+                padding: 15px !important;
+                font-size: 0.8rem !important;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="premium-container">
+        <img src="./assets/muviticket_header_v2.png" alt="映画館のロビー" class="header-img">
+        
+        <div class="content-padding">
+            <h1>ムビチケ利用マニュアル</h1>
+            <p class="subtitle">映画『えんとつ町のプペル ～約束の時計台～』特別版</p>
+            
+            <p>このマニュアルでは、ムビチケを使ってスマートに映画を楽しむための全ステップを日本語で分かりやすく解説します。沖縄特有の注意点も網羅した完全版です。</p>
+
+            <h2>1. カードの見方（現物の確認）</h2>
+            <p>お手元のカード型ムビチケ（ティザーver）の裏面には、予約に必要な重要な情報が記載されています。</p>
+            
+            <div style="text-align: center; margin: 20px 0;">
+                <img src="./assets/muviticket_accurate_reconstruction.png" alt="カードの解説図面" style="width: 100%; border-radius: 12px; border: 1px solid #ddd; box-shadow: 0 5px 15px rgba(0,0,0,0.1);">
+                <p style="font-size: 0.85rem; color: #888; margin-top: 10px;">※図面はお手元の本物のカードレイアウトを忠実に再現した解説用サンプルです。</p>
+            </div>
+
+            <div class="step-list">
+                <div class="step-item">
+                    <div class="step-number">A</div>
+                    <div class="step-text">
+                        <strong>ムビチケ購入番号（10桁）</strong>
+                        カード中央に記載されている **【486】** から始まる10桁の数字です。
+                    </div>
+                </div>
+                <div class="step-item">
+                    <div class="step-number">B</div>
+                    <div class="step-text">
+                        <strong>銀色の暗証番号部分（ここを削る）</strong>
+                        右上の銀色のスクラッチ部分をコインなどで優しく削ってください。
+                        <ul>
+                            <li><strong>4桁の数字（暗証番号）</strong>：ネット予約の際に入力します。</li>
+                            <li><strong>二次元コード</strong>：削った下から現れ、劇場の機械で読み込むことができます。</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <h2>2. ネットで座席を指定する</h2>
+            <div class="step-list">
+                <div class="step-item">
+                    <div class="step-number">1</div>
+                    <div class="step-text">
+                        <strong>映画館のサイトへアクセス</strong>
+                        スターシアターズ（シネマQ等）やユナイテッド・シネマのHPから、希望の日時を選択します。
+                    </div>
+                </div>
+                <div class="step-item">
+                    <div class="step-number">2</div>
+                    <div class="step-text">
+                        <strong>ムビチケ情報を入力</strong>
+                        券種選択または決済画面で【ムビチケを利用する】を選び、上記の2つの番号を入力してください。
+                    </div>
+                </div>
+            </div>
+
+            <h2>3. 沖縄エリアの重要ポイント</h2>
+            <div class="alert alert-danger">
+                <span class="alert-icon">⚠️</span>
+                <div>
+                    <strong>スターシアターズ利用時の注意</strong><br>
+                    一部の自動券売機では物理カードをうまくスキャンできないことがあります。その場合は【番号手入力】メニューを選べば確実に発券できます。
+                </div>
+            </div>
+
+            <div class="alert alert-warning">
+                <span class="alert-icon">📍</span>
+                <div>
+                    <strong>桜坂劇場のルール</strong><br>
+                    一部の特別上映会ではムビチケが対象外となる場合があります。不安な時は事前に劇場サイトの「ムビチケ利用可」の文字を確認しましょう。
+                </div>
+            </div>
+
+            <h2>4. よくある質問</h2>
+            <h3>Q. 暗証番号が削りすぎで読めなくなった。</h3>
+            <p>ムビチケのサポートセンターへのお問い合わせが必要になります。スクラッチはコインなどで優しく削りましょう。</p>
+            
+            <h3>Q. 事前に予約しないとどうなる？</h3>
+            <p>当日に空きがあれば劇場の機械で発券できますが、混雑時は満席の可能性があるため、前日までのネット予約をおすすめします。</p>
+        </div>
+
+        <div class="footer">
+            <p>最高の映画体験になりますように。</p>
+        </div>
+    </div>
+</body>
+
+</html>
+
+

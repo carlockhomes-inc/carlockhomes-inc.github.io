@@ -1,392 +1,353 @@
+/*
+=========================================
+M-LAB CARD MAKER - ULTIMATE STABLE
+途切れ・エラーをすべて修正した【最終完成版】
+=========================================
+*/
+
+function onOpen() {
+SpreadsheetApp.getUi()
+.createMenu('✨ M-LABカード作成')
+.addItem('ツールを起動', 'showMagicUi')
+.addToUi();
+}
+
+/** シート名一覧を取得 */
+function getSheetNames() {
+return SpreadsheetApp.getActiveSpreadsheet().getSheets().map(s => s.getName());
+}
+
+/** 指定シートのメッセージデータを取得 */
+function getSheetData(sheetName) {
+try {
+const ss = SpreadsheetApp.getActiveSpreadsheet();
+const sheet = sheetName ? ss.getSheetByName(sheetName) : ss.getActiveSheet();
+return sheet.getDataRange().getValues().filter(r => r[0] && r[0].toString().trim() !== "");
+} catch(e) { return []; }
+}
+
+/** 背景画像をドライブに永久保存 */
+function saveBgData(key, base64) {
+try {
+const folderName = "M-LAB_System_Assets";
+const folders = DriveApp.getFoldersByName(folderName);
+const folder = folders.hasNext() ? folders.next() : DriveApp.createFolder(folderName);
+
+// 既存ファイルを削除
+const oldId = PropertiesService.getUserProperties().getProperty(key);
+if (oldId) { try { DriveApp.getFileById(oldId).setTrashed(true); } catch(e) {} }
+
+// 新規保存
+const blob = Utilities.newBlob(Utilities.base64Decode(base64.split(',')[1]), "image/jpeg", key + ".jpg");
+const file = folder.createFile(blob);
+PropertiesService.getUserProperties().setProperty(key, file.getId());
+return true;
+} catch(e) { return false; }
+}
+
+/** 保存済みの背景を取得 */
+function getSavedBackgrounds() {
+const props = PropertiesService.getUserProperties().getProperties();
+const res = { stA: "", stB: "", stC: "" };
+["stA", "stB", "stC"].forEach(k => {
+if (props[k]) {
+try {
+const b = DriveApp.getFileById(props[k]).getBlob();
+res[k] = "data:image/jpeg;base64," + Utilities.base64Encode(b.getBytes());
+} catch(e) {}
+}
+});
+return res;
+}
+
+/** メイン画面を表示 */
+function showMagicUi() {
+const html = `
 <!DOCTYPE html>
-<html lang="ja">
+<html>
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Message Card Maker | Safe Paste Edition</title>
-    <!-- Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=Noto+Serif+JP:wght@500;700&family=Noto+Sans+JP:wght@400;700&family=Kaisei+Opti:wght@700&family=Yuji+Syuku&display=swap" rel="stylesheet">
-    <style>
-        :root {
-            --primary-gold: #c5a059;
-            --dark-gold: #a67c37;
-            --bg-dark: #0f1115;
-            --card-glass: rgba(255, 255, 255, 0.05);
-            --border-glass: rgba(255, 255, 255, 0.1);
-            --text-light: #e0e0e0;
-        }
+  <link
+    href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@700&family=Noto+Sans+JP:wght@400;700&family=Kaisei+Opti:wght@700&family=Yuji+Syuku&display=swap"
+    rel="stylesheet">
+  <style>
+    :root {
+      --gold: #c5a059;
+      --bg: #0f1115;
+      --glass: rgba(255, 255, 255, 0.05);
+    }
 
-        body {
-            font-family: 'Inter', 'Noto Sans JP', sans-serif;
-            background: radial-gradient(circle at top right, #1a1c23, #0f1115);
-            color: var(--text-light);
-            margin: 0; padding: 40px 20px; min-height: 100vh;
-            display: flex; flex-direction: column; align-items: center;
-        }
+    body {
+      font-family: 'Noto Sans JP', sans-serif;
+      background: var(--bg);
+      color: #e0e0e0;
+      margin: 0;
+      display: flex;
+      height: 100vh;
+      overflow: hidden;
+    }
 
-        .premium-header { text-align: center; margin-bottom: 40px; }
-        .premium-header h1 {
-            font-family: 'Noto Serif JP', serif; font-size: 2.2em; letter-spacing: 0.1em;
-            background: linear-gradient(to bottom, #fdfcfb 0%, #e2d1c3 100%);
-            -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;
-            margin: 0;
-        }
-        .premium-header p { color: var(--primary-gold); letter-spacing: 0.2em; font-size: 0.7em; margin: 5px 0; font-weight: bold; }
+    .sidebar {
+      width: 360px;
+      background: #1a1c23;
+      border-right: 1px solid #333;
+      display: flex;
+      flex-direction: column;
+      box-sizing: border-box;
+    }
 
-        .container {
-            max-width: 900px; width: 100%; background: var(--card-glass); backdrop-filter: blur(25px);
-            border: 1px solid var(--border-glass); border-radius: 30px; padding: 40px; box-shadow: 0 25px 50px rgba(0,0,0,0.5); box-sizing: border-box;
-        }
+    .sidebar-scroll {
+      flex: 1;
+      overflow-y: auto;
+      padding: 25px;
+      scrollbar-width: thin;
+    }
 
-        .step-section { margin-bottom: 40px; padding-bottom: 30px; border-bottom: 1px solid var(--border-glass); }
-        .step-section:last-of-type { border-bottom: none; margin-bottom: 20px; }
-        
-        .step-label { color: var(--primary-gold); font-weight: 700; font-size: 1.1em; letter-spacing: 0.1em; margin-bottom: 20px; display: flex; align-items: center; gap: 12px; }
-        .step-label span { background: var(--primary-gold); color: black; width: 28px; height: 28px; display: flex; align-items: center; justify-content: center; border-radius: 50%; font-size: 14px; min-width: 28px; font-weight: 900; }
+    .section {
+      background: var(--glass);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 15px;
+      padding: 18px;
+      margin-bottom: 15px;
+    }
 
-        .form-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; }
-        .input-group { display: flex; flex-direction: column; gap: 10px; }
-        .input-group label { font-size: 0.85em; opacity: 0.8; font-weight: 600; color: var(--primary-gold); }
+    .label {
+      color: var(--gold);
+      font-size: 11px;
+      font-weight: bold;
+      margin-bottom: 8px;
+      display: block;
+      letter-spacing: 1px;
+    }
 
-        .setting-input {
-            background: rgba(255,255,255,0.05); border: 1px solid var(--border-glass);
-            border-radius: 12px; padding: 14px; color: white; font-size: 15px; width: 100%; box-sizing: border-box; transition: 0.3s;
-        }
+    select,
+    input {
+      background: #000;
+      border: 1px solid #444;
+      color: white;
+      padding: 10px;
+      border-radius: 8px;
+      width: 100%;
+      margin-bottom: 10px;
+      font-size: 13px;
+      box-sizing: border-box;
+    }
 
-        /* 🔘 Paste Area */
-        .paste-area {
-            width: 100%; height: 100px; background: rgba(0,0,0,0.3); border: 2px dashed var(--primary-gold);
-            border-radius: 15px; padding: 15px; color: white; font-size: 14px; resize: none; box-sizing: border-box;
-            transition: 0.3s; text-align: center; display: flex; align-items: center; justify-content: center;
-        }
-        .paste-area:focus { background: rgba(197, 160, 89, 0.1); border-color: white; outline: none; }
+    input[type="range"] {
+      padding: 0;
+      margin: 5px 0 15px 0;
+    }
 
-        /* 🔳 Mode Selection A/B */
-        .mode-selector {
-            display: flex; gap: 10px; margin-bottom: 20px; background: rgba(0,0,0,0.3); padding: 5px; border-radius: 15px;
-        }
-        .mode-btn {
-            flex: 1; padding: 12px; border-radius: 10px; border: none; background: transparent; color: white;
-            cursor: pointer; font-weight: bold; font-size: 13px; transition: 0.3s;
-        }
-        .mode-btn.active {
-            background: var(--primary-gold); color: black; box-shadow: 0 4px 15px rgba(197, 160, 89, 0.3);
-        }
+    .btn-generate {
+      background: linear-gradient(135deg, var(--gold), #a67c37);
+      color: black;
+      border: none;
+      padding: 18px;
+      border-radius: 40px;
+      font-weight: 900;
+      cursor: pointer;
+      width: 100%;
+      font-size: 1.1em;
+      margin-bottom: 15px;
+    }
 
-        .styling-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 25px; margin-top: 20px; }
-        .color-picker-box { display: flex; align-items: center; gap: 12px; background: rgba(0,0,0,0.3); padding: 8px 15px; border-radius: 12px; border: 1px solid var(--border-glass); }
-        
-        .btn-generate {
-            background: linear-gradient(135deg, var(--primary-gold), var(--dark-gold));
-            color: #000; border: none; padding: 20px 80px; border-radius: 60px;
-            font-weight: 700; font-size: 1.3em; cursor: pointer; transition: 0.3s;
-            display: block; margin: 40px auto; box-shadow: 0 10px 30px rgba(166, 124, 55, 0.4);
-        }
-        .btn-generate:hover { transform: scale(1.05) translateY(-3px); box-shadow: 0 15px 40px rgba(166, 124, 55, 0.6); }
+    .theme-btn {
+      background: #222;
+      border: 1px solid #444;
+      color: #555;
+      padding: 8px 4px;
+      border-radius: 6px;
+      font-size: 10px;
+      cursor: pointer;
+      text-align: center;
+    }
 
-        .preview-area { width: 100%; margin-top: 60px; }
-        .section-title { font-family: 'Noto Serif JP', serif; font-size: 1.5em; text-align: center; color: var(--primary-gold); margin-bottom: 20px; }
-        .preview-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 40px; }
+    .theme-btn.ready {
+      color: #fff;
+      border-color: #888;
+    }
 
-        .card-item { 
-            position: relative; border-radius: 20px; overflow: hidden; 
-            box-shadow: 0 30px 60px rgba(0,0,0,0.7); border: 1px solid var(--border-glass); 
-            background: #000; transition: 0.3s;
-        }
-        .card-item img { width: 100%; display: block; object-fit: cover; }
-        
-        .card-actions { 
-            background: #111; padding: 20px; display: flex; flex-direction: column; gap: 12px; 
-            border-top: 1px solid var(--border-glass);
-        }
+    .theme-btn.active {
+      background: var(--gold);
+      color: black;
+      border-color: var(--gold);
+    }
 
-        .btn-save { 
-            width: 100%; padding: 18px; border-radius: 12px; font-size: 16px; font-weight: 700; 
-            text-align: center; border: none; cursor: pointer; transition: 0.2s; 
-        }
-        .btn-png { background: white; color: black; box-shadow: 0 4px 0 #ccc; }
-        .btn-png:hover { background: var(--primary-gold); transform: translateY(2px); box-shadow: 0 2px 0 #a67c37; }
+    .main {
+      flex: 1;
+      padding: 40px;
+      overflow-y: auto;
+      background: #000;
+    }
 
-        .dl-tip { 
-            background: rgba(197, 160, 89, 0.1); border: 1px dashed var(--primary-gold);
-            padding: 15px; border-radius: 15px; color: var(--primary-gold); 
-            font-size: 13px; text-align: center; margin: 20px 0; font-weight: bold; line-height: 1.6;
-        }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
+      gap: 30px;
+    }
 
-        .data-status { font-size: 12px; color: #888; margin-top: 10px; text-align: center; }
-    </style>
+    .card-box {
+      background: #111;
+      border-radius: 20px;
+      overflow: hidden;
+      box-shadow: 0 15px 40px rgba(0, 0, 0, 0.6);
+      margin-bottom: 20px;
+    }
+
+    .save-bar {
+      background: #181a20;
+      padding: 15px;
+      display: flex;
+      gap: 10px;
+    }
+
+    .btn-dl {
+      flex: 1;
+      padding: 12px;
+      border-radius: 8px;
+      font-weight: bold;
+      cursor: pointer;
+      border: none;
+      font-size: 11px;
+    }
+  </style>
 </head>
+
 <body>
-
-<header class="premium-header">
-    <h1>Message Card Maker</h1>
-    <p>Safe Paste Edition | 100% Security</p>
-</header>
-
-<div class="container">
-    
-    <!-- STEP 00: SAFE PASTE -->
-    <div class="step-section">
-        <div class="step-label"><span>🛡️</span> 100% SAFE PASTE</div>
-        <div class="input-group">
-            <label>スプシで選択・コピーして、ここに貼り付け（Ctrl + V）</label>
-            <textarea id="safe-paste-area" class="paste-area" placeholder="ここに貼り付けると、自動で言葉を拾います"></textarea>
-            <div id="data-status" class="data-status">※ データは外部へ送信されないので安心です</div>
+  <div class="sidebar">
+    <div class="sidebar-scroll">
+      <div style="font-size:10px; text-align:center; color:var(--gold); margin-bottom:15px;">M-LAB PREMIUM SYSTEM</div>
+      <div class="section"><select id="sheet-select" onchange="syncData()"></select><button class="btn-generate"
+          onclick="drawAll()">✨ カード生成</button></div>
+      <div class="section">
+        <label class="label">背景選択・登録</label>
+        <div style="display:grid; grid-template-columns:1fr 1fr 1fr; gap:8px; margin-bottom:10px;">
+          <div id="stA" class="theme-btn" onclick="applyStar('stA')">背景 A</div>
+          <div id="stB" class="theme-btn" onclick="applyStar('stB')">背景 B</div>
+          <div id="stC" class="theme-btn" onclick="applyStar('stC')">背景 C</div>
         </div>
+        <div style="display:flex;">
+          <button
+            style="font-size:8px; padding:4px; background:#333; color:#ccc; border:none; cursor:pointer; margin-right:5px;"
+            onclick="trig('stA')">A登録</button>
+          <button
+            style="font-size:8px; padding:4px; background:#333; color:#ccc; border:none; cursor:pointer; margin-right:5px;"
+            onclick="trig('stB')">B登録</button>
+          <button style="font-size:8px; padding:4px; background:#333; color:#ccc; border:none; cursor:pointer;"
+            onclick="trig('stC')">C登録</button>
+        </div>
+        <input type="file" id="hid-file" style="display:none;" accept="image/*">
+      </div>
+      <div class="section">
+        <label class="label">位置（文字）上下</label><input type="range" id="tY" min="-500" max="500" value="0"
+          oninput="drawAll()">
+        <label class="label">位置（署名）上下</label><input type="range" id="sY" min="-200" max="200" value="0"
+          oninput="drawAll()">
+      </div>
+      <div class="section">
+        <div style="display:flex; gap:10px;">
+          <select id="ratio" onchange="drawAll()">
+            <option value="1:1">正方形</option>
+            <option value="16:9">横長</option>
+            <option value="9:16">縦長</option>
+          </select>
+          <select id="font" onchange="drawAll()">
+            <option value="'Noto Serif JP', serif">明朝</option>
+            <option value="'Noto Sans JP', sans-serif">ゴシック</option>
+          </select>
+        </div>
+        <div style="display:flex; gap:10px;">
+          <div style="flex:1;"><label class="label">文字色</label><input type="color" id="textColor" value="#ffffff"
+              oninput="drawAll()"></div>
+          <div style="flex:1;"><label class="label">枠色</label><input type="color" id="frameColor" value="#c5a059"
+              oninput="drawAll()"></div>
+        </div>
+      </div>
+      <div class="section">
+        <label class="label">文字サイズ</label><input type="range" id="fSize" min="0.5" max="3.5" step="0.1" value="1.0"
+          oninput="drawAll()">
+        <label class="label">暗さ</label><input type="range" id="dark" min="0" max="0.95" step="0.05" value="0.4"
+          oninput="drawAll()">
+      </div>
+      <input type="text" id="brandText" value="M-LAB PREMIUM" oninput="drawAll()">
     </div>
-
-    <!-- STEP 01: MODE & BACKGROUND -->
-    <div class="step-section">
-        <div class="step-label"><span>1</span> MODE & BACKGROUND</div>
-        
-        <label style="font-size: 0.85em; opacity: 0.8; margin-bottom: 10px; display: block; font-weight: bold;">同期モードを選択（AかBか）</label>
-        <div class="mode-selector">
-            <button id="mode-a" class="mode-btn active" onclick="setMode('A')">Type A (A列のみ)</button>
-            <button id="mode-b" class="mode-btn" onclick="setMode('B')">Type B (A列=メッセージ / B列=署名)</button>
-        </div>
-
-        <div class="form-grid">
-            <div class="input-group">
-                <label>自分の写真を使う</label>
-                <input type="file" id="bg-input" accept="image/*" class="setting-input">
-            </div>
-            <div class="input-group">
-                <label>高品質テーマから選ぶ</label>
-                <select id="bg-preset" class="setting-input">
-                    <option value="none">-- 選択してください --</option>
-                    <option value="dark">漆黒 (Standard Dark)</option>
-                    <option value="marble">高級大理石 (White Marble)</option>
-                    <option value="silk">ラグジュアリーシルク (Beige Silk)</option>
-                    <option value="gold">金箔テクスチャ (Gold Foil)</option>
-                    <option value="paper">上質な和紙 (Premium Washi)</option>
-                </select>
-            </div>
-        </div>
-    </div>
-
-    <!-- STEP 02: サイズ -->
-    <div class="step-section">
-        <div class="step-label"><span>2</span> CANVAS SIZE</div>
-        <div class="input-group">
-            <label>目的のSNSサイズに合わせて選択</label>
-            <select id="size-select" class="setting-input">
-                <option value="1:1">正方形 (1:1)</option>
-                <option value="9:16">縦長 (9:16)</option>
-                <option value="16:9">横長 (16:9)</option>
-            </select>
-        </div>
-    </div>
-
-    <!-- STEP 03: 詳細設定 -->
-    <div class="step-section">
-        <div class="step-label"><span>3</span> DETAILED STYLING</div>
-        <div class="styling-grid">
-            <div class="input-group">
-                <label>カラー</label>
-                <div style="display:flex; gap:12px;">
-                    <div class="color-picker-box">
-                        <span style="font-size:10px; font-weight:bold;">文字色</span>
-                        <input type="color" id="text-color" value="#ffffff" style="width:34px; height:34px; border:none; background:none; cursor:pointer;">
-                    </div>
-                    <div class="color-picker-box">
-                        <span style="font-size:10px; font-weight:bold;">枠線の色</span>
-                        <input type="color" id="frame-color" value="#c5a059" style="width:34px; height:34px; border:none; background:none; cursor:pointer;">
-                    </div>
-                </div>
-            </div>
-            <div class="input-group">
-                <label>フォント</label>
-                <select id="font-select" class="setting-input">
-                    <option value="'Noto Serif JP', serif">明朝体</option>
-                    <option value="'Noto Sans JP', sans-serif">ゴシック</option>
-                    <option value="'Kaisei Opti', serif">装飾字体</option>
-                    <option value="'Yuji Syuku', serif">筆文字風</option>
-                </select>
-            </div>
-            <div class="input-group">
-                <label>署名（Type Aのみ反映）</label>
-                <input type="text" id="brand-input" class="setting-input" value="M-LAB PREMIUM">
-            </div>
-        </div>
-        <div class="styling-grid">
-            <div class="input-group"><label>文字サイズ</label><input type="range" id="font-size-range" min="0.5" max="3.0" step="0.1" value="1.0"></div>
-            <div class="input-group"><label>枠線の太さ</label><input type="range" id="frame-thickness-range" min="0" max="100" step="1" value="20"></div>
-            <div class="input-group"><label>背景明るさ</label><input type="range" id="overlay-range" min="0" max="0.95" step="0.05" value="0.4"></div>
-        </div>
-    </div>
-
-    <button class="btn-generate" onclick="generateCards()">一括生成する</button>
-
-</div>
-
-<div class="preview-area">
-    <div class="section-title">✨ PREVIEW RESULTS</div>
-    <div id="preview-grid" class="preview-grid"></div>
-</div>
-
-<div class="preview-area" style="margin-top: 80px; border-top: 2px solid var(--primary-gold); padding-top: 40px;">
-    <div style="display: flex; justify-content: center; align-items: center; gap: 20px; margin-bottom: 30px;">
-        <div class="section-title" style="margin-bottom:0;">🏆 My Collection</div>
-        <button onclick="clearCollection()" style="background: rgba(255,0,0,0.2); color: #ff6b6b; border: 1px solid #ff6b6b; padding: 8px 15px; border-radius: 8px; cursor: pointer; font-size: 12px; font-weight: bold;">クリア</button>
-    </div>
-    <div id="collection-grid" class="preview-grid"></div>
-</div>
-
-<canvas id="worker-canvas" style="display:none;"></canvas>
-
-<script>
-    const presets = {
-        marble: 'https://images.unsplash.com/photo-1542283938-238248373393?q=80&w=1200&auto=format&fit=crop',
-        silk: 'https://images.unsplash.com/photo-1549490349-8643362247b5?q=80&w=1200&auto=format&fit=crop',
-        gold: 'https://images.unsplash.com/photo-1502220389384-75496525977a?q=80&w=1200&auto=format&fit=crop',
-        paper: 'https://images.unsplash.com/photo-1598918239080-87a3875a6104?q=80&w=1200&auto=format&fit=crop'
+  </div>
+  <div class="main">
+    <div id="preview-grid" class="grid"></div>
+    <div id="coll-grid" style="display:flex; flex-wrap:wrap; gap:10px; margin-top:50px;"></div>
+  </div>
+  <canvas id="worker" style="display:none;"></canvas>
+  <script>
+    let sheetData = [], presetBg = null, savedBgs = {}, activeKey = "";
+    window.onload = () => {
+      google.script.run.withSuccessHandler(n => { n.forEach(x => { const o = document.createElement('option'); o.value = x; o.innerText = x; document.getElementById('sheet-select').appendChild(o); }); syncData(); }).getSheetNames();
+      google.script.run.withSuccessHandler(b => { savedBgs = b; Object.keys(b).forEach(k => { if (b[k]) document.getElementById(k).classList.add('ready'); }); }).getSavedBackgrounds();
     };
-
-    let userBgImage = null;
-    let presetImage = null;
-    let currentMode = 'A';
-    let pastedRows = [];
-
-    function setMode(mode) {
-        currentMode = mode;
-        document.getElementById('mode-a').classList.toggle('active', mode==='A');
-        document.getElementById('mode-b').classList.toggle('active', mode==='B');
-        generateCards();
-    }
-
-    // 🛡️ Safe Paste Logic (Tab Separated)
-    document.getElementById('safe-paste-area').oninput = function(e) {
-        const text = e.target.value;
-        if(!text.trim()) return;
-        
-        const lines = text.split(/\r?\n/).filter(line => line.trim() !== "");
-        pastedRows = lines.map(line => line.split("\t").map(cell => cell.trim()));
-
-        document.getElementById('data-status').innerHTML = `✅ ${pastedRows.length} 件のメッセージを読み取りました！`;
-        generateCards();
+    function trig(k) { activeKey = k; document.getElementById('hid-file').click(); }
+    document.getElementById('hid-file').onchange = (e) => {
+      const f = e.target.files[0]; if (!f) return;
+      const r = new FileReader(); r.onload = (ev) => {
+        const i = new Image(); i.onload = () => {
+          const c = document.createElement('canvas'); let w = i.width, h = i.height; if (w > 2000 || h > 2000) { const m = 2000 / Math.max(w, h); w *= m; h *= m; }
+          c.width = w; c.height = h; c.getContext('2d').drawImage(i, 0, 0, w, h); const du = c.toDataURL('image/jpeg', 0.85);
+          google.script.run.withSuccessHandler(() => { savedBgs[activeKey] = du; document.getElementById(activeKey).classList.add('ready'); applyStar(activeKey); }).saveBgData(activeKey, du);
+        }; i.src = ev.target.result;
+      }; r.readAsDataURL(f);
     };
-
-    document.getElementById('bg-input').onchange = (e) => {
-        const file = e.target.files[0];
-        if(!file) return;
-        const reader = new FileReader();
-        reader.onload = (ev) => { 
-            const img = new Image(); 
-            img.onload = () => { userBgImage = img; presetImage = null; document.getElementById('bg-preset').value = 'none'; generateCards(); }; 
-            img.src = ev.target.result; 
-        };
-        reader.readAsDataURL(file);
-    };
-
-    document.getElementById('bg-preset').onchange = (e) => {
-        userBgImage = null; document.getElementById('bg-input').value = '';
-        if(e.target.value==='none'||e.target.value==='dark'){ presetImage=null; generateCards(); return; }
-        const img = new Image(); img.crossOrigin = "anonymous"; 
-        img.onload = () => { presetImage = img; generateCards(); };
-        img.src = presets[e.target.value] + "?cb=" + Date.now();
-    };
-
-    function addToCollection(canvas, type) {
-        const grid = document.getElementById('collection-grid');
-        const wrapper = document.createElement('div');
-        wrapper.className = 'card-item';
-        if(canvas.height > canvas.width) wrapper.style.gridRow="span 2";
-        const img = document.createElement('img');
-        img.src = canvas.toDataURL(type === 'jpg' ? 'image/jpeg' : 'image/png');
-        const info = document.createElement('div');
-        info.style = "background: #1a1a1a; padding: 10px; font-size: 11px; text-align: center; color: var(--primary-gold); font-weight: bold;";
-        info.innerText = `SAVED - ${new Date().toLocaleTimeString()}`;
-        wrapper.appendChild(img);
-        wrapper.appendChild(info);
-        grid.prepend(wrapper);
+    function applyStar(k) { if (!savedBgs[k]) return; document.querySelectorAll('.theme-btn').forEach(b => b.classList.remove('active')); document.getElementById(k).classList.add('active'); const i = new Image(); i.onload = () => { presetBg = i; drawAll(); }; i.src = savedBgs[k]; }
+    function syncData() { google.script.run.withSuccessHandler(d => { sheetData = d; drawAll(); }).getSheetData(document.getElementById('sheet-select').value); }
+    function drawAll() {
+      const grid = document.getElementById('preview-grid'); grid.innerHTML = '';
+      const canvas = document.getElementById('worker'); const ctx = canvas.getContext('2d');
+      const ratio = document.getElementById('ratio').value;
+      let w = 1200, h = 1200; if (ratio === '9:16') w = 1080; else if (ratio === '16:9') w = 1920;
+      canvas.width = w; canvas.height = h;
+      const tY = parseInt(document.getElementById('tY').value), sY = parseInt(document.getElementById('sY').value);
+      sheetData.forEach((data, j) => {
+        ctx.clearRect(0, 0, w, h);
+        if (presetBg) {
+          const aspect = presetBg.width / presetBg.height; const cAspect = w / h;
+          let dw, dh, dx, dy; if (aspect > cAspect) { dh = presetBg.height; dw = dh * cAspect; dx = (presetBg.width - dw) / 2; dy = 0; } else { dw = presetBg.width; dh = dw / cAspect; dx = 0; dy = (presetBg.height - dh) / 2; }
+          ctx.drawImage(presetBg, dx, dy, dw, dh, 0, 0, w, h);
+        } else { ctx.fillStyle = "#0a0c10"; ctx.fillRect(0, 0, w, h); }
+        ctx.fillStyle = "rgba(0,0,0," + document.getElementById('dark').value + ")"; ctx.fillRect(0, 0, w, h);
+        const ft = 20; ctx.strokeStyle = document.getElementById('frameColor').value; ctx.lineWidth = ft; ctx.strokeRect(60 + ft / 2, 60 + ft / 2, w - 120 - ft, h - 120 - ft);
+        ctx.fillStyle = document.getElementById('textColor').value; ctx.textAlign = "center"; ctx.textBaseline = "middle";
+        const fs = (Math.min(w, h) * 0.07 * parseFloat(document.getElementById('fSize').value));
+        ctx.font = "bold " + fs + "px " + document.getElementById('font').value;
+        String(data[0]).split(/\\n|\\r/).forEach((l, idx, arr) => ctx.fillText(l.trim(), w / 2, h / 2 + tY + (idx - (arr.length - 1) / 2) * fs * 1.5));
+        ctx.font = (Math.min(w, h) * 0.03) + "px sans-serif"; ctx.textAlign = "right"; ctx.fillStyle = document.getElementById('frameColor').value;
+        ctx.fillText(document.getElementById('brandText').value, w - (w * 0.08), h - (h * 0.06) + sY);
+        const box = document.createElement('div'); box.className = 'card-box';
+        const cur = canvas.toDataURL('image/png');
+        box.innerHTML = '<img src="' + cur + '" style="width:100%"><div class="save-bar">' +
+          '<button class="btn-dl" style="background:white;" onclick="sSave(' + j + ', \\'png\\')">PNG保存</button>' +
+            '<button class="btn-dl" style="background:#333;color:white;" onclick="sSave(' + j + ', \\'jpg\\')">JPG保存</button></div>';
+        grid.appendChild(box);
+      });
     }
-
-    function clearCollection() { if(confirm('クリアしますか？')) document.getElementById('collection-grid').innerHTML = ''; }
-
-    async function superSave(canvas, filename) {
-        const finalName = filename + '.png';
-        addToCollection(canvas, 'png');
-        try {
-            if (window.showSaveFilePicker) {
-                const handle = await window.showSaveFilePicker({ suggestedName: finalName, types: [{ description: 'PNG', accept: { 'image/png': ['.png'] } }] });
-                const blob = await new Promise(res => canvas.toBlob(res, 'image/png'));
-                const writable = await handle.createWritable();
-                await writable.write(blob); await writable.close(); return;
-            }
-        } catch (e) {}
-        canvas.toBlob((blob) => { const url = URL.createObjectURL(blob); const a = document.createElement('a'); a.href = url; a.download = finalName; a.click(); });
+    async function sSave(i, fmt) {
+      const canvas = document.getElementById('worker');
+      const mime = fmt === 'png' ? 'image/png' : 'image/jpeg';
+      const dataUrl = canvas.toDataURL(mime, 0.9);
+      const coll = document.getElementById('coll-grid');
+      const div = document.createElement('div'); div.style = "width:150px; border-radius:8px; overflow:hidden; border:1px solid #333;";
+      div.innerHTML = '<img src="' + dataUrl + '" style="width:100%"><div style="font-size:7px; padding:3px; text-align:center;">' + fmt.toUpperCase() + '</div>';
+      coll.prepend(div);
+      try {
+        if (window.showSaveFilePicker) {
+          const h = await window.showSaveFilePicker({ suggestedName: 'Card_' + (i + 1) + '.' + fmt, types: [{ description: 'Image', accept: { [mime]: ['.' + fmt] } }] });
+          const b = await new Promise(res => canvas.toBlob(res, mime, 0.9));
+          const w = await h.createWritable(); await w.write(b); await w.close(); return;
+        }
+      } catch (e) { }
+      const a = document.createElement('a'); a.href = dataUrl; a.download = 'Card_' + (i + 1) + '.' + fmt; a.click();
     }
-
-    function generateCards() {
-        const container = document.getElementById('preview-grid');
-        const worker = document.getElementById('worker-canvas');
-        const ctx = worker.getContext('2d');
-        const setup = {
-            overlay: document.getElementById('overlay-range').value,
-            font: document.getElementById('font-select').value,
-            sizeScale: parseFloat(document.getElementById('font-size-range').value),
-            frameT: parseFloat(document.getElementById('frame-thickness-range').value),
-            ratio: document.getElementById('size-select').value,
-            textColor: document.getElementById('text-color').value,
-            frameColor: document.getElementById('frame-color').value,
-            manualBrand: document.getElementById('brand-input').value || 'M-LAB'
-        };
-
-        if (pastedRows.length === 0) { container.innerHTML='<p style="text-align:center; padding: 40px; color:#888;">スプシでコピーして貼り付けると、ここにカードが表示されます。</p>'; return; }
-
-        let w = 1080, h = 1080;
-        if(setup.ratio==='9:16'){ h=1920; } else if(setup.ratio==='16:9'){ w=1920; }
-        worker.width = w; worker.height = h;
-        container.innerHTML = '';
-
-        pastedRows.forEach((row, index) => {
-            const mainMsg = row[0] || '';
-            const subText = (currentMode === 'B') ? (row[1] || '') : setup.manualBrand;
-
-            ctx.clearRect(0,0,w,h);
-            const bg = userBgImage || presetImage;
-            if(bg){
-                const a = bg.width/bg.height, ca = w/h;
-                let dw, dh, dx, dy;
-                if(a>ca){ dh=bg.height; dw=dh*ca; dx=(bg.width-dw)/2; dy=0; }
-                else { dw=bg.width; dh=dw/ca; dx=0; dy=(bg.height-dh)/2; }
-                ctx.drawImage(bg, dx, dy, dw, dh, 0, 0, w, h);
-            } else { ctx.fillStyle="#0f1115"; ctx.fillRect(0,0,w,h); }
-
-            ctx.fillStyle=`rgba(0,0,0,${setup.overlay})`; ctx.fillRect(0,0,w,h);
-            if (setup.frameT > 0) {
-                ctx.strokeStyle = setup.frameColor; ctx.lineWidth = setup.frameT;
-                const offset = setup.frameT / 2 + (w * 0.04); ctx.strokeRect(offset, offset, w - offset * 2, h - offset * 2);
-            }
-
-            ctx.fillStyle = setup.textColor; ctx.textAlign="center"; ctx.textBaseline="middle";
-            ctx.shadowColor="rgba(0,0,0,0.5)"; ctx.shadowBlur=20;
-            let sz = (w*0.06)*setup.sizeScale;
-            ctx.font=`600 ${sz}px ${setup.font}`;
-            const lines = mainMsg.split('\\n');
-            lines.forEach((l,i) => ctx.fillText(l.trim(), w/2, h/2 + (i-(lines.length-1)/2)*sz*1.6));
-
-            ctx.font=`bold ${w*0.024}px 'Inter'`; ctx.fillStyle = setup.frameColor;
-            ctx.textAlign="right"; ctx.fillText(subText, w-(w*0.08), h-(h*0.08));
-
-            const cardCanvas = document.createElement('canvas');
-            cardCanvas.width = w; cardCanvas.height = h;
-            cardCanvas.getContext('2d').drawImage(worker, 0, 0);
-
-            const wrapper = document.createElement('div');
-            wrapper.className='card-item';
-            if(setup.ratio==='9:16') wrapper.style.gridRow="span 2";
-            const thumb = document.createElement('img'); thumb.src = cardCanvas.toDataURL('image/png');
-            const ctrls = document.createElement('div'); ctrls.className = 'card-actions';
-            const btn = document.createElement('button'); btn.className = 'btn-save btn-png'; btn.innerText = '名前を付けて保存';
-            btn.onclick = () => superSave(cardCanvas, `PastedCard_${index+1}`);
-            ctrls.appendChild(btn); wrapper.appendChild(thumb); wrapper.appendChild(ctrls); container.appendChild(wrapper);
-        });
-    }
-
-    document.querySelectorAll('.setting-input, #bg-preset, #size-select, #font-select, #text-color, #frame-color, #frame-thickness-range, #font-size-range, #overlay-range, #brand-input').forEach(el => el.oninput = generateCards);
-</script>
+  </script>
 </body>
+
 </html>
+`;
+const out = HtmlService.createHtmlOutput(html).setWidth(1100).setHeight(850);
+SpreadsheetApp.getUi().showModelessDialog(out, 'M-LAB Message Card Hub');
+}

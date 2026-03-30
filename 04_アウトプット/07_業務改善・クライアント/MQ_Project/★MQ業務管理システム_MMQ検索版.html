@@ -232,7 +232,61 @@
             font-size: 0.8rem;
         }
 
-        /* スマホ対応 */
+        /* タブ・物件マスタ用 */
+        .tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .tab-btn {
+            background: var(--mq-bg-light);
+            color: var(--mq-text-main);
+            border: 1px solid var(--mq-border);
+            padding: 12px 20px;
+            border-radius: 8px 8px 0 0;
+            cursor: pointer;
+            font-weight: bold;
+            flex: 1;
+            border-bottom: none;
+            transition: 0.3s;
+            font-size: 1rem;
+        }
+
+        .tab-btn.active {
+            background: var(--mq-gold);
+            color: var(--mq-deep-blue);
+        }
+
+        .prop-item {
+            padding: 15px;
+            border-bottom: 1px solid var(--mq-border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .prop-item:last-child {
+            border-bottom: none;
+        }
+
+        .prop-name {
+            font-weight: bold;
+            color: var(--mq-gold);
+            font-size: 1.1rem;
+            margin-bottom: 4px;
+        }
+
+        .prop-address {
+            font-size: 0.85rem;
+            color: var(--mq-text-sub);
+        }
+
+        .btn-small {
+            padding: 8px 15px;
+            font-size: 0.85rem;
+        }
+
         @media (max-width: 600px) {
             .data-row {
                 grid-template-columns: 1fr;
@@ -253,8 +307,16 @@
     </header>
 
     <div class="container">
-        <!-- 検索エリア -->
-        <section class="search-section">
+        <!-- タブメニュー -->
+        <div class="tabs">
+            <button class="tab-btn active" onclick="switchTab('tab-search')">案件管理</button>
+            <button class="tab-btn" onclick="switchTab('tab-master')">物件マスタ（参照）</button>
+        </div>
+
+        <!-- 案件管理エリア (Tab 1) -->
+        <div id="tab-search" class="tab-content">
+            <!-- 検索エリア -->
+            <section class="search-section">
             <span class="label">案件照会 (MMQ番号を入力)</span>
             <div class="input-group">
                 <input type="text" id="mmq-search-id" placeholder="例: MMQ0331" autocomplete="off">
@@ -311,11 +373,18 @@
                             <polyline points="17 21 17 13 7 13 7 21"></polyline>
                             <polyline points="7 3 7 8 15 8"></polyline>
                         </svg>
-                        スプレッドシートに保存
-                    </button>
+                <span class="label">物件名・住所で検索</span>
+                <div class="input-group">
+                    <input type="text" id="prop-search" placeholder="例: ピアース" autocomplete="off" oninput="filterProperties()">
                 </div>
+            </section>
+            <div id="prop-loading" style="text-align: center; color: var(--mq-gold); display: none; padding: 20px;">
+                物件データを読み込み中...
             </div>
-        </section>
+            <div id="prop-list" class="data-card" style="display: none; padding: 0;">
+                <!-- リストがここに生成されます -->
+            </div>
+        </div>
     </div>
 
     <footer>
@@ -326,6 +395,8 @@
         // --- ☁️ CONFIGURATION: Google Apps Script URL ---
         // TODO: GASの「デプロイ」>「新しいデプロイ」>「ウェブアプリ」のURLをここに設定してください
         const MQ_GAS_URL = "https://script.google.com/macros/s/AKfycbxI0W6yeWSlqVwcLB_MUH0tO_1XHVcXj_mD6ffBRnzPWE4HwSyC4_uIkYpNwjAQHueb/exec";
+        // 物件マスタ スプレッドシートCSV URL
+        const SHEET_CSV_URL = "https://docs.google.com/spreadsheets/d/1K-eu0TSdgn2rAcbqI8S7gDYvLXJXJyb0SBCQaFGRuew/export?format=csv&gid=1927273400";
 
         const searchInput = document.getElementById('mmq-search-id');
         const statusMsg = document.getElementById('status-message');
@@ -428,6 +499,105 @@
             resultArea.style.display = 'none';
             statusMsg.innerText = "";
             document.getElementById('edit-content').value = "";
+        }
+
+        // --- タブ切り替えと物件マスタの処理 ---
+        let propertyMasterData = [];
+
+        function switchTab(tabId) {
+            document.querySelectorAll('.tab-content').forEach(el => el.style.display = 'none');
+            document.querySelectorAll('.tab-btn').forEach(el => el.classList.remove('active'));
+            
+            document.getElementById(tabId).style.display = 'block';
+            
+            if(tabId === 'tab-search') {
+                document.querySelectorAll('.tab-btn')[0].classList.add('active');
+            } else {
+                document.querySelectorAll('.tab-btn')[1].classList.add('active');
+                if (propertyMasterData.length === 0) loadPropertyMaster();
+            }
+        }
+
+        async function loadPropertyMaster() {
+            const loading = document.getElementById('prop-loading');
+            const list = document.getElementById('prop-list');
+            
+            loading.style.display = 'block';
+            list.style.display = 'none';
+            
+            try {
+                const response = await fetch(SHEET_CSV_URL);
+                const text = await response.text();
+                const rows = text.split('\n');
+                
+                propertyMasterData = rows.slice(1).map(row => {
+                    let cols = row.split(','); // 簡易CSVパース
+                    if(cols.length >= 2) {
+                        return { 
+                            name: cols[0].trim().replace(/^"|"$/g, ''), 
+                            address: cols[1].trim().replace(/^"|"$/g, '') 
+                        };
+                    }
+                    return null;
+                }).filter(item => item && item.name);
+                
+                loading.style.display = 'none';
+                list.style.display = 'block';
+                renderProperties(propertyMasterData);
+            } catch (error) {
+                console.error(error);
+                loading.innerText = "❌ データの読み込みに失敗しました。";
+            }
+        }
+
+        function renderProperties(data) {
+            const list = document.getElementById('prop-list');
+            list.innerHTML = "";
+            
+            if (data.length === 0) {
+                list.innerHTML = `<div style="padding: 20px; text-align: center; color: var(--mq-text-sub);">該当する物件が見つかりません。</div>`;
+                return;
+            }
+
+            data.slice(0, 500).forEach(prop => { // 最大500件まで表示
+                const div = document.createElement('div');
+                div.className = 'prop-item';
+                div.innerHTML = `
+                    <div>
+                        <div class="prop-name">${prop.name}</div>
+                        <div class="prop-address">${prop.address}</div>
+                    </div>
+                    <button class="btn btn-secondary btn-small" onclick="copyText(this, '${prop.name}\\n${prop.address}')">コピー</button>
+                `;
+                list.appendChild(div);
+            });
+        }
+
+        function filterProperties() {
+            const q = document.getElementById('prop-search').value.toLowerCase();
+            const filtered = propertyMasterData.filter(prop => 
+                prop.name.toLowerCase().includes(q) || prop.address.toLowerCase().includes(q)
+            );
+            renderProperties(filtered);
+        }
+
+        function copyText(btnElement, text) {
+            navigator.clipboard.writeText(text).then(() => {
+                const originalText = btnElement.innerText;
+                btnElement.innerText = "コピー済!";
+                btnElement.style.background = "var(--success)";
+                btnElement.style.color = "var(--mq-deep-blue)";
+                btnElement.style.borderColor = "var(--success)";
+                
+                setTimeout(() => {
+                    btnElement.innerText = originalText;
+                    btnElement.style.background = "transparent";
+                    btnElement.style.color = "var(--mq-gold)";
+                    btnElement.style.borderColor = "var(--mq-gold)";
+                }, 2000);
+            }).catch(err => {
+                alert("コピーに失敗しました");
+            });
         }
     </script>
 </body>

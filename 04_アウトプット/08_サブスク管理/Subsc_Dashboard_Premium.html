@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>M-LAB サブスク管理ダッシュボード</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700&family=Noto+Sans+JP:wght@400;700&display=swap');
+
+        :root {
+            --bg: #0e1117;
+            --card-bg: #161b22;
+            --bronze: #cd7f32;
+            --amber: #ffbf00;
+            --text: #c9d1d9;
+            --text-dim: #8b949e;
+        }
+
+        body {
+            font-family: 'Noto Sans JP', 'Inter', sans-serif;
+            background-color: var(--bg);
+            color: var(--text);
+            margin: 0;
+            padding: 40px 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .dashboard {
+            max-width: 900px;
+            width: 100%;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 50px;
+            border-bottom: 2px solid var(--bronze);
+            padding-bottom: 20px;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            color: var(--amber);
+            margin: 0;
+            letter-spacing: 2px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+        }
+
+        .summary-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-bottom: 40px;
+        }
+
+        .stat-card {
+            background: var(--card-bg);
+            padding: 30px;
+            border-radius: 15px;
+            border: 1px solid rgba(205, 127, 50, 0.3);
+            text-align: center;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.3);
+            transition: transform 0.3s;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--amber);
+        }
+
+        .stat-value {
+            font-size: 2.2rem;
+            font-weight: bold;
+            color: var(--amber);
+            margin-bottom: 5px;
+        }
+
+        .stat-label {
+            font-size: 0.9rem;
+            color: var(--text-dim);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .subsc-table {
+            width: 100%;
+            border-collapse: collapse;
+            background: var(--card-bg);
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.4);
+        }
+
+        .subsc-table th {
+            background: rgba(205, 127, 50, 0.1);
+            color: var(--amber);
+            text-align: left;
+            padding: 20px;
+            font-size: 0.9rem;
+            border-bottom: 2px solid var(--bronze);
+        }
+
+        .subsc-table td {
+            padding: 20px;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+        }
+
+        .subsc-table tr:hover {
+            background: rgba(255,255,255,0.02);
+        }
+
+        .category-tag {
+            background: rgba(205, 127, 50, 0.2);
+            color: var(--bronze);
+            padding: 4px 10px;
+            border-radius: 6px;
+            font-size: 0.8rem;
+            font-weight: bold;
+        }
+
+        .price-text {
+            color: var(--amber);
+            font-weight: bold;
+            font-size: 1.1rem;
+        }
+
+        .footer {
+            margin-top: 60px;
+            text-align: center;
+            color: var(--text-dim);
+            font-size: 0.8rem;
+        }
+
+        /* アニメーション用 */
+        @keyframes gearSpin {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        .gear-icon {
+            display: inline-block;
+            animation: gearSpin 10s linear infinite;
+            margin-right: 15px;
+        }
+    </style>
+</head>
+<body>
+    <div class="dashboard">
+        <div class="header">
+            <h1><span class="gear-icon">⚙️</span>M-LAB サブスク・ダッシュボード</h1>
+            <p style="color: var(--text-dim);">My Premium Subscription Management Tool</p>
+        </div>
+
+        <div class="summary-grid">
+            <div class="stat-card">
+                <div class="stat-value">¥13,040</div>
+                <div class="stat-label">月額合計（目安）</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value">¥156,480</div>
+                <div class="stat-label">年額合計（目安）</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value">7</div>
+                <div class="stat-label">契約中サービス数</div>
+            </div>
+        </div>
+
+        <table class="subsc-table">
+            <thead>
+                <tr>
+                    <th>サービス名</th>
+                    <th>カテゴリー</th>
+                    <th>月額</th>
+                    <th>備考</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>Google One AI プレミアム</strong></td>
+                    <td><span class="category-tag">AI / STORAGE</span></td>
+                    <td class="price-text">¥2,900</td>
+                    <td>2TB / Gemini Advanced</td>
+                </tr>
+                <tr>
+                    <td>西野亮廣エンタメ研究所</td>
+                    <td><span class="category-tag">SALON</span></td>
+                    <td class="price-text">¥980</td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>タムココサロン</td>
+                    <td><span class="category-tag">SALON</span></td>
+                    <td class="price-text">¥980</td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>小谷さんサロン</td>
+                    <td><span class="category-tag">SALON</span></td>
+                    <td class="price-text">¥980</td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>SUNO</td>
+                    <td><span class="category-tag">AI / MUSIC</span></td>
+                    <td class="price-text">¥1,200</td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>Hedra</td>
+                    <td><span class="category-tag">AI / VIDEO</span></td>
+                    <td class="price-text">¥4,500</td>
+                    <td>$30 / Creatorプラン</td>
+                </tr>
+                <tr>
+                    <td>Canva Pro</td>
+                    <td><span class="category-tag">DESIGN</span></td>
+                    <td class="price-text">¥1,500</td>
+                    <td>※概算</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div class="footer">
+            <p>&copy; 2026 M-LAB Premium Digital Services. <br>このページをブラウザの「お気に入り」に入れておくと、いつでも支出を確認できます。</p>
+        </div>
+    </div>
+</body>
+</html>

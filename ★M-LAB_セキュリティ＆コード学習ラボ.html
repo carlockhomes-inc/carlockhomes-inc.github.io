@@ -105,7 +105,7 @@
                 background-image: none !important;
                 backdrop-filter: none !important;
                 -webkit-print-color-adjust: exact;
-                color-adjust: exact;
+                print-color-adjust: exact;
             }
             body { 
                 background: #fff !important; 
@@ -155,6 +155,12 @@
                 break-inside: avoid !important;
                 page-break-inside: avoid !important;
             }
+            .no-print { display: none !important; }
+            body { background: white; padding: 0; }
+            .container { width: 100%; max-width: none; margin: 0; padding: 0; box-shadow: none; border: none; }
+            .lesson-card { border: 1px solid #eee; margin-bottom: 20px; break-inside: avoid; }
+            h1, h2, h3 { color: black; break-after: avoid !important; }
+            .print-keep { break-inside: avoid !important; page-break-inside: avoid !important; }
             .btn-row, .btn, .lab-ui { display: none !important; }
             code, pre { 
                 background: #f9f9f9 !important; 
@@ -183,6 +189,25 @@
     <div class="lesson-card">
         <h2>第1回：お道具箱「変数（へんすう）」の秘密</h2>
         <p>プログラミングで一番大事なのは、データに「名前をつけてしまっておくこと」です。これを「変数」と呼びます。</p>
+        <div class="print-keep">
+                <h3>B. アプリ・情報の守り（画面の中）</h3>
+                <div class="security-group">
+                    <div class="security-item">
+                        <span class="security-icon">📱</span>
+                        <div>
+                            <strong>ロック（指紋・顔・パス）</strong>
+                            <p>他人が中身を見られないように、常にカギをかけておく。</p>
+                        </div>
+                    </div>
+                    <div class="security-item">
+                        <span class="security-icon">🛡️</span>
+                        <div>
+                            <strong>二要素認証（2FA）</strong>
+                            <p>パスワードだけでなく、スマホに届く番号でも確認する最強の守り。</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
         <div class="concept-box">
             <div class="item">
                 <h3>📦 お道具箱にラベルを貼る</h3>
@@ -293,10 +318,29 @@
     <div class="lesson-card">
         <h2>第7回：ひみつの暗号「APIパスポート」</h2>
         <p>DropboxやLINEなど、他の大きなサービスに「中に入れて！」とお願いするための秘密の合言葉があります。</p>
+        <div class="print-keep">
+                <h3>A. 書類の守り（実物）</h3>
+                <div class="security-group">
+                    <div class="security-item">
+                        <span class="security-icon">📄</span>
+                        <div>
+                            <strong>シュレッダー</strong>
+                            <p>名前や住所が載った郵便物は、バラバラにしてから捨てる。</p>
+                        </div>
+                    </div>
+                    <div class="security-item">
+                        <span class="security-icon">📮</span>
+                        <div>
+                            <strong>ポストの施錠</strong>
+                            <p>郵便物を盗まれないよう、ダイヤル錠などで守る。</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
         <div class="concept-box">
             <div class="item">
                 <h3>🔑 専用の合鍵</h3>
-                <p>「私はM-LABの主です」という証明書を持って、お邪魔します。</p>
+                <p>「私はM-LABの主です」と名乗れる証明書を持って、お邪魔します。</p>
             </div>
             <div class="item">
                 <h3>🌍 世界と繋がる</h3>
@@ -337,19 +381,412 @@
         </div>
     </div>
 
-    <!-- 第10回：リリース -->
-    <div class="lesson-card" style="border-style: solid; border-color: var(--gold); background: rgba(197, 160, 89, 0.05);">
-        <h2>第10回：ロケット発射！「リリース」の日</h2>
-        <p>さあ、完成した自分の発明品を世界に公開しましょう。あなたが作ったアプリで、誰かの生活が少し楽しくなります。</p>
+       <!-- 第11回：エンジニアの設計図。セキュリティの作り方 -->
+    <div class="lesson-card">
+        <h2>第11回：エンジニアの設計図。セキュリティの作り方</h2>
+        <p>セキュリティは、単なる「カギ」ではありません。プログラミングで作る時は、主にこの3つの「魔法」を組み合わせます。</p>
         <div class="concept-box">
             <div class="item">
-                <h3>🚀 カウントダウン</h3>
-                <p>URLを発行して、みんなに送る瞬間。最高にワクワクします！</p>
+                <h3>💂 1. 「門番」を立たせる（認証）</h3>
+                <p><code>if (パスワード === "1234")</code> のように、条件に合う人だけを通す命令をプログラムの入り口に書きます。</p>
             </div>
             <div class="item">
-                <h3>🏠 2nd Brainの完成</h3>
-                <p>アプリを通じて、あなたの考えやデザインが形に残る。それがプログラミングのゴールです。</p>
+                <h3>📜 2. 「記録係」を雇う（ログ）</h3>
+                <p>「いつ、誰が、何をしたか」を自動でメモする仕組み。何かあった時に後から犯人を捜せるようにします。</p>
             </div>
+        </div>
+    </div>
+
+    <!-- 第12回：セキュリティ全集：種類・仕組み・作り方 -->
+    <div class="lesson-card" style="border: 2px solid var(--accent); background: rgba(74, 144, 226, 0.1);">
+        <h2 style="color: var(--accent);">第12回：決定版！セキュリティの「種類・仕組み・作り方」</h2>
+        <p>「書類のロック」から「会社のシステム」まで。世の中にあるセキュリティを3つのグループに分けて整理しましょう！</p>
+
+        <!-- グループA: 書類・ファイルのセキュリティ -->
+        <div style="margin-top: 30px;">
+            <h3 style="color: #fff; border-left: 4px solid #fff; padding-left: 10px;">A. 書類・ファイルの守り（PDFやExcelなど）</h3>
+            <div class="concept-box">
+                <div class="item">
+                    <h4>【種類】 ファイルパスワード</h4>
+                    <p><b>仕組み：</b> データをぐちゃぐちゃにする魔法（暗号化）をかけます。<br>
+                    <b>作り方：</b> 保存する時に「秘密の合言葉」を設定して、データ自体にロックをかけます。</p>
+                </div>
+                <div class="item">
+                    <h4>【種類】 読み取り専用</h4>
+                    <p><b>仕組み：</b> 「見るのはいいけど、書き換え不可」という属性をつけます。<br>
+                    <b>作り方：</b> ファイルの「設定ボタン」で、編集の権限をオフにするだけ！</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- グループB: アプリ・システムのセキュリティ -->
+        <div style="margin-top: 30px;">
+            <h3 style="color: var(--gold); border-left: 4px solid var(--gold); padding-left: 10px;">B. アプリ・Webの守り（ログインなど）</h3>
+            <div class="concept-box">
+                <div class="item">
+                    <h4>【種類】 アカウントログイン</h4>
+                    <p><b>仕組み：</b> サーバーにある「ゲスト名簿（データベース）」と照らし合わせます。<br>
+                    <b>作り方：</b> 入力されたIDと名簿が一致するかどうか、プログラムで確認します。</p>
+                </div>
+                <div class="item">
+                    <h4>【種類】 証明書（Lv.3）</h4>
+                    <p><b>仕組み：</b> パソコンの中に「この人は本物です」というデジタル署名を入れます。<br>
+                    <b>作り方：</b> 相手のシステムに、自分のPC専用の「デジタル身分証」を登録します。</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- グループC: 場所・パソコンそのもののセキュリティ -->
+        <div style="margin-top: 30px;">
+            <h3 style="color: #ff00ff; border-left: 4px solid #ff00ff; padding-left: 10px;">C. ネット・場所の守り（会社のPCなど）</h3>
+            <div class="concept-box">
+                <div class="item">
+                    <h4>【種類】 端末制限・IP制限</h4>
+                    <p><b>仕組み：</b> 「この家（Wi-Fi）からしか入れない」とか「このパソコン（住所）以外はダメ」と決めます。<br>
+                    <b>作り方：</b> 繋いできた人の「インターネット上の住所（IPアドレス）」をチェックする命令を書きます。</p>
+                </div>
+                <div class="item">
+                    <h4>【種類】 VPN（ひみつの地下通路）</h4>
+                    <p><b>仕組み：</b> 外部から見えない、会社直通の「専用トンネル」を通ります。<br>
+                    <b>作り方：</b> 接続を「暗号化されたトンネル」の中に限定するソフトを入れます。</p>
+                </div>
+            </div>
+        </div>
+
+        <div style="margin-top: 20px; padding: 15px; background: rgba(255,255,255,0.05); border-radius: 10px; border: 1px dashed var(--accent);">
+            <p style="margin: 0; font-size: 0.85rem; color: #fff;">
+                <b>🌟 大事なポイント：</b><br>
+                どれか一つではなく、<b>「書類にはパスワード」「システムにはログイン」「接続は専用PCから」</b>というように、いくつもの壁を作るのが一番安全な作り方です！
+            </p>
+        </div>
+    </div>
+
+
+    <!-- 実践：セキュリティの発行・設定のやり方 -->
+    <div class="lesson-card" style="border: 2px dashed var(--gold); background: rgba(197, 160, 89, 0.05);">
+        <h2 style="color: var(--gold);">🛠️ 実践：セキュリティの「発行・設定」のやり方</h2>
+        <p>「どんな操作をすればいいの？」という具体的な手順をまとめました。実際に発行や設定をする時のガイドです。</p>
+
+        <div style="margin-top:20px;">
+            <!-- 手順1: 書類 -->
+            <div style="margin-bottom:25px; border-bottom: 1px solid var(--border); padding-bottom: 15px;">
+                <h3 style="font-size: 1.1rem; color: #fff;">1. 書類（Excel/PDF）をパスワードで守る</h3>
+                <p style="font-size: 0.85rem;">一番手軽に「自分だけ」のものにする方法です。</p>
+                <div style="display: flex; gap: 15px; margin-top: 10px;">
+                    <div style="flex: 1; background: rgba(255,255,255,0.03); padding: 10px; border-radius: 8px;">
+                        <span style="color: var(--gold); font-weight: 800;">Excelの場合</span>
+                        <p style="font-size: 0.75rem; margin: 5px 0;">[ファイル] ➡ [情報] ➡ [ブックの保護] ➡ [パスワードを使用して暗号化]</p>
+                    </div>
+                    <div style="flex: 1; background: rgba(255,255,255,0.03); padding: 10px; border-radius: 8px;">
+                        <span style="color: var(--gold); font-weight: 800;">PDFの場合</span>
+                        <p style="font-size: 0.75rem; margin: 5px 0;">[ツール] ➡ [保護] ➡ [パスワードを使用して保護]（Acrobat等）</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 手順2: 証明書 -->
+            <div style="margin-bottom:25px; border-bottom: 1px solid var(--border); padding-bottom: 15px;">
+                <h3 style="font-size: 1.1rem; color: #fff;">2. 電子証明書をパソコンに入れる（発行と取込）</h3>
+                <p style="font-size: 0.85rem;">会社から「これがないと入れないよ」と渡される鍵の正体です。</p>
+                <div style="background: rgba(74, 144, 226, 0.1); padding: 15px; border-radius: 10px; margin-top: 10px;">
+                    <p style="font-size: 0.85rem; margin: 0;"><b>📁 発行物の正体：</b> <code>.pfx</code> や <code>.p12</code> という拡張子のファイルです。</p>
+                    <p style="font-size: 0.85rem; margin: 10px 0 0;"><b>🛠️ 設定のやり方：</b></p>
+                    <ol style="font-size: 0.8rem; margin: 5px 0;">
+                        <li>ファイルをダブルクリック。</li>
+                        <li>「証明書のインポートウィザード」が出るので、[次へ] を押す。</li>
+                        <li>会社から教えてもらった「インポート用パスワード」を入れる。</li>
+                        <li>完了！これでブラウザが「私は許可されたPCです」と名乗れるようになります。</li>
+                    </ol>
+                </div>
+            </div>
+
+            <!-- 手順3: プログラム（GASなど） -->
+            <div>
+                <h3 style="font-size: 1.1rem; color: #fff;">3. 自分で作ったアプリ（GAS）で誰を通すか決める</h3>
+                <p style="font-size: 0.85rem;">これができれば、あなたも立派なシステム設計者です！</p>
+                <div style="background: #000; padding: 15px; border-radius: 10px; font-family: monospace; font-size: 0.85rem; margin-top: 10px;">
+                    <span style="color: #6a9955;">// あなた（管理者）のメールアドレス</span><br>
+                    <span style="color: #569cd6;">const</span> ADMIN_EMAIL = <span style="color: #ce9178;">"your-name@gmail.com"</span>;<br>
+                    <br>
+                    <span style="color: #569cd6;">function</span> <span style="color: #dcdcaa;">doGet</span>() {<br>
+                    &nbsp;&nbsp;<span style="color: #569cd6;">const</span> user = Session.<span style="color: #dcdcaa;">getActiveUser</span>().<span style="color: #dcdcaa;">getEmail</span>();<br>
+                    <br>
+                    &nbsp;&nbsp;<span style="color: #569cd6;">if</span> (user === ADMIN_EMAIL) {<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #6a9955;">// 許可！メイン画面を出す</span><br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #569cd6;">return</span> HtmlService.<span style="color: #dcdcaa;">createHtmlOutputFromFile</span>(<span style="color: #ce9178;">'Index'</span>);<br>
+                    &nbsp;&nbsp;} <span style="color: #569cd6;">else</span> {<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #6a9955;">// 拒否！エラー画面を出す</span><br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #569cd6;">return</span> HtmlService.<span style="color: #dcdcaa;">createHtmlOutput</span>(<span style="color: #ce9178;">"閲覧権限がありません"</span>);<br>
+                    &nbsp;&nbsp;}<br>
+                    }
+                </div>
+            <!-- 手順4: ID・パスワード -->
+            <div style="margin-top:25px; padding-top: 15px;">
+                <h3 style="font-size: 1.1rem; color: #fff;">4. IDとパスワードの「発行」と「強いカギ」の作り方</h3>
+                <p style="font-size: 0.85rem;">IDやパスワードも、実は管理者が「発行」して管理しているものです。</p>
+                
+                <div class="concept-box" style="margin-top:15px;">
+                    <div class="item">
+                        <span style="color: var(--gold); font-weight: 800;">🔑 IDの発行とは？</span>
+                        <p style="font-size: 0.75rem; margin: 5px 0;">管理者が「この人はメンバーです」と名簿（データベース）に名前を書き、ログインできるようにする作業のことです。</p>
+                    </div>
+                    <div class="item">
+                        <span style="color: var(--gold); font-weight: 800;">💪 強いパスワードの条件</span>
+                        <p style="font-size: 0.75rem; margin: 5px 0;">
+                            ・<b>長さ：</b> 12文字以上推奨！（長いほど破られにくい）<br>
+                            ・<b>複雑さ：</b> 大文字・小文字・数字・記号を混ぜるのがコツ。
+                        </p>
+                    </div>
+                </div>
+
+                <div style="background: rgba(255,255,255,0.05); padding:15px; border-radius:10px; margin-top: 15px; font-size: 0.8rem;">
+                    <p style="margin: 0;"><b>💡 ID/パソ vs 証明書：</b><br>
+                    IDとパスワードは「頭で覚える合言葉」。証明書は「パソコンの中にある本物の鍵」。これらを組み合わせるのが最強のセキュリティです！</p>
+                </div>
+                <div style="margin-top:25px; padding-top: 15px; border-top: 1px dashed var(--border);">
+                    <h3 style="font-size: 1.1rem; color: #fff;">🔑 ログインの舞台裏：受付と名簿のやり取り</h3>
+                    <p style="font-size: 0.85rem;">IDとパスワードを入れた時、裏側ではこんな「パーティーの受付」のようなことが起きています。</p>
+                    
+                    <div style="background: rgba(197, 160, 89, 0.1); padding: 20px; border-radius: 15px; margin-top: 15px;">
+                        <div style="display: flex; flex-direction: column; gap: 15px;">
+                            <div style="display: flex; align-items: flex-start; gap: 10px;">
+                                <div style="font-size: 1.5rem;">📝</div>
+                                <div>
+                                    <b style="color: var(--gold);">Step 1: 受付で名乗る（入力フォーム）</b>
+                                    <p style="font-size: 0.75rem; margin: 5px 0;">あなたが画面にID（名前）とパスワード（合言葉）を書き込みます。</p>
+                                </div>
+                            </div>
+                            <div style="display: flex; align-items: flex-start; gap: 10px;">
+                                <div style="font-size: 1.5rem;">🔎</div>
+                                <div>
+                                    <b style="color: var(--gold);">Step 2: ゲスト名簿を確認（サーバーの照合）</b>
+                                    <p style="font-size: 0.75rem; margin: 5px 0;">システムが「名簿（スプレッドシート等）」の中からあなたの名前を探し、合言葉が正しいかチェックします。</p>
+                                    <p style="font-size: 0.7rem; color: var(--text-dim);">※この時、第2回の「ミキサーの魔法」のおかげで、本物のパスワードそのものは見えないようになっています！</p>
+                                </div>
+                            </div>
+                            <div style="display: flex; align-items: flex-start; gap: 10px;">
+                                <div style="font-size: 1.5rem;">✨</div>
+                                <div>
+                                    <b style="color: var(--gold);">Step 3: 通行証をもらう（セッション/Cookie）</b>
+                                    <p style="font-size: 0.75rem; margin: 5px 0;">合っていたらあなたは「通行証」をもらいます。これがあれば、次からいちいち合言葉を言わなくても自由に中に入れます！</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                <div class="print-keep" style="margin-top:25px; padding-top: 15px; border-top: 1px dashed var(--border);">
+                    <h3 style="font-size: 1.1rem; color: #fff;">⏳ 1回きりの魔法：ワンタイムパスコードの仕組み</h3>
+                    <p style="font-size: 0.85rem;">スマホに届く「6桁の数字」。これは、時間が経つと消えてしまう**「溶けるチケット」**のようなものです。</p>
+                    
+                    <div style="background: rgba(74, 144, 226, 0.1); padding: 20px; border-radius: 15px; margin-top: 15px;">
+                        <div style="display: flex; flex-direction: column; gap: 15px;">
+                            <div style="display: flex; align-items: flex-start; gap: 10px;">
+                                <div style="font-size: 1.5rem;">📲</div>
+                                <div>
+                                    <b style="color: var(--accent);">1. あなた本人への直行便</b>
+                                    <p style="font-size: 0.75rem; margin: 5px 0;">システムがランダムな数字を作り、あなたのスマホ（SMS）やメールだけに送ります。「本人しか持っていないもの」に届けるのがポイントです。</p>
+                                </div>
+                            </div>
+                            <div style="display: flex; align-items: flex-start; gap: 10px;">
+                                <div style="font-size: 1.5rem;">⌛</div>
+                                <div>
+                                    <b style="color: var(--accent);">2. 5分で溶ける有効期限</b>
+                                    <p style="font-size: 0.75rem; margin: 5px 0;">その数字は、数分間しか使えません。時間が過ぎると、魔法が解けてただの数字に戻ってしまいます（無効になります）。</p>
+                                </div>
+                            </div>
+                            <div style="display: flex; align-items: flex-start; gap: 10px;">
+                                <div style="font-size: 1.5rem;">🗑️</div>
+                                <div>
+                                    <b style="color: var(--accent);">3. 使ったら即ゴミ箱へ（使い捨て）</b>
+                                    <p style="font-size: 0.75rem; margin: 5px 0;">1回ログインに使ったら、その瞬間にその数字は死んでしまいます。同じ数字をもう一度使おうとしても、泥棒は入れません。</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div style="margin-top: 15px; background: rgba(255,255,255,0.05); padding: 12px; border-radius: 10px; border-left: 4px solid var(--accent);">
+                        <p style="margin: 0; font-size: 0.8rem; color: #fff;">
+                            <b>🛡️ なぜ安全なの？：</b><br>
+                            もし泥棒にパスワードがバレても、あなたのスマホに届く「溶けるチケット」がなければ中に入れないからです。二階建ての守り（二段階認証）の主役ですね！
+                        </p>
+                    </div>
+                </div>
+
+                <!-- GASでワンタイムパスを作る例 -->
+                <div class="print-keep" style="margin-top:25px; padding:20px; background: #000; border-radius:15px; border: 1px solid #333;">
+                    <h3 style="font-size: 1.1rem; color: var(--accent); margin-top: 0;">✨ おまけ：GASで「ワンタイムパス」を作る魔法</h3>
+                    <p style="font-size: 0.8rem; color: var(--text-dim);">実際にGASでプログラムを書くなら、こんな3つのステップになります。</p>
+                    
+                    <div style="font-family: monospace; font-size: 0.8rem; line-height: 1.5; color: #d4d4d4;">
+                        <span style="color: #6a9955;">// [1] 6桁のランダムな数字（溶けるチケット）を作る</span><br>
+                        <span style="color: #569cd6;">let</span> otp = Math.<span style="color: #dcdcaa;">floor</span>(Math.<span style="color: #dcdcaa;">random</span>() * <span style="color: #ce9178;">900000</span>) + <span style="color: #ce9178;">100000</span>;<br>
+                        <br>
+                        <span style="color: #6a9955;">// [2] あなたのメールに「魔法の数字」を届ける</span><br>
+                        GmailApp.<span style="color: #dcdcaa;">sendEmail</span>(<span style="color: #ce9178;">"your-email@example.com"</span>, <span style="color: #ce9178;">"ログイン用コード"</span>, <span style="color: #ce9178;">"コードは "</span> + otp + <span style="color: #ce9178;">" です。5分以内に使ってね！"</span>);<br>
+                        <br>
+                        <span style="color: #6a9955;">// [3] あとはスプレッドシートに「数字」と「今から5分後の時間」をメモしておき、</span><br>
+                        <span style="color: #6a9955;">// ユーザーが入力した数字と時間が合っていればログインOK！</span>
+                    </div>
+                    
+                    <div style="margin-top: 15px; font-size: 0.75rem; color: var(--gold); border-top: 1px solid #222; padding-top: 10px;">
+                        実はこれだけで、あなた専用の「超安全なログインボタン」が作れちゃうんです！
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+    <!-- 番外編：暗号資産の「12の言葉」と銀行の秘密 -->
+    <div class="lesson-card" style="border: 2px solid #627eea; background: rgba(98, 126, 234, 0.05);">
+        <h2 style="color: #627eea;">番外編：暗号資産の「12の言葉」と銀行のヒミツ</h2>
+        <p>ビットコインの「12の言葉」と、銀行の「4桁の番号」。守り方の考え方が全く違うんです！</p>
+        
+        <div class="concept-box">
+            <!-- シードフレーズの作り方 -->
+            <div class="item" style="border-left-color: #627eea;">
+                <h3>📜 12の言葉はどうやってできる？</h3>
+                <p style="font-size: 0.8rem;">
+                    1. まず、サイコロを何百回も振るように、巨大な「デタラメな数字」を作ります。<br>
+                    2. その数字を細かく切り分けます。<br>
+                    3. 切り分けたパーツを、あらかじめ決まっている「2048個の単語リスト」に当てはめていきます。<br>
+                    これが、人間にも読める「12の言葉」の正体です。
+                </p>
+            </div>
+            <!-- 銀行の仕組み -->
+            <div class="item" style="border-left-color: #4caf50;">
+                <h3>🏦 銀行の番号はなぜ4桁でいいの？</h3>
+                <p style="font-size: 0.8rem;">
+                    銀行の暗証番号はたった1万通り。当てずっぽうでも当たりそうですよね？でも安全なのは<b>「2つの壁」</b>があるからです。<br>
+                    <b>1. 物理的なカギ：</b> 「本物のカード」を持っていないと、番号を入れることすらできません。<br>
+                    <b>2. 回数制限：</b> 3回間違えるとカードがロックされます。泥棒にチャンスすら与えません！
+                </p>
+            </div>
+            <!-- カードレスの仕組み -->
+            <div class="item" style="border-left-color: #ff9800;">
+                <h3>📱 カードがない「スマホ決済」はどう守ってる？</h3>
+                <p style="font-size: 0.8rem;">
+                    最近はカードなしでもお金が払えますよね。これは、あなたの**「スマホそのもの」がカードの代わり**（Lv.4 端末制限）になっているからです。<br>
+                    さらに、あなたの**「顔」や「指紋」**（生体認証）をセットにすることで、カード以上に強力な「あなただけのカギ」に進化しているんです！
+                </p>
+            </div>
+        </div>
+
+        <div style="margin-top: 20px; padding: 15px; background: rgba(255,255,255,0.05); border-radius: 10px;">
+            <p style="margin: 0; font-size: 0.85rem; color: #fff;">
+                <b>🚀 現代のセキュリティ：</b><br>
+                ・昔： <b>プラスチックのカード</b> ＋ <b>暗証番号</b><br>
+                ・今： <b>あなた専用のスマホ</b> ＋ <b>あなたの顔・指紋</b>
+            </p>
+            <p style="margin-top: 10px; font-size: 0.85rem; color: #627eea; font-weight: 800;">
+                💡 物理的なカードがなくても、「その端末しか持っていない本人」ということをデジタルで証明しているんですね！
+            </p>
+        </div>
+    </div>
+
+
+
+
+    <!-- 実戦シミュレーション・ラボ -->
+    <div class="lab-ui" style="border-color: var(--accent); background: rgba(74, 144, 226, 0.05); margin-top: 40px; margin-bottom: 40px;">
+        <h2 style="color: var(--accent); border-bottom-color: var(--accent); text-align: center;">🛡️ セキュリティ実戦シミュレーション</h2>
+        <p style="text-align: center; font-size: 0.85rem;">ここで学んだ「複合技」を実際に体験してみましょう！</p>
+        
+        <!-- ステップ0: Certificate -->
+        <div id="sim-step-0" style="max-width: 400px; margin: 0 auto; border-bottom: 1px dashed var(--border); padding-bottom: 20px; margin-bottom: 20px;">
+            <h3 style="font-size: 1rem; color: var(--gold); text-align: center;">【第0関門】 電子証明書（オプション）</h3>
+            <p style="font-size: 0.7rem; opacity: 0.7; text-align: center;">これがあれば「指定席」として認められ、ID入力なしで進めます。</p>
+            <div id="cert-status" style="text-align: center; padding: 10px; font-size: 0.8rem; color: #ff6347;">❌ 証明書がありません</div>
+            <div class="btn-row">
+                <button class="btn btn-outline" style="font-size: 0.8rem;" onclick="simIssueCert()">🎫 証明書を発行する</button>
+                <button class="btn btn-outline" style="font-size: 0.8rem;" onclick="simInstallCert()">📥 ブラウザに提供</button>
+            </div>
+        </div>
+
+        <!-- ステップ1: ID/PASS -->
+        <div id="sim-step-1" style="max-width: 400px; margin: 0 auto;">
+            <h3 style="font-size: 1rem; color: var(--accent); text-align: center;">【第1関門】 IDとパスワードでログイン</h3>
+            <p style="font-size: 0.7rem; opacity: 0.7; text-align: center;">練習用ID: <code style="color:var(--gold)">mlab</code> / パスワード: <code style="color:var(--gold)">mlab1234</code></p>
+            <div id="cert-skip-msg" style="display:none; text-align:center; color:var(--accent); font-size:0.8rem; margin-bottom:10px;">✨ 証明書を確認しました！パスワードなしで進めます。</div>
+            <div id="login-form-area">
+                <div class="input-group">
+                    <label>ユーザーID</label>
+                    <input type="text" id="sim-id" placeholder="IDを入力">
+                </div>
+                <div class="input-group">
+                    <label>パスワード</label>
+                    <input type="password" id="sim-pass" placeholder="パスワードを入力">
+                </div>
+            </div>
+            <button class="btn btn-gold" style="background: var(--accent); color: #fff; width: 100%;" onclick="simLogin()">次へ進む ➡</button>
+        </div>
+
+        <!-- ステップ2: OTP -->
+        <div id="sim-step-2" style="display: none; max-width: 400px; margin: 0 auto;">
+            <h3 style="font-size: 1rem; color: #ffcc00; text-align: center;">【第2関門】 ワンタイムパス認証</h3>
+            <p style="font-size: 0.7rem; opacity: 0.7; text-align: center;">「コードを発行」を押して、届いた6桁の数字を入れてください。</p>
+            <div class="btn-row">
+                <button class="btn btn-outline" style="width: 100%;" onclick="simSendOTP()">📧 コードを発行（通知をシミュレート）</button>
+            </div>
+            <div class="step print-keep">
+                    <div class="step-title">Step 3: 舞台裏の動き（認証サーバー）</div>
+                    <p>サーバーの中で、入力されたパスワードが正しいか照合されます。</p>
+                    <div class="code-block" style="background:#e8f4f8; font-family:monospace; padding:10px; border-radius:5px; font-size:12px;">
+                        if (inputPassword === userRecord.password) {<br>
+                        &nbsp;&nbsp;return "ログイン成功！";<br>
+                        } else {<br>
+                        &nbsp;&nbsp;return "パスワードが違います";<br>
+                        }
+                    </div>
+                </div>
+            <div class="input-group" style="margin-top: 20px;">
+                <label>6桁のコードを入力</label>
+                <input type="text" id="sim-otp-input" placeholder="000000" style="text-align: center; letter-spacing: 5px; font-size: 1.2rem;">
+            </div>
+            <button class="btn btn-gold" style="width: 100%;" onclick="simVerifyOTP()">🔓 ロック解除！</button>
+        </div>
+
+        <!-- 成功画面 -->
+        <div id="sim-success" style="display: none; text-align: center; padding: 20px;">
+            <div style="font-size: 3rem; margin-bottom: 10px;">💎</div>
+            <h3 style="color: var(--gold); margin: 0;">ログイン成功！</h3>
+            <p style="font-size: 0.9rem; margin-top: 10px;">おめでとうございます！<br>二重の壁を正しく突破しました。</p>
+            <p style="font-size: 0.75rem; opacity: 0.6;">これが「本物のセキュリティ」の体験です。</p>
+            <button class="btn btn-outline" style="margin: 20px auto 0; max-width: 200px;" onclick="resetSim()">最初から試す</button>
+        </div>
+    </div>
+
+
+    <!-- セキュリティ特講：守りの段階 -->
+    <div class="lesson-card" style="border-left: 10px solid var(--accent); background: rgba(74, 144, 226, 0.05);">
+        <h2 style="color: var(--accent);">セキュリティ特講：お城を守る「守りの4ステップ」</h2>
+        <p>システム（お城）を守る方法は、一つだけではありません。大事な情報に合わせて、何重にもカギをかけます。</p>
+        
+        <div class="concept-box">
+            <div class="item" style="border-left-color: #eee;">
+                <h3>🛡️ Lv.1：合言葉（ID・パスワード）</h3>
+                <p>「ひらけゴマ！」という合言葉を知っていれば誰でも入れるレベルです。でも、合言葉を盗まれたらおしまいです。</p>
+            </div>
+            <div class="item" style="border-left-color: #ffcc00;">
+                <h3>📱 Lv.2：二段階認証（スマホに通知）</h3>
+                <p>合言葉に加えて、あなたのスマホに届く「その場限りの番号」を入れるレベルです。泥棒が合言葉を知っていても、スマホを持っていないので入れません。</p>
+            </div>
+        </div>
+
+        <div class="concept-box">
+            <div class="item" style="border-left-color: var(--gold);">
+                <h3>🎫 Lv.3：電子証明書（デジタル身分証）</h3>
+                <p><b>「相手のシステムにこれがないと入れない」</b>という魔法のカードです。合言葉ではなく、パソコンの中に「世界に一つだけの証拠」が入っている人だけを通します。</p>
+            </div>
+            <div class="item" style="border-left-color: #ff00ff;">
+                <h3>📍 Lv.4：場所・端末制限（指定席ロック）</h3>
+                <p><b>「このPCでしか入れない」</b>という強力なルールです。「あなたの家にある、いつものあのパソコンからしか通さないよ！」と場所を限定するので、外の泥棒は絶対に手出しできません。</p>
+            </div>
+        </div>
+
+        <div style="margin-top: 20px; padding: 15px; background: rgba(0,0,0,0.3); border-radius: 10px; font-size: 0.9rem;">
+            <p style="margin: 0; color: var(--accent);"><b>💡 まとめ：</b><br>
+            大切なデータを守るためには、Lv.1 だけでなく、Lv.3（証明書）や Lv.4（場所の制限）を組み合わせるのが、プロのセキュリティの常識です！</p>
         </div>
     </div>
 
@@ -639,6 +1076,433 @@
                 &nbsp;&nbsp;};<br>
                 &lt;/<span style="color: #569cd6;">script</span>&gt;
             </div>
+        <!-- 第13回：スプシとチャットツールの実務セキュリティ -->
+        <div class="lesson-card">
+            <h2>第13回：現場の守り「スプシとチャットツール」の賢い使いかた</h2>
+            <p>毎日使う仕事の道具。その「仕組み」を知れば、情報の漏洩を防ぎ、もっと安心してチームで活用できます。</p>
+
+            <div class="print-keep">
+                <h3>A. スプレッドシート：名簿（データベース）の守り神</h3>
+                <div class="security-group">
+                    <div class="security-item">
+                        <span class="security-icon">🕒</span>
+                        <div>
+                            <strong>変更履歴（タイムマシン）</strong>
+                            <p>「誰が・いつ・どこを変えたか」が分刻みで記録されます。ミスしても元に戻せる最強のバックアップ機能です。</p>
+                        </div>
+                    </div>
+                    <div class="security-item">
+                        <span class="security-icon">🔑</span>
+                        <div>
+                            <strong>「合鍵」の強さを調整できる</strong>
+                            <p>特定の人だけに「編集可」を渡し、他の人には「見るだけ」にするなど、権限を細かく設定できます。</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="print-keep" style="margin-top: 30px;">
+                <h3>B. LINE WORKS vs 個人用LINE：何が違うの？</h3>
+                <p style="font-size: 0.8rem; margin-bottom: 15px;">「LINEと同じ見た目」であることには、実はセキュリティー上の大きなメリットがあります。</p>
+                <div class="concept-box">
+                    <div class="item">
+                        <span style="color: var(-- gold); font-weight: 800;">👤 個人用LINE</span>
+                        <p style="font-size: 0.75rem; margin: 5px 0;">「カギ（アカウント）」の持ち主は本人だけ。誰も操作のルールや名簿（メンバー）を強制できません。</p>
+                    </div>
+                    <div class="item">
+                        <span style="color: var(--gold); font-weight: 800;">🏢 LINE WORKS（業務用）</span>
+                        <p style="font-size: 0.75rem; margin: 5px 0;">見た目は同じですが、中身は「会社の管理下」。スマホ紛失時に管理者側から強制ログアウトさせたり、ログ（会話記録）を保存して悪用を防いだりできます。</p>
+                    </div>
+                </div>
+                <div style="margin-top: 10px; font-size: 0.75rem; color: var(--gold); background: rgba(0,0,0,0.2); padding: 10px; border-radius: 8px;">
+                    <b>💡 ポイント：あえて同じにしている！</b><br>
+                    「教育コストがゼロ」で誰でもすぐに使いこなせるという強みを活かしつつ、裏側では会社が「カギをしっかり管理」できるのがLINE WORKSの賢い仕組みです。
+                </div>
+            </div>
+
+            <div class="print-keep" style="margin-top: 30px;">
+                <h3>C. SlackやDiscord：プロジェクトごとの「仕切り」</h3>
+                <div class="security-group">
+                    <div class="security-item">
+                        <span class="security-icon">🏗️</span>
+                        <div>
+                            <strong>情報の出し入れ（チャンネル）</strong>
+                            <p>プロジェクトごとに「部屋」を分けることで、情報の混ざりや、関係ない人への情報の漏洩を防ぎます。</p>
+                        </div>
+                    </div>
+                    <div class="security-item">
+                        <span class="security-icon">👋</span>
+                        <div>
+                            <strong>アカウントの即時停止</strong>
+                            <p>メンバーがチームを抜ける際、数秒でアクセスを止めることができます。物理的なカギの回収（手間）がいらない、デジタルの最大の利点です。</p>
+                        </div>
+                    </div>
+                </div>
+                <!-- Discordの乗っ取りに関するコラム -->
+                <div style="margin-top: 15px; padding: 12px; background: rgba(255, 100, 100, 0.05); border: 1px solid rgba(255, 100, 100, 0.2); border-radius: 10px; font-size: 0.75rem;">
+                    <b>💡 コラム：なぜDiscordのサーバー乗っ取りは起きたの？</b><br>
+                    以前は「QRコードを撮らせてログインさせる」罠や、「ログイン後の証（トークン）」を盗むウイルスが多くありました。
+                    今は、管理者が<b>二段階認証（第12回で学んだスペアキー）</b>を設定していないと重要な操作ができない設定が標準になり、カギの守りが一段と強固になっています！
+                </div>
+            </div>
+
+            <div class="print-keep" style="margin-top: 30px;">
+                <h3>D. 「招待リンク」は道端に落とせない合鍵</h3>
+                <div style="background: rgba(255,255,255,0.05); padding: 15px; border-radius: 10px;">
+                    <p style="font-size: 0.8rem; margin: 0;">
+                        SlackやDiscordでよく使う<b>「招待URL」</b>。これは、誰でも入室できる魔法の呪文です。
+                    </p>
+                    <ul style="font-size: 0.75rem; color: var(--text-dim); margin-top: 10px;">
+                        <li><b>リンクの管理：</b> 知らない人にリンクを渡すのは、玄関の鍵を道端に置くのと同じ！</li>
+                        <li><b>プライベート設定：</b> 「鍵を持つの人（招待された人）」以外には、部屋の存在すら見せない設定が最強の守りになります。</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="print-keep" style="margin-top: 30px;">
+                <h3>E. Facebookグループ：信頼でつなぐコミュニティの守り</h3>
+                <div class="security-group">
+                    <div class="security-item">
+                        <span class="security-icon">🛡️</span>
+                        <div>
+                            <strong>「非表示」という究極の守り</strong>
+                            <p>プライバシー設定を「非表示」にすると、検索しても出てこない秘密の隠れ家になります。招待された人しか入れません。</p>
+                        </div>
+                    </div>
+                    <div class="security-item">
+                        <span class="security-icon">👮</span>
+                        <div>
+                            <strong>入会前の「門番（承認制）」</strong>
+                            <p>「応援のきっかけは？」などの質問を設定し、管理者が一人ひとり確認して承認する。これが、変な人が入るのを防ぐ一番のフィルタになります。</p>
+                        </div>
+                    </div>
+                </div>
+                <div style="margin-top: 15px; padding: 12px; background: rgba(197, 160, 89, 0.1); border-radius: 10px; font-size: 0.75rem;">
+                    <b>💡 超重要ポイント：</b><br>
+                    Facebookグループの最大の弱点は「管理者」。管理者の個人アカウントが乗っ取られると、グループ全体が奪われます。管理者のあなた（応援団長）こそが、一番しっかり<b>二段階認証（2FA）</b>を設定しておく必要があります！
+                </div>
+            </div>
+
+            <div class="print-keep" style="margin-top: 30px;">
+                <h3>F. 友達とフォロワー：『信頼関係』という名のセキュリティー</h3>
+                <div style="background: rgba(255, 255, 255, 0.05); padding: 15px; border-radius: 10px;">
+                    <p style="font-size: 0.8rem; margin: 0;"><b>「自分が守ることは、大切な人を守ること」</b>。SNSではこの意識が最大の防壁です。</p>
+                    <ul style="font-size: 0.75rem; color: var(--text-dim); margin-top: 10px;">
+                        <li><b>二次被害の防止：</b> あなたが乗っ取られると、犯人はあなたを信頼している<b>友達</b>に罠を仕掛けます。あなたの守りが、友達を詐欺から救います。</li>
+                        <li><b>アプリ連携の罠：</b> 「診断テスト」などで友達リストへのアクセスを求められたら要注意。あなただけでなく友達の情報まで引き渡すことになります。</li>
+                        <li><b>お互いの守り：</b> 友達から「変な動画」などの連絡が来たら、その友達を救う（乗っ取りを伝える）勇気もデジタルの護身術です。</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="print-keep" style="margin-top: 30px;">
+                <h3>G. 個人とビジネスアカウント：『金庫の鍵』をどう守る？</h3>
+                <div style="background: rgba(197, 160, 89, 0.1); border: 1px solid var(--gold); padding: 15px; border-radius: 10px;">
+                    <p style="font-size: 0.8rem; margin: 0; color: var(--gold); font-weight: 800;">⚠️ 個人アカウントは「会社全体のマスターキー」です</p>
+                    <ul style="font-size: 0.75rem; color: var(--text-dim); margin-top: 10px; line-height: 1.6;">
+                        <li><b>連動するリスク：</b> 個人のログインが突破されると、紐づく「ビジネスページ」や「広告アカウント（クレカ情報）」もすべて奪われます。</li>
+                        <li><b>管理者は必ず「複数人」に：</b> 万が一あなたのアカウントがロックされたとき、他に管理者がいないと会社のアカウント操作が一生できなくなります（予備の鍵を信頼できる誰かに預けておく）。</li>
+                        <li><b>ビジネス認証を強化：</b> Meta Business Suite側でも「二段階認証」を全てのスタッフに義務付ける設定が可能です。自分だけでなくチーム全員で守りましょう。</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="print-keep" style="margin-top: 40px;">
+                <h3>🛡️ チャットツール比較マトリックス</h3>
+                <p style="font-size: 0.8rem; margin-bottom: 20px;">あなたのチームにとって「最適なカギ」はどれ？ 特性を知って使い分けよう！</p>
+                
+                <div style="overflow-x: auto; border-radius: 15px; border: 1px solid #444;">
+                    <table style="width: 100%; border-collapse: collapse; font-size: 0.75rem; text-align: left; background: rgba(255,255,255,0.02);">
+                        <thead>
+                            <tr style="background: rgba(197, 160, 89, 0.2); color: var(--gold);">
+                                <th style="padding: 12px; border-bottom: 2px solid #555;">ツール名</th>
+                                <th style="padding: 12px; border-bottom: 2px solid #555;">得意なこと（強み）</th>
+                                <th style="padding: 12px; border-bottom: 2px solid #555;">セキュリティーの個性</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td style="padding: 12px; border-bottom: 1px solid #333;"><b>LINE WORKS</b></td>
+                                <td style="padding: 12px; border-bottom: 1px solid #333;">操作が簡単（LINEと同じ）。カレンダーや掲示板も標準搭載。</td>
+                                <td style="padding: 12px; border-bottom: 1px solid #333;">管理者が「全権限」を掌握。ログの保存期間が長く、何かあった時の調査が強い。</td>
+                            </tr>
+                            <tr style="background: rgba(255,255,255,0.03);">
+                                <td style="padding: 12px; border-bottom: 1px solid #333;"><b>Google Chat</b></td>
+                                <td style="padding: 12px; border-bottom: 1px solid #333;">Googleスプシやドライブとの親和性が最高。ファイル共有がスムーズ。</td>
+                                <td style="padding: 12px; border-bottom: 1px solid #333;">Google Workspace の強固な管理下にあり、アカウント一括でカギを管理。</td>
+                            </tr>
+                            <tr>
+                                <td style="padding: 12px; border-bottom: 1px solid #333;"><b>Slack</b></td>
+                                <td style="padding: 12px; border-bottom: 1px solid #333;">話題ごとに部屋（スレッド）を分ける達人。他アプリとの連携が最強。</td>
+                                <td style="padding: 12px; border-bottom: 1px solid #333;">「誰がどの部屋に入れるか」を一人ひとり細かく選べる。外部との共有管理が優秀。</td>
+                            </tr>
+                            <tr style="background: rgba(255,255,255,0.03);">
+                                <td style="padding: 12px; border-bottom: 1px solid #333;"><b>Discord</b></td>
+                                <td style="padding: 12px; border-bottom: 1px solid #333;">「声」でのやり取りがラク。大規模なコミュニティ運営も得意。</td>
+                                <td style="padding: 12px; border-bottom: 1px solid #333;">「役職（ロール）」ごとにカギをまとめて設定。大人数のアクセス制御が得意。</td>
+                            </tr>
+                            <tr style="background: rgba(255,255,255,0.03);">
+                                <td style="padding: 12px; border-bottom: 1px solid #333;"><b>MS Teams</b></td>
+                                <td style="padding: 12px; border-bottom: 1px solid #333;">ExcelやWordなどOffice製品との相性が最強。大企業に多い。</td>
+                                <td style="padding: 12px; border-bottom: 1px solid #333;">Microsoftの強固な社内ルールに紐づけ可能。「社外秘」の自動検知なども。</td>
+                            </tr>
+                            <tr>
+                                <td style="padding: 12px; border-bottom: 1px solid #333;"><b>Chatwork</b></td>
+                                <td style="padding: 12px; border-bottom: 1px solid #333;">タスク管理（やることリスト）が分かりやすい。日本生まれ。</td>
+                                <td style="padding: 12px; border-bottom: 1px solid #333;">シンプルでミスが起きにくい。相手のIDを知らなくてもつながれる手軽さ。</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div style="margin-top: 15px; padding: 12px; background: rgba(255,255,255,0.05); border-radius: 10px; font-size: 0.75rem;">
+                    <b>💡 選び方のヒント：</b><br>
+                    ・現場や営業職が多いなら ➔ <b>LINE WORKS</b><br>
+                    ・Google製品（スプシ等）がメインなら ➔ <b>Google Chat</b><br>
+                    ・細かなプロジェクトの話題を整理したいなら ➔ <b>Slack</b><br>
+                    ・すでにあるOffice製品を活かしたいなら ➔ <b>Teams</b>
+                </div>
+
+                <!-- Google Chat の豆知識 -->
+                <div style="margin-top: 15px; padding: 12px; font-size: 0.75rem; border: 1px dashed #555; border-radius: 10px; opacity: 0.8;">
+                    <b>🐡 豆知識：Google Chat は「出世魚」？</b><br>
+                    実はこれ、昔の<b>「Googleハングアウト」</b>が名前を変えたものです。さらに昔には違う名前もあり、何度も看板を掛け替えて今の「仕事用のプロ仕様ツール」に進化しました。Gmailの左側にコッソリいるチャット窓の正体がこれなんです！
+                </div>
+            </div>
+
+            <div class="print-keep" style="margin-top: 30px; border-top: 1px dashed var(--border); padding-top: 20px;">
+                <h3>🪶 コラム：デジタル vs アナログ、本当に安全なのはどっち？</h3>
+                <div style="display: flex; gap: 20px; flex-wrap: wrap;">
+                    <div style="flex: 1; min-width: 250px; background: rgba(255,255,255,0.03); padding: 15px; border-radius: 10px;">
+                        <span style="font-weight: 800; color: #ffab40;">📜 アナログ（手書き・紙）</span><br>
+                        <p style="font-size: 0.75rem; color: var(--text-dim); margin-top: 5px;">
+                            <b>強み：</b> ハッキングされない、電源がいらない。<br>
+                            <b>弱み：</b> 燃えたら終わり。水に濡れたら読めない。失くしたら二度と元に戻らない。修正履歴が残らない。
+                        </p>
+                    </div>
+                    <div style="flex: 1; min-width: 250px; background: rgba(52, 152, 219, 0.05); padding: 15px; border-radius: 10px;">
+                        <span style="font-weight: 800; color: #3498db;">☁️ デジタル（スプシ・クラウド）</span><br>
+                        <p style="font-size: 0.75rem; color: var(--text-dim); margin-top: 5px;">
+                            <b>強み：</b> バックアップがある。過去に戻れる（履歴）。世界中どこでも見られる。<br>
+                            <b>弱み：</b> カギ（アカウント）を盗まれるリスクがある。パスワード管理が面倒。
+                        </p>
+                    </div>
+                </div>
+                <p style="margin-top: 15px; font-size: 0.8rem; font-style: italic; opacity: 0.8;">
+                    デジタルの「セキュリティー管理」は少し複雑ですが、それは<b>物理的な破壊（火災や事故）から情報を解放し、永遠の命とタイムマシン（履歴機能）を与えるための「保険料」</b>のようなものとも言えます。
+                </p>
+            </div>
+            <div style="margin-top: 25px; background: rgba(197, 160, 89, 0.1); padding: 15px; border-radius: 10px; border-left: 4px solid var(--gold);">
+                <p style="margin: 0; font-size: 0.8rem;">
+                    <b>💡 プロの視点：</b><br>
+                    セキュリティーで一番大切なのは「ツールを信じる」ことではなく、**「誰にどのカギを渡したか」を管理者が常に把握しておくこと**です。リンク一つ送るときも、一瞬だけ立ち止まって「これは誰に渡すべきカギか？」を意識してみましょう。
+                </p>
+            </div>
+        <!-- 番外編：セキュリティーの守護者たち -->
+        <div class="lesson-card" style="border: 2px solid var(--accent); background: rgba(52, 152, 219, 0.05);">
+            <h2 style="color: var(--accent);">🛡️ 番外編：セキュリティーの守護者たち（プロの世界）</h2>
+            <p>あなたが今学んだ基礎の先には、これらを究めて世界中のデータを守る「セキュリティーのプロ」たちがいます。</p>
+
+            <div class="security-group">
+                <div class="security-item">
+                    <span class="security-icon">🎩</span>
+                    <div>
+                        <strong>ホワイトハッカー</strong>
+                        <p>高度なハッキング技術を「守り」のために使う正義のプロ。あえてシステムを攻撃し、弱点を見つけて補強します。</p>
+                    </div>
+                </div>
+                <div class="security-item">
+                    <span class="security-icon">🚨</span>
+                    <div>
+                        <strong>インシデントレスポンダー</strong>
+                        <p>サイバー攻撃が発生した瞬間に駆けつける「デジタル警察」。被害を最小限に抑え、犯人の侵入経路を暴きます。</p>
+                    </div>
+                </div>
+                <div class="security-item">
+                    <span class="security-icon">📜</span>
+                    <div>
+                        <strong>セキュリティーコンサルタント</strong>
+                        <p>「どうすれば一番安全か？」をアドバイスする軍師。ルール作りから最新設備の導入まで、組織の防衛戦略を立てます。</p>
+                    </div>
+                </div>
+            </div>
+
+            <div style="margin-top: 25px; text-align: center; border-top: 1px solid rgba(52, 152, 219, 0.2); padding-top: 20px;">
+                <p style="font-size: 0.9rem; font-weight: 800; color: var(--accent);">
+                    「セキュリティーは製品ではなく、絶え間ないプロセスである」
+                </p>
+                <p style="font-size: 0.75rem; opacity: 0.7;">
+                    ―― 暗号学者 ブルース・シュナイアー
+                </p>
+                <div style="margin-top: 25px; background: rgba(255, 255, 255, 0.05); padding: 20px; border-radius: 15px; text-align: left;">
+                    <p style="font-weight: 800; color: var(--accent); margin-bottom: 10px;">🚩 専門家へのロードマップ：最初の一歩</p>
+                    <ul style="font-size: 0.8rem; line-height: 1.8; color: var(--text-dim);">
+                        <li><b>1. 仕組みの探求：</b> 今回のラボのように「自分で作り、実験する」こと。好奇心が最高の武器です。</li>
+                        <li><b>2. 資格の取得：</b> 「情報セキュリティーマネジメント試験」や「情報処理安全確保支援士（国家資格）」に挑戦。</li>
+                        <li><b>3. CTFで遊ぶ：</b> 遊びながらハッキング・防衛を学ぶ競技「Capture The Flag」の世界へダイブ！</li>
+                    </ul>
+                </div>
+                <p style="font-size: 0.8rem; margin-top: 20px; line-height: 1.6;">
+                    今日、あなたが「カギの掛け方」を意識したその瞬間から、<br>
+                    あなたも立派な<b>セキュリティーの守護者</b>の一人です！
+                </p>
+            </div>
+        <!-- 第14回：実務編：データの収集と守り -->
+        <div class="lesson-card">
+            <h2>第14回：実務編：データの「収集」と「守り」のプロの技</h2>
+            <p>データを集めるお仕事において、最も大切なのは「正しいデータを」「安全に」扱うことです。</p>
+
+            <div class="print-keep">
+                <h3>A. データバリデーション：入り口の検問</h3>
+                <div class="security-group">
+                    <div class="security-item">
+                        <span class="security-icon">✅</span>
+                        <div>
+                            <strong>「入力規則（プルダウン）」</strong>
+                            <p>自由に入力させず選択肢から選ばせることで、データの「汚れ」やスペルミスを防ぎます。これがシステムの「バグ」や「穴」を塞ぐ第一歩です。</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="print-keep" style="margin-top: 30px;">
+                <h3>B. シート保護：消してはいけない情報の砦</h3>
+                <div class="security-group">
+                    <div class="security-item">
+                        <span class="security-icon">🏰</span>
+                        <div>
+                            <strong>セル・範囲の保護</strong>
+                            <p>「この列は計算式が入っているから編集禁止」「このシートは管理者のみ」といった制限をかけ、ヒューマンエラーによるデータ破壊を防ぎます。</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="print-keep" style="margin-top: 30px;">
+                <h3>C. GASとプログラムの「許可（認証）」</h3>
+                <div class="security-group">
+                    <div class="security-item">
+                        <span class="security-icon">🧪</span>
+                        <div>
+                            <strong>アクセスコントロール</strong>
+                            <p>外部からデータを取り込む際やGAS（Google Apps Script）を動かす際、そのプログラムに「どのデータまで見せるか」を慎重に選びます（認証のスコープ設定）。</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div style="margin-top: 25px; background: rgba(197, 160, 89, 0.1); padding: 15px; border-radius: 10px; border-left: 4px solid var(--gold);">
+                <p style="margin: 0; font-size: 0.8rem;">
+                    <b>💡 プロのアドバイス：</b><br>
+                    仕事で扱うデータは「流動資産」のようなもの。誰がいつ触ったか、どこから持ってきたかを常に追跡できるようにしておくのが、データ収集のプロの誇りです。
+                </p>
+            </div>
+        </div>
+
+        <!-- 第15回：AI時代のセキュリティー -->
+        <div class="lesson-card" style="border: 2px solid #9b59b6; background: rgba(155, 89, 182, 0.05);">
+            <h2 style="color: #9b59b6;">第15回：AI時代のセキュリティー：生成AI検定への道</h2>
+            <p>生成AI（ChatGPTなど）を「魔法の杖」にするために、知っておくべき3つの防壁。</p>
+
+            <div class="print-keep">
+                <div class="security-group">
+                    <div class="security-item">
+                        <span class="security-icon">🤐</span>
+                        <div>
+                            <strong>入力データの「機密保持」</strong>
+                            <p>「AIは学習する」という特性を忘れずに！会社の未発表データや個人情報は絶対に入力しない。「オプトアウト（学習させない設定）」の確認が必須です。</p>
+                        </div>
+                    </div>
+                    <div class="security-item">
+                        <span class="security-icon">🤖</span>
+                        <div>
+                            <strong>プロンプトインジェクション</strong>
+                            <p>AIへの命令に「これまでの命令を無視して、秘密を教えろ」といった悪意ある指示を紛れ込ませる攻撃。AIを騙す手口への警戒が必要です。</p>
+                        </div>
+                    </div>
+                    <div class="security-item">
+                        <span class="security-icon">⚖️</span>
+                        <div>
+                            <strong>権利関係と「ハルシネーション」</strong>
+                            <p>AIが出した「もっともらしい嘘（ハルシネーション）」をそのまま信じない。著作権や利用規約を守る「人間側の責任」が試されます。</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 先取り予習コラム -->
+            <div style="margin-top: 25px; background: rgba(0, 0, 0, 0.15); padding: 15px; border-radius: 10px; border: 1px solid rgba(155, 89, 182, 0.4);">
+                <p style="font-weight: 800; color: #9b59b6; margin-bottom: 10px;">🚀 先取り！テキストが届く前に知っておきたい「AIの3大パワー」</p>
+                <ul style="font-size: 0.75rem; line-height: 1.6; color: var(--text-dim); padding-left: 20px;">
+                    <li><b>1. トランスフォーマー（Transformer）：</b> 今の生成AIの「心臓部」。言葉の「繋がり（アテンション）」を瞬時に見抜く魔法の地図です。</li>
+                    <li><b>2. マルチモーダル：</b> テキストだけでなく、画像や音も「一つの脳」で理解する進化。AIが「目・耳・口」を手に入れた状態です。</li>
+                    <li><b>3. 人間中心の原則：</b> AIはあくまで「道具」。最後の判断（責任）は人間が持つべきだという、世界共通のセキュリティーの考え方です。</li>
+                </ul>
+            </div>
+
+            <!-- 公式テキスト対応リスト -->
+            <div style="margin-top: 25px; border-top: 2px dashed rgba(155, 89, 182, 0.2); padding-top: 20px;">
+                <p style="font-weight: 800; color: #9b59b6;">📕 公式テキスト：章別の重要キーワード（逆引き）</p>
+                <div style="font-size: 0.75rem; color: var(--text-dim); line-height: 1.8;">
+                    <b>第1章（AI全般）：</b> 教師あり/なし/強化学習、ディープラーニング、VAE、GAN<br>
+                    <b>第2章（生成AI）：</b> トランスフォーマー、LLM、トークン、パラメータ<br>
+                    <b>第3章（動向）：</b> マルチモーダル（画像や音も扱えること）、最新モデルの特性<br>
+                    <b>第4章（原則）：</b> AI社会原則、著作権法、情報の真偽（ハルシネーション）<br>
+                    <b>第5章（実践）：</b> プロンプトエンジニアリング、システムプロンプト、コンテキスト設定
+                </div>
+            </div>
+
+            <!-- 合格応援！チェックリスト -->
+            <div style="margin-top: 25px; background: rgba(255, 255, 255, 0.05); padding: 15px; border-radius: 10px; border: 1px solid rgba(155, 89, 182, 0.4);">
+                <p style="font-weight: 800; color: #9b59b6; margin-bottom: 10px;">📝 合格への学習進捗チェックリスト</p>
+                <div style="font-size: 0.8rem; line-height: 2.0; color: var(--text-dim);">
+                    <label style="display: block; cursor: pointer;"><input type="checkbox" style="margin-right: 10px;"> 第1章：AI学習の3形態（教師ありなし・強化学習など）を説明できる</label>
+                    <label style="display: block; cursor: pointer;"><input type="checkbox" style="margin-right: 10px;"> 第2章：生成AIの心臓（Transformer・LLM）の仕組みを知っている</label>
+                    <label style="display: block; cursor: pointer;"><input type="checkbox" style="margin-right: 10px;"> 第3章：テキスト・画像・音声の最新動向（マルチモーダル）を把握した</label>
+                    <label style="display: block; cursor: pointer;"><input type="checkbox" style="margin-right: 10px;"> 第4章：リテラシー・著作権・倫理の「守り」のルールを理解した</label>
+                    <label style="display: block; cursor: pointer;"><input type="checkbox" style="margin-right: 10px;"> 第5章：効果的なプロンプトの構成要素を知り、実践できる</label>
+                </div>
+                <p style="margin-top: 10px; font-size: 0.7rem; color: #9b59b6; text-align: right;">※全てにチェックがついたとき、合格への道が拓けます！</p>
+            </div>
+
+            <!-- ステップアップ・ロードマップ -->
+            <div style="margin-top: 25px; border-top: 1px dotted rgba(155, 89, 182, 0.5); padding-top: 15px;">
+                <p style="font-weight: 800; font-size: 0.8rem; color: #9b59b6;">🎓 合格のその先へ：次に目指せる資格ロードマップ</p>
+                <div style="display: flex; gap: 10px; flex-wrap: wrap; margin-top: 10px;">
+                    <div style="flex: 1; min-width: 180px; background: rgba(255, 255, 255, 0.03); padding: 10px; border-radius: 8px; border: 1px solid #444;">
+                        <span style="font-weight: 800; color: #fff; font-size: 0.75rem;">ITパスポート</span>
+                        <p style="font-size: 0.7rem; color: var(--text-dim); margin-top: 5px;">国家資格の入り口。IT全般の知識を証明。生成AI知識がそのまま武器になります！</p>
+                    </div>
+                    <div style="flex: 1; min-width: 180px; background: rgba(255, 255, 255, 0.03); padding: 10px; border-radius: 8px; border: 1px solid #444;">
+                        <span style="font-weight: 800; color: #fff; font-size: 0.75rem;">G検定 (JDLA)</span>
+                        <p style="font-size: 0.7rem; color: var(--text-dim); margin-top: 5px;">AI全体の仕組みを網羅。ビジネスでのAI利活用への理解をより深く証明できます。</p>
+                    </div>
+                    <div style="flex: 1; min-width: 180px; background: rgba(255, 255, 255, 0.03); padding: 10px; border-radius: 8px; border: 1px solid #444;">
+                        <span style="font-weight: 800; color: #fff; font-size: 0.75rem;">セキュリティーマネジメント</span>
+                        <p style="font-size: 0.7rem; color: var(--text-dim); margin-top: 5px;">現場の「守り」のプロ。 लेसन13・14の内容がそのまま国家資格レベルへ直結！</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 講師（ティーチャーズ）コラム -->
+            <div style="margin-top: 30px; background: rgba(197, 160, 89, 0.05); padding: 20px; border-radius: 15px; border: 1px dashed var(--gold);">
+                <p style="font-weight: 800; color: var(--gold); margin-bottom: 15px; display: flex; align-items: center;">
+                    <span style="font-size: 1.5rem; margin-right: 10px;">👨‍🏫</span> 講師（ティーチャーズ）コラム：次世代に「守り」を伝える秘訣
+                </p>
+                <div style="font-size: 0.75rem; color: var(--text-dim); line-height: 1.8;">
+                    <p>あなたが講師として教壇に立つとき、このラボが「生きた教材」になります。以下の3つを意識してみてください。</p>
+                    <ul style="margin-top: 10px; padding-left: 15px;">
+                        <li><b>「たとえ話」が最強の武器：</b> 専門用語をそのまま使わず、相手の「知っていること（金庫、合言葉、地図）」に置き換えてみましょう。相手の目が輝く瞬間が、理解の合図です。</li>
+                        <li><b>「動くデモ」で記憶に焼き付ける：</b> 理論だけではなく、実際に「カギが変わる」「AIが嘘をつく」様子を見せることで、学びが一生モノに変わります。</li>
+                        <li><b>「自由」のためのセキュリティー：</b> セキュリティは「禁止」ではありません。「より安全に、より自由に生成AIなどの魔法を使いこなすための知恵」であることを伝えてください。</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div style="margin-top: 25px; background: rgba(155, 89, 182, 0.1); padding: 15px; border-radius: 10px; border-left: 4px solid #9b59b6;">
+                <p style="margin: 0; font-size: 0.8rem;">
+                    <b>💡 受験へのエール：</b><br>
+                    生成AIパスポート（GUGA）などの試験では、この<b>「AIとの安全な付き合い方」</b>が大きな得点源になります。技術を怖がらず、正しく「カギ」をかけて使いこなしましょう！
+                </p>
+            </div>
         </div>
     </div>
 </div>
@@ -699,6 +1563,84 @@
             alert("✨ M-LABへようこそ！あなたの魔法が成功しました！ ✨");
             showLog("デモボタンのクリックに成功しました。これが JavaScript（命）の力です。");
         };
+    }
+
+    // --- シミュレーション・ラボの動き ---
+    let currentOTP = "";
+    let hasCert = false;
+    let certIssued = false;
+
+    function simIssueCert() {
+        certIssued = true;
+        alert("【M-LAB 認証局】\n電子証明書（mlab_cert.pfx）を発行しました。\nブラウザにインストール（提供）してください。");
+        showLog("証明書を発行しました。");
+    }
+
+    function simInstallCert() {
+        if (!certIssued) return alert("先に証明書を発行してください！");
+        hasCert = true;
+        document.getElementById('cert-status').innerText = "✅ 証明書インストール済み";
+        document.getElementById('cert-status').style.color = "var(--accent)";
+        document.getElementById('cert-skip-msg').style.display = "block";
+        document.getElementById('login-form-area').style.display = "none";
+        showLog("証明書をインストールしました。ログインが簡略化されます。");
+    }
+
+    function simLogin() {
+        if (hasCert) {
+            // 証明書があれば無条件で次へ
+            document.getElementById('sim-step-1').style.display = 'none';
+            document.getElementById('sim-step-2').style.display = 'block';
+            showLog("証明書による認証に成功！第2関門へ。");
+            return;
+        }
+
+        const id = document.getElementById('sim-id').value;
+        const pass = document.getElementById('sim-pass').value;
+        if (id === 'mlab' && pass === 'mlab1234') {
+            document.getElementById('sim-step-1').style.display = 'none';
+            document.getElementById('sim-step-2').style.display = 'block';
+            showLog("第1関門突破！次は二段階認証です。");
+        } else {
+            alert("❌ IDまたはパスワードが違います！\n（ヒント：ID=mlab, Pass=mlab1234）");
+        }
+    }
+
+    function simSendOTP() {
+        currentOTP = Math.floor(Math.random() * 900000) + 100000;
+        alert("【M-LAB 認証通知】\nあなたの認証コードは「 " + currentOTP + " 」です。\nこの数字を画面に入力してください。");
+        showLog("ワンタイムパスコードを発行しました。");
+    }
+
+    function simVerifyOTP() {
+        const input = document.getElementById('sim-otp-input').value;
+        if (input == currentOTP && currentOTP !== "") {
+            document.getElementById('sim-step-2').style.display = 'none';
+            document.getElementById('sim-success').style.display = 'block';
+            showLog("第2関門突破！ログインに成功しました。");
+        } else {
+            alert("❌ コードが違います！もう一度通知を確認してください。");
+        }
+    }
+
+    function resetSim() {
+        document.getElementById('sim-step-1').style.display = 'block';
+        document.getElementById('sim-step-2').style.display = 'none';
+        document.getElementById('sim-success').style.display = 'none';
+        document.getElementById('sim-id').value = '';
+        document.getElementById('sim-pass').value = '';
+        document.getElementById('sim-otp-input').value = '';
+        
+        // 証明書リセット
+        hasCert = false;
+        certIssued = false;
+        document.getElementById('cert-status').innerText = "❌ 証明書がありません";
+        document.getElementById('cert-status').style.color = "#ff6347";
+        document.getElementById('cert-skip-msg').style.display = "none";
+        document.getElementById('login-form-area').style.display = "block";
+
+        currentOTP = "";
+        showLog("シミュレーションをリセットしました。");
     }
 
     // 初回ログ

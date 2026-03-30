@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ムビチケ利用マニュアル：えんとつ町のプペル ～約束の時計台～</title>
+    <style>
+        /* Base Style */
+        body {
+            font-family: "Helvetica Neue", Arial, "Hiragino Kaku Gothic ProN", "Hiragino Sans", Meiryo, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background-color: #f9f9f9;
+            margin: 0;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: #fff;
+            padding: 40px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            border-radius: 8px;
+        }
+
+        /* Typography */
+        h1 {
+            color: #2c3e50;
+            border-bottom: 2px solid #2c3e50;
+            padding-bottom: 10px;
+            margin-bottom: 30px;
+            font-size: 24px;
+        }
+
+        h2 {
+            color: #2c3e50;
+            background: #f0f4f8;
+            padding: 10px 15px;
+            border-left: 5px solid #2c3e50;
+            margin-top: 40px;
+            margin-bottom: 20px;
+            font-size: 20px;
+        }
+
+        h3 {
+            color: #34495e;
+            border-bottom: 1px dotted #ccc;
+            padding-bottom: 5px;
+            margin-top: 30px;
+            font-size: 18px;
+        }
+
+        /* Lists */
+        ul {
+            padding-left: 20px;
+        }
+
+        /* Step List Design */
+        ol {
+            counter-reset: li;
+            list-style: none;
+            padding: 0;
+        }
+
+        ol>li {
+            position: relative;
+            padding-left: 50px;
+            margin-bottom: 20px;
+        }
+
+        ol>li::before {
+            content: counter(li);
+            counter-increment: li;
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 35px;
+            height: 35px;
+            background: #2c3e50;
+            color: #fff;
+            text-align: center;
+            line-height: 35px;
+            border-radius: 50%;
+            font-weight: bold;
+        }
+
+        /* Alert Boxes */
+        .alert {
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 4px;
+            border-left: 5px solid;
+            font-size: 0.95em;
+        }
+
+        .alert-info {
+            background-color: #e3f2fd;
+            border-color: #2196f3;
+            color: #0d47a1;
+        }
+
+        .alert-warning {
+            background-color: #fff3e0;
+            border-color: #ff9800;
+            color: #e65100;
+        }
+
+        .alert-danger {
+            background-color: #ffebee;
+            border-color: #f44336;
+            color: #b71c1c;
+        }
+
+        /* Print Style */
+        @media print {
+            body {
+                background: #fff;
+                padding: 0;
+            }
+
+            .container {
+                box-shadow: none;
+                padding: 0;
+                max-width: 100%;
+            }
+
+            h2 {
+                page-break-before: auto;
+            }
+
+            .no-print {
+                display: none;
+            }
+        }
+    </style>
+    <!-- Mermaid JS (for diagrams) -->
+    <script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
+    <script>mermaid.initialize({ startOnLoad: true });</script>
+</head>
+
+<body>
+    <div class="container">
+        <h1>ムビチケ利用マニュアル：えんとつ町のプペル ～約束の時計台～</h1>
+        <p>映画『えんとつ町のプペル ～約束の時計台～』を、おトクで便利なムビチケで楽しむための完全ガイドです。沖縄での利用に関する注意点もまとめています。</p>
+        <hr>
+
+        <h2>1. ムビチケとは？</h2>
+        <p>ムビチケは、ネットで座席指定ができる「デジタル映画鑑賞券」です。通常の当日券よりも安く購入でき、事前にスマホやPCから座席を確保できるのが最大の特徴です。</p>
+        <h3>ムビチケの種類</h3>
+        <ul>
+            <li><strong>オンライン券</strong>：メールに番号が届くタイプ（最も一般的）</li>
+            <li><strong>カード券</strong>：カード現物に番号が記載されているタイプ（コレクション用）</li>
+            <li><strong>コンビニ券</strong>：コンビニの端末で発券するタイプ（紙に番号が記載）</li>
+        </ul>
+
+        <h2>2. 【最速】ネットで座席指定する方法</h2>
+        <p>映画館に行く前に、家や移動中に座席を予約する方法です。</p>
+        <ol>
+            <li><strong>映画館のサイトへアクセス</strong><br>鑑賞する映画館（例：スターシアターズ、ユナイテッド・シネマ等）のスケジュールから、見たい日時を選択。</li>
+            <li><strong>座席を選ぶ</strong><br>劇場のシートマップから、好きな席を選択。</li>
+            <li><strong>券種選択で「ムビチケ」を選ぶ</strong><br>支払い方法や券種選択の画面で「ムビチケを利用する」ボタンを押します。</li>
+            <li><strong>番号を入力</strong><br><strong>ムビチケ購入番号（10桁）</strong> と <strong>ムビチケ暗証番号（4桁）</strong> を入力します。<br>※カード券の場合は裏面のスクラッチを削ってください。</li>
+            <li><strong>予約完了メールを確認</strong><br>予約が完了すると、映画館から「予約番号」や「QRコード」が届きます。</li>
+        </ol>
+
+        <h2>3. 映画館のチケット機で発券する方法</h3>
+        <p>鑑賞当日、劇場に着いてからの流れです。</p>
+        <h3>ネットで予約済みの場合</h3>
+        <ul>
+            <li>劇場の「自動発券機」に、届いた <strong>「予約番号」</strong> または <strong>「QRコード」</strong> をかざすだけで、入場券が発券されます。</li>
+        </ul>
+        <h3>予約していない場合（当日窓口・発券機）</h3>
+        <ul>
+            <li>自動発券機のメニューから「ムビチケ利用」を選択し、手元の番号を入力（またはカードを読み込ませる）して座席を指定します。</li>
+            <li>※沖縄のスターシアターズでは、カードスキャンができない機種があるため、<strong>「番号手入力」</strong> を推奨します。</li>
+        </ul>
+
+        <h2>4. 【要注意】沖縄エリアでのチェックポイント</h2>
+        <p>沖縄で利用する方が特によく迷うポイントです。</p>
+        <div class="alert alert-danger">
+            <strong>スターシアターズ系列での注意点</strong><br>
+            スターシアターズ（シネマQなど）の自動券売機では、磁気カードの読み取りができないことがあります。その場合も <strong>「ムビチケ番号入力」</strong> のメニューから、手動で暗証番号を入力すれば問題なく利用可能です。
+        </div>
+        <div class="alert alert-warning">
+            <strong>桜坂劇場の「特別上映」について</strong><br>
+            桜坂劇場の「インクルーシブ映画館」などのイベント上映では、ムビチケが利用できない場合があります。必ず劇場の公式サイトで「ムビチケ可」の表示があるか確認しましょう。
+        </div>
+
+        <h2>5. よくある質問 (FAQ)</h2>
+        <ul>
+            <li><strong>Q. 映画館に行くだけで入れるの？</strong><br>A. いいえ。ムビチケはあくまで「チケット引換券」です。必ずネットか劇場の機械で「座席指定」をして、入場券を受け取る必要があります。</li>
+            <li><strong>Q. 買ったけど行けなくなった。キャンセルできる？</strong><br>A. ムビチケの性質上、購入後の払い戻しや座席指定後のキャンセルはできません。</li>
+            <li><strong>Q. 暗証番号がわからない。</strong><br>A. オンライン券の場合、多くは「購入時に登録した電話番号の下4桁」に設定されています。</li>
+        </ul>
+
+        <hr>
+        <p style="text-align: center;">最高の映画体験になりますように！<br><strong>えんとつ町のプペル、楽しんでくださいね！</strong></p>
+    </div>
+</body>
+
+</html>

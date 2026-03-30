@@ -87,25 +87,32 @@
         /* カード（サービス紹介） */
         .card-container {
             display: flex;
-            gap: 10mm;
+            gap: 5mm;
             justify-content: center;
         }
         .card {
             flex: 1;
             background: rgba(0, 26, 51, 0.02);
             border: 2pt solid var(--gold);
-            border-radius: 10mm;
-            padding: 8mm;
+            border-radius: 8mm;
+            padding: 6mm 7mm;
             text-align: left;
         }
         .card h3 {
-            font-size: 18pt;
+            font-size: 17pt;
             color: var(--gold);
-            margin-bottom: 5mm;
+            margin-bottom: 4mm;
             border-bottom: 1pt solid rgba(197,160,89, 0.5);
             padding-bottom: 2mm;
         }
-        .card p { font-size: 11pt; line-height: 1.8; }
+        .card p { 
+            font-size: 10.5pt; 
+            line-height: 1.8; 
+            word-break: keep-all; 
+            overflow-wrap: anywhere;
+            padding-left: 1.2em; 
+            text-indent: -1.2em; 
+        }
 
         /* 取引先グリッド */
         .grid-container {
@@ -174,12 +181,24 @@
         <h3 class="section-subtitle">24時間３６５日カギのトラブル対応<br>24時間緊急対応サービス</h3>
         <div class="card-container">
             <div class="card">
-                <h3>カギ・防犯対策</h3>
-                <p>● 緊急解錠（住宅・金庫）<br>● 鍵の交換・修理・取付<br>● 電気錠・オートロック修繕</p>
+                <h3>カギ・防犯<br>セキュリティ</h3>
+                <p>● 緊急解錠・修理（住宅・金庫）</p>
+                <p>● 鍵の交換・取付（IC・電子錠）</p>
+                <p>● 防犯カメラ・インターフォン工事</p>
+                <p>● オートロック・電気錠システム構築</p>
             </div>
             <div class="card">
-                <h3>住宅設備・サッシ</h3>
-                <p>● サッシ・戸車・網戸修理<br>● 水漏れ・ガラス破損対応<br>● リフレッシュ工事・除菌施工</p>
+                <h3>住宅設備<br>メンテナンス</h3>
+                <p>● サッシ・戸車・網戸・ガラス修理</p>
+                <p>● 水漏れ・排水詰まり対応</p>
+                <p>● 共用部点検</p>
+                <p>● 除菌施工・リフレッシュ工事</p>
+            </div>
+            <div class="card">
+                <h3>管理代行<br>アウトソーシング</h3>
+                <p>● 入居前点検</p>
+                <p>● 作業員派遣業務（保守点検等）</p>
+                <p>● 全国180の強力なネットワーク</p>
             </div>
         </div>
         <div class="footer">
@@ -190,28 +209,38 @@
 
     <!-- Slide 3: Trust -->
     <section>
-        <h2 class="section-title">Trust & Partnership</h2>
+        <h2 class="section-title" style="margin-bottom: 5mm;">Trust & Partnership</h2>
         
         <!-- 加盟・特約店セクション追加 -->
-        <div style="text-align: center; color: var(--gold); margin-bottom: 3mm; font-size: 13pt; font-weight: bold;">【 加盟・特約店 】</div>
-        <div class="grid-container" style="margin-bottom: 8mm; grid-template-columns: repeat(4, 1fr);">
-            <div class="grid-item" style="border: 1pt solid var(--gold); height: 25mm; display: flex; align-items: center; justify-content: center;">
+        <div style="text-align: center; color: var(--gold); margin-bottom: 2mm; font-size: 13pt; font-weight: bold;">【 加盟店・代理店・特約店 】</div>
+        <div class="grid-container" style="margin-bottom: 5mm; grid-template-columns: repeat(4, 1fr);">
+            <div class="grid-item" style="border: 1pt solid var(--gold); height: 22mm; display: flex; align-items: center; justify-content: center;">
                 内閣総理大臣認可<br>日本ロックセキュリティ<br>協同組合 加盟店
             </div>
-            <div class="grid-item" style="border: 1pt solid var(--gold); height: 25mm; display: flex; align-items: center; justify-content: center;">
-                株式会社長沢製作所 特約店<br>（キーレックスサービス<br>ショップ加盟店）
+            <div class="grid-item" style="border: 1pt solid var(--gold); height: 22mm; display: flex; align-items: center; justify-content: center;">
+                美和ロック株式会社<br>サービス代行店<br>（SD店）
             </div>
-            <div class="grid-item" style="border: 1pt solid var(--gold); height: 25mm; display: flex; align-items: center; justify-content: center;">
+            <div class="grid-item" style="border: 1pt solid var(--gold); height: 22mm; display: flex; align-items: center; justify-content: center;">
+                株式会社ゴール<br>メンテナンスステーション<br>（GMS）
+            </div>
+            <div class="grid-item" style="border: 1pt solid var(--gold); height: 22mm; display: flex; align-items: center; justify-content: center;">
+                株式会社シブタニ<br>Clavisサービス代行店
+            </div>
+            <div class="grid-item" style="border: 1pt solid var(--gold); height: 22mm; display: flex; align-items: center; justify-content: center;">
+                株式会社長沢製作所<br>特約店
+            </div>
+            <div class="grid-item" style="border: 1pt solid var(--gold); height: 22mm; display: flex; align-items: center; justify-content: center;">
                 東邦金属工業株式会社<br>特約店
             </div>
-            <div class="grid-item" style="border: 1pt solid var(--gold); height: 25mm; display: flex; align-items: center; justify-content: center;">
+            <div class="grid-item" style="border: 1pt solid var(--gold); height: 22mm; display: flex; align-items: center; justify-content: center;">
                 全国180の<br>協力パートナー
             </div>
         </div>
 
-        <div style="text-align: center; color: var(--gold); margin-bottom: 3mm; font-size: 13pt; font-weight: bold;">【 主要取引先企業 】</div>
+        <div style="text-align: center; color: var(--gold); margin-bottom: 2mm; font-size: 13pt; font-weight: bold;">【 主要取引先企業 】</div>
         <div class="grid-container">
             <div class="grid-item">綜合警備保障株式会社</div>
+            <div class="grid-item">株式会社カインズ</div>
             <div class="grid-item">株式会社シブタニ</div>
             <div class="grid-item">大和リビング株式会社</div>
             <div class="grid-item">プレステージ・コアソリューション</div>
@@ -228,6 +257,7 @@
             <div class="grid-item">三井不動産レジデンシャルリース</div>
             <div class="grid-item">スターツアメニティー株式会社</div>
         </div>
+        <div style="text-align: center; font-size: 8pt; color: rgba(0, 26, 51, 0.6); margin-top: 3mm; letter-spacing: 0.05em;">※掲載順は五十音・取引規模等とは関係なく、順不同で表記しています。</div>
         <div class="footer">
             <span>© CarlockHomes Co., Ltd.</span>
             <span>03 / 05</span>
@@ -243,6 +273,7 @@
             <tr><td class="label">創業</td><td>平成14年8月</td></tr>
             <tr><td class="label">取引銀行</td><td>三菱UFJ銀行 入間支店</td></tr>
             <tr><td class="label">連絡先</td><td>TEL: 03-5311-0556 / Mail: office@carlock.co.jp</td></tr>
+            <tr><td class="label">グループ会社</td><td>株式会社TENKEN GO / 株式会社One Stop Labo</td></tr>
         </table>
         <div class="footer">
             <span>© CarlockHomes Co., Ltd.</span>
@@ -258,8 +289,15 @@
                 <p><strong style="color:var(--gold)">住所：</strong><br>東京都杉並区西荻北2-37-12<br>ブランシュ西荻 中2階</p>
                 <p><strong style="color:var(--gold)">最寄駅：</strong><br>JR西荻窪駅より徒歩5分</p>
             </div>
-            <div style="flex: 1.5; height: 100mm; background: rgba(0, 26, 51, 0.03); border: 2pt solid var(--gold); border-radius: 5mm; display: flex; align-items: center; justify-content: center; font-size: 20pt; color: var(--gold);">
-                【ここに地図が入ります】
+            <div style="flex: 1.5; height: 100mm; border: 2pt solid var(--gold); border-radius: 5mm; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.4);">
+                <iframe 
+                    src="https://maps.google.com/maps?q=%E3%82%AB%E3%83%BC%E3%83%AD%E3%83%83%E3%82%AF%E3%83%9B%E3%83%BC%E3%83%A0%E3%82%BA%E6%A0%AA%E5%BC%8F%E4%BC%9A%E7%A4%BE+%E8%A5%BF%E8%81%BB%E7%AA%AA&hl=ja&z=15&output=embed" 
+                    width="100%" 
+                    height="100%" 
+                    style="border:0; pointer-events: none;" 
+                    allowfullscreen="" 
+                    loading="lazy">
+                </iframe>
             </div>
         </div>
         <div class="footer">
