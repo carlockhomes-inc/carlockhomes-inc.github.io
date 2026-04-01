@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Carlock Holmes | 鍵を、未来を、守り抜く。</title>
+    <!-- 正解ファイル(FOR_CANVA)と同じフォント -->
+    <link href="https://fonts.googleapis.com/css2?family=Crimson+Text:wght@700&family=Outfit:wght@700&family=Zen+Kaku+Gothic+New:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            /* 完全に「大正解」ファイルの配色を移植 */
+            --navy: #001a33;
+            --gold: #c5a059;
+            --white: #ffffff;
+            --navy-gradient: linear-gradient(135deg, #001223 0%, #002e5d 100%);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Zen Kaku Gothic New', sans-serif;
+            background-color: var(--navy);
+            color: var(--white);
+            line-height: 1.8;
+            overflow-x: hidden;
+        }
+
+        /* --- Header --- */
+        header {
+            position: fixed;
+            width: 100%;
+            padding: 1.2rem 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 1000;
+            background: rgba(0, 26, 51, 0.95);
+            border-bottom: 1px solid rgba(197, 160, 89, 0.2);
+        }
+
+        .logo-box { display: flex; flex-direction: column; line-height: 1.1; }
+        .logo-main { font-family: 'Outfit', sans-serif; font-size: 1.8rem; font-weight: 700; color: var(--white); letter-spacing: -1px; }
+        .logo-sub { font-family: 'Crimson Text', serif; font-size: 0.8rem; color: var(--gold); letter-spacing: 4px; text-transform: uppercase; }
+
+        nav { display: flex; gap: 2.5rem; align-items: center; }
+        nav a { text-decoration: none; color: var(--white); font-size: 0.85rem; font-weight: 700; letter-spacing: 1px; opacity: 0.8; transition: 0.3s; }
+        nav a:hover { opacity: 1; color: var(--gold); }
+
+        .btn-cta { background-color: transparent; color: var(--gold); border: 2pt solid var(--gold); padding: 0.6rem 1.8rem; border-radius: 4px; font-weight: 700; text-decoration: none; transition: 0.3s; }
+        .btn-cta:hover { background-color: var(--gold); color: var(--navy); }
+
+        /* --- Hero --- */
+        .hero {
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0 10%;
+            background: var(--navy-gradient);
+            position: relative;
+            text-align: center;
+            border-bottom: 1px solid rgba(197, 160, 89, 0.2);
+        }
+
+        .hero-content { z-index: 2; }
+        .hero h1 { font-family: 'Outfit', sans-serif; font-size: clamp(3rem, 10vw, 6rem); font-weight: 700; color: var(--white); margin-bottom: -10px; }
+        .hero-sub { font-family: 'Crimson Text', serif; font-size: clamp(1rem, 3vw, 1.8rem); color: var(--gold); letter-spacing: 5px; font-weight: 700; margin-bottom: 3rem; }
+
+        .hero-tagline { font-size: clamp(1rem, 3vw, 1.2rem); color: var(--white); letter-spacing: 0.4em; opacity: 0.9; margin-top: 2rem; border-top: 1px solid var(--gold); padding-top: 2rem; }
+
+        /* --- Content Sections --- */
+        .section { padding: 120px 10%; background: var(--navy); }
+        .section-title { font-size: clamp(1.8rem, 5vw, 2.8rem); color: var(--gold); border-bottom: 3px solid var(--gold); width: fit-content; margin: 0 auto 60px; padding-bottom: 0.8rem; text-align: center; }
+
+        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 40px; }
+
+        .card {
+            background: rgba(255, 255, 255, 0.05);
+            border: 2pt solid var(--gold);
+            border-radius: 20px;
+            padding: 50px 40px;
+            transition: 0.4s;
+        }
+
+        .card h3 { font-size: 1.6rem; color: var(--gold); margin-bottom: 2rem; border-bottom: 1pt solid rgba(197, 160, 89, 0.5); padding-bottom: 0.8rem; }
+        .card p { font-size: 1.05rem; color: var(--white); line-height: 2; margin-bottom: 0.5rem; }
+
+        /* --- Footer --- */
+        footer { padding: 80px 10% 40px; background: #000b14; text-align: center; border-top: 1px solid rgba(197, 160, 89, 0.2); }
+        .footer-logo { font-family: 'Outfit', sans-serif; font-size: 2.2rem; color: var(--white); margin-bottom: 30px; }
+        .footer-nav { display: flex; justify-content: center; gap: 3rem; margin-bottom: 3rem; flex-wrap: wrap; }
+        .footer-nav a { color: rgba(255, 255, 255, 0.6); text-decoration: none; font-size: 0.9rem; transition: 0.3s; }
+        .footer-nav a:hover { color: var(--gold); }
+        .copyright { margin-top: 50px; font-size: 0.75rem; opacity: 0.2; letter-spacing: 2px; }
+
+        /* --- Responsive --- */
+        @media (max-width: 900px) {
+            .hero-tagline { letter-spacing: 0.2em; font-size: 0.9rem; }
+            .section { padding: 80px 5%; }
+            nav { display: none; }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="logo-box">
+            <span class="logo-main">CarlockHomes</span>
+            <span class="logo-sub">Co., Ltd.</span>
+        </div>
+        <nav>
+            <a href="index.html">TOP</a>
+            <a href="pages/company.html">COMPANY</a>
+            <a href="#">SERVICES</a>
+            <a href="pages/recruitment.html">RECRUIT</a>
+            <a href="https://docs.google.com/forms/d/e/1FAIpQLSfQdOJRgQ3qhmnS-wAnycbUptNVp2VWEPQPdxnI3WDpsn7fgg/viewform?usp=dialog" class="btn-cta" target="_blank">お問い合わせ</a>
+        </nav>
+    </header>
+
+    <section class="hero">
+        <div class="hero-content">
+            <h1 style="font-size: clamp(3rem, 12vw, 8rem); margin-bottom: 0;">CarlockHomes</h1>
+            <p class="hero-sub" style="font-size: 2rem; margin-top: -10px;">Co., Ltd.</p>
+            
+            <div style="margin-top: 50px;">
+                <a href="https://docs.google.com/forms/d/e/1FAIpQLSfQdOJRgQ3qhmnS-wAnycbUptNVp2VWEPQPdxnI3WDpsn7fgg/viewform?usp=dialog" target="_blank" style="text-decoration: none; color: var(--gold); border: 2pt solid var(--gold); padding: 15px 40px; border-radius: 5px; font-weight: 700; font-size: 1.2rem; letter-spacing: 2px; transition: 0.3s; display: inline-block;">
+                    Explore Our Quality
+                </a>
+            </div>
+
+            <div class="hero-tagline" style="margin-top: 80px;">SECURITY & LIFE SUPPORT SOLUTIONS</div>
+        </div>
+    </section>
+
+    <section id="services" class="section">
+        <h2 class="section-title">Business Content</h2>
+        <div class="grid">
+            <div class="card">
+                <h3>カギ・防犯<br>セキュリティ</h3>
+                <p>● 緊急解錠・修理（住宅・金庫）</p>
+                <p>● 鍵の交換・取付（IC・電子錠）</p>
+                <p>● 防犯カメラ・インターフォン工事</p>
+                <p>● オートロック・電気錠システム構築</p>
+            </div>
+            <div class="card">
+                <h3>住宅設備<br>メンテナンス</h3>
+                <p>● サッシ・戸車・網戸・ガラス修理</p>
+                <p>● 水漏れ・排水詰まり対応</p>
+                <p>● 共用部点検</p>
+                <p>● 除菌施工・リフレッシュ工事</p>
+            </div>
+            <div class="card">
+                <h3>管理代行<br>アウトソーシング</h3>
+                <p>● 入居前点検</p>
+                <p>● 作業員派遣業務（保守点検等）</p>
+                <p>● 全国180の強力なネットワーク</p>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="footer-logo">Carlock Holmes</div>
+        <div class="footer-nav">
+            <a href="index.html">HOME</a>
+            <a href="pages/company.html">COMPANY PROFILE</a>
+            <a href="#">SERVICES</a>
+            <a href="#">NEWS</a>
+            <a href="pages/recruitment.html">RECRUIT</a>
+        </div>
+        <p style="opacity: 0.7; font-weight: 500;">
+            〒167-0042 東京都杉並区西荻北2-37-12 ブランシュ西荻 中2階<br>
+            TEL: 03-5311-0556 / Mail: office@carlock.co.jp
+        </p>
+        <div class="copyright">
+            &copy; 2026 CARLOCK HOLMES CO., LTD. ALL RIGHTS RESERVED.
+        </div>
+    </footer>
+
+</body>
+</html>

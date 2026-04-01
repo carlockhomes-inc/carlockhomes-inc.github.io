@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>物語をまとう古着 | Story Vintage</title>
+    <!-- プレミアム感を出す2種類のフォント（飾り文字とゴシック体） -->
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        /* ========================
+           Base Styles & Resets 
+        ======================== */
+        :root {
+            --bg-color: #FAF8F5;       /* やさしいベージュ */
+            --text-color: #1A1A1A;     /* 墨のような黒 */
+            --accent-color: #8C6A48;   /* 落ち着いたブラウン */
+            --white: #FFFFFF;
+        }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            overflow-x: hidden;
+            scroll-behavior: smooth;
+        }
+        h1, h2, h3, .logo {
+            font-family: 'Playfair Display', serif; /* ゴージャスなセリフ体 */
+            font-weight: 400;
+        }
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        /* ========================
+           Glassmorphism Header 
+        ======================== */
+        header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            padding: 1.2rem 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(250, 248, 245, 0.7); /* 半透明 */
+            backdrop-filter: blur(12px); /* すりガラス効果 */
+            -webkit-backdrop-filter: blur(12px);
+            z-index: 1000;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+            transition: all 0.3s ease;
+        }
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            letter-spacing: 1px;
+        }
+        .nav-links {
+            display: flex;
+            gap: 2.5rem;
+        }
+        .nav-links a {
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            transition: color 0.3s ease;
+            position: relative;
+        }
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 1px;
+            bottom: -6px;
+            left: 0;
+            background-color: var(--text-color);
+            transition: width 0.3s ease;
+        }
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+        
+        /* Buttons */
+        .btn-primary {
+            display: inline-block;
+            background-color: var(--text-color);
+            color: var(--white);
+            padding: 1rem 2.5rem;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            border-radius: 4px; /* 少しだけ丸みを持たせる */
+            transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+            border: 1px solid var(--text-color);
+            cursor: pointer;
+        }
+        .btn-primary:hover {
+            background-color: transparent;
+            color: var(--text-color);
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.05);
+        }
+
+        /* ========================
+           Hero Section 
+        ======================== */
+        .hero {
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            padding: 0 5%;
+            margin-top: 0;
+            position: relative;
+            overflow: hidden;
+        }
+        .hero-content {
+            flex: 1;
+            z-index: 2;
+            padding-right: 3rem;
+            animation: slideUpFade 1.5s cubic-bezier(0.165, 0.84, 0.44, 1) forwards;
+            opacity: 0; /* アニメーションの初期値 */
+        }
+        .hero-title {
+            font-size: 4.5rem;
+            line-height: 1.1;
+            margin-bottom: 1.5rem;
+            color: var(--text-color);
+        }
+        .hero-subtitle {
+            font-size: 1.1rem;
+            margin-bottom: 2.5rem;
+            max-width: 450px;
+            opacity: 0.7;
+            font-weight: 300;
+        }
+        .hero-image {
+            flex: 1.2;
+            height: 85vh;
+            position: relative;
+            /* 今さっきAIが生成した専用画像を読み込み！ */
+            background-image: url('assets/hero.png');
+            background-size: cover;
+            background-position: center;
+            border-radius: 8px;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.1);
+            animation: popIn 1.8s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+            opacity: 0; 
+            transform-origin: center;
+        }
+
+        /* ========================
+           Concept Section (黒背景)
+        ======================== */
+        .concept {
+            padding: 8rem 5%;
+            background-color: var(--text-color);
+            color: var(--white);
+            text-align: center;
+        }
+        .concept p {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.2rem;
+            line-height: 1.6;
+            max-width: 800px;
+            margin: 0 auto;
+            font-style: italic;
+            opacity: 0.9;
+        }
+
+        /* ========================
+           Featured Collection 
+        ======================== */
+        .collection {
+            padding: 8rem 5%;
+            text-align: center;
+        }
+        .section-title {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            color: var(--text-color);
+        }
+        .section-subtitle {
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            opacity: 0.5;
+            margin-bottom: 4rem;
+        }
+        
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 3rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        .product-card {
+            text-align: left;
+            cursor: pointer;
+            group: product; /* Modern CSS pseudo-selector concept mapping */
+        }
+        .product-image-wrapper {
+            border-radius: 8px;
+            overflow: hidden;
+            background-color: #EFEBE4;
+            aspect-ratio: 3 / 4; /* 写真の比率を固定 */
+            margin-bottom: 1.5rem;
+            position: relative;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.03);
+            transition: box-shadow 0.4s ease, transform 0.4s ease;
+        }
+        .product-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.8s cubic-bezier(0.165, 0.84, 0.44, 1);
+        }
+        /* カードにホバーしたときの美しい浮遊感と拡大 */
+        .product-card:hover .product-image-wrapper {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.08);
+        }
+        .product-card:hover .product-image {
+            transform: scale(1.05); /* 写真だけ少しズームイン */
+        }
+        .product-title {
+            font-size: 1.2rem;
+            margin-bottom: 0.5rem;
+            color: var(--text-color);
+        }
+        .product-price {
+            font-family: 'Inter', sans-serif;
+            font-weight: 600;
+            color: var(--accent-color);
+            font-size: 1.1rem;
+        }
+
+        /* ========================
+           Footer 
+        ======================== */
+        footer {
+            padding: 4rem 5%;
+            text-align: center;
+            font-size: 0.85rem;
+            opacity: 0.5;
+            background-color: var(--bg-color);
+            border-top: 1px solid rgba(0,0,0,0.05);
+        }
+
+        /* ========================
+           Animations 
+        ======================== */
+        @keyframes slideUpFade {
+            0% { opacity: 0; transform: translateY(40px); }
+            100% { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes popIn {
+            0% { opacity: 0; transform: scale(0.95) translateY(10px); }
+            100% { opacity: 1; transform: scale(1) translateY(0); }
+        }
+
+        /* ========================
+           Responsive Design 
+        ======================== */
+        @media (max-width: 900px) {
+            .hero {
+                flex-direction: column;
+                justify-content: center;
+                text-align: center;
+            }
+            .hero-content {
+                padding-right: 0;
+                margin-top: 6rem;
+                margin-bottom: 3rem;
+            }
+            .hero-title {
+                font-size: 3.2rem;
+            }
+            .hero-subtitle {
+                margin: 0 auto 2.5rem;
+            }
+            .hero-image {
+                width: 100%;
+                height: 50vh;
+                margin-bottom: 2rem;
+            }
+            .nav-links {
+                display: none; /* スマホではシンプルに非表示にしておく */
+            }
+            .concept p {
+                font-size: 1.6rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ナビゲーション（上部固定・すりガラス） -->
+    <header>
+        <div class="logo">Story Vintage</div>
+        <nav class="nav-links">
+            <a href="#collection">コレクション</a>
+            <a href="#concept">私たちの思い</a>
+            <a href="#">お問い合わせ</a>
+        </nav>
+        <a href="#collection" class="btn-primary" style="padding: 0.8rem 1.5rem;">Shop Now</a>
+    </header>
+
+    <!-- ファーストビュー（ヒーローセクション） -->
+    <section class="hero">
+        <div class="hero-content">
+            <h1 class="hero-title">物語をまとう、<br>一着。</h1>
+            <p class="hero-subtitle">ただの古着ではない。誰かの人生を彩り、また次の誰かへと受け継がれていく、時代を超えた名作をセレクト。</p>
+            <a href="#collection" class="btn-primary">コレクションを見る</a>
+        </div>
+        <div class="hero-image">
+            <!-- 背景画像としてCSS側で hero.png をセットしています -->
+        </div>
+    </section>
+
+    <!-- コンセプト（思いを伝えるエリア） -->
+    <section id="concept" class="concept">
+        <p>「大量生産されたモノより、<br>ただ一つの物語があるモノを。」<br><br>厳選されたヴィンテージアイテムを通じて、<br>新しい自己表現をご提案します。</p>
+    </section>
+
+    <!-- 商品一覧（ここからBASEに飛ばすイメージ） -->
+    <section id="collection" class="collection">
+        <h2 class="section-title">New Arrivals</h2>
+        <p class="section-subtitle">今週の新着ヴィンテージ</p>
+        
+        <div class="grid">
+            <!-- 商品1（私が生成したセーター画像を使用） -->
+            <!-- ★ BASEなどの決済URLを貼る場合はココを変えます！ -->
+            <div class="product-card" onclick="alert('ここにBASEの【購入画面】へのリンクを設定します！（デモ）')">
+                <div class="product-image-wrapper">
+                    <img src="assets/product.png" alt="Oversized Vintage Sweater" class="product-image">
+                </div>
+                <h3 class="product-title">1980s プレミアム・ニットセーター</h3>
+                <p class="product-price">¥12,800</p>
+            </div>
+
+            <!-- 商品2（ダミー） -->
+            <div class="product-card" onclick="alert('ここにBASEの【購入画面】へのリンクを設定します！（デモ）')">
+                <div class="product-image-wrapper">
+                    <!-- 写真がない場合は美しいグラデーションを表示 -->
+                    <div class="product-image" style="background: linear-gradient(135deg, #E6DCD1 0%, #B8AFA2 100%);"></div>
+                </div>
+                <h3 class="product-title">ヴィンテージ・ウールコート</h3>
+                <p class="product-price">¥24,000</p>
+            </div>
+
+            <!-- 商品3（ダミー） -->
+            <div class="product-card" onclick="alert('ここにBASEの【購入画面】へのリンクを設定します！（デモ）')">
+                <div class="product-image-wrapper">
+                    <!-- 写真がない場合は美しいグラデーションを表示 -->
+                    <div class="product-image" style="background: linear-gradient(135deg, #D5D6D2 0%, #A2A49B 100%);"></div>
+                </div>
+                <h3 class="product-title">クラシック・レザーバッグ</h3>
+                <p class="product-price">¥18,500</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- フッター -->
+    <footer>
+        <p>&copy; 2026 Story Vintage. All rights reserved. | Created with AI Assistant</p>
+    </footer>
+
+</body>
+</html>
