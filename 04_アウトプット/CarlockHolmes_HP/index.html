@@ -1,18 +1,11 @@
-<!DOCTYPE html>
-<html lang="ja">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Carlock Holmes | 鍵を、未来を、守り抜く。</title>
-    <!-- 正解ファイル(FOR_CANVA)と同じフォント -->
-    <link href="https://fonts.googleapis.com/css2?family=Crimson+Text:wght@700&family=Outfit:wght@700&family=Zen+Kaku+Gothic+New:wght@400;700&display=swap" rel="stylesheet">
     <style>
         :root {
-            /* 完全に「大正解」ファイルの配色を移植 */
             --navy: #001a33;
             --gold: #c5a059;
             --white: #ffffff;
             --navy-gradient: linear-gradient(135deg, #001223 0%, #002e5d 100%);
+            --glass: rgba(255, 255, 255, 0.03);
+            --gold-gradient: linear-gradient(135deg, #c5a059 0%, #e6d5b8 50%, #c5a059 100%);
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -25,29 +18,148 @@
             overflow-x: hidden;
         }
 
+        /* --- Animations --- */
+        .reveal {
+            opacity: 0;
+            transform: translateY(50px);
+            transition: all 1.2s cubic-bezier(0.22, 1, 0.36, 1);
+        }
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        @keyframes slideInLeft { from { opacity: 0; transform: translateX(-100px); } to { opacity: 1; transform: translateX(0); } }
+        @keyframes slideInRight { from { opacity: 0; transform: translateX(100px); } to { opacity: 1; transform: translateX(0); } }
+        @keyframes shine { 
+            0% { left: -100%; top: -100%; } 
+            20% { left: 100%; top: 100%; } 
+            100% { left: 100%; top: 100%; } 
+        }
+        @keyframes floating { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
         /* --- Header --- */
         header {
             position: fixed;
             width: 100%;
-            padding: 1.2rem 5%;
+            padding: 1.5rem 5%;
             display: flex;
             justify-content: space-between;
             align-items: center;
             z-index: 1000;
-            background: rgba(0, 26, 51, 0.95);
-            border-bottom: 1px solid rgba(197, 160, 89, 0.2);
+            background: rgba(0, 26, 51, 0.85);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(197, 160, 89, 0.15);
+            transition: 0.5s;
         }
 
-        .logo-box { display: flex; flex-direction: column; line-height: 1.1; }
-        .logo-main { font-family: 'Outfit', sans-serif; font-size: 1.8rem; font-weight: 700; color: var(--white); letter-spacing: -1px; }
+        .logo-box { position: relative; overflow: hidden; display: flex; flex-direction: column; line-height: 1.1; }
+        .logo-main { font-family: 'Outfit', sans-serif; font-size: 1.8rem; font-weight: 700; color: var(--white); letter-spacing: -1px; position: relative; }
+        .logo-main::after {
+            content: ''; position: absolute; top: 0; left: -100%; width: 50px; height: 100%; 
+            background: linear-gradient(to right, transparent, rgba(255,255,255,0.3), transparent);
+            transform: skewX(-25deg);
+            animation: shine 4s infinite linear;
+        }
         .logo-sub { font-family: 'Crimson Text', serif; font-size: 0.8rem; color: var(--gold); letter-spacing: 4px; text-transform: uppercase; }
 
         nav { display: flex; gap: 2.5rem; align-items: center; }
-        nav a { text-decoration: none; color: var(--white); font-size: 0.85rem; font-weight: 700; letter-spacing: 1px; opacity: 0.8; transition: 0.3s; }
+        nav a { text-decoration: none; color: var(--white); font-size: 0.85rem; font-weight: 700; letter-spacing: 1px; opacity: 0.7; transition: 0.3s; position: relative; }
+        nav a::after { content: ''; position: absolute; width: 0; height: 1px; bottom: -5px; left: 0; background: var(--gold); transition: 0.3s; }
         nav a:hover { opacity: 1; color: var(--gold); }
+        nav a:hover::after { width: 100%; }
 
-        .btn-cta { background-color: transparent; color: var(--gold); border: 2pt solid var(--gold); padding: 0.6rem 1.8rem; border-radius: 4px; font-weight: 700; text-decoration: none; transition: 0.3s; }
-        .btn-cta:hover { background-color: var(--gold); color: var(--navy); }
+        /* Dropdown Styles */
+        .dropdown {
+            position: relative;
+            display: inline-block;
+        }
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(0, 26, 51, 0.95);
+            min-width: 180px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            border: 1px solid rgba(197, 160, 89, 0.2);
+            border-radius: 4px;
+            z-index: 1001;
+            overflow: hidden;
+            animation: fadeIn 0.3s ease;
+        }
+        .dropdown-content::before {
+            content: '';
+            position: absolute;
+            top: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            border-width: 0 10px 10px 10px;
+            border-style: solid;
+            border-color: transparent transparent rgba(197, 160, 89, 0.2) transparent;
+        }
+        .dropdown-content a {
+            color: var(--white);
+            padding: 15px 20px;
+            text-decoration: none;
+            display: block;
+            font-size: 0.8rem;
+            text-align: center;
+            opacity: 0.8;
+            transition: 0.3s;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+        }
+        .dropdown-content a:last-child { border-bottom: none; }
+        .dropdown-content a:hover {
+            background: rgba(197, 160, 89, 0.1);
+            color: var(--gold);
+            opacity: 1;
+        }
+        .dropdown:hover .dropdown-content {
+            display: block;
+        }
+        /* Bridge the gap for hover */
+        .dropdown::after {
+            content: '';
+            position: absolute;
+            top: 100%;
+            left: 0;
+            width: 100%;
+            height: 20px;
+        }
+
+        .btn-cta { 
+            background: transparent; 
+            color: var(--gold); 
+            border: 1px solid var(--gold); 
+            padding: 0.7rem 2rem; 
+            border-radius: 4px; 
+            font-weight: 700; 
+            text-decoration: none; 
+            transition: 0.4s;
+            position: relative;
+            overflow: hidden;
+            display: inline-block;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        }
+        .btn-cta:hover { 
+            color: var(--navy);
+            transform: scale(1.05);
+            box-shadow: 0 0 30px rgba(197, 160, 89, 0.5);
+        }
+        .btn-cta::before {
+            content: '';
+            position: absolute;
+            top: 0; left: -100%;
+            width: 100%; height: 100%;
+            background: var(--gold-gradient);
+            transition: 0.5s;
+            z-index: -1;
+        }
+        .btn-cta:hover::before { left: 0; }
 
         /* --- Hero --- */
         .hero {
@@ -59,51 +171,116 @@
             background: var(--navy-gradient);
             position: relative;
             text-align: center;
-            border-bottom: 1px solid rgba(197, 160, 89, 0.2);
+            overflow: hidden;
+        }
+        
+        .hero::before {
+            content: '';
+            position: absolute;
+            width: 800px; height: 800px;
+            background: radial-gradient(circle, rgba(197, 160, 89, 0.08) 0%, transparent 60%);
+            top: -200px; right: -200px;
+            border-radius: 50%;
+            animation: floating 8s infinite ease-in-out;
         }
 
         .hero-content { z-index: 2; }
-        .hero h1 { font-family: 'Outfit', sans-serif; font-size: clamp(3rem, 10vw, 6rem); font-weight: 700; color: var(--white); margin-bottom: -10px; }
-        .hero-sub { font-family: 'Crimson Text', serif; font-size: clamp(1rem, 3vw, 1.8rem); color: var(--gold); letter-spacing: 5px; font-weight: 700; margin-bottom: 3rem; }
-
-        .hero-tagline { font-size: clamp(1rem, 3vw, 1.2rem); color: var(--white); letter-spacing: 0.4em; opacity: 0.9; margin-top: 2rem; border-top: 1px solid var(--gold); padding-top: 2rem; }
-
-        /* --- Content Sections --- */
-        .section { padding: 120px 10%; background: var(--navy); }
-        .section-title { font-size: clamp(1.8rem, 5vw, 2.8rem); color: var(--gold); border-bottom: 3px solid var(--gold); width: fit-content; margin: 0 auto 60px; padding-bottom: 0.8rem; text-align: center; }
-
-        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 40px; }
-
-        .card {
-            background: rgba(255, 255, 255, 0.05);
-            border: 2pt solid var(--gold);
-            border-radius: 20px;
-            padding: 50px 40px;
-            transition: 0.4s;
+        .hero h1 { 
+            font-family: 'Outfit', sans-serif; 
+            font-weight: 700; 
+            color: var(--white); 
+            margin-bottom: 0.5rem; 
+            text-shadow: 0 20px 40px rgba(0,0,0,0.6); 
+            animation: slideInLeft 1.5s cubic-bezier(0.22, 1, 0.36, 1);
+        }
+        .hero-sub { 
+            font-family: 'Crimson Text', serif; 
+            color: var(--gold); 
+            letter-spacing: 5px; 
+            font-weight: 700; 
+            margin-bottom: 4rem; 
+            animation: slideInRight 1.5s cubic-bezier(0.22, 1, 0.36, 1);
         }
 
-        .card h3 { font-size: 1.6rem; color: var(--gold); margin-bottom: 2rem; border-bottom: 1pt solid rgba(197, 160, 89, 0.5); padding-bottom: 0.8rem; }
-        .card p { font-size: 1.05rem; color: var(--white); line-height: 2; margin-bottom: 0.5rem; }
+        .hero-tagline { 
+            font-size: clamp(0.9rem, 2vw, 1.1rem); 
+            color: var(--white); 
+            letter-spacing: 0.6em; 
+            opacity: 0.6; 
+            margin-top: 5rem; 
+            position: relative;
+            display: inline-block;
+            padding-top: 3rem;
+        }
+        .hero-tagline::before {
+            content: ''; position: absolute; top: 0; left: 50%; transform: translateX(-50%); width: 1px; height: 50px; background: var(--gold); opacity: 0.4;
+        }
+
+        /* --- Content Sections --- */
+        .section { padding: 180px 10%; background: var(--navy); }
+        .section-title { 
+            font-size: clamp(2.2rem, 6vw, 3.5rem); 
+            color: var(--gold); 
+            margin: 0 auto 120px; 
+            text-align: center;
+            font-family: 'Outfit', sans-serif;
+            letter-spacing: 4px;
+            position: relative;
+        }
+        .section-title::after {
+            content: ''; display: block; width: 80px; height: 1px; background: var(--gold); margin: 30px auto;
+        }
+
+        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 50px; }
+
+        .card {
+            background: var(--glass);
+            border: 1px solid rgba(197, 160, 89, 0.15);
+            backdrop-filter: blur(15px);
+            border-radius: 8px;
+            padding: 70px 50px;
+            transition: 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+            position: relative;
+            cursor: pointer;
+        }
+        .card:hover {
+            transform: scale(1.05) translateY(-20px);
+            border-color: var(--gold);
+            background: rgba(197, 160, 89, 0.08);
+            box-shadow: 0 30px 60px rgba(0,0,0,0.5), 0 0 20px rgba(197, 160, 89, 0.2);
+        }
+
+        .card h3 { 
+            font-size: 1.6rem; 
+            color: var(--gold); 
+            margin-bottom: 2.5rem; 
+            font-weight: 700;
+            letter-spacing: 2px;
+            transition: 0.3s;
+        }
+        .card:hover h3 { letter-spacing: 4px; text-shadow: 0 0 10px rgba(197, 160, 89, 0.5); }
+        .card p { font-size: 1.1rem; color: rgba(255,255,255,0.7); line-height: 2.3; margin-bottom: 1rem; }
 
         /* --- Footer --- */
-        footer { padding: 80px 10% 40px; background: #000b14; text-align: center; border-top: 1px solid rgba(197, 160, 89, 0.2); }
-        .footer-logo { font-family: 'Outfit', sans-serif; font-size: 2.2rem; color: var(--white); margin-bottom: 30px; }
-        .footer-nav { display: flex; justify-content: center; gap: 3rem; margin-bottom: 3rem; flex-wrap: wrap; }
-        .footer-nav a { color: rgba(255, 255, 255, 0.6); text-decoration: none; font-size: 0.9rem; transition: 0.3s; }
-        .footer-nav a:hover { color: var(--gold); }
-        .copyright { margin-top: 50px; font-size: 0.75rem; opacity: 0.2; letter-spacing: 2px; }
+        footer { padding: 140px 10% 60px; background: #000c19; text-align: center; border-top: 1px solid rgba(197, 160, 89, 0.1); }
+        .footer-logo { font-family: 'Outfit', sans-serif; font-size: 2.8rem; color: var(--gold); margin-bottom: 40px; letter-spacing: -1px; font-weight: 700; }
+        .footer-nav { display: flex; justify-content: center; gap: 5rem; margin-bottom: 5rem; flex-wrap: wrap; }
+        .footer-nav a { color: rgba(255, 255, 255, 0.4); text-decoration: none; font-size: 0.85rem; transition: 0.3s; font-weight: 700; letter-spacing: 1.5px; }
+        .footer-nav a:hover { color: var(--gold); transform: translateY(-3px); opacity: 1; }
+        .copyright { margin-top: 100px; font-size: 0.75rem; opacity: 0.15; letter-spacing: 4px; }
 
         /* --- Responsive --- */
         @media (max-width: 900px) {
-            .hero-tagline { letter-spacing: 0.2em; font-size: 0.9rem; }
-            .section { padding: 80px 5%; }
+            header { padding: 1rem 5%; }
+            .hero-tagline { letter-spacing: 0.3em; font-size: 0.8rem; }
+            .section { padding: 120px 8%; }
             nav { display: none; }
         }
     </style>
 </head>
 <body>
 
-    <header>
+    <header id="header">
         <div class="logo-box">
             <span class="logo-main">CarlockHomes</span>
             <span class="logo-sub">Co., Ltd.</span>
@@ -112,62 +289,77 @@
             <a href="index.html">TOP</a>
             <a href="pages/company.html">COMPANY</a>
             <a href="#services">SERVICES</a>
+            <div class="dropdown">
+                <a href="javascript:void(0)" onclick="toggleDropdown(event)" style="cursor: pointer;">NEWS</a>
+                <div class="dropdown-content">
+                    <a href="https://share.google/xH3kdy4HI9U73eQa8" target="_blank">社長名鑑</a>
+                    <a href="javascript:void(0)" style="opacity: 0.4;">活動報告 (準備中)</a>
+                </div>
+            </div>
             <a href="pages/recruitment.html">RECRUIT</a>
-            <a href="https://docs.google.com/forms/d/e/1FAIpQLSfQdOJRgQ3qhmnS-wAnycbUptNVp2VWEPQPdxnI3WDpsn7fgg/viewform?usp=dialog" class="btn-cta" target="_blank">お問い合わせ</a>
+            <a href="https://docs.google.com/forms/d/e/1FAIpQLSfQdOJRgQ3qhmnS-wAnycbUptNVp2VWEPQPdxnI3WDpsn7fgg/viewform" class="btn-cta" target="_blank">お問い合わせ</a>
         </nav>
     </header>
 
     <section class="hero">
         <div class="hero-content">
-            <h1 style="font-size: clamp(3rem, 12vw, 8rem); margin-bottom: 0;">CarlockHomes</h1>
-            <p class="hero-sub" style="font-size: 2rem; margin-top: -10px;">Co., Ltd.</p>
+            <h1 style="font-size: clamp(2.5rem, 10vw, 6rem); line-height: 1.1;">CarlockHomes</h1>
+            <p class="hero-sub" style="font-size: clamp(1rem, 4vw, 2.5rem); margin-top: 1rem;">PRECISION & TRUSTED PARTNER</p>
             
-            <div style="margin-top: 50px;">
-                <a href="https://docs.google.com/forms/d/e/1FAIpQLSfQdOJRgQ3qhmnS-wAnycbUptNVp2VWEPQPdxnI3WDpsn7fgg/viewform?usp=dialog" target="_blank" style="text-decoration: none; color: var(--gold); border: 2pt solid var(--gold); padding: 15px 40px; border-radius: 5px; font-weight: 700; font-size: 1.2rem; letter-spacing: 2px; transition: 0.3s; display: inline-block;">
-                    Explore Our Quality
+            <div style="margin-top: 3rem; opacity: 0; animation: fadeIn 2s forwards 0.8s;">
+                <a href="https://docs.google.com/forms/d/e/1FAIpQLSfQdOJRgQ3qhmnS-wAnycbUptNVp2VWEPQPdxnI3WDpsn7fgg/viewform" target="_blank" class="btn-cta" style="font-size: 1.2rem; padding: 1.3rem 4rem;">
+                    READY TO CONNECT
                 </a>
             </div>
 
-            <div class="hero-tagline" style="margin-top: 80px;">SECURITY & LIFE SUPPORT SOLUTIONS</div>
+            <div class="hero-tagline">SECURITY & LIFE SUPPORT SOLUTIONS</div>
         </div>
     </section>
 
     <section id="services" class="section">
-        <h2 class="section-title">Business Content</h2>
+        <div class="reveal">
+            <h2 class="section-title">Business Scope</h2>
+        </div>
         <div class="grid">
-            <div class="card">
+            <div class="card reveal">
                 <h3>カギ・防犯<br>セキュリティ</h3>
                 <p>● 緊急解錠・修理（住宅・金庫）</p>
                 <p>● 鍵の交換・取付（IC・電子錠）</p>
-                <p>● 防犯カメラ・インターフォン工事</p>
-                <p>● オートロック・電気錠システム構築</p>
+                <p>● 防犯カメラ・工事</p>
+                <p>● 遠隔管理システム構築</p>
             </div>
-            <div class="card">
+            <div class="card reveal">
                 <h3>住宅設備<br>メンテナンス</h3>
-                <p>● サッシ・戸車・網戸・ガラス修理</p>
+                <p>● サッシ・戸車・網戸修理</p>
                 <p>● 水漏れ・排水詰まり対応</p>
-                <p>● 共用部点検</p>
-                <p>● 除菌施工・リフレッシュ工事</p>
+                <p>● 共用部点検代行</p>
+                <p>● 除菌・リフレッシュ工事</p>
             </div>
-            <div class="card">
+            <div class="card reveal">
                 <h3>管理代行<br>アウトソーシング</h3>
-                <p>● 入居前点検</p>
-                <p>● 作業員派遣業務（保守点検等）</p>
-                <p>● 全国180の強力なネットワーク</p>
+                <p>● 入居前点検・巡回業務</p>
+                <p>● 作業員派遣・保守管理</p>
+                <p>● 全国180拠点の強力なネットワーク</p>
+                <p>● 24時間365日のサポート体制</p>
             </div>
         </div>
     </section>
 
     <footer>
-        <div class="footer-logo">Carlock Holmes</div>
-        <div class="footer-nav">
+        <div class="footer-nav reveal">
             <a href="index.html">HOME</a>
-            <a href="pages/company.html">COMPANY PROFILE</a>
+            <a href="pages/company.html">COMPANY</a>
             <a href="#services">SERVICES</a>
-            <a href="https://share.google/xH3kdy4HI9U73eQa8" target="_blank">NEWS (社長名鑑)</a>
+            <div class="dropdown">
+                <a href="javascript:void(0)" onclick="toggleDropdown(event)" style="cursor: pointer;">NEWS</a>
+                <div class="dropdown-content">
+                    <a href="https://share.google/xH3kdy4HI9U73eQa8" target="_blank">社長名鑑</a>
+                    <a href="javascript:void(0)" style="opacity: 0.4;">活動報告 (準備中)</a>
+                </div>
+            </div>
             <a href="pages/recruitment.html">RECRUIT</a>
         </div>
-        <p style="opacity: 0.7; font-weight: 500;">
+        <p class="reveal" style="opacity: 0.6; font-size: 0.95rem; letter-spacing: 1px;">
             〒167-0042 東京都杉並区西荻北2-37-12 ブランシュ西荻 中2階<br>
             TEL: 03-5311-0556 / Mail: office@carlock.co.jp
         </p>
@@ -176,5 +368,59 @@
         </div>
     </footer>
 
+    <script>
+        // --- Scroll Reveal Animation ---
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('active');
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.reveal').forEach(el => {
+            observer.observe(el);
+        });
+
+        // --- Dropdown Toggle (for Mobile/Click) ---
+        function toggleDropdown(e) {
+            e.preventDefault();
+            const dropdown = e.currentTarget.parentElement;
+            const content = dropdown.querySelector('.dropdown-content');
+            const isVisible = content.style.display === 'block';
+            
+            // Close all other dropdowns
+            document.querySelectorAll('.dropdown-content').forEach(c => c.style.display = 'none');
+            
+            content.style.display = isVisible ? 'none' : 'block';
+            e.stopPropagation();
+        }
+
+        // Close dropdown when clicking outside
+        document.addEventListener('click', () => {
+            document.querySelectorAll('.dropdown-content').forEach(c => c.style.display = 'none');
+        });
+
+        // --- Header Scroll Effect ---
+        window.addEventListener('scroll', () => {
+            const header = document.getElementById('header');
+            if (window.scrollY > 50) {
+                header.style.padding = '1rem 5%';
+                header.style.backgroundColor = 'rgba(0, 26, 51, 0.98)';
+                header.style.boxShadow = '0 10px 30px rgba(0,0,0,0.5)';
+            } else {
+                header.style.padding = '1.5rem 5%';
+                header.style.backgroundColor = 'rgba(0, 26, 51, 0.85)';
+                header.style.boxShadow = 'none';
+            }
+        });
+    </script>
+
 </body>
 </html>
+

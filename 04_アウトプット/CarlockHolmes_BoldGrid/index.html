@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CarlockHomes | カールロック・ホームズ 株式会社</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;900&family=Inter:wght@400;700&family=Zen+Kaku+Gothic+New:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #ffffff;
+            --text: #000000;
+            --accent: #ff5c00;
+            --grid: #e5e5e5;
+            --dim: rgba(0,0,0,0.4);
+        }
+
+        /* --- Resets & Base --- */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Inter', 'Zen Kaku Gothic New', sans-serif; background-color: var(--bg); color: var(--text); line-height: 1.2; overflow-x: hidden; }
+        h1, h2, h3 { font-family: 'Montserrat', sans-serif; font-weight: 900; text-transform: uppercase; letter-spacing: -2px; }
+
+        /* --- Grid Background --- */
+        .grid-bg { position: fixed; top: 0; left: 0; width: 100%; height: 100%; display: grid; grid-template-columns: repeat(12, 1fr); z-index: -1; opacity: 0.5; pointer-events: none; }
+        .grid-bg div { border-right: 1px solid var(--grid); }
+
+        /* --- Reveal --- */
+        .reveal { opacity: 0; transform: translateY(40px); transition: 1.2s cubic-bezier(0.2, 0.8, 0.2, 1); }
+        .reveal.active { opacity: 1; transform: translateY(0); }
+
+        /* --- Header --- */
+        header { position: fixed; top: 0; left: 0; width: 100%; padding: 40px 5%; display: flex; justify-content: space-between; align-items: center; z-index: 1000; mix-blend-mode: difference; color: #fff; }
+        .logo { font-size: 1.5rem; font-weight: 900; text-transform: uppercase; text-decoration: none; color: inherit; }
+        
+        .nav-links { display: flex; gap: 3rem; align-items: center; }
+        .nav-links a { text-decoration: none; color: inherit; font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 2px; }
+
+        /* Dropdown */
+        .dropdown { position: relative; display: inline-block; }
+        .dropdown-content { display: none; position: absolute; top: 100%; left: 0; background: #000; min-width: 160px; padding: 10px 0; border: 1px solid #333; margin-top: 10px; }
+        .dropdown:hover .dropdown-content { display: block; }
+        .dropdown-content a { display: block; padding: 10px 20px; font-size: 0.7rem; color: #fff; text-decoration: none; }
+        .dropdown-content a:hover { background: var(--accent); }
+
+        .btn-header-cta { background: var(--accent); color: #fff; padding: 1.2rem 2.5rem; text-decoration: none; font-weight: 900; font-size: 0.8rem; letter-spacing: 1px; transition: 0.3s; }
+        .btn-header-cta:hover { background: #fff; color: #000; }
+
+        /* --- Hero --- */
+        .hero { height: 100vh; padding: 0 5%; display: flex; flex-direction: column; justify-content: center; position: relative; border-bottom: 2px solid var(--text); }
+        .hero h1 { font-size: clamp(3rem, 12vw, 10rem); line-height: 0.9; margin-bottom: 30px; }
+        .hero-tagline { font-size: 1.2rem; font-weight: 700; color: var(--accent); margin-top: 20px; text-transform: uppercase; letter-spacing: 4px; }
+        .hero-sub { position: absolute; bottom: 40px; right: 5%; width: 45%; text-align: right; }
+        .hero-sub span { display: block; font-size: 0.85rem; color: var(--dim); line-height: 2; text-transform: uppercase; letter-spacing: 1px; font-weight: 700; }
+
+        /* --- Content Sections --- */
+        .section { padding: 120px 5%; border-bottom: 2px solid var(--text); }
+        .section-header { margin-bottom: 100px; position: relative; }
+        .section-num { font-size: 8rem; font-weight: 900; opacity: 0.05; position: absolute; top: -30px; left: -20px; }
+        .section-title { font-size: 4rem; position: relative; }
+
+        /* Service List */
+        .service-list { display: grid; grid-template-columns: repeat(12, 1fr); gap: 20px; }
+        .service-item { grid-column: span 12; padding: 60px 0; border-top: 2px solid var(--text); display: grid; grid-template-columns: repeat(12, 1fr); align-items: start; transition: 0.4s; }
+        .service-item:hover { color: var(--accent); }
+        .service-item .num { grid-column: span 1; font-weight: 900; font-size: 1.5rem; }
+        .service-item .title { grid-column: span 4; font-size: 2.2rem; font-weight: 900; text-transform: uppercase; }
+        .service-item .details { grid-column: span 7; font-size: 1rem; line-height: 2.2; font-weight: 700; opacity: 0.8; color: var(--text); }
+
+        /* --- Footer --- */
+        footer { padding: 120px 5% 40px; }
+        .footer-grid { display: grid; grid-template-columns: repeat(12, 1fr); gap: 40px; }
+        .footer-logo { grid-column: span 6; font-size: 6vw; font-weight: 900; line-height: 0.8; letter-spacing: -4px; color: var(--text); }
+        .footer-info { grid-column: span 6; text-align: right; display: flex; flex-direction: column; justify-content: flex-end; }
+        .contact-text { font-size: 1.1rem; font-weight: 700; line-height: 2.2; margin-bottom: 60px; }
+        .copyright { font-size: 0.65rem; font-weight: 900; letter-spacing: 4px; opacity: 0.3; text-transform: uppercase; margin-top: 40px; }
+
+        /* --- Responsive --- */
+        @media (max-width: 991px) {
+            .nav-links { display: none; }
+            .hero-sub { width: 100%; right: auto; left: 5%; text-align: left; bottom: 80px; }
+            .service-item .title, .service-item .details { grid-column: span 12; margin-top: 20px; }
+            .footer-logo, .footer-info { grid-column: span 12; text-align: left; align-items: flex-start; }
+            .contact-text { text-align: left; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="grid-bg">
+        <div></div><div></div><div></div><div></div><div></div><div></div>
+        <div></div><div></div><div></div><div></div><div></div><div></div>
+    </div>
+
+    <header>
+        <a href="index.html" class="logo">CarlockHomes</a>
+        <nav class="nav-links">
+            <a href="index.html">TOP</a>
+            <a href="pages/company.html">COMPANY</a>
+            <a href="#services">SERVICES</a>
+            <div class="dropdown">
+                <a href="javascript:void(0)" style="cursor: default;">NEWS</a>
+                <div class="dropdown-content">
+                    <a href="https://share.google/xH3kdy4HI9U73eQa8" target="_blank">社長名鑑</a>
+                </div>
+            </div>
+            <a href="pages/recruitment.html">RECRUIT</a>
+            <a href="https://docs.google.com/forms/d/e/1FAIpQLSfQdOJRgQ3qhmnS-wAnycbUptNVp2VWEPQPdxnI3WDpsn7fgg/viewform" class="btn-header-cta" target="_blank">お問い合わせ</a>
+        </nav>
+    </header>
+
+    <section class="hero">
+        <h1 class="reveal">Carlock<br>Homes</h1>
+        <div class="hero-tagline reveal">PRECISION & TRUSTED PARTNER</div>
+        <div class="hero-sub reveal">
+            <span>SECURITY & LIFE SUPPORT SOLUTIONS</span>
+            <span>CarlockHomes Co., Ltd. / Since 2014</span>
+            <div style="margin-top: 40px;">
+                <a href="https://docs.google.com/forms/d/e/1FAIpQLSfQdOJRgQ3qhmnS-wAnycbUptNVp2VWEPQPdxnI3WDpsn7fgg/viewform" target="_blank" class="btn-header-cta" style="padding: 1.5rem 4rem; display: inline-block;">READY TO CONNECT</a>
+            </div>
+        </div>
+    </section>
+
+    <section id="services" class="section">
+        <div class="section-header reveal">
+            <div class="section-num">01</div>
+            <h2 class="section-title">Business Scope</h2>
+        </div>
+        <div class="service-list">
+            <!-- サービス 1 -->
+            <div class="service-item reveal">
+                <div class="num">01</div>
+                <div class="title">カギ・防犯<br>SECURITY</div>
+                <div class="details">
+                    ● 緊急解錠・修理（住宅・金庫）<br>
+                    ● 鍵の交換・取付（IC・電子錠）<br>
+                    ● 防犯カメラ・工事<br>
+                    ● 遠隔管理システム構築<br>
+                    物理的なセキュリティにおける「絶対的な安心」を設計・構築します。
+                </div>
+            </div>
+            <!-- サービス 2 -->
+            <div class="service-item reveal">
+                <div class="num">02</div>
+                <div class="title">住宅設備<br>MAINTENANCE</div>
+                <div class="details">
+                    ● サッシ・戸車・網戸修理<br>
+                    ● 水漏れ・排水詰まり対応<br>
+                    ● 共用部点検代行<br>
+                    ● 除菌・リフレッシュ工事<br>
+                    熟練の技術者が、精密な作業で住宅の寿命を延ばし、快適な環境を維持します。
+                </div>
+            </div>
+            <!-- サービス 3 -->
+            <div class="service-item reveal">
+                <div class="num">03</div>
+                <div class="title">管理代行<br>OUTSOURCING</div>
+                <div class="details">
+                    ● 入居前点検・巡回業務<br>
+                    ● 作業員派遣・保守管理<br>
+                    ● 全国180拠点の強力なネットワーク<br>
+                    ● 24時間365日のサポート体制<br>
+                    不動産管理会社様やオーナー様の負担を、高品質な実務で軽減します。
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="footer-grid">
+            <div class="footer-logo reveal">BOLD<br>PRECISION</div>
+            <div class="footer-info reveal">
+                <div class="contact-text">
+                    〒167-0042 東京都杉並区西荻北2-37-12 ブランシュ西荻 中2階<br>
+                    TEL: 03-5311-0556 / office@carlock.co.jp
+                </div>
+                <div class="copyright">&copy; 2026 CARLOCK HOMMES CO., LTD. ALL RIGHTS RESERVED.</div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) entry.target.classList.add('active');
+            });
+        }, { threshold: 0.1 });
+        document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+    </script>
+</body>
+</html>

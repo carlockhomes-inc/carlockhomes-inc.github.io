@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CarlockHomes | 暮らしに寄り添う、究極の安心</title>
+    <!-- プレミアム感を出すフォント（セリフ体 Lora, 本文 Inter） -->
+    <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,700;1,400&family=Inter:wght@300;400;600&family=Zen+Kaku+Gothic+New:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #1b4332;       /* フォレストグリーン */
+            --secondary: #a68a64;     /* ブロンズ・オーク */
+            --accent: #d8c292;        /* シャンパンゴールド */
+            --bg-color: #F9F7F2;      /* ソフトアイボリー */
+            --text-main: #2d2d2d;     /* チャコール */
+            --white: #ffffff;
+            --glass: rgba(255, 255, 255, 0.4);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Inter', 'Zen Kaku Gothic New', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            line-height: 1.8;
+            overflow-x: hidden;
+            scroll-behavior: smooth;
+        }
+
+        h1, h2, h3, .logo-main {
+            font-family: 'Lora', serif;
+        }
+
+        /* --- Transitions --- */
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 1s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* --- Header --- */
+        header {
+            position: fixed;
+            width: 100%;
+            padding: 1.5rem 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 1000;
+            background: rgba(249, 247, 242, 0.8);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(27, 67, 50, 0.05);
+            transition: 0.4s;
+        }
+
+        .logo-box {
+            display: flex;
+            flex-direction: column;
+            line-height: 1.1;
+            text-decoration: none;
+            color: var(--primary);
+        }
+        .logo-main { font-size: 1.8rem; font-weight: 700; letter-spacing: -0.5px; }
+        .logo-sub { font-size: 0.75rem; color: var(--secondary); letter-spacing: 3px; text-transform: uppercase; font-weight: 600; }
+
+        nav { display: flex; gap: 2.5rem; align-items: center; }
+        nav a { 
+            text-decoration: none; 
+            color: var(--text-main); 
+            font-size: 0.85rem; 
+            font-weight: 600; 
+            letter-spacing: 0.5px; 
+            opacity: 0.8; 
+            transition: 0.3s;
+            position: relative;
+        }
+        nav a::after {
+            content: ''; position: absolute; width: 0; height: 2px; bottom: -5px; left: 0; background: var(--secondary); transition: 0.3s;
+        }
+        nav a:hover { opacity: 1; color: var(--primary); }
+        nav a:hover::after { width: 100%; }
+
+        .btn-cta {
+            background: var(--primary);
+            color: var(--white);
+            padding: 0.8rem 1.8rem;
+            border-radius: 50px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: 0.4s;
+            box-shadow: 0 4px 15px rgba(27, 67, 50, 0.2);
+            border: 1px solid var(--primary);
+        }
+        .btn-cta:hover {
+            background: var(--white);
+            color: var(--primary);
+            box-shadow: 0 8px 25px rgba(27, 67, 50, 0.1);
+            transform: translateY(-2px);
+        }
+
+        /* --- Hero --- */
+        .hero {
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            background: linear-gradient(135deg, #F0EDE5 0%, #F9F7F2 100%);
+            overflow: hidden;
+            text-align: center;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            width: 100%; height: 100%;
+            background-image: radial-gradient(circle at 70% 30%, rgba(27, 67, 50, 0.03) 0%, transparent 50%);
+        }
+
+        .hero-content { z-index: 2; padding: 0 10%; }
+        .hero h1 {
+            font-size: clamp(3rem, 8vw, 5.5rem);
+            color: var(--primary);
+            margin-bottom: 1.5rem;
+            line-height: 1.1;
+            font-weight: 700;
+        }
+        .hero p {
+            font-size: clamp(1rem, 2vw, 1.25rem);
+            color: var(--text-main);
+            opacity: 0.7;
+            max-width: 700px;
+            margin: 0 auto 3rem;
+            letter-spacing: 0.05em;
+        }
+
+        .hero-visual {
+            position: absolute;
+            bottom: -100px;
+            width: 80%;
+            height: 50vh;
+            background: var(--white);
+            border-radius: 40px 40px 0 0;
+            box-shadow: 0 -30px 80px rgba(0,0,0,0.05);
+            z-index: 1;
+            opacity: 0.6;
+        }
+
+        /* --- Sections --- */
+        .section { padding: 120px 10%; position: relative; }
+        .section-header { text-align: center; margin-bottom: 80px; }
+        .section-tag { font-size: 0.8rem; color: var(--secondary); font-weight: 700; letter-spacing: 4px; text-transform: uppercase; margin-bottom: 1rem; display: block; }
+        .section-title { font-size: 2.8rem; color: var(--primary); font-weight: 700; }
+
+        /* --- Cards --- */
+        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 40px; }
+        .card {
+            background: var(--white);
+            padding: 50px 40px;
+            border-radius: 20px;
+            border: 1px solid rgba(0,0,0,0.03);
+            transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+            position: relative;
+            overflow: hidden;
+        }
+        .card:hover {
+            transform: translateY(-15px);
+            box-shadow: 0 40px 80px rgba(27, 67, 50, 0.08);
+            border-color: rgba(166, 138, 100, 0.2);
+        }
+        .card-icon {
+            width: 60px; height: 60px;
+            background: rgba(27, 67, 50, 0.05);
+            border-radius: 15px;
+            display: flex; align-items: center; justify-content: center;
+            margin-bottom: 2rem;
+            color: var(--primary);
+            font-size: 1.5rem;
+            transition: 0.3s;
+        }
+        .card:hover .card-icon {
+            background: var(--primary);
+            color: var(--white);
+            transform: rotate(5deg) scale(1.1);
+        }
+        .card h3 { font-size: 1.5rem; color: var(--primary); margin-bottom: 1.5rem; }
+        .card p { font-size: 1rem; color: var(--text-main); opacity: 0.7; margin-bottom: 0.5rem; }
+
+        /* --- Footer --- */
+        footer { padding: 100px 10% 50px; background: #242c23; color: var(--white); text-align: center; }
+        .footer-logo { font-family: 'Lora', serif; font-size: 2.2rem; color: var(--accent); margin-bottom: 30px; }
+        .footer-nav { display: flex; justify-content: center; gap: 3rem; margin-bottom: 4rem; flex-wrap: wrap; }
+        .footer-nav a { color: rgba(255,255,255,0.6); text-decoration: none; font-size: 0.9rem; transition: 0.3s; }
+        .footer-nav a:hover { color: var(--accent); }
+        .copyright { margin-top: 60px; font-size: 0.75rem; opacity: 0.3; letter-spacing: 2px; }
+
+        /* --- Responsive --- */
+        @media (max-width: 768px) {
+            header { padding: 1rem 5%; }
+            nav { display: none; }
+            .hero h1 { font-size: 3.5rem; }
+            .section { padding: 80px 8%; }
+        }
+    </style>
+</head>
+<body>
+
+    <header id="header">
+        <a href="index.html" class="logo-box">
+            <span class="logo-main">CarlockHomes</span>
+            <span class="logo-sub">Security & Design</span>
+        </a>
+        <nav>
+            <a href="index.html">TOP</a>
+            <a href="pages/company.html">COMPANY</a>
+            <a href="#services">SERVICES</a>
+            <a href="pages/recruitment.html">RECRUIT</a>
+            <a href="https://docs.google.com/forms/d/e/1FAIpQLSfQdOJRgQ3qhmnS-wAnycbUptNVp2VWEPQPdxnI3WDpsn7fgg/viewform" class="btn-cta" target="_blank">Contact</a>
+        </nav>
+    </header>
+
+    <section class="hero">
+        <div class="hero-content">
+            <h1 class="reveal">安心の質を、<br>デザインする。</h1>
+            <p class="reveal">ただ守るだけでなく、美しく、心地よく。<br>CarlockHomesは鍵と住宅メンテナンスから、あなたの「日常の穏やかさ」を支えるパートナーです。</p>
+            <div class="reveal" style="transition-delay: 0.4s;">
+                <a href="#services" class="btn-cta" style="padding: 1.2rem 3rem; font-size: 1.1rem;">私たちの解決策</a>
+            </div>
+        </div>
+        <div class="hero-visual"></div>
+    </section>
+
+    <section id="services" class="section">
+        <div class="section-header">
+            <span class="section-tag reveal">Service Scope</span>
+            <h2 class="section-title reveal">暮らしの守り手として</h2>
+        </div>
+        <div class="grid">
+            <div class="card reveal">
+                <div class="card-icon">🔒</div>
+                <h3>カギ・防犯</h3>
+                <p>● 緊急解錠・修理（住宅・金庫）</p>
+                <p>● 最新のIC・電子錠への交換</p>
+                <p>● 防犯カメラ設置・システム構築</p>
+                <p>24時間365日の緊急体制で、あなたの不安を「安心」へ変えます。</p>
+            </div>
+            <div class="card reveal">
+                <div class="card-icon">🛠️</div>
+                <h3>住宅メンテナンス</h3>
+                <p>● サッシ・網戸・戸車修理</p>
+                <p>● 水漏れ・排水詰まり解消</p>
+                <p>● 共用部点検・定期清掃</p>
+                <p>住まいの小さなお困りごとに、プロの技術で即座に対応いたします。</p>
+            </div>
+            <div class="card reveal">
+                <div class="card-icon">🤝</div>
+                <h3>法人・管理代行</h3>
+                <p>● 入居前点検・巡回業務</p>
+                <p>● 全国180拠点の強力なネットワーク</p>
+                <p>● 作業員派遣・保守管理代行</p>
+                <p>不動産管理会社様やオーナー様の負担を、高品質な実務で軽減します。</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="section" style="background: rgba(27, 67, 50, 0.02);">
+        <div class="grid" style="align-items: center;">
+            <div class="reveal">
+                <span class="section-tag">Quality Statement</span>
+                <h2 class="section-title" style="margin-bottom: 2rem;">「頼んでよかった」の一言のために。</h2>
+                <p style="opacity: 0.7; font-size: 1.1rem; margin-bottom: 2rem;">私たちは単なる「修理屋」ではありません。お困りごとの先にある、お客様の「心からの平和」を取り戻すまでが仕事です。長年の経験に裏打ちされた精密な技術で、一つひとつの課題を解決します。</p>
+                <a href="pages/company.html" style="color: var(--primary); text-decoration: none; font-weight: 700; border-bottom: 2px solid var(--secondary); padding-bottom: 5px;">会社案内を見る &rarr;</a>
+            </div>
+            <div class="reveal">
+                <!-- 視覚的エフェクトとしてのグラデーションボックス -->
+                <div style="width: 100%; aspect-ratio: 4/3; background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%); border-radius: 30px; box-shadow: 0 30px 60px rgba(0,0,0,0.1); display: flex; align-items: center; justify-content: center; color: var(--white); font-family: 'Lora', serif; font-size: 2rem; font-style: italic;">
+                    Trust & Legacy
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="footer-logo">CarlockHomes</div>
+        <nav class="footer-nav">
+            <a href="index.html">HOME</a>
+            <a href="pages/company.html">COMPANY</a>
+            <a href="#services">SERVICES</a>
+            <a href="pages/recruitment.html">RECRUIT</a>
+        </nav>
+        <p style="opacity: 0.6; font-size: 0.9rem; margin-bottom: 2rem;">
+            東京都杉並区西荻北2-37-12 ブランシュ西荻 中2階<br>
+            TEL: 03-5311-0556 / office@carlock.co.jp
+        </p>
+        <div class="copyright">
+            &copy; 2026 CARLOCK HOMMES CO., LTD. ALL RIGHTS RESERVED.
+        </div>
+    </footer>
+
+    <script>
+        // --- Scroll Reveal Animation ---
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('active');
+                }
+            });
+        }, { threshold: 0.1 });
+
+        document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+        // --- Header scroll effect ---
+        window.addEventListener('scroll', () => {
+            const header = document.getElementById('header');
+            if (window.scrollY > 50) {
+                header.style.padding = '1rem 5%';
+                header.style.background = 'rgba(249, 247, 242, 0.98)';
+                header.style.boxShadow = '0 10px 30px rgba(0,0,0,0.05)';
+            } else {
+                header.style.padding = '1.5rem 5%';
+                header.style.background = 'rgba(249, 247, 242, 0.8)';
+                header.style.boxShadow = 'none';
+            }
+        });
+    </script>
+</body>
+</html>

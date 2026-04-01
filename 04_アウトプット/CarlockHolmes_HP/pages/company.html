@@ -3,18 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Canva用・会社案内 | カーロックホームズ</title>
+    <title>会社案内 | カーロックホームズ株式会社</title>
     <link href="https://fonts.googleapis.com/css2?family=Crimson+Text:wght@700&family=Outfit:wght@700&family=Zen+Kaku+Gothic+New:wght@400;700&display=swap" rel="stylesheet">
     <style>
-        /* 
-           【Canva最適化設定：ダークテーマ】
-           このコードは、PDF経由でCanvaに読み込ませたときに
-           最も美しく、最も編集しやすい状態になるよう「あえてシンプルに」設計されています。
-        */
         :root {
             --navy: #001a33;
             --gold: #c5a059;
             --white: #ffffff;
+            --glass: rgba(255, 255, 255, 0.05);
+            --glass-border: rgba(255, 255, 255, 0.1);
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -23,163 +20,251 @@
             font-family: 'Zen Kaku Gothic New', sans-serif;
             background-color: var(--navy);
             color: var(--white);
+            overflow-x: hidden;
+            line-height: 1.6;
         }
 
-        /* 印刷・PDF保存時のページ設定 */
-        @media print {
-            @page { size: A4 landscape; margin: 0; }
-            body { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
+        /* --- Animations --- */
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 1.2s cubic-bezier(0.22, 1, 0.36, 1);
+        }
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        @keyframes shine { 
+            0% { left: -100%; top: -100%; } 
+            20% { left: 100%; top: 100%; } 
+            100% { left: 100%; top: 100%; } 
         }
 
-        /* 各スライドの基本枠 */
+        /* --- Header --- */
+        header {
+            position: fixed;
+            width: 100%;
+            padding: 1.5rem 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 1000;
+            background: rgba(0, 26, 51, 0.85);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--glass-border);
+            transition: 0.5s;
+        }
+
+        .logo-box-header { position: relative; overflow: hidden; display: flex; flex-direction: column; line-height: 1.1; }
+        .logo-main-header { font-family: 'Outfit', sans-serif; font-size: 1.6rem; font-weight: 700; color: var(--white); letter-spacing: -1px; position: relative; }
+        .logo-main-header::after {
+            content: ''; position: absolute; top: 0; left: -100%; width: 50px; height: 100%; 
+            background: linear-gradient(to right, transparent, rgba(255,255,255,0.3), transparent);
+            transform: skewX(-25deg);
+            animation: shine 4s infinite linear;
+        }
+
+        nav { display: flex; gap: 2.5rem; align-items: center; }
+        nav a { text-decoration: none; color: var(--white); font-size: 0.85rem; font-weight: 700; letter-spacing: 1px; opacity: 0.7; transition: 0.3s; position: relative; }
+        nav a::after { content: ''; position: absolute; width: 0; height: 1px; bottom: -5px; left: 0; background: var(--gold); transition: 0.3s; }
+        nav a:hover { opacity: 1; color: var(--gold); }
+        nav a:hover::after { width: 100%; }
+
+        /* Dropdown Styles */
+        .dropdown {
+            position: relative;
+            display: inline-block;
+        }
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(0, 26, 51, 0.95);
+            min-width: 180px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            border: 1px solid rgba(197, 160, 89, 0.2);
+            border-radius: 4px;
+            z-index: 1001;
+            z-index: 1001;
+            overflow: hidden;
+            animation: fadeIn 0.3s ease;
+        }
+        /* Bridge the gap for hover */
+        .dropdown::after {
+            content: '';
+            position: absolute;
+            top: 100%;
+            left: 0;
+            width: 100%;
+            height: 20px;
+        }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        .dropdown-content::before {
+            content: '';
+            position: absolute;
+            top: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            border-width: 0 10px 10px 10px;
+            border-style: solid;
+            border-color: transparent transparent rgba(197, 160, 89, 0.2) transparent;
+        }
+        .dropdown-content a {
+            color: var(--white);
+            padding: 15px 20px;
+            text-decoration: none;
+            display: block;
+            font-size: 0.8rem;
+            text-align: center;
+            opacity: 0.8;
+            transition: 0.3s;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+        }
+        .dropdown-content a:last-child { border-bottom: none; }
+        .dropdown-content a:hover {
+            background: rgba(197, 160, 89, 0.1);
+            color: var(--gold);
+            opacity: 1;
+        }
+        .dropdown:hover .dropdown-content {
+            display: block;
+        }
+
+        .btn-cta-header { 
+            background: transparent; 
+            color: var(--gold); 
+            border: 1px solid var(--gold); 
+            padding: 0.6rem 1.5rem; 
+            border-radius: 4px; 
+            font-weight: 700; 
+            text-decoration: none; 
+            transition: 0.4s;
+            font-size: 0.8rem;
+        }
+        .btn-cta-header:hover { background: var(--gold); color: var(--navy); transform: scale(1.05); }
+
+        /* スライドの基本枠 (Canvaサイズ維持) */
         section {
-            width: 297mm;
-            height: 210mm;
-            padding: 20mm;
+            width: 100%;
+            min-height: 100vh;
+            padding: 100px 10%;
             position: relative;
             background: linear-gradient(135deg, #001223 0%, #002e5d 100%);
-            page-break-after: always;
             display: flex;
             flex-direction: column;
             justify-content: center;
             overflow: hidden;
-            border: 1px solid rgba(197, 160, 89, 0.2);
+            border-bottom: 1px solid rgba(197, 160, 89, 0.1);
         }
 
-        /* ロゴ周り */
-        .logo-box {
-            text-align: center;
-            margin-bottom: 20mm;
-        }
-        .main-logo-text {
-            font-family: 'Outfit', sans-serif;
-            font-size: 64pt;
-            color: var(--white);
-            letter-spacing: -1px;
-        }
-        .sub-logo-text {
-            font-family: 'Crimson Text', serif;
-            font-size: 24pt;
-            color: var(--gold);
-            letter-spacing: 5px;
-            margin-top: -10px;
-        }
+        /* 会社案タイトル等 */
+        .main-logo-text { font-family: 'Outfit', sans-serif; font-size: clamp(3rem, 10vw, 6rem); color: var(--white); letter-spacing: -2px; text-align: center; }
+        .sub-logo-text { font-family: 'Crimson Text', serif; font-size: clamp(1rem, 3vw, 2.2rem); color: var(--gold); letter-spacing: 8px; text-align: center; margin-top: -10px; margin-bottom: 40px; }
 
-        /* 見出し */
         .section-title {
-            font-size: 32pt;
+            font-size: clamp(2rem, 5vw, 3.5rem);
             color: var(--gold);
-            border-bottom: 3pt solid var(--gold);
             width: fit-content;
-            margin: 0 auto 15mm;
-            padding-bottom: 5mm;
+            margin: 0 auto 40px;
+            padding-bottom: 10px;
             text-align: center;
+            position: relative;
+            font-family: 'Outfit', sans-serif;
         }
+        .section-title::after { content: ''; display: block; width: 60px; height: 1px; background: var(--gold); margin: 20px auto; }
 
-        .section-subtitle {
-            font-size: 24pt;
-            text-align: center;
-            margin-bottom: 10mm;
-            line-height: 1.5;
-        }
+        .section-subtitle { font-size: 1.5rem; text-align: center; margin-bottom: 60px; line-height: 1.6; color: rgba(255,255,255,0.8); }
 
-        /* カード（サービス紹介） */
-        .card-container {
-            display: flex;
-            gap: 5mm;
-            justify-content: center;
-        }
+        /* カードデザイン */
+        .card-container { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; }
         .card {
-            flex: 1;
-            background: rgba(255, 255, 255, 0.05);
-            border: 2pt solid var(--gold);
-            border-radius: 8mm;
-            padding: 6mm 7mm;
-            text-align: left;
+            background: var(--glass);
+            border: 1px solid var(--glass-border);
+            border-radius: 12px;
+            padding: 40px;
+            transition: 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+            backdrop-filter: blur(10px);
         }
-        .card h3 {
-            font-size: 17pt;
-            color: var(--gold);
-            margin-bottom: 4mm;
-            border-bottom: 1pt solid rgba(197,160,89, 0.5);
-            padding-bottom: 2mm;
+        .card:hover { 
+            transform: translateY(-10px) scale(1.02); 
+            border-color: var(--gold);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.4);
         }
-        .card p { 
-            font-size: 10.5pt; 
-            line-height: 1.8; 
-            word-break: keep-all; 
-            overflow-wrap: anywhere;
-            padding-left: 1.2em; 
-            text-indent: -1.2em; 
-        }
+        .card h3 { font-size: 1.4rem; color: var(--gold); margin-bottom: 20px; border-bottom: 1px solid rgba(197,160,89,0.2); padding-bottom: 10px; }
+        .card p { font-size: 1rem; line-height: 2; color: rgba(255,255,255,0.8); }
 
         /* 取引先グリッド */
-        .grid-container {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 3mm;
-            width: 100%;
-        }
+        .grid-container { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 12px; }
         .grid-item {
-            background: rgba(255,255,255,0.1);
-            border: 0.5pt solid var(--gold);
-            padding: 3mm;
-            font-size: 8pt;
+            background: rgba(255,255,255,0.03);
+            border: 1px solid rgba(197, 160, 89, 0.2);
+            padding: 15px;
+            font-size: 0.85rem;
             text-align: center;
-            border-radius: 2mm;
+            border-radius: 4px;
+            transition: 0.3s;
         }
+        .grid-item:hover { background: rgba(197, 160, 89, 0.1); border-color: var(--gold); transform: scale(1.05); }
 
-        /* 会社情報 */
-        .profile-table {
-            width: 80%;
-            margin: 0 auto;
-            border-collapse: collapse;
-        }
-        .profile-table td {
-            padding: 4mm;
-            border-bottom: 1pt solid rgba(255,255,255,0.1);
-            font-size: 12pt;
-        }
-        .label { color: var(--gold); font-weight: bold; width: 40mm; }
+        /* プロフィールテーブル */
+        .profile-table { width: 100%; max-width: 900px; margin: 0 auto; border-collapse: collapse; }
+        .profile-table td { padding: 25px 15px; border-bottom: 1px solid rgba(255,255,255,0.05); font-size: 1.1rem; }
+        .label { color: var(--gold); font-weight: bold; width: 30%; }
 
-        /* フッター */
-        .footer {
-            position: absolute;
-            bottom: 10mm;
-            width: calc(100% - 40mm);
+        /* スライドフッター */
+        .slide-footer {
+            margin-top: 60px;
             display: flex;
             justify-content: space-between;
-            font-size: 10pt;
-            color: rgba(255,255,255,0.5);
-            border-top: 1pt solid rgba(197, 160, 89, 0.2);
-            padding-top: 3mm;
+            font-size: 0.85rem;
+            color: rgba(255,255,255,0.3);
+            border-top: 1px solid rgba(197, 160, 89, 0.15);
+            padding-top: 15px;
+        }
+
+        /* レスポンシブ */
+        @media (max-width: 900px) {
+            nav { display: none; }
+            section { padding: 120px 5% 60px; }
+            .label { width: 40%; }
         }
     </style>
 </head>
 <body>
 
-    <!-- ナビゲーションメニュー追加 -->
-    <header style="position: fixed; width: 100%; padding: 1.2rem 5%; display: flex; justify-content: space-between; align-items: center; z-index: 1000; background: rgba(0, 26, 51, 0.9); border-bottom: 1px solid rgba(197, 160, 89, 0.2);">
-        <div style="font-family: 'Outfit', sans-serif; font-size: 1.6rem; font-weight: 700; color: var(--white); letter-spacing: -1px;">CarlockHomes</div>
-        <nav style="display: flex; gap: 2.5rem; align-items: center;">
-            <a href="../index.html" style="text-decoration: none; color: var(--white); font-size: 0.85rem; font-weight: 700; letter-spacing: 1px; opacity: 0.8;">TOP</a>
-            <a href="company.html" style="text-decoration: none; color: var(--gold); font-size: 0.85rem; font-weight: 700; letter-spacing: 1px;">COMPANY</a>
-            <a href="../index.html#services" style="text-decoration: none; color: var(--white); font-size: 0.85rem; font-weight: 700; letter-spacing: 1px; opacity: 0.8;">SERVICES</a>
-            <a href="https://share.google/xH3kdy4HI9U73eQa8" target="_blank" style="text-decoration: none; color: var(--white); font-size: 0.85rem; font-weight: 700; letter-spacing: 1px; opacity: 0.8;">NEWS</a>
-            <a href="recruitment.html" style="text-decoration: none; color: var(--white); font-size: 0.85rem; font-weight: 700; letter-spacing: 1px; opacity: 0.8;">RECRUIT</a>
-            <a href="https://docs.google.com/forms/d/e/1FAIpQLSfQdOJRgQ3qhmnS-wAnycbUptNVp2VWEPQPdxnI3WDpsn7fgg/viewform?usp=dialog" target="_blank" style="background: transparent; color: var(--gold); border: 1.5pt solid var(--gold); padding: 0.5rem 1.2rem; border-radius: 4px; font-weight: 700; text-decoration: none; font-size: 0.8rem;">お問い合わせ</a>
+    <header id="header">
+        <div class="logo-box-header">
+            <span class="logo-main-header">CarlockHomes</span>
+        </div>
+        <nav>
+            <a href="../index.html">TOP</a>
+            <a href="company.html" style="color: var(--gold);">COMPANY</a>
+            <a href="../index.html#services">SERVICES</a>
+            <div class="dropdown">
+                <a href="javascript:void(0)" onclick="toggleDropdown(event)" style="cursor: pointer;">NEWS</a>
+                <div class="dropdown-content">
+                    <a href="https://share.google/xH3kdy4HI9U73eQa8" target="_blank">社長名鑑</a>
+                    <a href="javascript:void(0)" style="opacity: 0.4;">活動報告 (準備中)</a>
+                </div>
+            </div>
+            <a href="recruitment.html">RECRUIT</a>
+            <a href="https://docs.google.com/forms/d/e/1FAIpQLSfQdOJRgQ3qhmnS-wAnycbUptNVp2VWEPQPdxnI3WDpsn7fgg/viewform" class="btn-cta-header" target="_blank">お問い合わせ</a>
         </nav>
     </header>
 
-    <div style="height: 60px;"></div> <!-- ヘッダー分の余白 -->
-        <div class="logo-box">
+    <!-- Slide 1: Cover -->
+    <section>
+        <div class="reveal active">
             <div class="main-logo-text">CarlockHomes</div>
             <div class="sub-logo-text">Co., Ltd.</div>
+            <div style="text-align: center; font-size: 1.2rem; letter-spacing: 0.5em; color: rgba(255,255,255,0.6); margin-top: 20px;">
+                SECURITY & LIFE SUPPORT SOLUTIONS
+            </div>
         </div>
-        <div style="text-align: center; font-size: 16pt; letter-spacing: 0.4em; color: var(--white);">
-            SECURITY & LIFE SUPPORT SOLUTIONS
-        </div>
-        <div class="footer">
+        <div class="slide-footer">
             <span>© CarlockHomes Co., Ltd.</span>
             <span>01 / 05</span>
         </div>
@@ -187,31 +272,34 @@
 
     <!-- Slide 2: Business Content -->
     <section>
-        <h2 class="section-title">Business Content</h2>
-        <h3 class="section-subtitle">24時間３６５日カギのトラブル対応<br>24時間緊急対応サービス</h3>
+        <div class="reveal">
+            <h2 class="section-title">Business Content</h2>
+            <h3 class="section-subtitle">24時間３６５日カギのトラブル対応<br>社会に安心を届ける緊急対応サービス</h3>
+        </div>
         <div class="card-container">
-            <div class="card">
+            <div class="card reveal">
                 <h3>カギ・防犯<br>セキュリティ</h3>
                 <p>● 緊急解錠・修理（住宅・金庫）</p>
                 <p>● 鍵の交換・取付（IC・電子錠）</p>
                 <p>● 防犯カメラ・インターフォン工事</p>
                 <p>● オートロック・電気錠システム構築</p>
             </div>
-            <div class="card">
+            <div class="card reveal" style="transition-delay: 0.2s;">
                 <h3>住宅設備<br>メンテナンス</h3>
                 <p>● サッシ・戸車・網戸・ガラス修理</p>
                 <p>● 水漏れ・排水詰まり対応</p>
                 <p>● 共用部点検</p>
                 <p>● 除菌施工・リフレッシュ工事</p>
             </div>
-            <div class="card">
+            <div class="card reveal" style="transition-delay: 0.4s;">
                 <h3>管理代行<br>アウトソーシング</h3>
                 <p>● 入居前点検</p>
                 <p>● 作業員派遣業務（保守点検等）</p>
                 <p>● 全国180の強力なネットワーク</p>
+                <p>● 24時間365日の受付・出動体制</p>
             </div>
         </div>
-        <div class="footer">
+        <div class="slide-footer">
             <span>© CarlockHomes Co., Ltd.</span>
             <span>02 / 05</span>
         </div>
@@ -219,36 +307,24 @@
 
     <!-- Slide 3: Trust -->
     <section>
-        <h2 class="section-title" style="margin-bottom: 5mm;">Trust & Partnership</h2>
-        
-        <!-- 加盟・特約店セクション追加 -->
-        <div style="text-align: center; color: var(--gold); margin-bottom: 2mm; font-size: 13pt; font-weight: bold;">【 加盟店・代理店・特約店 】</div>
-        <div class="grid-container" style="margin-bottom: 5mm; grid-template-columns: repeat(4, 1fr);">
-            <div class="grid-item" style="border: 1pt solid var(--gold); height: 22mm; display: flex; align-items: center; justify-content: center;">
-                内閣総理大臣認可<br>日本ロックセキュリティ<br>協同組合 加盟店
-            </div>
-            <div class="grid-item" style="border: 1pt solid var(--gold); height: 22mm; display: flex; align-items: center; justify-content: center;">
-                美和ロック株式会社<br>サービス代行店<br>（SD店）
-            </div>
-            <div class="grid-item" style="border: 1pt solid var(--gold); height: 22mm; display: flex; align-items: center; justify-content: center;">
-                株式会社ゴール<br>メンテナンスステーション<br>（GMS）
-            </div>
-            <div class="grid-item" style="border: 1pt solid var(--gold); height: 22mm; display: flex; align-items: center; justify-content: center;">
-                株式会社シブタニ<br>Clavisサービス代行店
-            </div>
-            <div class="grid-item" style="border: 1pt solid var(--gold); height: 22mm; display: flex; align-items: center; justify-content: center;">
-                株式会社長沢製作所<br>特約店
-            </div>
-            <div class="grid-item" style="border: 1pt solid var(--gold); height: 22mm; display: flex; align-items: center; justify-content: center;">
-                東邦金属工業株式会社<br>特約店
-            </div>
-            <div class="grid-item" style="border: 1pt solid var(--gold); height: 22mm; display: flex; align-items: center; justify-content: center;">
-                全国180の<br>協力パートナー
-            </div>
+        <div class="reveal">
+            <h2 class="section-title">Trust & Partnership</h2>
+            <div style="text-align: center; color: var(--gold); margin-bottom: 20px; font-weight: bold; letter-spacing: 2px;">加盟店・代理店・特約店</div>
+        </div>
+        <div class="grid-container reveal" style="margin-bottom: 40px; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));">
+            <div class="grid-item">内閣総理大臣認可<br>日本ロックセキュリティ協同組合 加盟店</div>
+            <div class="grid-item">美和ロック株式会社<br>サービス代行店（SD店）</div>
+            <div class="grid-item">株式会社ゴール<br>メンテナンスステーション（GMS）</div>
+            <div class="grid-item">株式会社シブタニ<br>Clavisサービス代行店</div>
+            <div class="grid-item">株式会社長沢製作所 特約店</div>
+            <div class="grid-item">東邦金属工業株式会社 特約店</div>
+            <div class="grid-item">全国180の協力パートナー</div>
         </div>
 
-        <div style="text-align: center; color: var(--gold); margin-bottom: 2mm; font-size: 13pt; font-weight: bold;">【 主要取引先企業 】</div>
-        <div class="grid-container">
+        <div class="reveal">
+            <div style="text-align: center; color: var(--gold); margin-bottom: 20px; font-weight: bold; letter-spacing: 2px;">主要取引先企業</div>
+        </div>
+        <div class="grid-container reveal">
             <div class="grid-item">綜合警備保障株式会社</div>
             <div class="grid-item">株式会社カインズ</div>
             <div class="grid-item">株式会社シブタニ</div>
@@ -267,8 +343,7 @@
             <div class="grid-item">三井不動産レジデンシャルリース</div>
             <div class="grid-item">スターツアメニティー株式会社</div>
         </div>
-        <div style="text-align: center; font-size: 8pt; color: rgba(255,255,255,0.6); margin-top: 3mm; letter-spacing: 0.05em;">※掲載順は五十音・取引規模等とは関係なく、順不同で表記しています。</div>
-        <div class="footer">
+        <div class="slide-footer">
             <span>© CarlockHomes Co., Ltd.</span>
             <span>03 / 05</span>
         </div>
@@ -276,8 +351,10 @@
 
     <!-- Slide 4: Profile -->
     <section>
-        <h2 class="section-title">Company Profile</h2>
-        <table class="profile-table">
+        <div class="reveal">
+            <h2 class="section-title">Company Profile</h2>
+        </div>
+        <table class="profile-table reveal">
             <tr><td class="label">商号</td><td>カーロックホームズ株式会社</td></tr>
             <tr><td class="label">所在地</td><td>〒167-0042 東京都杉並区西荻北2-37-12</td></tr>
             <tr><td class="label">創業</td><td>平成14年8月</td></tr>
@@ -285,13 +362,13 @@
             <tr><td class="label">連絡先</td><td>TEL: 03-5311-0556 / Mail: office@carlock.co.jp</td></tr>
             <tr><td class="label">グループ会社</td><td>
                 株式会社TENKEN GO 
-                <a href="https://www.amazon.co.jp/dp/B0FHK3FPJ2" target="_blank" style="margin-left: 10px; color: #ff9900; border: 1px solid #ff9900; padding: 2px 10px; border-radius: 4px; font-size: 10pt; text-decoration: none; font-weight: 700; display: inline-block; vertical-align: middle;">
+                <a href="https://www.amazon.co.jp/dp/B0FHK3FPJ2" target="_blank" style="margin-left: 10px; color: #ff9900; border: 1px solid #ff9900; padding: 2px 10px; border-radius: 4px; font-size: 0.8rem; text-decoration: none; font-weight: 700; display: inline-block;">
                     Amazonストア ↗
                 </a>
                 <br>株式会社One Stop Labo
             </td></tr>
         </table>
-        <div class="footer">
+        <div class="slide-footer">
             <span>© CarlockHomes Co., Ltd.</span>
             <span>04 / 05</span>
         </div>
@@ -299,33 +376,73 @@
 
     <!-- Slide 5: Access -->
     <section>
-        <h2 class="section-title">Access</h2>
-        <div style="display: flex; gap: 10mm; align-items: center;">
-            <div style="flex: 1; font-size: 14pt; line-height: 2;">
+        <div class="reveal">
+            <h2 class="section-title">Access</h2>
+        </div>
+        <div style="display: flex; gap: 40px; align-items: center; flex-wrap: wrap;" class="reveal">
+            <div style="flex: 1; min-width: 300px; font-size: 1.2rem; line-height: 2;">
                 <p><strong style="color:var(--gold)">住所：</strong><br>東京都杉並区西荻北2-37-12<br>ブランシュ西荻 中2階</p>
-                <p><strong style="color:var(--gold)">最寄駅：</strong><br>JR西荻窪駅より徒歩5分</p>
+                <p style="margin-top: 20px;"><strong style="color:var(--gold)">最寄駅：</strong><br>JR西荻窪駅より徒歩5分</p>
+                <a href="https://www.google.com/maps?q=%E3%82%AB%E3%83%BC%E3%83%AD%E3%83%83%E3%82%AF%E3%83%9B%E3%83%BC%E3%83%A0%E3%82%BA%E6%A0%AA%E5%BC%8F%E4%BC%9A%E7%A4%BE+%E6%9D%B1%E4%BA%AC%E9%83%BD%E6%9D%89%E4%B8%A6%E5%8C%BA%E8%A5%BF%E8%81%BB%E5%8C%972-37-12" target="_blank" style="color: var(--gold); text-decoration: none; font-size: 1rem; border: 1px solid var(--gold); padding: 12px 25px; border-radius: 4px; font-weight: 700; transition: 0.3s; display: inline-block; margin-top: 40px;">
+                    Googleマップを開く ↗
+                </a>
             </div>
-            <div style="flex: 1.5; height: 100mm; border: 2pt solid var(--gold); border-radius: 5mm; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.4);">
+            <div style="flex: 1.5; min-width: 300px; height: 400px; border: 1px solid var(--gold); border-radius: 8px; overflow: hidden; box-shadow: 0 20px 50px rgba(0,0,0,0.5);">
                 <iframe 
                     src="https://maps.google.com/maps?q=%E3%82%AB%E3%83%BC%E3%83%AD%E3%83%83%E3%82%AF%E3%83%9B%E3%83%BC%E3%83%A0%E3%82%BA%E6%A0%AA%E5%BC%8F%E4%BC%9A%E7%A4%BE+%E8%A5%BF%E8%81%BB%E7%AA%AA&hl=ja&z=15&output=embed" 
                     width="100%" 
                     height="100%" 
-                    style="border:0; pointer-events: none;" 
+                    style="border:0;" 
                     allowfullscreen="" 
                     loading="lazy">
                 </iframe>
             </div>
         </div>
-        <div style="text-align: right; margin-top: 15px; margin-right: 1.5%;">
-            <a href="https://www.google.com/maps?q=%E3%82%AB%E3%83%BC%E3%83%AD%E3%83%83%E3%82%AF%E3%83%9B%E3%83%BC%E3%83%A0%E3%82%BA%E6%A0%AA%E5%BC%8F%E4%BC%9A%E7%A4%BE+%E6%9D%B1%E4%BA%AC%E9%83%BD%E6%9D%89%E4%B8%A6%E5%8C%BA%E8%A5%BF%E8%81%BB%E5%8C%972-37-12" target="_blank" style="color: var(--gold); text-decoration: none; font-size: 11pt; border: 1pt solid var(--gold); padding: 8px 20px; border-radius: 4px; font-weight: 700; transition: 0.3s; display: inline-block;">
-                Googleマップで大きな地図を見る ↗
-            </a>
-        </div>
-        <div class="footer">
+        <div class="slide-footer">
             <span>© CarlockHomes Co., Ltd.</span>
             <span>05 / 05</span>
         </div>
     </section>
+
+    <script>
+        // --- Scroll Reveal Animation ---
+        const observerOptions = { threshold: 0.1, rootMargin: '0px 0px -50px 0px' };
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) { entry.target.classList.add('active'); }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.reveal').forEach(el => { observer.observe(el); });
+
+        // --- Dropdown Toggle (for Mobile/Click) ---
+        function toggleDropdown(e) {
+            e.preventDefault();
+            const dropdown = e.currentTarget.parentElement;
+            const content = dropdown.querySelector('.dropdown-content');
+            const isVisible = content.style.display === 'block';
+            document.querySelectorAll('.dropdown-content').forEach(c => c.style.display = 'none');
+            content.style.display = isVisible ? 'none' : 'block';
+            e.stopPropagation();
+        }
+        document.addEventListener('click', () => {
+            document.querySelectorAll('.dropdown-content').forEach(c => c.style.display = 'none');
+        });
+
+        // --- Header Scroll Effect ---
+        window.addEventListener('scroll', () => {
+            const header = document.getElementById('header');
+            if (window.scrollY > 50) {
+                header.style.padding = '1rem 5%';
+                header.style.backgroundColor = 'rgba(0, 26, 51, 0.98)';
+                header.style.boxShadow = '0 10px 30px rgba(0,0,0,0.5)';
+            } else {
+                header.style.padding = '1.5rem 5%';
+                header.style.backgroundColor = 'rgba(0, 26, 51, 0.85)';
+                header.style.boxShadow = 'none';
+            }
+        });
+    </script>
 
 </body>
 </html>

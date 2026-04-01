@@ -26,6 +26,22 @@
             overflow-x: hidden;
         }
 
+        /* --- Animations --- */
+        .reveal {
+            opacity: 0;
+            transform: translateY(40px);
+            transition: all 1.2s cubic-bezier(0.22, 1, 0.36, 1);
+        }
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        @keyframes shine { 
+            0% { left: -100%; top: -100%; } 
+            20% { left: 100%; top: 100%; } 
+            100% { left: 100%; top: 100%; } 
+        }
+
         /* --- Header --- */
         header {
             position: fixed;
@@ -35,105 +51,218 @@
             justify-content: space-between;
             align-items: center;
             z-index: 1000;
-            background: rgba(0, 26, 51, 0.9);
+            background: rgba(0, 26, 51, 0.85);
             backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
             border-bottom: 1px solid var(--glass-border);
+            transition: 0.5s;
         }
 
-        .logo-box { display: flex; flex-direction: column; line-height: 1.1; }
-        .logo-main { font-family: 'Outfit', sans-serif; font-size: 1.8rem; font-weight: 700; color: var(--white); letter-spacing: -1px; }
+        .logo-box { position: relative; overflow: hidden; display: flex; flex-direction: column; line-height: 1.1; }
+        .logo-main { font-family: 'Outfit', sans-serif; font-size: 1.8rem; font-weight: 700; color: var(--white); letter-spacing: -1px; position: relative; }
+        .logo-main::after {
+            content: ''; position: absolute; top: 0; left: -100%; width: 50px; height: 100%; 
+            background: linear-gradient(to right, transparent, rgba(255,255,255,0.3), transparent);
+            transform: skewX(-25deg);
+            animation: shine 4s infinite linear;
+        }
         .logo-sub { font-family: 'Crimson Text', serif; font-size: 0.8rem; color: var(--brand-gold); letter-spacing: 4px; text-transform: uppercase; }
 
         nav { display: flex; gap: 2.5rem; align-items: center; }
-        nav a { text-decoration: none; color: var(--white); font-size: 0.85rem; font-weight: 700; letter-spacing: 1px; opacity: 0.8; transition: 0.3s; }
+        nav a { text-decoration: none; color: var(--white); font-size: 0.85rem; font-weight: 700; letter-spacing: 1px; opacity: 0.7; transition: 0.3s; position: relative; }
+        nav a::after { content: ''; position: absolute; width: 0; height: 1px; bottom: -5px; left: 0; background: var(--brand-gold); transition: 0.3s; }
         nav a:hover { opacity: 1; color: var(--brand-gold); }
+        nav a:hover::after { width: 100%; }
 
-        .btn-cta { background: linear-gradient(135deg, var(--brand-gold) 0%, #b38b3f 100%); color: var(--brand-blue); padding: 0.7rem 2rem; border-radius: 4px; font-weight: 700; text-decoration: none; }
+        /* Dropdown Styles */
+        .dropdown {
+            position: relative;
+            display: inline-block;
+        }
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(0, 26, 51, 0.95);
+            min-width: 180px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            border: 1px solid rgba(197, 160, 89, 0.2);
+            border-radius: 4px;
+            z-index: 1001;
+            z-index: 1001;
+            overflow: hidden;
+            animation: fadeIn 0.3s ease;
+        }
+        /* Bridge the gap for hover */
+        .dropdown::after {
+            content: '';
+            position: absolute;
+            top: 100%;
+            left: 0;
+            width: 100%;
+            height: 20px;
+        }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        .dropdown-content::before {
+            content: '';
+            position: absolute;
+            top: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            border-width: 0 10px 10px 10px;
+            border-style: solid;
+            border-color: transparent transparent rgba(197, 160, 89, 0.2) transparent;
+        }
+        .dropdown-content a {
+            color: var(--white);
+            padding: 15px 20px;
+            text-decoration: none;
+            display: block;
+            font-size: 0.8rem;
+            text-align: center;
+            opacity: 0.8;
+            transition: 0.3s;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+        }
+        .dropdown-content a:last-child { border-bottom: none; }
+        .dropdown-content a:hover {
+            background: rgba(197, 160, 89, 0.1);
+            color: var(--brand-gold);
+            opacity: 1;
+        }
+        .dropdown:hover .dropdown-content {
+            display: block;
+        }
+
+        .btn-cta { 
+            background: linear-gradient(135deg, var(--brand-gold) 0%, #b38b3f 100%); 
+            color: var(--brand-blue); 
+            padding: 0.7rem 2rem; 
+            border-radius: 4px; 
+            font-weight: 700; 
+            text-decoration: none; 
+            transition: 0.4s;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+        }
+        .btn-cta:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 25px rgba(197, 160, 89, 0.4);
+        }
 
         /* --- Hero --- */
         .hero {
-            padding: 180px 10% 100px;
+            padding: 220px 10% 120px;
             text-align: center;
             background: linear-gradient(to bottom, #001a33, #002e5d);
+            position: relative;
         }
 
-        .hero h1 { font-size: clamp(2.5rem, 6vw, 4rem); margin-bottom: 1.5rem; font-weight: 700; color: var(--brand-gold); }
-        .hero p { font-size: 1.4rem; max-width: 800px; margin: 0 auto; opacity: 0.9; font-weight: 700; }
+        .hero h1 { 
+            font-size: clamp(2.5rem, 6vw, 4.5rem); 
+            margin-bottom: 1.5rem; 
+            font-weight: 700; 
+            color: var(--brand-gold); 
+            font-family: 'Outfit', sans-serif;
+            letter-spacing: 2px;
+        }
+        .hero p { font-size: 1.3rem; max-width: 800px; margin: 0 auto; opacity: 0.9; font-weight: 700; letter-spacing: 1px; }
 
         /* --- Content Sections --- */
-        .container { max-width: 1000px; margin: 0 auto; padding: 80px 20px; }
+        .container { max-width: 1100px; margin: 0 auto; padding: 100px 20px; }
 
         .message-box {
             background: var(--glass);
-            padding: 60px;
-            border-radius: 32px;
+            padding: 80px 60px;
+            border-radius: 4px;
             border: 1px solid var(--glass-border);
-            margin-bottom: 80px;
+            margin-bottom: 100px;
+            position: relative;
+            backdrop-filter: blur(10px);
         }
 
-        .message-box h2 { font-size: 2rem; color: var(--brand-gold-pale); margin-bottom: 2rem; border-bottom: 1px solid var(--brand-gold); padding-bottom: 1rem; }
-        .message-text { font-size: 1.15rem; line-height: 2.2; }
+        .message-box h2 { font-size: 2.2rem; color: var(--brand-gold-pale); margin-bottom: 3rem; position: relative; padding-bottom: 1rem; }
+        .message-box h2::after { content: ''; position: absolute; width: 40px; height: 1px; background: var(--brand-gold); bottom: 0; left: 0; }
+        .message-text { font-size: 1.1rem; line-height: 2.4; color: rgba(255,255,255,0.85); }
 
         .key-points {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 30px;
-            margin: 60px 0;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 40px;
+            margin: 80px 0;
         }
 
         .point-card {
-            background: rgba(197, 160, 89, 0.1);
-            padding: 40px;
-            border-radius: 24px;
-            border-left: 5px solid var(--brand-gold);
+            background: rgba(197, 160, 89, 0.05);
+            padding: 50px 40px;
+            border-radius: 4px;
+            border: 1px solid rgba(197, 160, 89, 0.15);
+            transition: 0.5s;
+        }
+        .point-card:hover { 
+            border-color: var(--brand-gold); 
+            background: rgba(197, 160, 89, 0.08);
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.3);
         }
 
-        .point-card span { font-size: 2rem; display: block; margin-bottom: 1rem; }
-        .point-card h3 { font-size: 1.3rem; margin-bottom: 1rem; color: var(--brand-gold-pale); }
+        .point-card span { font-size: 2.5rem; display: block; margin-bottom: 1.5rem; opacity: 0.8; }
+        .point-card h3 { font-size: 1.4rem; margin-bottom: 1.5rem; color: var(--brand-gold); }
+        .point-card p { font-size: 1rem; color: rgba(255,255,255,0.7); }
 
         .requirements {
             width: 100%;
             border-collapse: collapse;
-            margin-top: 40px;
+            margin-top: 60px;
         }
 
         .requirements th, .requirements td {
-            padding: 25px;
+            padding: 30px;
             border-bottom: 1px solid var(--glass-border);
             text-align: left;
         }
 
-        .requirements th { color: var(--brand-gold); width: 250px; font-size: 1.1rem; }
-        .requirements td { font-size: 1.1rem; }
+        .requirements th { color: var(--brand-gold); width: 200px; font-size: 1.05rem; letter-spacing: 1px; }
+        .requirements td { font-size: 1.05rem; color: rgba(255,255,255,0.9); }
 
         .president-section {
-            margin-top: 100px;
+            margin-top: 120px;
             text-align: center;
-            padding: 60px;
+            padding: 80px 60px;
             background: var(--glass);
-            border-radius: 32px;
-            border: 1px solid var(--brand-gold);
+            border-radius: 4px;
+            border: 1px solid rgba(197, 160, 89, 0.2);
+            backdrop-filter: blur(10px);
         }
 
         .president-link {
             display: inline-block;
-            margin-top: 20px;
+            margin-top: 30px;
             color: var(--brand-gold);
             text-decoration: none;
             border-bottom: 1px solid var(--brand-gold);
             font-weight: 700;
+            transition: 0.3s;
         }
+        .president-link:hover { opacity: 0.7; letter-spacing: 1px; }
 
         /* --- Footer --- */
-        footer { padding: 100px 10% 60px; background: #000b14; text-align: center; border-top: 1px solid var(--glass-border); }
-        .footer-logo { font-family: 'Outfit', sans-serif; font-size: 2.5rem; color: var(--brand-gold-pale); margin-bottom: 40px; }
-        .copyright { margin-top: 60px; font-size: 0.8rem; opacity: 0.2; letter-spacing: 2px; }
+        footer { padding: 120px 10% 60px; background: #000c14; text-align: center; border-top: 1px solid var(--glass-border); }
+        .footer-logo { font-family: 'Outfit', sans-serif; font-size: 2.5rem; color: var(--brand-gold-pale); margin-bottom: 40px; font-weight: 700; }
+        .copyright { margin-top: 80px; font-size: 0.8rem; opacity: 0.2; letter-spacing: 3px; }
 
+        @media (max-width: 900px) {
+            nav { display: none; }
+            .hero { padding: 160px 8% 80px; }
+            .message-box { padding: 40px 30px; }
+            .requirements th { width: 100px; }
+        }
     </style>
 </head>
 <body>
 
-    <header>
+    <header id="header">
         <div class="logo-box">
             <span class="logo-main">CarlockHomes</span>
             <span class="logo-sub">Co., Ltd.</span>
@@ -142,19 +271,25 @@
             <a href="../index.html">TOP</a>
             <a href="company.html">COMPANY</a>
             <a href="../index.html#services">SERVICES</a>
-            <a href="https://share.google/xH3kdy4HI9U73eQa8" target="_blank">NEWS</a>
+            <div class="dropdown">
+                <a href="javascript:void(0)" onclick="toggleDropdown(event)" style="cursor: pointer;">NEWS</a>
+                <div class="dropdown-content">
+                    <a href="https://share.google/xH3kdy4HI9U73eQa8" target="_blank">社長名鑑</a>
+                    <a href="javascript:void(0)" style="opacity: 0.4;">活動報告 (準備中)</a>
+                </div>
+            </div>
             <a href="recruitment.html" style="color: var(--brand-gold);">RECRUIT</a>
-            <a href="https://docs.google.com/forms/d/e/1FAIpQLSc_LmT79L4sRqRoRngPX62I5F1kGEbQP72rBYkJkikGSVT0bQ/viewform?usp=dialog" class="btn-cta" target="_blank">お問い合わせ</a>
+            <a href="https://docs.google.com/forms/d/e/1FAIpQLSc_LmT79L4sRqRoRngPX62I5F1kGEbQP72rBYkJkikGSVT0bQ/viewform" class="btn-cta" target="_blank">お問い合わせ</a>
         </nav>
     </header>
 
-    <section class="hero">
+    <section class="hero reveal active">
         <h1>RECRUITMENT</h1>
         <p>あなたの「人生経験」が、誰かの「安心」に変わる。</p>
     </section>
 
     <div class="container">
-        <div class="message-box">
+        <div class="message-box reveal">
             <h2>私たちの想い</h2>
             <div class="message-text">
                 「人の役に立ちたい」<br>
@@ -167,27 +302,27 @@
             </div>
         </div>
 
-        <h2 style="text-align: center; font-size: 2rem; color: var(--brand-gold); margin-bottom: 40px;">仕事のポイント</h2>
+        <h2 class="reveal" style="text-align: center; font-size: 2rem; color: var(--brand-gold); margin-bottom: 60px; font-family: 'Outfit', sans-serif;">KEY POINTS</h2>
         <div class="key-points">
-            <div class="point-card">
+            <div class="point-card reveal">
                 <span>🤝</span>
                 <h3>「必要とされている」実感</h3>
                 <p>毎日「ありがとう」が直に届く環境です。人の助けになっていることを肌で感じられます。</p>
             </div>
-            <div class="point-card">
+            <div class="point-card reveal">
                 <span>🌐</span>
                 <h3>社会との繋がり</h3>
                 <p>現場を回ることで、世の中とダイレクトに繋がっている喜びを実感できます。</p>
             </div>
-            <div class="point-card">
+            <div class="point-card reveal">
                 <span>💪</span>
                 <h3>未経験からの挑戦を応援</h3>
                 <p>40代・50代からのスタートを全力で応援。技術は後からついてきます。まずはあなたの「心」を貸してください。</p>
             </div>
         </div>
 
-        <h2 style="text-align: center; font-size: 2rem; color: var(--brand-gold); margin: 80px 0 40px;">募集要項</h2>
-        <table class="requirements">
+        <h2 class="reveal" style="text-align: center; font-size: 2rem; color: var(--brand-gold); margin: 120px 0 60px; font-family: 'Outfit', sans-serif;">DETAILS</h2>
+        <table class="requirements reveal">
             <tr>
                 <th>職種</th>
                 <td>カギの緊急対応スタッフ（技術職）</td>
@@ -202,30 +337,77 @@
             </tr>
         </table>
 
-        <div class="president-section">
-            <p style="font-size: 1.2rem; line-height: 2;">
+        <div class="president-section reveal">
+            <p style="font-size: 1.25rem; line-height: 2.2; font-weight: 500;">
                 「現場は最高のステージであり、<br>私たちがお客様に楽しんでいただけるキャストになれるのが理想」
             </p>
-            <p style="margin-top: 20px; font-weight: 700;">
+            <p style="margin-top: 30px; font-weight: 700; color: var(--brand-gold-pale);">
                 カーロックホームズ株式会社 代表取締役 上野原 政司
             </p>
             <a href="https://share.google/xH3kdy4HI9U73eQa8" target="_blank" class="president-link">社長名鑑を詳しく見る</a>
         </div>
 
-        <div style="text-align: center; margin-top: 100px;">
-            <p style="font-size: 1.4rem; margin-bottom: 40px;">あなたのこれからの人生を、私たちと一緒に輝かせませんか？</p>
-            <a href="https://docs.google.com/forms/d/e/1FAIpQLSc_LmT79L4sRqRoRngPX62I5F1kGEbQP72rBYkJkikGSVT0bQ/viewform?usp=dialog" class="btn-cta" style="font-size: 1.2rem; padding: 1.2rem 4rem;" target="_blank">この仕事に応募する・問い合わせる</a>
+        <div class="reveal" style="text-align: center; margin-top: 140px;">
+            <p style="font-size: 1.4rem; margin-bottom: 60px; font-weight: 700;">あなたのこれからの人生を、私たちと一緒に輝かせませんか？</p>
+            <a href="https://docs.google.com/forms/d/e/1FAIpQLSc_LmT79L4sRqRoRngPX62I5F1kGEbQP72rBYkJkikGSVT0bQ/viewform" class="btn-cta" style="font-size: 1.3rem; padding: 1.5rem 5rem;" target="_blank">この仕事に応募する</a>
         </div>
     </div>
 
     <footer>
-        <div class="footer-logo">CarlockHomes</div>
-        <p style="opacity: 0.7;">
+        <p style="opacity: 0.6; font-size: 0.95rem; letter-spacing: 1px;">
             〒167-0042 東京都杉並区西荻北2-37-12 ブランシュ西荻 中2階<br>
             TEL: 03-5311-0556 / Mail: office@carlock.co.jp
         </p>
-        <div class="copyright">&copy; 2026 CARLOCK HOLMES CO., LTD.</div>
+        <div class="copyright">&copy; 2026 CARLOCK HOLMES CO., LTD. ALL RIGHTS RESERVED.</div>
     </footer>
+
+    <script>
+        // --- Scroll Reveal Animation ---
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('active');
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.reveal').forEach(el => {
+            observer.observe(el);
+        });
+
+        // --- Dropdown Toggle (for Mobile/Click) ---
+        function toggleDropdown(e) {
+            e.preventDefault();
+            const dropdown = e.currentTarget.parentElement;
+            const content = dropdown.querySelector('.dropdown-content');
+            const isVisible = content.style.display === 'block';
+            document.querySelectorAll('.dropdown-content').forEach(c => c.style.display = 'none');
+            content.style.display = isVisible ? 'none' : 'block';
+            e.stopPropagation();
+        }
+        document.addEventListener('click', () => {
+            document.querySelectorAll('.dropdown-content').forEach(c => c.style.display = 'none');
+        });
+
+        // --- Header Scroll Effect ---
+        window.addEventListener('scroll', () => {
+            const header = document.getElementById('header');
+            if (window.scrollY > 50) {
+                header.style.padding = '1rem 5%';
+                header.style.backgroundColor = 'rgba(0, 26, 51, 0.98)';
+                header.style.boxShadow = '0 10px 30px rgba(0,0,0,0.5)';
+            } else {
+                header.style.padding = '1.5rem 5%';
+                header.style.backgroundColor = 'rgba(0, 26, 51, 0.85)';
+                header.style.boxShadow = 'none';
+            }
+        });
+    </script>
 
 </body>
 </html>
