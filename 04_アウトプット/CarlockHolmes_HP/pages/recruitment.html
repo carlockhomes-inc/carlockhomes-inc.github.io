@@ -24,6 +24,7 @@
             color: var(--white);
             line-height: 1.8;
             overflow-x: hidden;
+            scroll-behavior: smooth;
         }
 
         /* --- Animations --- */
@@ -35,6 +36,50 @@
         .reveal.active {
             opacity: 1;
             transform: translateY(0);
+        }
+
+        /* --- Scroll Progress Bar --- */
+        #progress-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 0%;
+            height: 3px;
+            background: linear-gradient(135deg, var(--brand-gold) 0%, #b38b3f 100%);
+            z-index: 2002;
+            transition: width 0.1s;
+        }
+
+        /* --- Back to Top --- */
+        .back-to-top {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 50px;
+            height: 50px;
+            background: rgba(0, 26, 51, 0.8);
+            border: 1px solid var(--brand-gold);
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: var(--brand-gold);
+            text-decoration: none;
+            z-index: 1000;
+            opacity: 0;
+            visibility: hidden;
+            transition: 0.4s;
+            backdrop-filter: blur(10px);
+        }
+        .back-to-top.show {
+            opacity: 1;
+            visibility: visible;
+        }
+        .back-to-top:hover {
+            background: var(--brand-gold);
+            color: var(--brand-blue);
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(197, 160, 89, 0.3);
         }
         @keyframes shine { 
             0% { left: -100%; top: -100%; } 
@@ -58,8 +103,8 @@
             transition: 0.5s;
         }
 
-        .logo-box { position: relative; overflow: hidden; display: flex; flex-direction: column; line-height: 1.1; }
-        .logo-main { font-family: 'Outfit', sans-serif; font-size: 1.8rem; font-weight: 700; color: var(--white); letter-spacing: -1px; position: relative; }
+        .logo-box { position: relative; overflow: hidden; display: flex; flex-direction: column; line-height: 1.1; text-decoration: none; }
+        .logo-main { font-family: 'Outfit', sans-serif; font-size: 1.8rem; font-weight: 700; color: var(--white); letter-spacing: 2px; position: relative; }
         .logo-main::after {
             content: ''; position: absolute; top: 0; left: -100%; width: 50px; height: 100%; 
             background: linear-gradient(to right, transparent, rgba(255,255,255,0.3), transparent);
@@ -149,6 +194,62 @@
         .btn-cta:hover {
             transform: scale(1.05);
             box-shadow: 0 0 25px rgba(197, 160, 89, 0.4);
+        }
+
+        /* --- Mobile Navigation --- */
+        .menu-btn {
+            display: none;
+            flex-direction: column;
+            gap: 6px;
+            cursor: pointer;
+            z-index: 2001;
+            padding: 10px;
+        }
+        .menu-btn span {
+            display: block;
+            width: 30px;
+            height: 2px;
+            background: var(--brand-gold);
+            transition: 0.4s;
+        }
+        .menu-btn.active span:nth-child(1) { transform: translateY(8px) rotate(45deg); }
+        .menu-btn.active span:nth-child(2) { opacity: 0; }
+        .menu-btn.active span:nth-child(3) { transform: translateY(-8px) rotate(-45deg); }
+
+        .mobile-nav {
+            position: fixed;
+            top: 0; right: -100%;
+            width: 100%; height: 100vh;
+            background: rgba(0, 18, 35, 0.98);
+            backdrop-filter: blur(20px);
+            z-index: 2000;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            gap: 2.5rem;
+            transition: 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+        }
+        .mobile-nav.active { right: 0; }
+        .mobile-nav a {
+            font-size: 1.5rem;
+            color: var(--white);
+            text-decoration: none;
+            font-weight: 700;
+            letter-spacing: 2px;
+            opacity: 0.8;
+            transition: 0.3s;
+        }
+        .mobile-nav a:hover { color: var(--brand-gold); opacity: 1; }
+        .mobile-nav .dropdown-mobile { text-align: center; }
+        .mobile-nav .dropdown-sub { 
+            margin-top: 1rem; 
+            display: flex; 
+            flex-direction: column; 
+            gap: 1rem;
+            font-size: 1rem;
+            border-left: 1px solid var(--brand-gold);
+            padding-left: 20px;
         }
 
         /* --- Hero --- */
@@ -256,17 +357,19 @@
             nav { display: none; }
             .hero { padding: 160px 8% 80px; }
             .message-box { padding: 40px 30px; }
-            .requirements th { width: 100px; }
+            .requirements th { width: 100%; display: block; border-bottom: none; padding: 20px 0 5px; }
+            .requirements td { display: block; width: 100%; padding: 5px 0 20px; }
+            .menu-btn { display: flex; }
         }
     </style>
 </head>
 <body>
 
     <header id="header">
-        <div class="logo-box">
-            <span class="logo-main">CarlockHomes</span>
-            <span class="logo-sub">Co., Ltd.</span>
-        </div>
+        <a href="../index.html" class="logo-box">
+            <span class="logo-main">CLH</span>
+            <span class="logo-sub">Carlock Homes</span>
+        </a>
         <nav>
             <a href="../index.html">TOP</a>
             <a href="company.html">COMPANY</a>
@@ -281,7 +384,30 @@
             <a href="recruitment.html" style="color: var(--brand-gold);">RECRUIT</a>
             <a href="https://docs.google.com/forms/d/e/1FAIpQLSc_LmT79L4sRqRoRngPX62I5F1kGEbQP72rBYkJkikGSVT0bQ/viewform" class="btn-cta" target="_blank">お問い合わせ</a>
         </nav>
+        <div class="menu-btn" onclick="toggleMobileMenu()">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+        <div class="mobile-nav" id="mobileNav">
+            <a href="../index.html" onclick="toggleMobileMenu()">TOP</a>
+            <a href="company.html" onclick="toggleMobileMenu()">COMPANY</a>
+            <a href="../index.html#services" onclick="toggleMobileMenu()">SERVICES</a>
+            <div class="dropdown-mobile">
+                <a href="javascript:void(0)" style="color: var(--brand-gold); pointer-events: none;">NEWS</a>
+                <div class="dropdown-sub">
+                    <a href="https://share.google/xH3kdy4HI9U73eQa8" target="_blank" onclick="toggleMobileMenu()">社長名鑑</a>
+                    <a href="javascript:void(0)" style="opacity: 0.4;">活動報告 (準備中)</a>
+                </div>
+            </div>
+            <a href="recruitment.html" onclick="toggleMobileMenu()">RECRUIT</a>
+            <a href="../index.html#news" onclick="toggleMobileMenu()">NEWS</a>
+            <a href="https://docs.google.com/forms/d/e/1FAIpQLSc_LmT79L4sRqRoRngPX62I5F1kGEbQP72rBYkJkikGSVT0bQ/viewform" class="btn-cta" target="_blank" onclick="toggleMobileMenu()">お問い合わせ</a>
+        </div>
     </header>
+
+    <div id="progress-bar"></div>
+    <a href="#" class="back-to-top" id="backToTop">↑</a>
 
     <section class="hero reveal active">
         <h1>RECRUITMENT</h1>
@@ -295,7 +421,7 @@
                 「人の役に立ちたい」<br>
                 「社会とダイレクトに繋がっている実感が欲しい」<br><br>
                 そんな想いをお持ちの中高年の皆様、<br>
-                カーロックホームズで新しいキャリアを始めませんか？<br><br>
+                CLH（カーロックホームズ）で新しいキャリアを始めませんか？<br><br>
                 私たちの仕事は、単にカギを直すことではありません。<br>
                 困っているお客様の不安を解消し、笑顔を取り戻す仕事です。<br><br>
                 年齢を重ねたからこそできる、相手に寄り添う「優しさ」や「丁寧さ」こそが、今の私たちに必要です。
@@ -358,7 +484,7 @@
             〒167-0042 東京都杉並区西荻北2-37-12 ブランシュ西荻 中2階<br>
             TEL: 03-5311-0556 / Mail: office@carlock.co.jp
         </p>
-        <div class="copyright">&copy; 2026 CARLOCK HOLMES CO., LTD. ALL RIGHTS RESERVED.</div>
+        <div class="copyright">&copy; 2026 CLH - CARLOCK HOMES CO., LTD. ALL RIGHTS RESERVED.</div>
     </footer>
 
     <script>
@@ -390,13 +516,34 @@
             content.style.display = isVisible ? 'none' : 'block';
             e.stopPropagation();
         }
-        document.addEventListener('click', () => {
-            document.querySelectorAll('.dropdown-content').forEach(c => c.style.display = 'none');
+        document.addEventListener('click', (e) => {
+            if (!e.target.closest('.dropdown')) {
+                document.querySelectorAll('.dropdown-content').forEach(c => c.style.display = 'none');
+            }
         });
 
-        // --- Header Scroll Effect ---
+        // --- Mobile Menu Toggle ---
+        function toggleMobileMenu() {
+            const btn = document.querySelector('.menu-btn');
+            const nav = document.querySelector('.mobile-nav');
+            btn.classList.toggle('active');
+            nav.classList.toggle('active');
+            document.body.style.overflow = nav.classList.contains('active') ? 'hidden' : 'auto';
+        }
+
+        // --- Header Scroll Effect & Progress Bar ---
         window.addEventListener('scroll', () => {
             const header = document.getElementById('header');
+            const progress = document.getElementById('progress-bar');
+            const backToTop = document.getElementById('backToTop');
+
+            // Progress Bar
+            const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+            const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+            const scrolled = (winScroll / height) * 100;
+            if (progress) progress.style.width = scrolled + "%";
+
+            // Header Background
             if (window.scrollY > 50) {
                 header.style.padding = '1rem 5%';
                 header.style.backgroundColor = 'rgba(0, 26, 51, 0.98)';
@@ -405,6 +552,13 @@
                 header.style.padding = '1.5rem 5%';
                 header.style.backgroundColor = 'rgba(0, 26, 51, 0.85)';
                 header.style.boxShadow = 'none';
+            }
+
+            // Back to Top Visibility
+            if (window.scrollY > 500) {
+                backToTop.classList.add('show');
+            } else {
+                backToTop.classList.remove('show');
             }
         });
     </script>

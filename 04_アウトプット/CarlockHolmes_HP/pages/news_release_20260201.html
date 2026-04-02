@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>News Release | CLH - Carlock Homes</title>
+    <link href="https://fonts.googleapis.com/css2?family=Crimson+Text:wght@700&family=Outfit:wght@700&family=Zen+Kaku+Gothic+New:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --navy: #001a33;
+            --gold: #c5a059;
+            --white: #ffffff;
+            --glass: rgba(255, 255, 255, 0.05);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Zen Kaku Gothic New', sans-serif;
+            background-color: var(--navy);
+            color: var(--white);
+            line-height: 1.8;
+            overflow-x: hidden;
+            scroll-behavior: smooth;
+        }
+
+        header {
+            position: fixed; width: 100%; padding: 1.2rem 5%; display: flex; justify-content: space-between; align-items: center; z-index: 1000;
+            background: rgba(0, 26, 51, 0.95); backdrop-filter: blur(20px); border-bottom: 1px solid rgba(197, 160, 89, 0.15);
+        }
+        .logo-box { color: var(--white); text-decoration: none; display: flex; flex-direction: column; line-height: 1.1; }
+        .logo-main { font-family: 'Outfit', sans-serif; font-size: 1.6rem; font-weight: 700; letter-spacing: 2px; }
+        .logo-sub { font-size: 0.6rem; color: var(--gold); letter-spacing: 4px; font-weight: 700; opacity: 0.6; }
+
+        .container { max-width: 900px; margin: 0 auto; padding: 180px 20px 100px; }
+        
+        .news-header { border-bottom: 1px solid rgba(197, 160, 89, 0.3); padding-bottom: 40px; margin-bottom: 60px; }
+        .news-meta { display: flex; gap: 20px; align-items: center; margin-bottom: 20px; color: var(--gold); font-weight: 700; font-size: 0.9rem; }
+        .news-tag { background: #d4af37; color: var(--navy); padding: 2px 12px; border-radius: 20px; font-size: 0.75rem; text-transform: uppercase; }
+        .news-title { font-size: clamp(1.8rem, 4vw, 2.8rem); line-height: 1.3; font-family: 'Zen Kaku Gothic New', sans-serif; }
+
+        .news-content { font-size: 1.1rem; line-height: 2.2; color: rgba(255,255,255,0.85); }
+        .news-content p { margin-bottom: 2rem; }
+        .news-content h3 { color: var(--gold); font-size: 1.5rem; margin: 3rem 0 1.5rem; border-left: 3px solid var(--gold); padding-left: 20px; }
+
+        .back-link { display: inline-block; margin-top: 80px; color: var(--gold); text-decoration: none; font-weight: 700; border: 1px solid var(--gold); padding: 12px 30px; border-radius: 4px; transition: 0.3s; }
+        .back-link:hover { background: var(--gold); color: var(--navy); transform: translateX(-5px); }
+
+        footer { padding: 80px 10% 40px; background: #000c14; text-align: center; border-top: 1px solid rgba(197, 160, 89, 0.1); margin-top: 100px; }
+        .footer-logo { font-family: 'Outfit', sans-serif; font-size: 1.8rem; color: var(--gold); margin-bottom: 20px; font-weight: 700; }
+        .copyright { font-size: 0.75rem; opacity: 0.2; letter-spacing: 4px; }
+    </style>
+</head>
+<body>
+
+    <header>
+        <a href="../index_preview.html" class="logo-box">
+            <span class="logo-main">CLH</span>
+            <span class="logo-sub">CARLOCK HOMES</span>
+        </a>
+        <a href="../index_preview.html#news" style="color: var(--gold); text-decoration: none; font-weight: 700; font-size: 0.85rem;">← BACK TO NEWS</a>
+    </header>
+
+    <main class="container">
+        <article>
+            <header class="news-header">
+                <div class="news-meta">
+                    <span>2026.02.01</span>
+                    <span class="news-tag">Release</span>
+                </div>
+                <h1 class="news-title">地域密着型セキュリティ・ネットワークの拡大について</h1>
+            </header>
+            
+            <section class="news-content">
+                <p>Carlock Homes（CLH）は、2026年度の事業拡大計画の一環として、関東圏を中心とした地域密着型セキュリティ・ネットワークを大幅に拡充することをお知らせいたします。</p>
+                
+                <h3>1. ネットワーク拡大の背景</h3>
+                <p>近年の防犯ニーズの高度化と、住宅トラブルに対する「即応性」への期待の高まりを受け、CLHは従来の180拠点からさらにサービスエリアを広げ、より迅速にお客様のもとへ駆けつけられる体制を構築いたします。</p>
+                
+                <h3>2. 新たなサービス拠点と機動力の向上</h3>
+                <p>今回の拡大により、特に対応が集中していたエリアにおいて、通報から現場到着までの時間を平均15%短縮することを目指します。地域に根ざしたパートナー企業との連携を強化し、単なる技術提供に留まらない「顔の見える安心感」を追求します。</p>
+                
+                <h3>3. 今後の展望</h3>
+                <p>私たちは「カギ」を直すだけでなく、その先にある「豊かな暮らしと心の平和」を守る存在でありたいと考えています。このネットワークの拡大は、地域の皆様へより質の高いライフサポートを提供する第一歩となります。</p>
+            </section>
+
+            <a href="../index_preview.html#news" class="back-link">ニュース一覧へ戻る</a>
+        </article>
+    </main>
+
+    <footer>
+        <div class="footer-logo">CLH</div>
+        <div class="copyright">&copy; 2026 CLH - CARLOCK HOMES CO., LTD. ALL RIGHTS RESERVED.</div>
+    </footer>
+
+</body>
+</html>
