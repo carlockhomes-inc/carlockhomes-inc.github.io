@@ -18,6 +18,76 @@
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
 
+        /* --- Password Protection Overlay --- */
+        #auth-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--navy-gradient);
+            z-index: 9999;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 20px;
+        }
+        .auth-container {
+            background: var(--glass);
+            border: 1px solid var(--gold);
+            padding: 50px 40px;
+            border-radius: 12px;
+            max-width: 400px;
+            width: 100%;
+            backdrop-filter: blur(20px);
+            box-shadow: 0 30px 60px rgba(0,0,0,0.5);
+        }
+        .auth-logo {
+            font-family: 'Outfit', sans-serif;
+            font-size: 2.5rem;
+            color: var(--white);
+            letter-spacing: 4px;
+            margin-bottom: 30px;
+            font-weight: 700;
+        }
+        .auth-label {
+            display: block;
+            margin-bottom: 20px;
+            color: var(--gold);
+            font-size: 0.9rem;
+            letter-spacing: 2px;
+        }
+        .auth-input {
+            width: 100%;
+            padding: 15px;
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(197, 160, 89, 0.3);
+            border-radius: 4px;
+            color: white;
+            text-align: center;
+            font-size: 1.2rem;
+            margin-bottom: 20px;
+            outline: none;
+            transition: 0.3s;
+        }
+        .auth-input:focus { border-color: var(--gold); background: rgba(255,255,255,0.1); }
+        .auth-btn {
+            background: var(--gold-gradient);
+            color: var(--navy);
+            border: none;
+            padding: 12px 30px;
+            border-radius: 4px;
+            font-weight: 700;
+            cursor: pointer;
+            width: 100%;
+            transition: 0.4s;
+            letter-spacing: 2px;
+        }
+        .auth-btn:hover { transform: scale(1.02); opacity: 0.9; }
+        #auth-error { color: #ff4d4d; font-size: 0.8rem; margin-top: 15px; display: none; }
+
         body {
             font-family: 'Zen Kaku Gothic New', sans-serif;
             background-color: var(--navy);
@@ -26,6 +96,8 @@
             overflow-x: hidden;
             scroll-behavior: smooth;
         }
+        /* --- Initially hide everything --- */
+        #main-content { display: none; }
 
         /* --- Animations --- */
         .reveal {
@@ -376,6 +448,21 @@
 </head>
 <body>
 
+    <!-- Simple Password Protection Overlay -->
+    <div id="auth-overlay">
+        <div class="auth-container">
+            <div class="auth-logo">CLH</div>
+            <label class="auth-label">ENTER PASSWORD</label>
+            <input type="password" id="password-input" class="auth-input" placeholder="••••••••">
+            <button class="auth-btn" onclick="checkAuth()">SIGN IN</button>
+            <div id="auth-error">パスワードが正しくありません</div>
+            <div style="margin-top: 30px; font-size: 0.6rem; color: rgba(255,255,255,0.3); letter-spacing: 4px;">CARLOCK HOMES - PREMIER HUB</div>
+        </div>
+    </div>
+
+    <!-- Main Content Wrapped for Protection -->
+    <div id="main-content">
+
     <div id="progress-bar"></div>
     <a href="#" class="back-to-top" id="backToTop">↑</a>
 
@@ -531,7 +618,47 @@
         <div class="copyright">&copy; 2026 CLH - CARLOCK HOMES CO., LTD. ALL RIGHTS RESERVED.</div>
     </footer>
 
+    </div> <!-- End Main Content Wrapper -->
+
     <script>
+        // --- Simple Auth Logic ---
+        const AUTH_KEY = 'clh_authenticated';
+        const CORRECT_PASS = 'clh2026';
+
+        function checkAuth() {
+            const input = document.getElementById('password-input').value;
+            if (input === CORRECT_PASS) {
+                sessionStorage.setItem(AUTH_KEY, 'true');
+                unlockContent();
+            } else {
+                const error = document.getElementById('auth-error');
+                error.style.display = 'block';
+                document.getElementById('password-input').value = '';
+            }
+        }
+
+        function unlockContent() {
+            document.getElementById('auth-overlay').style.display = 'none';
+            document.getElementById('main-content').style.display = 'block';
+            document.body.style.overflow = 'auto';
+            // Trigger intersection observer since elements might be visible now
+            window.dispatchEvent(new Event('scroll'));
+        }
+
+        // Initialize Auth Status
+        window.onload = () => {
+            if (sessionStorage.getItem(AUTH_KEY) === 'true') {
+                unlockContent();
+            } else {
+                document.body.style.overflow = 'hidden';
+            }
+        };
+
+        // Handle Enter Key
+        document.getElementById('password-input').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') checkAuth();
+        });
+
         // --- Scroll Reveal Animation ---
         const observerOptions = { threshold: 0.1, rootMargin: '0px 0px -50px 0px' };
         const observer = new IntersectionObserver((entries) => {
