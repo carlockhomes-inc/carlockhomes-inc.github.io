@@ -101,29 +101,33 @@
             transition: 0.5s;
         }
 
-        /* --- Header Logo Shimmer (Sequential Character Based) --- */
-        .logo-box-header { display: flex; flex-direction: column; line-height: 1.1; overflow: hidden; position: relative; }
+        /* --- Header Logo Shimmer (Sequential Visual Correction) --- */
+        .logo-box-header { display: flex; flex-direction: column; line-height: 1.1; overflow: hidden; position: relative; gap: 4px; }
         .logo-main-header, .logo-sub-header, .main-logo-text, .sub-logo-text {
             -webkit-background-clip: text;
+            background-clip: text;
             -webkit-text-fill-color: transparent;
             background-size: 250% 100%;
             animation: sequentialShimmer 6s infinite ease-out;
             display: inline-block;
+            background-repeat: no-repeat;
         }
 
-        /* Sequential Colors and Gradients */
+        /* High-Contrast Sequential Gradients */
         .logo-main-header {
-            background-image: linear-gradient(110deg, #ffffff 35%, rgba(255,255,255,0.4) 45%, #ffffff 50%, rgba(255,255,255,0.4) 55%, #ffffff 65%);
+            /* Dimmed white base to pure white shimmer */
+            background-image: linear-gradient(110deg, rgba(255,255,255,0.4) 30%, rgba(255,255,255,1.0) 50%, rgba(255,255,255,0.4) 70%);
             animation-delay: 0s;
         }
         .logo-sub-header {
-            background-image: linear-gradient(110deg, #c5a059 35%, #ffffff 50%, #c5a059 65%);
-            animation-delay: 1.2s; /* Balanced delay */
+            /* Dimmed gold base to white shimmer */
+            background-image: linear-gradient(110deg, rgba(197,160,89,0.5) 30%, rgba(255,255,255,0.95) 50%, rgba(197,160,89,0.5) 70%);
+            animation-delay: 1.2s;
         }
 
         @keyframes sequentialShimmer {
             0% { background-position: 250% 0; }
-            30% { background-position: -150% 0; }
+            25% { background-position: -150% 0; }
             100% { background-position: -150% 0; }
         }
 
