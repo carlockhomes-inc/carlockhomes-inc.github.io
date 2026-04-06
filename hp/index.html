@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CLH - Carlock Homes | Security & Life Support</title>
+    <title>CLH - CarlockHomes | Security & Life Support</title>
     <link href="https://fonts.googleapis.com/css2?family=Crimson+Text:wght@700&family=Outfit:wght@700&family=Zen+Kaku+Gothic+New:wght@400;700&display=swap" rel="stylesheet">
     <style>
         :root {
@@ -296,14 +296,28 @@
             margin-bottom: 0.5rem; 
             text-shadow: 0 20px 40px rgba(0,0,0,0.8); 
             animation: slideInLeft 1.5s cubic-bezier(0.22, 1, 0.36, 1);
+            font-size: clamp(1.8rem, 8vw, 5.5rem); 
+            line-height: 1.1; 
+            letter-spacing: 2px;
         }
         .hero-sub { 
             font-family: 'Crimson Text', serif; 
             color: var(--gold); 
-            letter-spacing: 5px; 
             font-weight: 700; 
             margin-bottom: 4rem; 
             animation: slideInRight 1.5s cubic-bezier(0.22, 1, 0.36, 1);
+            font-size: clamp(0.7rem, 3.5vw, 1.8rem); 
+            margin-top: 1.5rem; 
+            letter-spacing: 6px;
+        }
+        .hero-cta-box {
+            margin-top: 3.5rem; 
+            opacity: 0; 
+            animation: fadeIn 2s forwards 1s;
+        }
+        .btn-cta-hero {
+            font-size: clamp(1rem, 3vw, 1.2rem); 
+            padding: 1.2rem 3.5rem;
         }
 
         /* --- Scroll Indicator --- */
@@ -434,6 +448,20 @@
             .news-date { min-width: auto; }
             .sns-grid { gap: 30px; }
             .qr-placeholder { display: none; }
+            .hero-sub { letter-spacing: 4px; margin-bottom: 3rem; }
+            .section { padding: 100px 5%; }
+            .section-title { margin-bottom: 60px; }
+        }
+
+        @media (max-width: 480px) {
+            header { padding: 0.8rem 5%; }
+            .logo-main-sub { display: none; } /* Hide 'CarlockHomes' text in header logo on very small screens */
+            .hero-content { padding: 0 5%; }
+            .hero h1 { font-size: 1.8rem; letter-spacing: 1px; }
+            .hero-sub { font-size: 0.8rem; letter-spacing: 3px; margin-top: 1rem; }
+            .hero-cta-box { margin-top: 2.5rem; }
+            .btn-cta-hero { padding: 1rem 2.5rem; width: 100%; }
+            .card { padding: 40px 20px; }
         }
 
         /* --- Footer --- */
@@ -621,7 +649,7 @@
             <input type="password" id="password-input" class="auth-input" placeholder="••••••••">
             <button class="auth-btn" onclick="checkAuth()">SIGN IN</button>
             <div id="auth-error">パスワードが正しくありません</div>
-            <div style="margin-top: 30px; font-size: 0.6rem; color: rgba(255,255,255,0.3); letter-spacing: 4px;">CARLOCK HOMES - PREMIER HUB</div>
+            <div style="margin-top: 30px; font-size: 0.6rem; color: rgba(255,255,255,0.3); letter-spacing: 4px;">CARLOCKHOMES - PREMIER HUB</div>
         </div>
     </div>
 
@@ -635,7 +663,7 @@
         <div class="logo-box">
             <div style="display: flex; align-items: baseline; gap: 8px;">
                 <span class="logo-main" style="letter-spacing: 2px;">CLH</span>
-                <span style="font-size: 0.7rem; color: var(--gold); opacity: 0.6; font-weight: 700; letter-spacing: 1px;">CarlockHomes</span>
+                <span class="logo-main-sub" style="font-size: 0.7rem; color: var(--gold); opacity: 0.6; font-weight: 700; letter-spacing: 1px;">CarlockHomes</span>
             </div>
             <span class="logo-sub">Precision & Trust</span>
         </div>
@@ -658,11 +686,10 @@
 
     <section class="hero">
         <div class="hero-content">
-            <h1 style="font-size: clamp(2.5rem, 10vw, 6rem); line-height: 1.1; letter-spacing: 4px;">CLH</h1>
-            <p class="hero-sub" style="font-size: clamp(1rem, 4vw, 2rem); margin-top: 1rem; letter-spacing: 8px;">CarlockHomes</p>
-            <p style="font-size: 0.8rem; letter-spacing: 3px; color: var(--gold); margin-top: 10px; opacity: 0.8;">TRUSTED SECURITY PARTNER</p>
-            <div style="margin-top: 3rem; opacity: 0; animation: fadeIn 2s forwards 1s;">
-                <a href="https://docs.google.com/forms/d/e/1FAIpQLSfQdOJRgQ3qhmnS-wAnycbUptNVp2VWEPQPdxnI3WDpsn7fgg/viewform" target="_blank" class="btn-cta" style="font-size: 1.2rem; padding: 1.3rem 4rem;">お問い合わせ</a>
+            <h1>CarlockHomes</h1>
+            <p class="hero-sub">TRUSTED SECURITY PARTNER</p>
+            <div class="hero-cta-box">
+                <a href="https://docs.google.com/forms/d/e/1FAIpQLSfQdOJRgQ3qhmnS-wAnycbUptNVp2VWEPQPdxnI3WDpsn7fgg/viewform" target="_blank" class="btn-cta btn-cta-hero">お問い合わせ</a>
             </div>
         </div>
         <div class="scroll-indicator">
