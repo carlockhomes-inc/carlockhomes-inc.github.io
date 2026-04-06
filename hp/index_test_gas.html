@@ -1,0 +1,954 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CLH - CarlockHomes | Security & Life Support</title>
+    <link href="https://fonts.googleapis.com/css2?family=Crimson+Text:wght@700&family=Outfit:wght@700&family=Zen+Kaku+Gothic+New:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --navy: #001a33;
+            --gold: #c5a059;
+            --white: #ffffff;
+            --navy-gradient: linear-gradient(135deg, #001223 0%, #002e5d 100%);
+            --glass: rgba(255, 255, 255, 0.03);
+            --gold-gradient: linear-gradient(135deg, #c5a059 0%, #e6d5b8 50%, #c5a059 100%);
+            --glass-border: rgba(255, 255, 255, 0.1);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        /* --- Password Protection Overlay --- */
+        #auth-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--navy-gradient);
+            z-index: 9999;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 20px;
+        }
+        .auth-container {
+            background: var(--glass);
+            border: 1px solid var(--gold);
+            padding: 50px 40px;
+            border-radius: 12px;
+            max-width: 400px;
+            width: 100%;
+            backdrop-filter: blur(20px);
+            box-shadow: 0 30px 60px rgba(0,0,0,0.5);
+        }
+        .auth-logo {
+            font-family: 'Outfit', sans-serif;
+            font-size: 2.5rem;
+            color: var(--white);
+            letter-spacing: 4px;
+            margin-bottom: 30px;
+            font-weight: 700;
+        }
+        .auth-label {
+            display: block;
+            margin-bottom: 20px;
+            color: var(--gold);
+            font-size: 0.9rem;
+            letter-spacing: 2px;
+        }
+        .auth-input {
+            width: 100%;
+            padding: 15px;
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(197, 160, 89, 0.3);
+            border-radius: 4px;
+            color: white;
+            text-align: center;
+            font-size: 1.2rem;
+            margin-bottom: 20px;
+            outline: none;
+            transition: 0.3s;
+        }
+        .auth-input:focus { border-color: var(--gold); background: rgba(255,255,255,0.1); }
+        .auth-btn {
+            background: var(--gold-gradient);
+            color: var(--navy);
+            border: none;
+            padding: 12px 30px;
+            border-radius: 4px;
+            font-weight: 700;
+            cursor: pointer;
+            width: 100%;
+            transition: 0.4s;
+            letter-spacing: 2px;
+        }
+        .auth-btn:hover { transform: scale(1.02); opacity: 0.9; }
+        #auth-error { color: #ff4d4d; font-size: 0.8rem; margin-top: 15px; display: none; }
+
+        body {
+            font-family: 'Zen Kaku Gothic New', sans-serif;
+            background-color: var(--navy);
+            color: var(--white);
+            line-height: 1.8;
+            overflow-x: hidden;
+            scroll-behavior: smooth;
+        }
+        /* --- Initially hide everything --- */
+        #main-content { display: none; }
+
+        /* --- Animations --- */
+        .reveal {
+            opacity: 0;
+            transform: translateY(50px);
+            transition: all 1.2s cubic-bezier(0.22, 1, 0.36, 1);
+        }
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* --- Scroll Progress Bar --- */
+        #progress-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 0%;
+            height: 3px;
+            background: var(--gold-gradient);
+            z-index: 2002;
+            transition: width 0.1s;
+        }
+
+        /* --- Back to Top --- */
+        .back-to-top {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 50px;
+            height: 50px;
+            background: rgba(0, 26, 51, 0.8);
+            border: 1px solid var(--gold);
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: var(--gold);
+            text-decoration: none;
+            z-index: 1000;
+            opacity: 0;
+            visibility: hidden;
+            transition: 0.4s;
+            backdrop-filter: blur(10px);
+        }
+        .back-to-top.show {
+            opacity: 1;
+            visibility: visible;
+        }
+        .back-to-top:hover {
+            background: var(--gold);
+            color: var(--navy);
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(197, 160, 89, 0.3);
+        }
+
+        @keyframes slideInLeft { from { opacity: 0; transform: translateX(-100px); } to { opacity: 1; transform: translateX(0); } }
+        @keyframes slideInRight { from { opacity: 0; transform: translateX(100px); } to { opacity: 1; transform: translateX(0); } }
+        @keyframes shine { 
+            0% { left: -100%; top: -100%; } 
+            20% { left: 100%; top: 100%; } 
+            100% { left: 100%; top: 100%; } 
+        }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+        /* --- Header --- */
+        header {
+            position: fixed;
+            width: 100%;
+            padding: 1.5rem 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 1000;
+            background: rgba(0, 26, 51, 0.6);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(197, 160, 89, 0.15);
+            transition: 0.5s;
+        }
+
+        .logo-box { position: relative; overflow: hidden; display: flex; flex-direction: column; line-height: 1.1; }
+        .logo-main { font-family: 'Outfit', sans-serif; font-size: 1.8rem; font-weight: 700; color: var(--white); letter-spacing: 2px; position: relative; }
+        .logo-main::after {
+            content: ''; position: absolute; top: 0; left: -100%; width: 50px; height: 100%; 
+            background: linear-gradient(to right, transparent, rgba(255,255,255,0.3), transparent);
+            transform: skewX(-25deg);
+            animation: shine 4s infinite linear;
+        }
+        .logo-sub { font-family: 'Crimson Text', serif; font-size: 0.8rem; color: var(--gold); letter-spacing: 4px; text-transform: uppercase; }
+
+        nav { display: flex; gap: 2.5rem; align-items: center; }
+        nav a { text-decoration: none; color: var(--white); font-size: 0.85rem; font-weight: 700; letter-spacing: 1px; opacity: 0.7; transition: 0.3s; position: relative; }
+        nav a::after { content: ''; position: absolute; width: 0; height: 1px; bottom: -5px; left: 0; background: var(--gold); transition: 0.3s; }
+        nav a:hover { opacity: 1; color: var(--gold); }
+        nav a:hover::after { width: 100%; }
+
+        /* --- Mobile Navigation --- */
+        .menu-btn {
+            display: none;
+            flex-direction: column;
+            gap: 6px;
+            cursor: pointer;
+            z-index: 2001;
+            padding: 10px;
+        }
+        .menu-btn span {
+            display: block;
+            width: 30px;
+            height: 2px;
+            background: var(--gold);
+            transition: 0.4s;
+        }
+        .menu-btn.active span:nth-child(1) { transform: translateY(8px) rotate(45deg); }
+        .menu-btn.active span:nth-child(2) { opacity: 0; }
+        .menu-btn.active span:nth-child(3) { transform: translateY(-8px) rotate(-45deg); }
+
+        .mobile-nav {
+            position: fixed;
+            top: 0; right: -100%;
+            width: 100%; height: 100vh;
+            background: rgba(0, 18, 35, 0.98);
+            backdrop-filter: blur(20px);
+            z-index: 2000;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            gap: 2.5rem;
+            transition: 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+        }
+        .mobile-nav.active { right: 0; }
+        .mobile-nav a {
+            font-size: 1.5rem;
+            color: var(--white);
+            text-decoration: none;
+            font-weight: 700;
+            letter-spacing: 2px;
+            opacity: 0.8;
+            transition: 0.3s;
+        }
+
+        .btn-cta { 
+            background: transparent; 
+            color: var(--gold); 
+            border: 1px solid var(--gold); 
+            padding: 0.7rem 2rem; 
+            border-radius: 4px; 
+            font-weight: 700; 
+            text-decoration: none; 
+            transition: 0.4s;
+            position: relative;
+            overflow: hidden;
+            display: inline-block;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            cursor: pointer;
+        }
+        .btn-cta:hover { color: var(--navy); transform: scale(1.05); }
+        .btn-cta::before {
+            content: '';
+            position: absolute;
+            top: 0; left: -100%;
+            width: 100%; height: 100%;
+            background: var(--gold-gradient);
+            transition: 0.5s;
+            z-index: -1;
+        }
+        .btn-cta:hover::before { left: 0; }
+
+        /* --- Hero --- */
+        .hero {
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0 10%;
+            background: url('images/hero_premium.png') center/cover no-repeat;
+            position: relative;
+            text-align: center;
+            overflow: hidden;
+        }
+        
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0, 26, 51, 0.6);
+            z-index: 1;
+        }
+
+        .hero-content { z-index: 2; }
+        .hero h1 { 
+            font-family: 'Outfit', sans-serif; 
+            font-weight: 700; 
+            color: var(--white); 
+            margin-bottom: 0.5rem; 
+            text-shadow: 0 20px 40px rgba(0,0,0,0.8); 
+            animation: slideInLeft 1.5s cubic-bezier(0.22, 1, 0.36, 1);
+            font-size: clamp(1.8rem, 8vw, 5.5rem); 
+            line-height: 1.1; 
+            letter-spacing: 2px;
+        }
+        .hero-sub { 
+            font-family: 'Crimson Text', serif; 
+            color: var(--gold); 
+            font-weight: 700; 
+            margin-bottom: 4rem; 
+            animation: slideInRight 1.5s cubic-bezier(0.22, 1, 0.36, 1);
+            font-size: clamp(0.7rem, 3.5vw, 1.8rem); 
+            margin-top: 1.5rem; 
+            letter-spacing: 6px;
+        }
+        .hero-cta-box {
+            margin-top: 3.5rem; 
+            opacity: 0; 
+            animation: fadeIn 2s forwards 1s;
+        }
+        .btn-cta-hero {
+            font-size: clamp(1rem, 3vw, 1.2rem); 
+            padding: 1.2rem 3.5rem;
+        }
+
+        /* --- Scroll Indicator --- */
+        .scroll-indicator {
+            position: absolute;
+            bottom: 40px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+            opacity: 0.5;
+            animation: fadeIn 2s forwards 2s;
+            z-index: 2;
+        }
+        .scroll-line {
+            width: 1px;
+            height: 60px;
+            background: linear-gradient(to bottom, var(--gold), transparent);
+            position: relative;
+            overflow: hidden;
+        }
+        .scroll-line::after {
+            content: '';
+            position: absolute;
+            top: -100%; left: 0; width: 100%; height: 100%;
+            background: var(--white);
+            animation: scrollLineMove 2s infinite;
+        }
+        @keyframes scrollLineMove { 0% { top: -100%; } 100% { top: 100%; } }
+
+        /* --- Content Sections --- */
+        .section { padding: 180px 10%; background: var(--navy); position: relative; }
+        .section-title { 
+            font-size: clamp(2.2rem, 6vw, 3.5rem); 
+            color: var(--gold); 
+            margin: 0 auto 120px; 
+            text-align: center;
+            font-family: 'Outfit', sans-serif;
+            letter-spacing: 4px;
+            position: relative;
+        }
+        .section-title::after {
+            content: ''; display: block; width: 80px; height: 1px; background: var(--gold); margin: 30px auto;
+        }
+
+        /* --- Service Cards --- */
+        .card-container { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; max-width: 1200px; margin: 0 auto; }
+        .card {
+            background: var(--glass);
+            border: 1px solid var(--glass-border);
+            border-radius: 12px;
+            padding: 50px 40px;
+            transition: 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+            backdrop-filter: blur(10px);
+            text-align: left;
+        }
+        .card:hover { 
+            transform: translateY(-15px); 
+            border-color: var(--gold);
+            background: rgba(197, 160, 89, 0.05);
+            box-shadow: 0 30px 60px rgba(0,0,0,0.4);
+        }
+        .card h3 { font-size: 1.5rem; color: var(--gold); margin-bottom: 25px; font-family: 'Outfit', sans-serif; letter-spacing: 2px; }
+        .card p { font-size: 0.95rem; line-height: 2.2; color: rgba(255,255,255,0.7); margin-bottom: 8px; }
+        .card-icon { font-size: 2rem; color: var(--gold); opacity: 0.5; margin-bottom: 20px; }
+
+        /* --- News Section --- */
+        .news-item {
+            display: flex;
+            gap: 30px;
+            background: var(--glass);
+            border: 1px solid rgba(255,255,255,0.05);
+            padding: 30px;
+            border-radius: 8px;
+            transition: 0.4s;
+            text-decoration: none;
+            color: inherit;
+            margin-bottom: 20px;
+            align-items: center;
+        }
+        .news-item:hover {
+            background: rgba(197, 160, 89, 0.08);
+            border-color: var(--gold);
+            transform: translateX(15px);
+        }
+        .news-date { font-weight: 700; color: var(--gold); font-size: 0.9rem; min-width: 100px; }
+        .news-tag { 
+            background: var(--gold); 
+            color: var(--navy); 
+            padding: 2px 12px; 
+            font-size: 0.7rem; 
+            font-weight: 700; 
+            border-radius: 20px;
+            text-transform: uppercase;
+        }
+        .news-title { font-size: 1.1rem; font-weight: 700; flex: 1; }
+        .news-arrow { opacity: 0; transition: 0.3s; color: var(--gold); }
+        .news-item:hover .news-arrow { opacity: 1; transform: translateX(10px); }
+
+        /* --- SNS Section --- */
+        .sns-section { background: #000c14; padding: 100px 10%; text-align: center; }
+        .sns-grid { display: flex; justify-content: center; gap: 40px; margin-top: 50px; flex-wrap: wrap; }
+        .sns-card { 
+            background: var(--glass); 
+            border: 1px solid var(--glass-border); 
+            padding: 40px 20px; 
+            border-radius: 12px; 
+            width: 300px; 
+            transition: 0.4s; 
+            text-decoration: none; 
+            color: inherit; 
+            display: block; 
+            cursor: pointer;
+        }
+        .sns-card:hover { transform: translateY(-10px); border-color: var(--gold); background: rgba(197, 160, 89, 0.05); }
+        .sns-icon { font-size: 2.5rem; color: var(--gold); margin-bottom: 20px; }
+        .qr-placeholder { 
+            width: 200px; height: 200px; background: white; 
+            margin: 25px auto; border-radius: 8px; border: 4px solid var(--gold); 
+            display: flex; align-items: center; justify-content: center; overflow: hidden;
+        }
+        .sns-label { font-weight: 700; letter-spacing: 2px; color: var(--white); margin-top: 10px; display: block; font-size: 1.1rem; }
+
+        @media (max-width: 768px) {
+            .news-item { flex-direction: column; align-items: flex-start; gap: 10px; }
+            .news-date { min-width: auto; }
+            .sns-grid { gap: 30px; }
+            .qr-placeholder { display: none; }
+            .hero-sub { letter-spacing: 4px; margin-bottom: 3rem; }
+            .section { padding: 100px 5%; }
+            .section-title { margin-bottom: 60px; }
+        }
+
+        @media (max-width: 480px) {
+            header { padding: 0.8rem 5%; }
+            .logo-main-sub { display: none; } /* Hide 'CarlockHomes' text in header logo on very small screens */
+            .hero-content { padding: 0 5%; }
+            .hero h1 { font-size: 1.8rem; letter-spacing: 1px; }
+            .hero-sub { font-size: 0.8rem; letter-spacing: 3px; margin-top: 1rem; }
+            .hero-cta-box { margin-top: 2.5rem; }
+            .btn-cta-hero { padding: 1rem 2.5rem; width: 100%; }
+            .card { padding: 40px 20px; }
+        }
+
+        /* --- Footer --- */
+        footer { padding: 100px 10% 60px; background: #000c14; text-align: center; border-top: 1px solid rgba(197, 160, 89, 0.1); }
+        .copyright { font-size: 0.75rem; opacity: 0.15; letter-spacing: 4px; }
+
+        /* --- Electric Lock Accordion --- */
+        .details-wrapper {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.8s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.5s;
+            opacity: 0;
+            margin-top: 0;
+            background: rgba(255, 255, 255, 0.02);
+            border-radius: 8px;
+        }
+        .details-wrapper.active {
+            max-height: 2000px; /* Large enough to fit content */
+            opacity: 1;
+            margin-top: 30px;
+            padding: 30px;
+            border: 1px solid rgba(197, 160, 89, 0.15);
+        }
+        .detail-item {
+            margin-bottom: 25px;
+            padding-left: 20px;
+            border-left: 2px solid var(--gold);
+        }
+        .detail-item h4 {
+            color: var(--gold);
+            font-size: 1rem;
+            margin-bottom: 10px;
+            letter-spacing: 1px;
+        }
+        .detail-item p {
+            font-size: 0.85rem !important;
+            line-height: 1.8 !important;
+            opacity: 0.7;
+        }
+        .btn-toggle-details {
+            background: transparent;
+            color: var(--gold);
+            border: 1px solid rgba(197, 160, 89, 0.4);
+            padding: 8px 20px;
+            border-radius: 4px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            cursor: pointer;
+            margin-top: 20px;
+            transition: 0.3s;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .btn-toggle-details:hover {
+            background: rgba(197, 160, 89, 0.1);
+            border-color: var(--gold);
+        }
+        .btn-toggle-details i {
+            transition: 0.3s;
+        }
+        .btn-toggle-details.active i {
+            transform: rotate(180deg);
+        }
+
+        /* --- High-Aesthetic Detail Layout (Editorial Style) --- */
+        #detail-drawer {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 1.2s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.8s, margin-top 0.8s;
+            opacity: 0;
+            margin-top: 0;
+            background: #fdfbf7; /* Elegant ivory/off-white */
+            color: #1a1a1a;
+            position: relative;
+            z-index: 100;
+            border-radius: 12px;
+        }
+        #detail-drawer.active {
+            max-height: 8000px;
+            opacity: 1;
+            margin-top: 80px;
+            padding: 120px 5%;
+        }
+        .editorial-title {
+            font-family: 'Zen Kaku Gothic New', serif;
+            font-size: clamp(2.4rem, 6vw, 4.2rem);
+            font-weight: 400;
+            letter-spacing: 0.05em;
+            color: #222;
+            margin-bottom: 25px;
+            line-height: 1.2;
+        }
+        .editorial-subtitle {
+            font-size: 0.95rem;
+            color: #888;
+            letter-spacing: 0.4em;
+            margin-bottom: 60px;
+            text-transform: uppercase;
+        }
+        .editorial-grid {
+            display: grid;
+            grid-template-columns: 1fr 1.5fr;
+            gap: 100px;
+            margin-top: 100px;
+        }
+        .editorial-section-label {
+            font-family: 'Outfit', sans-serif;
+            font-size: 0.8rem;
+            letter-spacing: 0.5em;
+            color: #c5a059;
+            text-transform: uppercase;
+            margin-bottom: 30px;
+            display: block;
+        }
+        .editorial-lead {
+            font-size: 2.2rem;
+            line-height: 1.4;
+            color: #333;
+            font-family: 'Zen Kaku Gothic New', serif;
+            margin-bottom: 40px;
+        }
+        .solution-card-lite {
+            border-bottom: 1px solid #eee;
+            padding: 40px 0;
+            display: flex;
+            gap: 40px;
+            transition: 0.4s;
+        }
+        .solution-card-lite:hover {
+            padding-left: 20px;
+            background: rgba(197, 160, 89, 0.03);
+        }
+        .solution-card-lite .num {
+            font-family: 'Outfit', sans-serif;
+            font-size: 1rem;
+            color: #c5a059;
+            opacity: 0.5;
+        }
+        .solution-card-lite h5 {
+            font-size: 1.4rem;
+            margin-bottom: 15px;
+            color: #111;
+        }
+        .solution-card-lite p {
+            font-size: 1rem !important;
+            color: #666;
+            line-height: 1.8 !important;
+        }
+        .close-drawer-bottom {
+            margin-top: 100px;
+            text-align: center;
+        }
+        .btn-close-editorial {
+            background: none;
+            border: none;
+            font-family: 'Outfit', sans-serif;
+            font-size: 0.9rem;
+            letter-spacing: 0.4em;
+            color: #999;
+            cursor: pointer;
+            padding: 20px;
+            transition: 0.3s;
+            text-transform: uppercase;
+        }
+        .btn-close-editorial:hover {
+            color: #c5a059;
+            letter-spacing: 0.6em;
+        }
+        
+        @media (max-width: 1000px) {
+            .editorial-grid { grid-template-columns: 1fr; gap: 60px; }
+            .editorial-title { font-size: 3.5rem; }
+            #detail-drawer { margin-left: -5%; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Simple Password Protection Overlay -->
+    <div id="auth-overlay">
+        <div class="auth-container">
+            <div class="auth-logo">CLH</div>
+            <label class="auth-label">ENTER PASSWORD</label>
+            <input type="password" id="password-input" class="auth-input" placeholder="••••••••">
+            <button class="auth-btn" onclick="checkAuth()">SIGN IN</button>
+            <div id="auth-error">パスワードが正しくありません</div>
+            <div style="margin-top: 30px; font-size: 0.6rem; color: rgba(255,255,255,0.3); letter-spacing: 4px;">CARLOCKHOMES - PREMIER HUB</div>
+        </div>
+    </div>
+
+    <!-- Main Content Wrapped for Protection -->
+    <div id="main-content">
+
+    <div id="progress-bar"></div>
+    <a href="#" class="back-to-top" id="backToTop">↑</a>
+
+    <header id="header">
+        <div class="logo-box">
+            <div style="display: flex; align-items: baseline; gap: 8px;">
+                <span class="logo-main" style="letter-spacing: 2px;">CLH</span>
+                <span class="logo-main-sub" style="font-size: 0.7rem; color: var(--gold); opacity: 0.6; font-weight: 700; letter-spacing: 1px;">CarlockHomes</span>
+            </div>
+            <span class="logo-sub">Precision & Trust</span>
+        </div>
+        <nav>
+            <a href="index.html">TOP</a>
+            <a href="pages/company.html">COMPANY</a>
+            <a href="https://docs.google.com/forms/d/e/1FAIpQLSfQdOJRgQ3qhmnS-wAnycbUptNVp2VWEPQPdxnI3WDpsn7fgg/viewform" target="_blank">CONTACT</a>
+            <a href="pages/recruitment.html">RECRUIT</a>
+        </nav>
+        <div class="menu-btn" onclick="toggleMobileMenu()">
+            <span></span><span></span><span></span>
+        </div>
+        <div class="mobile-nav">
+            <a href="index.html" onclick="toggleMobileMenu()">TOP</a>
+            <a href="pages/company.html" onclick="toggleMobileMenu()">COMPANY</a>
+            <a href="https://docs.google.com/forms/d/e/1FAIpQLSfQdOJRgQ3qhmnS-wAnycbUptNVp2VWEPQPdxnI3WDpsn7fgg/viewform" target="_blank" onclick="toggleMobileMenu()">CONTACT</a>
+            <a href="pages/recruitment.html" onclick="toggleMobileMenu()">RECRUIT</a>
+        </div>
+    </header>
+
+    <section class="hero">
+        <div class="hero-content">
+            <h1>CarlockHomes</h1>
+            <p class="hero-sub">TRUSTED SECURITY PARTNER</p>
+            <div class="hero-cta-box">
+                <a href="https://docs.google.com/forms/d/e/1FAIpQLSfQdOJRgQ3qhmnS-wAnycbUptNVp2VWEPQPdxnI3WDpsn7fgg/viewform" target="_blank" class="btn-cta btn-cta-hero">お問い合わせ</a>
+            </div>
+        </div>
+        <div class="scroll-indicator">
+            <span style="font-size: 0.6rem; letter-spacing: 2px; color: var(--gold);">SCROLL</span>
+            <div class="scroll-line"></div>
+        </div>
+    </section>
+
+    <!-- Services Section -->
+    <section id="services" class="section">
+        <div class="reveal">
+            <h2 class="section-title">Our Business</h2>
+        </div>
+        <div class="card-container" style="grid-template-columns: 1fr; max-width: 800px; margin: 0 auto;">
+            <div class="card reveal" style="text-align: center;">
+                <div class="card-icon" style="opacity: 0.2; font-size: 1.2rem; white-space: nowrap;">CLH - CarlockHomes</div>
+                <h3>カギ・防犯<br>セキュリティ</h3>
+                <p>● 緊急解錠・修理（住宅・金庫）</p>
+                <p>● 鍵の交換・取付（IC・電子錠）</p>
+                <p>● 防犯カメラ・インターフォン工事</p>
+                <p>● オートロック・電気錠システム構築</p>
+                
+                <button class="btn-toggle-details" onclick="toggleDetails(this)">
+                    電気錠の詳細を見る <i style="display:inline-block; transition: 0.4s;">↓</i>
+                </button>
+            </div>
+        </div>
+
+        <div id="detail-drawer">
+            <div style="width: 100%; max-width: 1200px; margin: 0 auto; position: relative; min-height: 800px; padding: 60px 0;">
+                
+                <!-- 
+                     【ここにGASのURLを入れてください】
+                     デプロイしたウェブアプリのURLを src=" " の中に入れます。
+                -->
+                <iframe src="https://script.google.com/macros/s/AKfycbzX0150lM5ISy0ZVQguiXmQ9DI_ilPUJDB0qgjoY0-S2aCWN3l7L9hukAr6zEw0GIy_/exec" 
+                        style="width: 100%; height: 900px; border: none; border-radius: 12px; background: #fdfbf7; box-shadow: 0 10px 30px rgba(0,0,0,0.1);"
+                        title="Smart Lock Details">
+                </iframe>
+                
+                <div class="close-drawer-bottom" style="margin-top: 50px;">
+                    <button class="btn-close-editorial" onclick="closeDetails(this)">- Close Details -</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- NEW: Secondary Business Items at the Bottom -->
+        <div style="margin-top: 120px;">
+            <div class="card-container" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; max-width: 1200px; margin: 0 auto;">
+                <div class="card reveal" style="padding: 40px; background: rgba(255,255,255,0.02);">
+                    <div class="card-icon" style="font-size: 1.2rem; opacity: 0.3; margin-bottom: 15px;">Maintenance</div>
+                    <h3 style="font-size: 1.3rem;">住宅設備<br>メンテナンス</h3>
+                    <p style="font-size: 0.85rem !important;">● サッシ・戸車・網戸・ガラス修理</p>
+                    <p style="font-size: 0.85rem !important;">● 水漏れ・排水詰まり対応</p>
+                    <p style="font-size: 0.85rem !important;">● 共用部点検</p>
+                    <p style="font-size: 0.85rem !important;">● 除菌施工・リフレッシュ工事</p>
+                </div>
+                <div class="card reveal" style="padding: 40px; background: rgba(255,255,255,0.02);">
+                    <div class="card-icon" style="font-size: 1.2rem; opacity: 0.3; margin-bottom: 15px;">Outsourcing</div>
+                    <h3 style="font-size: 1.3rem;">管理代行<br>アウトソーシング</h3>
+                    <p style="font-size: 0.85rem !important;">● 入居前点検</p>
+                    <p style="font-size: 0.85rem !important;">● 作業員派遣業務（保守点検等）</p>
+                    <p style="font-size: 0.85rem !important;">● 全国180の強力なネットワーク</p>
+                    <p style="font-size: 0.85rem !important;">● 24時間365日の受付・出動体制</p>
+                </div>
+            </div>
+        </div>
+
+        <div style="text-align: center; margin-top: 100px;" class="reveal">
+            <a href="pages/company.html" class="btn-cta">VIEW COMPANY INFO</a>
+        </div>
+    </section>
+
+    <!-- News Section -->
+    <section id="news" class="section" style="background: #001223;">
+        <div class="reveal">
+            <h2 class="section-title">Latest Topics</h2>
+        </div>
+        <div class="container" style="max-width: 1000px; margin: 0 auto;">
+            <a href="https://share.google/xH3kdy4HI9U73eQa8" target="_blank" class="news-item reveal">
+                <span class="news-date">2026.04.01</span>
+                <span class="news-tag">Media</span>
+                <span class="news-title">「社長名鑑」に弊社代表 上野原のインタビュー記事が掲載されました。</span>
+                <span class="news-arrow">→</span>
+            </a>
+            <a href="pages/recruitment.html" class="news-item reveal">
+                <span class="news-date">2026.03.15</span>
+                <span class="news-tag" style="background: #e6d5b8;">Notice</span>
+                <span class="news-title">【採用情報】技術スタッフの募集を開始いたしました。</span>
+                <span class="news-arrow">→</span>
+            </a>
+            <a href="pages/news_release_20260201.html" class="news-item reveal" style="opacity: 0.8;">
+                <span class="news-date">2026.02.01</span>
+                <span class="news-tag" style="background: #d4af37;">Release</span>
+                <span class="news-title">地域密着型セキュリティ・ネットワークの拡大について</span>
+                <span class="news-arrow">→</span>
+            </a>
+        </div>
+    </section>
+
+    <!-- SNS Section -->
+    <section id="sns" class="section sns-section">
+        <div class="reveal">
+            <h2 class="section-title">Follow Us</h2>
+            <p style="text-align: center; color: rgba(255,255,255,0.5); margin-top: -80px; letter-spacing: 2px;">最新の活動を発信中</p>
+        </div>
+        <div class="sns-grid container">
+            <a href="https://www.facebook.com/profile.php?id=61588020825959" target="_blank" class="sns-card reveal">
+                <div class="sns-icon">
+                    <svg width="40" height="40" viewBox="0 0 24 24" fill="currentColor"><path d="M18.77,7.46H14.5v-1.9c0-.9.6-1.1,1-1.1h3V.5h-4.33C10.24.5,9.5,3.44,9.5,5.32v2.14h-3v4h3v12h5v-12h3.85l.42-4Z"/></svg>
+                </div>
+                <span class="sns-label">Facebook</span>
+                <div class="qr-placeholder">
+                    <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://www.facebook.com/profile.php?id=61588020825959&bgcolor=ffffff&color=000000" alt="Facebook QR" style="width: 100%; height: 100%; object-fit: contain; background: white; border-radius: 4px;">
+                </div>
+                <span style="font-size: 0.7rem; color: var(--gold);">View Profile →</span>
+            </a>
+
+            <a href="https://www.instagram.com/carlockhomes_official?igsh=" target="_blank" class="sns-card reveal">
+                <div class="sns-icon">
+                    <svg width="40" height="40" viewBox="0 0 24 24" fill="currentColor"><path d="M12,2.16c3.2,0,3.58.01,4.85.07,3.25.15,4.77,1.69,4.92,4.92.06,1.27.07,1.65.07,4.85s-.01,3.58-.07,4.85c-.15,3.23-1.66,4.77-4.92,4.92-1.27.06-1.65.07-4.85.07s-3.58-.01-4.85-.07c-3.26-.15-4.77-1.7-4.92-4.92-.06-1.27-.07-1.65-.07-4.85s.01-3.58.07-4.85C2.42,3.93,3.92,2.39,7.15,2.23c1.27-.06,1.65-.07,4.85-.07m0-2.16C8.74,0,8.33.02,7.06.08,3.15.26.97,2.44.79,6.35.73,7.62.72,8.03.72,11.29s.01,3.67.07,4.94c.18,3.91,2.36,6.09,6.27,6.27,1.27.06,1.68.07,4.94.07s3.67-.01,4.94-.07c3.91-.18,6.09-2.36,6.27-6.27.06-1.27.07-1.68.07-4.94s-.01-3.67-.07-4.94c-.18-3.91-2.36-6.09-6.27-6.27-1.27-.06-1.68-.07-4.94-.07Zm0,5.49c-3.2,0-5.8,2.6-5.8,5.8s2.6,5.8,5.8,5.8,5.8-2.6,5.8-5.8-2.6-5.8-5.8-5.8Zm0,9.43c-2,0-3.63-1.63-3.63-3.63s1.63-3.63,3.63-3.63,3.63,1.63,3.63,3.63-1.63,3.63-3.63,3.63Zm6.41-11.81c-.72,0-1.31.59-1.31,1.31s.59,1.31,1.31,1.31,1.31-.59,1.31-1.31-.59-1.31-1.31-1.31Z"/></svg>
+                </div>
+                <span class="sns-label">Instagram</span>
+                <div class="qr-placeholder">
+                    <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://www.instagram.com/carlockhomes_official&bgcolor=ffffff&color=000000" alt="Instagram QR" style="width: 100%; height: 100%; object-fit: contain; background: white; border-radius: 4px;">
+                </div>
+                <span style="font-size: 0.7rem; color: var(--gold);">View Profile →</span>
+            </a>
+
+            <a href="https://www.amazon.co.jp/dp/B0FHK3FPJ2" target="_blank" class="sns-card reveal">
+                <div class="sns-icon">
+                    <svg width="40" height="40" viewBox="0 0 24 24" fill="currentColor"><path d="M18.15 16.03c-2.02 1.4-5.63 2.15-7.51 2.15-2.73 0-5.18-.75-7.14-2.1-.47-.32-.05-.9.44-.6 1.95 1.18 4.6 1.83 7.04 1.83 1.83 0 4.14-.38 6.54-1.85.5-.33.95.14.63.67zm.77-1.1c-.13-.18-.4-.14-.54.02-.3.35-1.55 1.77-1.55 1.77-.1.12-.1.28 0 .4l.4.52c.1.13.3.13.4 0 0 0 .86-1.12 1.13-1.47.1-.12.1-.28 0-.4l-.24-.32c-.08-.1-.13-.36-.4-.52zM12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm3.33 13.9c-2.4 1.48-4.7 1.85-6.53 1.85-2.44 0-5.1-.65-7.04-1.83-.5-.3-.92.28-.44.6 1.96 1.35 4.4 2.1 7.14 2.1 1.88 0 5.49-.75 7.51-2.15.32-.53-.13-1-.64-.67z"/></svg>
+                </div>
+                <span class="sns-label">Amazon</span>
+                <div class="qr-placeholder">
+                    <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://www.amazon.co.jp/dp/B0FHK3FPJ2&bgcolor=ffffff&color=000000" alt="Amazon QR" style="width: 100%; height: 100%; object-fit: contain; background: white; border-radius: 4px;">
+                </div>
+                <span style="font-size: 0.7rem; color: var(--gold);">Recommended Book →</span>
+            </a>
+        </div>
+    </section>
+
+    <footer>
+        <div style="margin-bottom: 40px;">
+            <div style="font-family: 'Outfit', sans-serif; font-size: 2.2rem; color: var(--gold); font-weight: 700;">CLH</div>
+            <div style="font-size: 0.7rem; color: rgba(255,255,255,0.4); letter-spacing: 4px; font-weight: 700; text-transform: uppercase;">CarlockHomes</div>
+        </div>
+        <div class="copyright">&copy; 2026 CLH - CarlockHomes CO., LTD. ALL RIGHTS RESERVED.</div>
+    </footer>
+
+    </div> <!-- End Main Content Wrapper -->
+
+    <script>
+        // --- Simple Auth Logic ---
+        const AUTH_KEY = 'clh_authenticated';
+        const CORRECT_PASS = 'clh2026';
+
+        function checkAuth() {
+            const input = document.getElementById('password-input').value;
+            if (input === CORRECT_PASS) {
+                sessionStorage.setItem(AUTH_KEY, 'true');
+                unlockContent();
+            } else {
+                const error = document.getElementById('auth-error');
+                error.style.display = 'block';
+                document.getElementById('password-input').value = '';
+            }
+        }
+
+        function unlockContent() {
+            document.getElementById('auth-overlay').style.display = 'none';
+            document.getElementById('main-content').style.display = 'block';
+            document.body.style.overflow = 'auto';
+            // Trigger intersection observer since elements might be visible now
+            window.dispatchEvent(new Event('scroll'));
+        }
+
+        // Initialize Auth Status
+        window.onload = () => {
+            if (sessionStorage.getItem(AUTH_KEY) === 'true') {
+                unlockContent();
+            } else {
+                document.body.style.overflow = 'hidden';
+            }
+        };
+
+        // Handle Enter Key
+        document.getElementById('password-input').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') checkAuth();
+        });
+
+        // --- Scroll Reveal Animation ---
+        const observerOptions = { threshold: 0.1, rootMargin: '0px 0px -50px 0px' };
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) entry.target.classList.add('active');
+            });
+        }, observerOptions);
+        document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+        // --- Mobile Menu Toggle ---
+        function toggleMobileMenu() {
+            const btn = document.querySelector('.menu-btn');
+            const nav = document.querySelector('.mobile-nav');
+            btn.classList.toggle('active');
+            nav.classList.toggle('active');
+            document.body.style.overflow = nav.classList.contains('active') ? 'hidden' : 'auto';
+        }
+
+        // --- Details Accordion Logic ---
+        function toggleDetails(btn) {
+            const drawer = document.getElementById('detail-drawer');
+            drawer.classList.toggle('active');
+            btn.classList.toggle('active');
+            
+            if (drawer.classList.contains('active')) {
+                btn.innerHTML = '詳細を閉じる <i style="display:inline-block; transition: 0.4s; transform: rotate(180deg);">↓</i>';
+                // Scroll to drawer smoothly
+                setTimeout(() => {
+                    drawer.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }, 100);
+            } else {
+                btn.innerHTML = '電気錠の詳細を見る <i style="display:inline-block; transition: 0.4s;">↓</i>';
+            }
+        }
+
+        function closeDetails(el) {
+            const drawer = document.getElementById('detail-drawer');
+            const btn = document.querySelector('.btn-toggle-details');
+            drawer.classList.remove('active');
+            btn.classList.remove('active');
+            btn.innerHTML = '電気錠の詳細を見る <i style="display:inline-block; transition: 0.4s;">↓</i>';
+            
+            // Scroll back to the original card
+            document.getElementById('services').scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+
+        // --- Scroll Logic ---
+        window.addEventListener('scroll', () => {
+            const header = document.getElementById('header');
+            const progress = document.getElementById('progress-bar');
+            const backToTop = document.getElementById('backToTop');
+            
+            const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+            const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+            const scrolled = (winScroll / height) * 100;
+            if (progress) progress.style.width = scrolled + "%";
+
+            if (window.scrollY > 50) {
+                header.style.backgroundColor = 'rgba(0, 26, 51, 0.98)';
+                header.style.padding = '1rem 5%';
+            } else {
+                header.style.backgroundColor = 'rgba(0, 26, 51, 0.6)';
+                header.style.padding = '1.5rem 5%';
+            }
+
+            if (window.scrollY > 500) backToTop.classList.add('show');
+            else backToTop.classList.remove('show');
+        });
+    </script>
+</body>
+</html>
