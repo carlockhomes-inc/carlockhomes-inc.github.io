@@ -179,44 +179,67 @@
             transition: 0.5s;
         }
 
-        /* --- Header Logo Shimmer (Sequential Visual Correction) --- */
+        /* --- Header Logo Shimmer (Refined Sequential Slit) --- */
         .logo-box { display: flex; flex-direction: column; line-height: 1.1; overflow: hidden; position: relative; gap: 4px; }
         
         .logo-main, .logo-main-sub, .logo-sub {
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-size: 250% 100%;
-            animation: sequentialShimmer 6s infinite ease-out;
+            position: relative;
+            overflow: hidden;
             display: inline-block;
-            background-repeat: no-repeat;
+            width: fit-content;
         }
 
-        /* High-Contrast Sequential Gradients */
-        .logo-main {
-            /* Dimmed white base to white shimmer */
-            background-image: linear-gradient(110deg, rgba(255,255,255,0.4) 30%, rgba(255,255,255,1.0) 50%, rgba(255,255,255,0.4) 70%);
-            animation-delay: 0s;
-        }
-        .logo-main-sub {
-            /* Dimmed gold base to white shimmer */
-            background-image: linear-gradient(110deg, rgba(197,160,89,0.5) 30%, rgba(255,255,255,0.95) 50%, rgba(197,160,89,0.5) 70%);
-            animation-delay: 0.8s;
-        }
-        .logo-sub {
-            /* Dimmed gold base to white shimmer */
-            background-image: linear-gradient(110deg, rgba(197,160,89,0.5) 30%, rgba(255,255,255,0.9) 50%, rgba(197,160,89,0.5) 70%);
-            animation-delay: 1.6s;
-        }
-
-        @keyframes sequentialShimmer {
-            0% { background-position: 250% 0; }
-            25% { background-position: -150% 0; }
-            100% { background-position: -150% 0; }
+        /* The Shimmer Slit */
+        .logo-main::after, .logo-main-sub::after, .logo-sub::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -150%;
+            width: 100px;
+            height: 100%;
+            background: linear-gradient(
+                105deg,
+                transparent 20%,
+                rgba(255, 255, 255, 0.6) 50%,
+                transparent 80%
+            );
+            transform: skewX(-25deg);
+            animation: sequentialSlit 6s infinite ease-out;
         }
 
-        .logo-main { font-family: 'Outfit', sans-serif; font-size: 1.8rem; font-weight: 700; letter-spacing: 2px; }
-        .logo-main-sub { font-size: 0.7rem; font-weight: 700; letter-spacing: 1px; }
-        .logo-sub { font-family: 'Crimson Text', serif; font-size: 0.8rem; letter-spacing: 4px; text-transform: uppercase; font-weight: 600; }
+        /* Sequential Delays */
+        .logo-main::after { animation-delay: 0s; }
+        .logo-main-sub::after { animation-delay: 1.2s; }
+        .logo-sub::after { animation-delay: 2.4s; }
+
+        @keyframes sequentialSlit {
+            0% { left: -150%; }
+            25% { left: 150%; }
+            100% { left: 150%; }
+        }
+
+        /* Solid Original Colors */
+        .logo-main { 
+            font-family: 'Outfit', sans-serif; 
+            font-size: 1.8rem; 
+            font-weight: 700; 
+            color: #ffffff; 
+            letter-spacing: 2px;
+        }
+        .logo-main-sub { 
+            font-size: 0.7rem; 
+            color: #c5a059; 
+            font-weight: 700; 
+            letter-spacing: 1px;
+        }
+        .logo-sub { 
+            font-family: 'Crimson Text', serif; 
+            font-size: 0.8rem; 
+            color: #c5a059; 
+            letter-spacing: 4px; 
+            text-transform: uppercase; 
+            font-weight: 600;
+        }
         
         /* Hover effect to stop shimmer if desired, but keeping it elegant for now */
 
@@ -319,7 +342,7 @@
             z-index: 1;
         }
 
-        /* --- Hero Branding Style (RESTORING ENTRANCE ANIMATION) --- */
+        /* --- Hero Branding Style (STRICTLY PHYSICAL ENTRANCE ONLY) --- */
         .hero-branding {
             display: flex;
             flex-direction: column;
@@ -327,50 +350,50 @@
             gap: 15px;
             margin-bottom: 4rem;
             position: relative;
+            background: none !important;
         }
 
         @keyframes slideInTop { from { opacity: 0; transform: translateY(-30px); } to { opacity: 1; transform: translateY(0); } }
+
+        .hero-clh, .hero-main-title, .hero-precision {
+            animation-fill-mode: forwards;
+            background: none !important;
+            -webkit-text-fill-color: initial !important;
+            box-shadow: none !important;
+            text-shadow: none !important;
+        }
 
         .hero-clh {
             font-family: 'Outfit', sans-serif;
             font-size: 2rem;
             font-weight: 700;
-            color: var(--gold);
+            color: #c5a059;
             letter-spacing: 12px;
             opacity: 0;
             margin-bottom: 5px;
-            background: none !important;
-            -webkit-background-clip: initial !important;
-            -webkit-text-fill-color: initial !important;
-            animation: slideInTop 1.5s cubic-bezier(0.22, 1, 0.36, 1) forwards 0.2s;
+            animation: slideInTop 1.5s cubic-bezier(0.22, 1, 0.36, 1) forwards 0.3s;
         }
         .hero h1.hero-main-title { 
             font-family: 'Outfit', sans-serif; 
             font-weight: 700; 
-            color: var(--white);
-            text-shadow: 0 20px 40px rgba(0,0,0,0.8); 
+            color: #ffffff;
             font-size: clamp(2.2rem, 10vw, 6.5rem); 
             line-height: 1; 
             letter-spacing: 4px;
             margin-bottom: 10px;
             opacity: 0;
-            background: none !important;
-            -webkit-background-clip: initial !important;
-            -webkit-text-fill-color: initial !important;
+            text-shadow: 0 10px 20px rgba(0,0,0,0.5) !important;
             animation: slideInLeft 1.5s cubic-bezier(0.22, 1, 0.36, 1) forwards;
         }
         .hero-precision { 
             font-family: 'Crimson Text', serif; 
-            color: var(--gold);
+            color: #c5a059;
             font-weight: 700; 
             font-size: clamp(0.7rem, 4vw, 1.6rem); 
             letter-spacing: 10px;
             text-transform: uppercase;
             opacity: 0;
-            background: none !important;
-            -webkit-background-clip: initial !important;
-            -webkit-text-fill-color: initial !important;
-            animation: slideInRight 1.5s cubic-bezier(0.22, 1, 0.36, 1) forwards 0.4s;
+            animation: slideInRight 1.5s cubic-bezier(0.22, 1, 0.36, 1) forwards 0.6s;
         }
         .hero-cta-box {
             margin-top: 3.5rem; 
