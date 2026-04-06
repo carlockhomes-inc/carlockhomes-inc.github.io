@@ -101,48 +101,32 @@
             transition: 0.5s;
         }
 
-        /* --- Unified Shimmering Beam for Branding --- */
-        .logo-box-header, .logo-box, footer div {
-            position: relative;
-            overflow: hidden;
-        }
-
-        /* The 'Flowing Light' Beam Overlay */
-        .logo-box-header::after, .logo-box::after, footer div:first-child::after {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -150%;
-            width: 150%; 
-            height: 100%;
+        /* --- Header Logo Shimmer (Text-Based) --- */
+        .logo-box-header { display: flex; flex-direction: column; line-height: 1.1; overflow: hidden; position: relative; }
+        .logo-main-header, .logo-sub-header, .main-logo-text, .sub-logo-text {
             background: linear-gradient(
-                105deg,
-                transparent 30%,
-                rgba(255, 255, 255, 0.45) 45%,
-                rgba(255, 255, 255, 0.65) 50%,
-                rgba(255, 255, 255, 0.45) 55%,
-                transparent 70%
+                110deg,
+                rgba(255, 255, 255, 0) 25%,
+                rgba(255, 255, 255, 0.8) 50%,
+                rgba(255, 255, 255, 0) 75%
             );
-            transform: skewX(-20deg);
-            pointer-events: none;
-            mix-blend-mode: plus-lighter;
-            animation: flowingBeam 5s infinite cubic-bezier(0.23, 1, 0.32, 1);
+            background-size: 200% 100%;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: textShimmer 4s infinite linear;
         }
 
-        @keyframes flowingBeam {
-            0% { left: -150%; opacity: 0; }
-            45% { opacity: 1; }
-            55% { opacity: 1; }
-            100% { left: 150%; opacity: 0; }
+        @keyframes textShimmer {
+            0% { background-position: 200% 0; }
+            100% { background-position: -200% 0; }
         }
 
-        /* Clean Text Colors (Removing previous background-clip) */
-        .logo-sub-header, .logo-sub { color: var(--gold); background: none; -webkit-background-clip: initial; }
-        .logo-main-header, .logo-main, .main-logo-text { color: var(--white); background: none; -webkit-background-clip: initial; }
-
-        .logo-box-header { display: flex; flex-direction: column; line-height: 1.1; }
-        .logo-main-header { font-family: 'Outfit', sans-serif; font-size: 1.6rem; font-weight: 700; letter-spacing: 2px; position: relative; }
+        .logo-main-header { font-family: 'Outfit', sans-serif; font-size: 1.6rem; font-weight: 700; letter-spacing: 2px; }
         .logo-sub-header { font-size: 0.6rem; color: var(--gold); letter-spacing: 4px; font-weight: 700; opacity: 0.6; text-transform: uppercase; }
+
+        /* Specific colors for text shimmer base */
+        .logo-main-header { -webkit-text-fill-color: white; }
+        .logo-sub-header { -webkit-text-fill-color: var(--gold); }
 
         nav { display: flex; gap: 2.5rem; align-items: center; }
         nav a { text-decoration: none; color: var(--white); font-size: 0.85rem; font-weight: 700; letter-spacing: 1px; opacity: 0.7; transition: 0.3s; position: relative; }
