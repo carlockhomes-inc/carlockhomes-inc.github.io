@@ -179,43 +179,32 @@
             transition: 0.5s;
         }
 
-        /* --- Header Logo Shimmer (Slow Sequential Baton-Pass) --- */
+        /* --- Header Logo Shimmer (Single Ultra-Slow Flow) --- */
         .logo-box { display: flex; flex-direction: column; line-height: 1.1; overflow: hidden; position: relative; gap: 2px; }
         
-        .logo-main, .logo-main-sub, .logo-sub {
-            position: relative;
-            overflow: hidden;
-            display: inline-block;
-            width: fit-content;
-        }
-
-        /* Each element has its own shine slit */
-        .logo-main::after, .logo-main-sub::after, .logo-sub::after {
+        /* Continuous Single Slow Beam */
+        .logo-box::after {
             content: '';
             position: absolute;
             top: 0;
-            left: -150%;
-            width: 100px;
+            left: -200%;
+            width: 200%;
             height: 100%;
             background: linear-gradient(
-                105deg,
+                110deg,
                 transparent 30%,
-                rgba(255, 255, 255, 0.6) 50%,
+                rgba(255, 255, 255, 0.45) 50%,
                 transparent 70%
             );
-            transform: skewX(-25deg);
-            animation: slowSequentialSlit 10s infinite cubic-bezier(0.23, 1, 0.32, 1);
+            transform: skewX(-20deg);
+            animation: ultraSlowFlow 15s infinite linear;
+            pointer-events: none;
         }
 
-        /* Slow Sequential Delays: Baton-Pass */
-        .logo-main::after { animation-delay: 0s; }
-        .logo-main-sub::after { animation-delay: 1.5s; }
-        .logo-sub::after { animation-delay: 3s; }
-
-        @keyframes slowSequentialSlit {
-            0% { left: -150%; }
-            20% { left: 150%; }
-            100% { left: 150%; }
+        @keyframes ultraSlowFlow {
+            0% { left: -200%; }
+            40% { left: 100%; } /* Slower, smoother flow */
+            100% { left: 100%; }
         }
 
         .logo-main { font-family: 'Outfit', sans-serif; font-size: 1.8rem; font-weight: 700; color: #ffffff; letter-spacing: 2px; }
@@ -349,13 +338,11 @@
             text-shadow: 0 10px 30px rgba(0,0,0,0.5) !important;
             animation: slideInLeft 1.5s cubic-bezier(0.22, 1, 0.36, 1) forwards;
             
-            /* Premium Shimmer */
+            /* Static Glossy Look (No horizontal flow) */
+            background: linear-gradient(to bottom, #ffffff 30%, #cccccc 80%);
             -webkit-background-clip: text;
-            background-clip: text;
             -webkit-text-fill-color: transparent;
-            background-image: linear-gradient(110deg, #ffffff 40%, rgba(255,255,255,0.4) 48%, #ffffff 50%, rgba(255,255,255,0.4) 52%, #ffffff 60%);
-            background-size: 200% 100%;
-            animation: slideInLeft 1.5s cubic-bezier(0.22, 1, 0.36, 1) forwards, heroShimmer 6s infinite linear 2s;
+            display: inline-block;
         }
 
         .hero-precision { 
@@ -367,19 +354,11 @@
             opacity: 0;
             animation: slideInRight 1.5s cubic-bezier(0.22, 1, 0.36, 1) forwards 0.4s;
 
-            /* Premium Gold Shimmer */
+            /* Static Gold Glossy Look */
+            background: linear-gradient(to bottom, #e6d5b8 0%, #c5a059 50%, #8b6d3b 100%);
             -webkit-background-clip: text;
-            background-clip: text;
             -webkit-text-fill-color: transparent;
-            background-image: linear-gradient(110deg, #c5a059 40%, rgba(255,255,255,0.8) 50%, #c5a059 60%);
-            background-size: 200% 100%;
-            animation: slideInRight 1.5s cubic-bezier(0.22, 1, 0.36, 1) forwards 0.4s, heroShimmer 6s infinite linear 3s;
-        }
-
-        @keyframes heroShimmer {
-            0% { background-position: 100% 0; }
-            40% { background-position: -100% 0; }
-            100% { background-position: -100% 0; }
+            display: inline-block;
         }
         .hero-cta-box {
             margin-top: 3.5rem; 
