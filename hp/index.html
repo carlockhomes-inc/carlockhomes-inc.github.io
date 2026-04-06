@@ -503,35 +503,34 @@
         #detail-drawer {
             max-height: 0;
             overflow: hidden;
-            transition: max-height 1s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.8s;
+            transition: max-height 1.2s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.8s, margin-top 0.8s;
             opacity: 0;
             margin-top: 0;
-            width: 100vw;
-            margin-left: calc(-10% - 0px); /* Break out of container */
             background: #fdfbf7; /* Elegant ivory/off-white */
             color: #1a1a1a;
             position: relative;
             z-index: 100;
+            border-radius: 12px;
         }
         #detail-drawer.active {
-            max-height: 5000px;
+            max-height: 8000px;
             opacity: 1;
             margin-top: 80px;
-            padding: 120px 10%;
+            padding: 120px 5%;
         }
         .editorial-title {
             font-family: 'Zen Kaku Gothic New', serif;
-            font-size: clamp(3rem, 8vw, 6.5rem);
+            font-size: clamp(2.4rem, 6vw, 4.2rem);
             font-weight: 400;
-            letter-spacing: -2px;
+            letter-spacing: 0.05em;
             color: #222;
-            margin-bottom: 20px;
-            line-height: 1.1;
+            margin-bottom: 25px;
+            line-height: 1.2;
         }
         .editorial-subtitle {
-            font-size: 1.2rem;
+            font-size: 0.95rem;
             color: #888;
-            letter-spacing: 0.3em;
+            letter-spacing: 0.4em;
             margin-bottom: 60px;
             text-transform: uppercase;
         }
@@ -676,9 +675,9 @@
         <div class="reveal">
             <h2 class="section-title">Our Business</h2>
         </div>
-        <div class="card-container">
-            <div class="card reveal">
-                <div class="card-icon">01</div>
+        <div class="card-container" style="grid-template-columns: 1fr; max-width: 800px; margin: 0 auto;">
+            <div class="card reveal" style="text-align: center;">
+                <div class="card-icon" style="opacity: 0.2;">Security Solution</div>
                 <h3>カギ・防犯<br>セキュリティ</h3>
                 <p>● 緊急解錠・修理（住宅・金庫）</p>
                 <p>● 鍵の交換・取付（IC・電子錠）</p>
@@ -688,28 +687,145 @@
                 <button class="btn-toggle-details" onclick="toggleDetails(this)">
                     電気錠の詳細を見る <i style="display:inline-block; transition: 0.4s;">↓</i>
                 </button>
-                    </div>
-                </div>
-            </div>
-            <div class="card reveal">
-                <div class="card-icon">02</div>
-                <h3>住宅設備<br>メンテナンス</h3>
-                <p>● サッシ・戸車・網戸・ガラス修理</p>
-                <p>● 水漏れ・排水詰まり対応</p>
-                <p>● 共用部点検</p>
-                <p>● 除菌施工・リフレッシュ工事</p>
-            </div>
-            <div class="card reveal">
-                <div class="card-icon">03</div>
-                <h3>管理代行<br>アウトソーシング</h3>
-                <p>● 入居前点検</p>
-                <p>● 作業員派遣業務（保守点検等）</p>
-                <p>● 全国180の強力なネットワーク</p>
-                <p>● 24時間365日の受付・出動体制</p>
             </div>
         </div>
-        <div style="text-align: center; margin-top: 80px;" class="reveal">
-            <a href="pages/company.html" class="btn-cta">VIEW MORE DETAILS</a>
+
+        <div id="detail-drawer">
+            <div style="max-width: 1200px; margin: 0 auto;">
+                <span class="editorial-section-label">Smart Lock Solutions</span>
+                <h2 class="editorial-title">電気錠・スマートロック</h2>
+                <div class="editorial-subtitle">Design for entries, for freedom and security.</div>
+                
+                <p style="font-size: 1.1rem; color: #555; max-width: 600px; line-height: 2;">
+                    国内主要メーカーの正規代行店として、<br>建物に最適なシステムを一括してご提案します。
+                </p>
+
+                <div class="editorial-grid">
+                    <div>
+                        <span class="editorial-section-label">Our Approach</span>
+                        <h3 class="editorial-lead">最適な一台を、<br>選ぶのではなく設計する</h3>
+                        <p style="color: #666; line-height: 2; margin-bottom: 40px; font-size: 1.05rem !important;">
+                            CLHは美和ロック・ゴール・シブタニ（Clavis）の正規サービス代行店です。特定メーカーに縛られず、建物の構造・用途・入居者の暮らし方に合わせて、最適な電気錠システムを設計・施工・保守まで一貫してご提供します。
+                        </p>
+                        
+                        <div style="background: #f0ede6; padding: 45px; border-radius: 4px;">
+                            <span class="editorial-section-label" style="margin-bottom: 25px;">Credentials</span>
+                            <h3 style="font-size: 1.4rem; margin-bottom: 30px; font-weight: 700; color: #111;">カーロックホームズが<br>選ばれる理由</h3>
+                            <div style="font-size: 0.95rem; color: #333; line-height: 1.8;">
+                                <div style="margin-bottom: 20px;">
+                                    <strong style="color: #111; display: block; margin-bottom: 5px;">MIWA</strong>
+                                    <span style="opacity: 0.8;">サービス代行店（SD店）として、錠の交換からシステム工事まで対応</span>
+                                </div>
+                                <div style="margin-bottom: 20px;">
+                                    <strong style="color: #111; display: block; margin-bottom: 5px;">GOAL</strong>
+                                    <span style="opacity: 0.8;">メンテナンスステーション（GMS）として、全国サポート網と連携</span>
+                                </div>
+                                <div>
+                                    <strong style="color: #111; display: block; margin-bottom: 5px;">Clavis</strong>
+                                    <span style="opacity: 0.8;">サービス代行店として、Tebraシリーズの設計・施工・保守を担当</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div>
+                        <span class="editorial-section-label">Solutions</span>
+                        
+                        <div class="solution-card-lite">
+                            <span class="num">01</span>
+                            <div>
+                                <h5>ハンズフリー解錠</h5>
+                                <p>カギをポケットに入れたまま、ボタンを押すだけで解錠。買い物やお子さま連れ——日常のストレスを静かに解消します。</p>
+                                <div style="font-size: 0.7rem; color: #c5a059; margin-top: 10px; font-weight: 700;">MIWA DTRS II / GOAL AtoM-EG / Clavis Tebra connect</div>
+                            </div>
+                        </div>
+
+                        <div class="solution-card-lite">
+                            <span class="num">02</span>
+                            <div>
+                                <h5>共用エントランス管理</h5>
+                                <p>マンション共用部をクラウドで一括管理。複数認証方式に対応し、遠隔からのデータ管理や障害通知まで運用をサポート。</p>
+                                <div style="font-size: 0.7rem; color: #c5a059; margin-top: 10px; font-weight: 700;">MIWA VERSA II / GOAL BRSシステム</div>
+                            </div>
+                        </div>
+
+                        <div class="solution-card-lite">
+                            <span class="num">03</span>
+                            <div>
+                                <h5>顔認証・スマートフォン連携</h5>
+                                <p>顔認証カメラやApple Watch連携で、物理的なカギを持たない暮らしを。アプリからの操作で、高度な機能を実現します。</p>
+                                <div style="font-size: 0.7rem; color: #c5a059; margin-top: 10px; font-weight: 700;">Clavis Tebra FACE / MIWA Support APP</div>
+                            </div>
+                        </div>
+
+                        <div class="solution-card-lite" style="border-bottom: none;">
+                            <span class="num">04</span>
+                            <div>
+                                <h5>後付けスマートロック</h5>
+                                <p>既存ドアに配線工事なしで取り付け。賃貸物件のオーナー様や、オフィスのセキュリティ強化に最適です。</p>
+                                <div style="font-size: 0.7rem; color: #c5a059; margin-top: 10px; font-weight: 700;">MIWA PiACK II / GOAL LaresIA</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ADDED: Cyber Security & Future Section -->
+                <div style="border-top: 1px solid #eee; margin-top: 100px; padding-top: 80px;">
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 80px;">
+                        <div>
+                            <span class="editorial-section-label">Security</span>
+                            <h3 style="font-size: 1.6rem; margin-bottom: 25px; color: #111;">サイバーセキュリティへの配慮</h3>
+                            <p style="color: #666; line-height: 2; font-size: 1rem;">
+                                スマートロックの導入は、同時にサイバーセキュリティへの意識も求められます。CLHでは、パスワードの個別設定やファームウェアの更新管理など、デジタル面の安全対策もあわせてご案内しています。
+                            </p>
+                        </div>
+                        <div>
+                            <span class="editorial-section-label">Vision</span>
+                            <h3 style="font-size: 1.6rem; margin-bottom: 25px; color: #111;">将来を見据えたシステム選定</h3>
+                            <p style="color: #666; line-height: 2; font-size: 1rem;">
+                                共通規格「Matter」への対応やAIによる自律化など、スマートホーム化は急速に進んでいます。将来を見据えたシステム選定においても、私たちの知見をお役立てください。
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ADDED: Consultation CTA -->
+                <div style="text-align: center; margin-top: 120px; padding: 80px 40px; background: #fafafa; border-radius: 8px;">
+                    <h3 style="font-size: 1.8rem; color: #111; margin-bottom: 20px;">電気錠・スマートロックの<br>ご相談はお気軽に</h3>
+                    <p style="color: #666; margin-bottom: 40px;">新築・既存建物を問わず、最適なシステムをご提案いたします。</p>
+                    <a href="https://docs.google.com/forms/d/e/1FAIpQLSfQdOJRgQ3qhmnS-wAnycbUptNVp2VWEPQPdxnI3WDpsn7fgg/viewform" target="_blank" style="display: inline-block; padding: 18px 50px; background: #c5a059; color: #fff; text-decoration: none; font-weight: 700; letter-spacing: 2px; border-radius: 4px; transition: 0.3s;">Contact Us →</a>
+                </div>
+
+                <div class="close-drawer-bottom">
+                    <button class="btn-close-editorial" onclick="closeDetails(this)">- Close Details -</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- NEW: Secondary Business Items at the Bottom -->
+        <div style="margin-top: 120px;">
+            <div class="card-container" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; max-width: 1200px; margin: 0 auto;">
+                <div class="card reveal" style="padding: 40px; background: rgba(255,255,255,0.02);">
+                    <div class="card-icon" style="font-size: 1.2rem; opacity: 0.3; margin-bottom: 15px;">Maintenance</div>
+                    <h3 style="font-size: 1.3rem;">住宅設備<br>メンテナンス</h3>
+                    <p style="font-size: 0.85rem !important;">● サッシ・戸車・網戸・ガラス修理</p>
+                    <p style="font-size: 0.85rem !important;">● 水漏れ・排水詰まり対応</p>
+                    <p style="font-size: 0.85rem !important;">● 共用部点検</p>
+                    <p style="font-size: 0.85rem !important;">● 除菌施工・リフレッシュ工事</p>
+                </div>
+                <div class="card reveal" style="padding: 40px; background: rgba(255,255,255,0.02);">
+                    <div class="card-icon" style="font-size: 1.2rem; opacity: 0.3; margin-bottom: 15px;">Outsourcing</div>
+                    <h3 style="font-size: 1.3rem;">管理代行<br>アウトソーシング</h3>
+                    <p style="font-size: 0.85rem !important;">● 入居前点検</p>
+                    <p style="font-size: 0.85rem !important;">● 作業員派遣業務（保守点検等）</p>
+                    <p style="font-size: 0.85rem !important;">● 全国180の強力なネットワーク</p>
+                    <p style="font-size: 0.85rem !important;">● 24時間365日の受付・出動体制</p>
+                </div>
+            </div>
+        </div>
+
+        <div style="text-align: center; margin-top: 100px;" class="reveal">
+            <a href="pages/company.html" class="btn-cta">VIEW COMPANY INFO</a>
         </div>
     </section>
 

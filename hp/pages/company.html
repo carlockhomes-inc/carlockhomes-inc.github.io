@@ -417,17 +417,17 @@
         }
         .editorial-title {
             font-family: 'Zen Kaku Gothic New', serif;
-            font-size: clamp(3rem, 8vw, 6.5rem);
+            font-size: clamp(2.4rem, 6vw, 4.2rem);
             font-weight: 400;
-            letter-spacing: -2px;
+            letter-spacing: 0.05em;
             color: #222;
-            margin-bottom: 20px;
-            line-height: 1.1;
+            margin-bottom: 25px;
+            line-height: 1.2;
         }
         .editorial-subtitle {
-            font-size: 1.2rem;
+            font-size: 0.95rem;
             color: #888;
-            letter-spacing: 0.3em;
+            letter-spacing: 0.4em;
             margin-bottom: 60px;
             text-transform: uppercase;
         }
@@ -575,8 +575,8 @@
             <h2 class="section-title">Business Content</h2>
             <h3 class="section-subtitle">24時間３６５日カギのトラブル対応<br>社会に安心を届ける緊急対応サービス</h3>
         </div>
-        <div class="card-container">
-            <div class="card reveal">
+        <div class="card-container" style="grid-template-columns: 1fr; max-width: 800px; margin: 0 auto;">
+            <div class="card reveal" style="text-align: center;">
                 <h3>カギ・防犯<br>セキュリティ</h3>
                 <p>● 緊急解錠・修理（住宅・金庫）</p>
                 <p>● 鍵の交換・取付（IC・電子錠）</p>
@@ -587,23 +587,9 @@
                     電気錠の詳細を見る <i style="display:inline-block; transition: 0.4s;">↓</i>
                 </button>
             </div>
-            <div class="card reveal" style="transition-delay: 0.2s;">
-                <h3>住宅設備<br>メンテナンス</h3>
-                <p>● サッシ・戸車・網戸・ガラス修理</p>
-                <p>● 水漏れ・排水詰まり対応</p>
-                <p>● 共用部点検</p>
-                <p>● 除菌施工・リフレッシュ工事</p>
-            </div>
-            <div class="card reveal" style="transition-delay: 0.4s;">
-                <h3>管理代行<br>アウトソーシング</h3>
-                <p>● 入居前点検</p>
-                <p>● 作業員派遣業務（保守点検等）</p>
-                <p>● 全国180の強力なネットワーク</p>
-                <p>● 24時間365日の受付・出動体制</p>
-            </div>
         </div>
 
-        <!-- NEW: Editorial Styled Detail Drawer -->
+        <!-- Editorial Styled Detail Drawer -->
         <div id="detail-drawer">
             <div style="max-width: 1200px; margin: 0 auto;">
                 <span class="editorial-section-label">Smart Lock Solutions</span>
@@ -618,17 +604,27 @@
                     <div>
                         <span class="editorial-section-label">Our Approach</span>
                         <h3 class="editorial-lead">最適な一台を、<br>選ぶのではなく設計する</h3>
-                        <p style="color: #666; line-height: 2; margin-bottom: 40px;">
+                        <p style="color: #666; line-height: 2; margin-bottom: 40px; font-size: 1.05rem !important;">
                             CLHは美和ロック・ゴール・シブタニ（Clavis）の正規サービス代行店です。特定メーカーに縛られず、建物の構造・用途・入居者の暮らし方に合わせて、最適な電気錠システムを設計・施工・保守まで一貫してご提供します。
                         </p>
                         
-                        <div style="background: #f0ede6; padding: 40px; border-radius: 4px;">
-                            <span class="editorial-section-label" style="margin-bottom: 15px;">Credentials</span>
-                            <ul style="list-style: none; font-weight: 700; color: #444; line-height: 2.2;">
-                                <li>・MIWA サービス代行店 (SD店)</li>
-                                <li>・GOAL メンテナンスステーション (GMS)</li>
-                                <li>・Clavis サービス代行店</li>
-                            </ul>
+                        <div style="background: #f0ede6; padding: 45px; border-radius: 4px;">
+                            <span class="editorial-section-label" style="margin-bottom: 25px;">Credentials</span>
+                            <h3 style="font-size: 1.4rem; margin-bottom: 30px; font-weight: 700; color: #111;">カーロックホームズが<br>選ばれる理由</h3>
+                            <div style="font-size: 0.95rem; color: #333; line-height: 1.8;">
+                                <div style="margin-bottom: 20px;">
+                                    <strong style="color: #111; display: block; margin-bottom: 5px;">MIWA</strong>
+                                    <span style="opacity: 0.8;">サービス代行店（SD店）として、錠の交換からシステム工事まで対応</span>
+                                </div>
+                                <div style="margin-bottom: 20px;">
+                                    <strong style="color: #111; display: block; margin-bottom: 5px;">GOAL</strong>
+                                    <span style="opacity: 0.8;">メンテナンスステーション（GMS）として、全国サポート網と連携</span>
+                                </div>
+                                <div>
+                                    <strong style="color: #111; display: block; margin-bottom: 5px;">Clavis</strong>
+                                    <span style="opacity: 0.8;">サービス代行店として、Tebraシリーズの設計・施工・保守を担当</span>
+                                </div>
+                            </div>
                         </div>
                     </div>
 
@@ -662,7 +658,7 @@
                             </div>
                         </div>
 
-                        <div class="solution-card-lite">
+                        <div class="solution-card-lite" style="border-bottom: none;">
                             <span class="num">04</span>
                             <div>
                                 <h5>後付けスマートロック</h5>
@@ -670,16 +666,34 @@
                                 <div style="font-size: 0.7rem; color: #c5a059; margin-top: 10px; font-weight: 700;">MIWA PiACK II / GOAL LaresIA</div>
                             </div>
                         </div>
+                    </div>
+                </div>
 
-                        <div class="solution-card-lite" style="border-bottom: none;">
-                            <span class="num">05</span>
-                            <div>
-                                <h5>宅配・置き配対応</h5>
-                                <p>オートロック内でも住戸前まで届けられる仕組み。再配達問題を解消し、非対面でのスマートな受取りを実現します。</p>
-                                <div style="font-size: 0.7rem; color: #c5a059; margin-top: 10px; font-weight: 700;">MIWA ココ配 / Clavis 宅配テンキー</div>
-                            </div>
+                <!-- ADDED: Cyber Security & Future Section -->
+                <div style="border-top: 1px solid #eee; margin-top: 100px; padding-top: 80px;">
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 80px;">
+                        <div>
+                            <span class="editorial-section-label">Security</span>
+                            <h3 style="font-size: 1.6rem; margin-bottom: 25px; color: #111;">サイバーセキュリティへの配慮</h3>
+                            <p style="color: #666; line-height: 2; font-size: 1rem;">
+                                スマートロックの導入は、同時にサイバーセキュリティへの意識も求められます。CLHでは、パスワードの個別設定やファームウェアの更新管理など、デジタル面の安全対策もあわせてご案内しています。
+                            </p>
+                        </div>
+                        <div>
+                            <span class="editorial-section-label">Vision</span>
+                            <h3 style="font-size: 1.6rem; margin-bottom: 25px; color: #111;">将来を見据えたシステム選定</h3>
+                            <p style="color: #666; line-height: 2; font-size: 1rem;">
+                                共通規格「Matter」への対応やAIによる自律化など、スマートホーム化は急速に進んでいます。将来を見据えたシステム選定においても、私たちの知見をお役立てください。
+                            </p>
                         </div>
                     </div>
+                </div>
+
+                <!-- ADDED: Consultation CTA -->
+                <div style="text-align: center; margin-top: 120px; padding: 80px 40px; background: #fafafa; border-radius: 8px;">
+                    <h3 style="font-size: 1.8rem; color: #111; margin-bottom: 20px;">電気錠・スマートロックの<br>ご相談はお気軽に</h3>
+                    <p style="color: #666; margin-bottom: 40px;">新築・既存建物を問わず、最適なシステムをご提案いたします。</p>
+                    <a href="https://docs.google.com/forms/d/e/1FAIpQLSfQdOJRgQ3qhmnS-wAnycbUptNVp2VWEPQPdxnI3WDpsn7fgg/viewform" target="_blank" style="display: inline-block; padding: 18px 50px; background: #c5a059; color: #fff; text-decoration: none; font-weight: 700; letter-spacing: 2px; border-radius: 4px; transition: 0.3s;">Contact Us →</a>
                 </div>
 
                 <div class="close-drawer-bottom">
@@ -687,21 +701,25 @@
                 </div>
             </div>
         </div>
-            <div class="card reveal" style="transition-delay: 0.2s;">
-                <h3>住宅設備<br>メンテナンス</h3>
-                <p>● サッシ・戸車・網戸・ガラス修理</p>
-                <p>● 水漏れ・排水詰まり対応</p>
-                <p>● 共用部点検</p>
-                <p>● 除菌施工・リフレッシュ工事</p>
-            </div>
-            <div class="card reveal" style="transition-delay: 0.4s;">
-                <h3>管理代行<br>アウトソーシング</h3>
-                <p>● 入居前点検</p>
-                <p>● 作業員派遣業務（保守点検等）</p>
-                <p>● 全国180の強力なネットワーク</p>
-                <p>● 24時間365日の受付・出動体制</p>
+        <div style="margin-top: 100px;">
+            <div class="card-container" style="grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; max-width: 1200px; margin: 0 auto;">
+                <div class="card reveal" style="transition-delay: 0.2s;">
+                    <h3>住宅設備<br>メンテナンス</h3>
+                    <p>● サッシ・戸車・網戸・ガラス修理</p>
+                    <p>● 水漏れ・排水詰まり対応</p>
+                    <p>● 共用部点検</p>
+                    <p>● 除菌施工・リフレッシュ工事</p>
+                </div>
+                <div class="card reveal" style="transition-delay: 0.4s;">
+                    <h3>管理代行<br>アウトソーシング</h3>
+                    <p>● 入居前点検</p>
+                    <p>● 作業員派遣業務（保守点検等）</p>
+                    <p>● 全国180の強力なネットワーク</p>
+                    <p>● 24時間365日の受付・出動体制</p>
+                </div>
             </div>
         </div>
+
         <div class="slide-footer">
             <span>© CarlockHomes Co., Ltd.</span>
             <span>02 / 05</span>
