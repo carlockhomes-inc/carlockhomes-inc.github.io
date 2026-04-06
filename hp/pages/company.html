@@ -104,34 +104,31 @@
         /* --- Header Logo Shimmer (Sequential Character Based) --- */
         .logo-box-header { display: flex; flex-direction: column; line-height: 1.1; overflow: hidden; position: relative; }
         .logo-main-header, .logo-sub-header, .main-logo-text, .sub-logo-text {
-            background: linear-gradient(
-                110deg,
-                rgba(255, 255, 255, 0) 35%,
-                rgba(255, 255, 255, 0.95) 50%,
-                rgba(255, 255, 255, 0) 65%
-            );
-            background-size: 250% 100%;
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
+            background-size: 250% 100%;
             animation: sequentialShimmer 6s infinite ease-out;
+            display: inline-block;
         }
 
-        /* Sequential Animation Delay for a 'Baton-Pass' effect */
-        .logo-main-header { animation-delay: 0s; -webkit-text-fill-color: white; }
-        .logo-sub-header { animation-delay: 0.8s; -webkit-text-fill-color: var(--gold); }
+        /* Sequential Colors and Gradients */
+        .logo-main-header {
+            background-image: linear-gradient(110deg, #ffffff 35%, rgba(255,255,255,0.4) 45%, #ffffff 50%, rgba(255,255,255,0.4) 55%, #ffffff 65%);
+            animation-delay: 0s;
+        }
+        .logo-sub-header {
+            background-image: linear-gradient(110deg, #c5a059 35%, #ffffff 50%, #c5a059 65%);
+            animation-delay: 1.2s; /* Balanced delay */
+        }
 
         @keyframes sequentialShimmer {
-            0% { background-position: 200% 0; }
-            20% { background-position: -150% 0; }
+            0% { background-position: 250% 0; }
+            30% { background-position: -150% 0; }
             100% { background-position: -150% 0; }
         }
 
         .logo-main-header { font-family: 'Outfit', sans-serif; font-size: 1.6rem; font-weight: 700; letter-spacing: 2px; }
         .logo-sub-header { font-size: 0.6rem; color: var(--gold); letter-spacing: 4px; font-weight: 700; opacity: 0.6; text-transform: uppercase; }
-
-        /* Specific colors for text shimmer base when NOT shimmering */
-        .logo-main-header { -webkit-text-fill-color: white; }
-        .logo-sub-header { -webkit-text-fill-color: var(--gold); }
 
         nav { display: flex; gap: 2.5rem; align-items: center; }
         nav a { text-decoration: none; color: var(--white); font-size: 0.85rem; font-weight: 700; letter-spacing: 1px; opacity: 0.7; transition: 0.3s; position: relative; }
