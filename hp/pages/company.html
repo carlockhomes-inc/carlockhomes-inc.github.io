@@ -308,6 +308,23 @@
             position: relative;
         }
 
+        .hero-clh { 
+            font-family: 'Outfit', sans-serif; 
+            font-size: 2.2rem; 
+            font-weight: 700; 
+            letter-spacing: 12px;
+            opacity: 0;
+            margin-bottom: 5px;
+            animation: slideInTop 1.5s cubic-bezier(0.22, 1, 0.36, 1) forwards 0.3s;
+            
+            /* Brilliant Static Gold Gloss */
+            background: linear-gradient(to bottom, #fff6e5 0%, #c5a059 50%, #8b6d3b 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            display: inline-block;
+        }
+
         .hero h1.hero-main-title { 
             font-family: 'Outfit', sans-serif; 
             font-weight: 700; 
@@ -640,8 +657,9 @@
     <!-- Slide 1: Cover (Fixed to Screenshot) -->
     <section>
         <div class="hero-branding reveal active">
+            <div class="hero-clh">CLH</div>
             <h1 class="hero-main-title">CarlockHomes</h1>
-            <div class="hero-precision">TRUSTED SECURITY PARTNER</div>
+            <div class="hero-precision">PRECISION & TRUST</div>
         </div>
         <div class="slide-footer">
             <span>© CarlockHomes Co., Ltd.</span>
