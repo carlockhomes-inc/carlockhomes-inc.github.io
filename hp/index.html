@@ -180,26 +180,6 @@
         }
 
         .logo-box { display: flex; flex-direction: column; line-height: 1.1; }
-        
-        /* Unified Shimmer Animation */
-        .logo-main, .logo-main-sub, .logo-sub, .hero h1, .auth-logo, footer div {
-            background: linear-gradient(
-                110deg,
-                transparent 35%,
-                rgba(255, 255, 255, 0.5) 50%,
-                transparent 65%
-            );
-            background-size: 300% 100%;
-            background-clip: text;
-            -webkit-background-clip: text;
-            animation: flowingLight 5s infinite linear;
-        }
-
-        @keyframes flowingLight {
-            0% { background-position: 150% 0; }
-            100% { background-position: -150% 0; }
-        }
-
         .logo-main { font-family: 'Outfit', sans-serif; font-size: 1.8rem; font-weight: 700; color: var(--gold-shimmer); letter-spacing: 2px; position: relative; }
         .logo-sub { font-family: 'Crimson Text', serif; font-size: 0.8rem; color: var(--gold); letter-spacing: 4px; text-transform: uppercase; }
 
@@ -303,18 +283,49 @@
         }
 
         .hero-content { z-index: 2; }
-        .hero-branding {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 15px;
-            margin-bottom: 4rem;
+        /* --- Unified Shimmering Beam for Branding --- */
+        .hero-branding, .logo-box, .logo-box-header, footer div {
+            position: relative;
+            overflow: hidden;
         }
+
+        /* The 'Flowing Light' Beam Overlay */
+        .hero-branding::after, .logo-box::after, .logo-box-header::after, footer div:first-child::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -150%;
+            width: 150%; 
+            height: 100%;
+            background: linear-gradient(
+                105deg,
+                transparent 30%,
+                rgba(255, 255, 255, 0.4) 45%,
+                rgba(255, 255, 255, 0.6) 50%,
+                rgba(255, 255, 255, 0.4) 55%,
+                transparent 70%
+            );
+            transform: skewX(-20deg);
+            pointer-events: none;
+            mix-blend-mode: plus-lighter;
+            animation: flowingBeam 5s infinite cubic-bezier(0.23, 1, 0.32, 1);
+        }
+
+        @keyframes flowingBeam {
+            0% { left: -150%; opacity: 0; }
+            45% { opacity: 1; }
+            55% { opacity: 1; }
+            100% { left: 150%; opacity: 0; }
+        }
+
+        /* Clean Text Colors (Removing previous background-clip) */
+        .hero-clh, .logo-sub, .logo-sub-header, .hero-precision { color: var(--gold); background: none; -webkit-background-clip: initial; }
+        .hero-main-title, .logo-main, .logo-main-header { color: var(--white); background: none; -webkit-background-clip: initial; }
+
         .hero-clh {
             font-family: 'Outfit', sans-serif;
             font-size: 2rem;
             font-weight: 700;
-            color: var(--gold);
             letter-spacing: 12px;
             opacity: 0.8;
             margin-bottom: 5px;
@@ -322,7 +333,6 @@
         .hero h1.hero-main-title { 
             font-family: 'Outfit', sans-serif; 
             font-weight: 700; 
-            color: var(--white); 
             text-shadow: 0 20px 40px rgba(0,0,0,0.8); 
             font-size: clamp(2.2rem, 10vw, 6.5rem); 
             line-height: 1; 
@@ -331,26 +341,11 @@
         }
         .hero-precision { 
             font-family: 'Crimson Text', serif; 
-            color: var(--gold); 
             font-weight: 700; 
             font-size: clamp(0.7rem, 4vw, 1.6rem); 
             letter-spacing: 10px;
             text-transform: uppercase;
             opacity: 0.9;
-        }
-
-        /* Re-applying shimmer to all branding elements */
-        .hero-clh, .hero-main-title, .hero-precision, .logo-main, .logo-main-sub, .logo-sub {
-            background: linear-gradient(
-                110deg,
-                transparent 40%,
-                rgba(255, 255, 255, 0.6) 50%,
-                transparent 60%
-            );
-            background-size: 300% 100%;
-            background-clip: text;
-            -webkit-background-clip: text;
-            animation: flowingLight 5s infinite linear;
         }
         .hero-cta-box {
             margin-top: 3.5rem; 
