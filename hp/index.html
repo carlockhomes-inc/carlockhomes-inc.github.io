@@ -157,9 +157,9 @@
         @keyframes slideInLeft { from { opacity: 0; transform: translateX(-100px); } to { opacity: 1; transform: translateX(0); } }
         @keyframes slideInRight { from { opacity: 0; transform: translateX(100px); } to { opacity: 1; transform: translateX(0); } }
         @keyframes shine { 
-            0% { left: -100%; top: -100%; } 
-            20% { left: 100%; top: 100%; } 
-            100% { left: 100%; top: 100%; } 
+            0% { left: -150%; top: -100%; } 
+            30% { left: 250%; top: 100%; } 
+            100% { left: 250%; top: 100%; } 
         }
         @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 
@@ -179,14 +179,28 @@
             transition: 0.5s;
         }
 
-        .logo-box { position: relative; overflow: hidden; display: flex; flex-direction: column; line-height: 1.1; }
-        .logo-main { font-family: 'Outfit', sans-serif; font-size: 1.8rem; font-weight: 700; color: var(--white); letter-spacing: 2px; position: relative; }
-        .logo-main::after {
-            content: ''; position: absolute; top: 0; left: -100%; width: 50px; height: 100%; 
-            background: linear-gradient(to right, transparent, rgba(255,255,255,0.3), transparent);
-            transform: skewX(-25deg);
-            animation: shine 4s infinite linear;
+        .logo-box { display: flex; flex-direction: column; line-height: 1.1; }
+        
+        /* Unified Shimmer Animation */
+        .logo-main, .logo-main-sub, .logo-sub, .hero h1, .auth-logo, footer div {
+            background: linear-gradient(
+                110deg,
+                transparent 35%,
+                rgba(255, 255, 255, 0.5) 50%,
+                transparent 65%
+            );
+            background-size: 300% 100%;
+            background-clip: text;
+            -webkit-background-clip: text;
+            animation: flowingLight 5s infinite linear;
         }
+
+        @keyframes flowingLight {
+            0% { background-position: 150% 0; }
+            100% { background-position: -150% 0; }
+        }
+
+        .logo-main { font-family: 'Outfit', sans-serif; font-size: 1.8rem; font-weight: 700; color: var(--gold-shimmer); letter-spacing: 2px; position: relative; }
         .logo-sub { font-family: 'Crimson Text', serif; font-size: 0.8rem; color: var(--gold); letter-spacing: 4px; text-transform: uppercase; }
 
         nav { display: flex; gap: 2.5rem; align-items: center; }
