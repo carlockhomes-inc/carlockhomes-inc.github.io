@@ -315,7 +315,7 @@
             z-index: 1;
         }
 
-        /* --- Hero Branding Style (STRICTLY NO SHIMMER) --- */
+        /* --- Hero Branding Style (RESTORING ENTRANCE ANIMATION) --- */
         .hero-branding {
             display: flex;
             flex-direction: column;
@@ -324,17 +324,21 @@
             margin-bottom: 4rem;
             position: relative;
         }
+
+        @keyframes slideInTop { from { opacity: 0; transform: translateY(-30px); } to { opacity: 1; transform: translateY(0); } }
+
         .hero-clh {
             font-family: 'Outfit', sans-serif;
             font-size: 2rem;
             font-weight: 700;
             color: var(--gold);
             letter-spacing: 12px;
-            opacity: 0.8;
+            opacity: 0;
             margin-bottom: 5px;
             background: none !important;
             -webkit-background-clip: initial !important;
             -webkit-text-fill-color: initial !important;
+            animation: slideInTop 1.5s cubic-bezier(0.22, 1, 0.36, 1) forwards 0.2s;
         }
         .hero h1.hero-main-title { 
             font-family: 'Outfit', sans-serif; 
@@ -345,9 +349,11 @@
             line-height: 1; 
             letter-spacing: 4px;
             margin-bottom: 10px;
+            opacity: 0;
             background: none !important;
             -webkit-background-clip: initial !important;
             -webkit-text-fill-color: initial !important;
+            animation: slideInLeft 1.5s cubic-bezier(0.22, 1, 0.36, 1) forwards;
         }
         .hero-precision { 
             font-family: 'Crimson Text', serif; 
@@ -356,10 +362,11 @@
             font-size: clamp(0.7rem, 4vw, 1.6rem); 
             letter-spacing: 10px;
             text-transform: uppercase;
-            opacity: 0.9;
+            opacity: 0;
             background: none !important;
             -webkit-background-clip: initial !important;
             -webkit-text-fill-color: initial !important;
+            animation: slideInRight 1.5s cubic-bezier(0.22, 1, 0.36, 1) forwards 0.4s;
         }
         .hero-cta-box {
             margin-top: 3.5rem; 
