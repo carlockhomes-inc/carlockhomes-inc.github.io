@@ -101,33 +101,42 @@
             transition: 0.5s;
         }
 
-        /* --- Header Logo Shimmer (Sequential Slit - Screenshot Style) --- */
-        .logo-box-header { display: flex; flex-direction: column; line-height: 1.1; overflow: hidden; position: relative; gap: 0; }
+        /* --- Header Logo Shimmer (Slow Sequential Baton-Pass) --- */
+        .logo-box-header { display: flex; flex-direction: column; line-height: 1.1; overflow: hidden; position: relative; gap: 2px; }
         
-        /* The Flowing Slit Overlay for the whole box */
-        .logo-box-header::after {
+        .logo-main-header, .main-logo-text-header, .logo-sub-header {
+            position: relative;
+            overflow: hidden;
+            display: inline-block;
+            width: fit-content;
+        }
+
+        /* Each element has its own shine slit */
+        .logo-main-header::after, .main-logo-text-header::after, .logo-sub-header::after {
             content: '';
             position: absolute;
             top: 0;
             left: -150%;
-            width: 150%;
+            width: 100px;
             height: 100%;
             background: linear-gradient(
                 105deg,
                 transparent 30%,
-                rgba(255, 255, 255, 0.5) 45%,
-                rgba(255, 255, 255, 0.7) 50%,
-                rgba(255, 255, 255, 0.5) 55%,
+                rgba(255, 255, 255, 0.6) 50%,
                 transparent 70%
             );
-            transform: skewX(-20deg);
-            animation: flowingSlit 6s infinite cubic-bezier(0.23, 1, 0.32, 1);
-            pointer-events: none;
+            transform: skewX(-25deg);
+            animation: slowSequentialSlit 10s infinite cubic-bezier(0.23, 1, 0.32, 1);
         }
 
-        @keyframes flowingSlit {
+        /* Slow Sequential Delays: Baton-Pass */
+        .logo-main-header::after { animation-delay: 0s; }
+        .main-logo-text-header::after { animation-delay: 1.5s; }
+        .logo-sub-header::after { animation-delay: 3s; }
+
+        @keyframes slowSequentialSlit {
             0% { left: -150%; }
-            40% { left: 150%; }
+            20% { left: 150%; }
             100% { left: 150%; }
         }
 
