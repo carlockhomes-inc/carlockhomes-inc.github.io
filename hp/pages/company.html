@@ -287,9 +287,62 @@
             border-bottom: 1px solid rgba(197, 160, 89, 0.1);
         }
 
-        /* 会社案タイトル等 */
-        .main-logo-text { font-family: 'Outfit', sans-serif; font-size: clamp(3rem, 10vw, 6rem); color: var(--white); letter-spacing: -2px; text-align: center; }
-        .sub-logo-text { font-family: 'Crimson Text', serif; font-size: clamp(1rem, 3vw, 2.2rem); color: var(--gold); letter-spacing: 8px; text-align: center; margin-top: -10px; margin-bottom: 40px; }
+        /* 会社案タイトル等 (Updated for Shimmer) */
+        .hero-branding {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 4rem;
+            position: relative;
+        }
+
+        .hero h1.hero-main-title { 
+            font-family: 'Outfit', sans-serif; 
+            font-weight: 700; 
+            font-size: clamp(3rem, 10vw, 6rem); 
+            line-height: 1; 
+            letter-spacing: -2px;
+            text-align: center;
+            opacity: 0;
+            text-shadow: 0 10px 30px rgba(0,0,0,0.5) !important;
+            animation: slideInLeft 1.5s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+
+            /* Premium Shimmer */
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-image: linear-gradient(110deg, #ffffff 40%, rgba(255,255,255,0.4) 48%, #ffffff 50%, rgba(255,255,255,0.4) 52%, #ffffff 60%);
+            background-size: 200% 100%;
+            animation: slideInLeft 1.5s cubic-bezier(0.22, 1, 0.36, 1) forwards, heroShimmer 6s infinite linear 2s;
+        }
+
+        .hero-precision { 
+            font-family: 'Crimson Text', serif; 
+            font-weight: 700; 
+            font-size: clamp(1rem, 3vw, 2.2rem); 
+            color: var(--gold); 
+            letter-spacing: 8px; 
+            text-align: center; 
+            margin-top: -10px; 
+            margin-bottom: 40px;
+            opacity: 0;
+            animation: slideInRight 1.5s cubic-bezier(0.22, 1, 0.36, 1) forwards 0.4s;
+
+            /* Premium Gold Shimmer */
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-image: linear-gradient(110deg, #c5a059 40%, rgba(255,255,255,0.8) 50%, #c5a059 60%);
+            background-size: 200% 100%;
+            animation: slideInRight 1.5s cubic-bezier(0.22, 1, 0.36, 1) forwards 0.4s, heroShimmer 6s infinite linear 3s;
+        }
+
+        @keyframes heroShimmer {
+            0% { background-position: 100% 0; }
+            40% { background-position: -100% 0; }
+            100% { background-position: -100% 0; }
+        }
 
         .section-title {
             font-size: clamp(2rem, 5vw, 3.5rem);
