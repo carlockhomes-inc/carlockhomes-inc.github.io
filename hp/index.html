@@ -440,9 +440,175 @@
         footer { padding: 100px 10% 60px; background: #000c14; text-align: center; border-top: 1px solid rgba(197, 160, 89, 0.1); }
         .copyright { font-size: 0.75rem; opacity: 0.15; letter-spacing: 4px; }
 
-        @media (max-width: 900px) {
-            nav { display: none; }
-            .menu-btn { display: flex; }
+        /* --- Electric Lock Accordion --- */
+        .details-wrapper {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.8s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.5s;
+            opacity: 0;
+            margin-top: 0;
+            background: rgba(255, 255, 255, 0.02);
+            border-radius: 8px;
+        }
+        .details-wrapper.active {
+            max-height: 2000px; /* Large enough to fit content */
+            opacity: 1;
+            margin-top: 30px;
+            padding: 30px;
+            border: 1px solid rgba(197, 160, 89, 0.15);
+        }
+        .detail-item {
+            margin-bottom: 25px;
+            padding-left: 20px;
+            border-left: 2px solid var(--gold);
+        }
+        .detail-item h4 {
+            color: var(--gold);
+            font-size: 1rem;
+            margin-bottom: 10px;
+            letter-spacing: 1px;
+        }
+        .detail-item p {
+            font-size: 0.85rem !important;
+            line-height: 1.8 !important;
+            opacity: 0.7;
+        }
+        .btn-toggle-details {
+            background: transparent;
+            color: var(--gold);
+            border: 1px solid rgba(197, 160, 89, 0.4);
+            padding: 8px 20px;
+            border-radius: 4px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            cursor: pointer;
+            margin-top: 20px;
+            transition: 0.3s;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .btn-toggle-details:hover {
+            background: rgba(197, 160, 89, 0.1);
+            border-color: var(--gold);
+        }
+        .btn-toggle-details i {
+            transition: 0.3s;
+        }
+        .btn-toggle-details.active i {
+            transform: rotate(180deg);
+        }
+
+        /* --- High-Aesthetic Detail Layout (Editorial Style) --- */
+        #detail-drawer {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 1s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.8s;
+            opacity: 0;
+            margin-top: 0;
+            width: 100vw;
+            margin-left: calc(-10% - 0px); /* Break out of container */
+            background: #fdfbf7; /* Elegant ivory/off-white */
+            color: #1a1a1a;
+            position: relative;
+            z-index: 100;
+        }
+        #detail-drawer.active {
+            max-height: 5000px;
+            opacity: 1;
+            margin-top: 80px;
+            padding: 120px 10%;
+        }
+        .editorial-title {
+            font-family: 'Zen Kaku Gothic New', serif;
+            font-size: clamp(3rem, 8vw, 6.5rem);
+            font-weight: 400;
+            letter-spacing: -2px;
+            color: #222;
+            margin-bottom: 20px;
+            line-height: 1.1;
+        }
+        .editorial-subtitle {
+            font-size: 1.2rem;
+            color: #888;
+            letter-spacing: 0.3em;
+            margin-bottom: 60px;
+            text-transform: uppercase;
+        }
+        .editorial-grid {
+            display: grid;
+            grid-template-columns: 1fr 1.5fr;
+            gap: 100px;
+            margin-top: 100px;
+        }
+        .editorial-section-label {
+            font-family: 'Outfit', sans-serif;
+            font-size: 0.8rem;
+            letter-spacing: 0.5em;
+            color: #c5a059;
+            text-transform: uppercase;
+            margin-bottom: 30px;
+            display: block;
+        }
+        .editorial-lead {
+            font-size: 2.2rem;
+            line-height: 1.4;
+            color: #333;
+            font-family: 'Zen Kaku Gothic New', serif;
+            margin-bottom: 40px;
+        }
+        .solution-card-lite {
+            border-bottom: 1px solid #eee;
+            padding: 40px 0;
+            display: flex;
+            gap: 40px;
+            transition: 0.4s;
+        }
+        .solution-card-lite:hover {
+            padding-left: 20px;
+            background: rgba(197, 160, 89, 0.03);
+        }
+        .solution-card-lite .num {
+            font-family: 'Outfit', sans-serif;
+            font-size: 1rem;
+            color: #c5a059;
+            opacity: 0.5;
+        }
+        .solution-card-lite h5 {
+            font-size: 1.4rem;
+            margin-bottom: 15px;
+            color: #111;
+        }
+        .solution-card-lite p {
+            font-size: 1rem !important;
+            color: #666;
+            line-height: 1.8 !important;
+        }
+        .close-drawer-bottom {
+            margin-top: 100px;
+            text-align: center;
+        }
+        .btn-close-editorial {
+            background: none;
+            border: none;
+            font-family: 'Outfit', sans-serif;
+            font-size: 0.9rem;
+            letter-spacing: 0.4em;
+            color: #999;
+            cursor: pointer;
+            padding: 20px;
+            transition: 0.3s;
+            text-transform: uppercase;
+        }
+        .btn-close-editorial:hover {
+            color: #c5a059;
+            letter-spacing: 0.6em;
+        }
+        
+        @media (max-width: 1000px) {
+            .editorial-grid { grid-template-columns: 1fr; gap: 60px; }
+            .editorial-title { font-size: 3.5rem; }
+            #detail-drawer { margin-left: -5%; }
         }
     </style>
 </head>
@@ -518,6 +684,12 @@
                 <p>● 鍵の交換・取付（IC・電子錠）</p>
                 <p>● 防犯カメラ・インターフォン工事</p>
                 <p>● オートロック・電気錠システム構築</p>
+                
+                <button class="btn-toggle-details" onclick="toggleDetails(this)">
+                    電気錠の詳細を見る <i style="display:inline-block; transition: 0.4s;">↓</i>
+                </button>
+                    </div>
+                </div>
             </div>
             <div class="card reveal">
                 <div class="card-icon">02</div>
@@ -675,6 +847,34 @@
             btn.classList.toggle('active');
             nav.classList.toggle('active');
             document.body.style.overflow = nav.classList.contains('active') ? 'hidden' : 'auto';
+        }
+
+        // --- Details Accordion Logic ---
+        function toggleDetails(btn) {
+            const drawer = document.getElementById('detail-drawer');
+            drawer.classList.toggle('active');
+            btn.classList.toggle('active');
+            
+            if (drawer.classList.contains('active')) {
+                btn.innerHTML = '詳細を閉じる <i style="display:inline-block; transition: 0.4s; transform: rotate(180deg);">↓</i>';
+                // Scroll to drawer smoothly
+                setTimeout(() => {
+                    drawer.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }, 100);
+            } else {
+                btn.innerHTML = '電気錠の詳細を見る <i style="display:inline-block; transition: 0.4s;">↓</i>';
+            }
+        }
+
+        function closeDetails(el) {
+            const drawer = document.getElementById('detail-drawer');
+            const btn = document.querySelector('.btn-toggle-details');
+            drawer.classList.remove('active');
+            btn.classList.remove('active');
+            btn.innerHTML = '電気錠の詳細を見る <i style="display:inline-block; transition: 0.4s;">↓</i>';
+            
+            // Scroll back to the original card
+            document.getElementById('services').scrollIntoView({ behavior: 'smooth', block: 'start' });
         }
 
         // --- Scroll Logic ---
