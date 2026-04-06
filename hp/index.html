@@ -179,32 +179,45 @@
             transition: 0.5s;
         }
 
-        /* --- Header Logo Shimmer (Single Ultra-Slow Flow) --- */
+        /* --- Header Logo Shimmer (Refined Sequential Flow) --- */
         .logo-box { display: flex; flex-direction: column; line-height: 1.1; overflow: hidden; position: relative; gap: 2px; }
         
-        /* Continuous Single Slow Beam */
-        .logo-box::after {
+        .logo-main, .logo-main-sub, .logo-sub {
+            position: relative;
+            overflow: hidden;
+            display: inline-block;
+            width: fit-content;
+        }
+
+        /* Shine Slits for each segment */
+        .logo-main::after, .logo-main-sub::after, .logo-sub::after {
             content: '';
             position: absolute;
             top: 0;
-            left: -200%;
-            width: 200%;
+            left: -150%;
+            width: 120px;
             height: 100%;
             background: linear-gradient(
-                110deg,
+                105deg,
                 transparent 30%,
-                rgba(255, 255, 255, 0.45) 50%,
+                rgba(255, 255, 255, 0.5) 45%,
+                rgba(255, 255, 255, 0.7) 50%,
+                rgba(255, 255, 255, 0.5) 55%,
                 transparent 70%
             );
             transform: skewX(-20deg);
-            animation: ultraSlowFlow 15s infinite linear;
-            pointer-events: none;
+            animation: sequentialFlow 8s infinite cubic-bezier(0.23, 1, 0.32, 1);
         }
 
-        @keyframes ultraSlowFlow {
-            0% { left: -200%; }
-            40% { left: 100%; } /* Slower, smoother flow */
-            100% { left: 100%; }
+        /* Sequential Baton-Pass Delays */
+        .logo-main::after { animation-delay: 0s; }
+        .logo-main-sub::after { animation-delay: 1.2s; }
+        .logo-sub::after { animation-delay: 2.4s; }
+
+        @keyframes sequentialFlow {
+            0% { left: -150%; }
+            30% { left: 150%; } /* Smooth passage over the text */
+            100% { left: 150%; }
         }
 
         .logo-main { font-family: 'Outfit', sans-serif; font-size: 1.8rem; font-weight: 700; color: #ffffff; letter-spacing: 2px; }
