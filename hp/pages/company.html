@@ -101,38 +101,40 @@
             transition: 0.5s;
         }
 
-        /* --- Header Logo Shimmer (Sequential Visual Correction) --- */
-        .logo-box-header { display: flex; flex-direction: column; line-height: 1.1; overflow: hidden; position: relative; gap: 4px; }
-        .logo-main-header, .logo-sub-header, .main-logo-text, .sub-logo-text {
-            -webkit-background-clip: text;
-            background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-size: 250% 100%;
-            animation: sequentialShimmer 6s infinite ease-out;
-            display: inline-block;
-            background-repeat: no-repeat;
+        /* --- Header Logo Shimmer (Sequential Slit - Screenshot Style) --- */
+        .logo-box-header { display: flex; flex-direction: column; line-height: 1.1; overflow: hidden; position: relative; gap: 0; }
+        
+        /* The Flowing Slit Overlay for the whole box */
+        .logo-box-header::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -150%;
+            width: 150%;
+            height: 100%;
+            background: linear-gradient(
+                105deg,
+                transparent 30%,
+                rgba(255, 255, 255, 0.5) 45%,
+                rgba(255, 255, 255, 0.7) 50%,
+                rgba(255, 255, 255, 0.5) 55%,
+                transparent 70%
+            );
+            transform: skewX(-20deg);
+            animation: flowingSlit 6s infinite cubic-bezier(0.23, 1, 0.32, 1);
+            pointer-events: none;
         }
 
-        /* High-Contrast Sequential Gradients */
-        .logo-main-header {
-            /* Dimmed white base to pure white shimmer */
-            background-image: linear-gradient(110deg, rgba(255,255,255,0.4) 30%, rgba(255,255,255,1.0) 50%, rgba(255,255,255,0.4) 70%);
-            animation-delay: 0s;
-        }
-        .logo-sub-header {
-            /* Dimmed gold base to white shimmer */
-            background-image: linear-gradient(110deg, rgba(197,160,89,0.5) 30%, rgba(255,255,255,0.95) 50%, rgba(197,160,89,0.5) 70%);
-            animation-delay: 1.2s;
+        @keyframes flowingSlit {
+            0% { left: -150%; }
+            40% { left: 150%; }
+            100% { left: 150%; }
         }
 
-        @keyframes sequentialShimmer {
-            0% { background-position: 250% 0; }
-            25% { background-position: -150% 0; }
-            100% { background-position: -150% 0; }
-        }
-
-        .logo-main-header { font-family: 'Outfit', sans-serif; font-size: 1.6rem; font-weight: 700; letter-spacing: 2px; }
-        .logo-sub-header { font-size: 0.6rem; color: var(--gold); letter-spacing: 4px; font-weight: 700; opacity: 0.6; text-transform: uppercase; }
+        /* Elements from Screenshot */
+        .logo-main-header { font-family: 'Outfit', sans-serif; font-size: 1.6rem; font-weight: 700; color: #ffffff; letter-spacing: 2px; }
+        .main-logo-text-header { font-size: 0.7rem; color: #ffffff; opacity: 0.9; font-weight: 400; letter-spacing: 1px; margin-left: 8px; }
+        .logo-sub-header { font-family: 'Crimson Text', serif; font-size: 0.6rem; color: #c5a059; letter-spacing: 5px; text-transform: uppercase; font-weight: 700; margin-top: 2px; }
 
         nav { display: flex; gap: 2.5rem; align-items: center; }
         nav a { text-decoration: none; color: var(--white); font-size: 0.85rem; font-weight: 700; letter-spacing: 1px; opacity: 0.7; transition: 0.3s; position: relative; }
@@ -534,10 +536,13 @@
 <body>
 
     <header id="header">
-        <a href="../index.html" class="logo-box-header" style="text-decoration: none;">
-            <span class="logo-main-header">CLH</span>
-            <span class="logo-sub-header">CarlockHomes</span>
-        </a>
+        <div class="logo-box-header">
+            <div style="display: flex; align-items: baseline;">
+                <span class="logo-main-header">CLH</span>
+                <span class="main-logo-text-header">CarlockHomes</span>
+            </div>
+            <span class="logo-sub-header">Precision & Trust</span>
+        </div>
         <nav>
             <a href="../index.html">TOP</a>
             <a href="company.html" style="color: var(--gold);">COMPANY</a>
@@ -577,14 +582,11 @@
     <div id="progress-bar"></div>
     <a href="#" class="back-to-top" id="backToTop">↑</a>
 
-    <!-- Slide 1: Cover -->
+    <!-- Slide 1: Cover (Fixed to Screenshot) -->
     <section>
-        <div class="reveal active">
-            <div class="main-logo-text">CLH</div>
-            <div class="sub-logo-text" style="letter-spacing: 12px; margin-top: 10px;">CARLOCKHOMES</div>
-            <div style="text-align: center; font-size: 1.2rem; letter-spacing: 0.5em; color: rgba(255,255,255,0.6); margin-top: 20px;">
-                PRECISION & TRUST
-            </div>
+        <div class="hero-branding reveal active">
+            <h1 class="hero-main-title">CarlockHomes</h1>
+            <div class="hero-precision">TRUSTED SECURITY PARTNER</div>
         </div>
         <div class="slide-footer">
             <span>© CarlockHomes Co., Ltd.</span>
