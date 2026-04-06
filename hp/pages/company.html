@@ -101,34 +101,48 @@
             transition: 0.5s;
         }
 
-        /* --- Header Logo Shimmer (Single Ultra-Slow Flow) --- */
+        /* --- Header Logo Shimmer (Refined Sequential Flow) --- */
         .logo-box-header { display: flex; flex-direction: column; line-height: 1.1; overflow: hidden; position: relative; gap: 2px; }
         
-        /* Continuous Single Slow Beam */
-        .logo-box-header::after {
+        .logo-main-header, .main-logo-text-header, .logo-sub-header {
+            position: relative;
+            overflow: hidden;
+            display: inline-block;
+            width: fit-content;
+        }
+
+        /* Shine Slits for each segment */
+        .logo-main-header::after, .main-logo-text-header::after, .logo-sub-header::after {
             content: '';
             position: absolute;
             top: 0;
-            left: -200%;
-            width: 200%;
+            left: -150%;
+            width: 120px;
             height: 100%;
             background: linear-gradient(
-                110deg,
+                105deg,
                 transparent 30%,
-                rgba(255, 255, 255, 0.45) 50%,
+                rgba(255, 255, 255, 0.5) 45%,
+                rgba(255, 255, 255, 0.7) 50%,
+                rgba(255, 255, 255, 0.5) 55%,
                 transparent 70%
             );
             transform: skewX(-20deg);
-            animation: ultraSlowFlow-header 15s infinite linear;
-            pointer-events: none;
+            animation: sequentialFlow-header 8s infinite cubic-bezier(0.23, 1, 0.32, 1);
         }
 
-        @keyframes ultraSlowFlow-header {
-            0% { left: -200%; }
-            40% { left: 100%; }
-            100% { left: 100%; }
+        /* Sequential Baton-Pass Delays */
+        .logo-main-header::after { animation-delay: 0s; }
+        .main-logo-text-header::after { animation-delay: 1.2s; }
+        .logo-sub-header::after { animation-delay: 2.4s; }
+
+        @keyframes sequentialFlow-header {
+            0% { left: -150%; }
+            30% { left: 150%; } /* Smooth passage over the text */
+            100% { left: 150%; }
         }
 
+        /* Elements from Screenshot */
         .logo-main-header { font-family: 'Outfit', sans-serif; font-size: 1.6rem; font-weight: 700; color: #ffffff; letter-spacing: 2px; }
         .main-logo-text-header { font-size: 0.7rem; color: #ffffff; opacity: 0.9; font-weight: 400; letter-spacing: 1px; margin-left: 8px; }
         .logo-sub-header { font-family: 'Crimson Text', serif; font-size: 0.6rem; color: #c5a059; letter-spacing: 5px; text-transform: uppercase; font-weight: 700; margin-top: 2px; }
@@ -308,6 +322,7 @@
             /* Static Metallic Gloss (No horizontal flow) */
             background: linear-gradient(to bottom, #ffffff 30%, #cccccc 80%);
             -webkit-background-clip: text;
+            background-clip: text;
             -webkit-text-fill-color: transparent;
             display: inline-block;
         }
@@ -326,6 +341,7 @@
             /* Static Gold Glossy Look */
             background: linear-gradient(to bottom, #e6d5b8 0%, #c5a059 50%, #8b6d3b 100%);
             -webkit-background-clip: text;
+            background-clip: text;
             -webkit-text-fill-color: transparent;
             display: inline-block;
         }
