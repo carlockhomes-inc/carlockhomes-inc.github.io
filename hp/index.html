@@ -183,36 +183,36 @@
         .logo-box { display: flex; flex-direction: column; line-height: 1.1; overflow: hidden; position: relative; }
         
         .logo-main, .logo-main-sub, .logo-sub {
-            background: linear-gradient(
-                110deg,
-                rgba(255, 255, 255, 0) 35%,
-                rgba(255, 255, 255, 0.95) 50%,
-                rgba(255, 255, 255, 0) 65%
-            );
-            background-size: 250% 100%;
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            animation: sequentialShimmer 6s infinite ease-out; /* Slightly longer cycle for sequence */
+            background-size: 250% 100%;
+            animation: sequentialShimmer 6s infinite ease-out;
+            display: inline-block;
         }
 
-        /* Sequential Animation Delay for a 'Baton-Pass' effect */
-        .logo-main { animation-delay: 0s; -webkit-text-fill-color: white; }
-        .logo-main-sub { animation-delay: 0.8s; -webkit-text-fill-color: var(--gold); }
-        .logo-sub { animation-delay: 1.6s; -webkit-text-fill-color: var(--gold); }
+        /* Sequential Colors and Gradients */
+        .logo-main {
+            background-image: linear-gradient(110deg, #ffffff 35%, rgba(255,255,255,0.4) 45%, #ffffff 50%, rgba(255,255,255,0.4) 55%, #ffffff 65%);
+            animation-delay: 0s;
+        }
+        .logo-main-sub {
+            background-image: linear-gradient(110deg, #c5a059 35%, #ffffff 50%, #c5a059 65%);
+            animation-delay: 1s;
+        }
+        .logo-sub {
+            background-image: linear-gradient(110deg, #c5a059 35%, #ffffff 50%, #c5a059 65%);
+            animation-delay: 2s;
+        }
 
         @keyframes sequentialShimmer {
-            0% { background-position: 200% 0; }
-            20% { background-position: -150% 0; }
+            0% { background-position: 250% 0; }
+            30% { background-position: -150% 0; }
             100% { background-position: -150% 0; }
         }
 
         .logo-main { font-family: 'Outfit', sans-serif; font-size: 1.8rem; font-weight: 700; letter-spacing: 2px; }
-        .logo-main-sub { font-size: 0.7rem; color: var(--gold); opacity: 0.6; font-weight: 700; letter-spacing: 1px; }
-        .logo-sub { font-family: 'Crimson Text', serif; font-size: 0.8rem; letter-spacing: 4px; text-transform: uppercase; }
-        
-        /* Specific colors for text shimmer base when NOT shimmering */
-        .logo-main { -webkit-text-fill-color: white; }
-        .logo-sub { -webkit-text-fill-color: var(--gold); }
+        .logo-main-sub { font-size: 0.7rem; font-weight: 700; letter-spacing: 1px; }
+        .logo-sub { font-family: 'Crimson Text', serif; font-size: 0.8rem; letter-spacing: 4px; text-transform: uppercase; font-weight: 600; }
         
         /* Hover effect to stop shimmer if desired, but keeping it elegant for now */
 
