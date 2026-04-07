@@ -414,6 +414,24 @@
         .footer-logo { font-family: 'Outfit', sans-serif; font-size: 2.5rem; color: var(--brand-gold-pale); margin-bottom: 40px; font-weight: 700; }
         .copyright { margin-top: 80px; font-size: 0.8rem; opacity: 0.2; letter-spacing: 3px; }
 
+        /* Nav Contact Button (Ghost Style) */
+        .btn-nav-contact {
+            border: 1px solid var(--brand-gold) !important;
+            padding: 8px 20px !important;
+            border-radius: 4px;
+            color: var(--brand-gold) !important;
+            transition: 0.3s !important;
+            margin-left: 15px;
+            text-decoration: none !important;
+            font-family: 'Outfit', sans-serif;
+            font-size: 0.85rem;
+            letter-spacing: 2px;
+        }
+        .btn-nav-contact:hover {
+            background: var(--brand-gold);
+            color: #1a1a1a !important;
+        }
+
         @media (max-width: 900px) {
             nav { display: none; }
             .hero { padding: 160px 8% 80px; }
@@ -438,6 +456,8 @@
             <a href="../index.html">TOP</a>
             <a href="company.html">COMPANY</a>
             <a href="recruitment.html" style="color: var(--brand-gold);">RECRUIT</a>
+            <a href="https://docs.google.com/forms/d/e/1FAIpQLSc_LmT79L4sRqRoRngPX62I5F1kGEbQP72rBYkJkikGSVT0bQ/viewform" 
+               target="_blank" class="btn-nav-contact">CONTACT</a>
         </nav>
         <div class="menu-btn" onclick="toggleMobileMenu()">
             <span></span>
@@ -448,6 +468,8 @@
             <a href="../index.html" onclick="toggleMobileMenu()">TOP</a>
             <a href="company.html" onclick="toggleMobileMenu()">COMPANY</a>
             <a href="recruitment.html" onclick="toggleMobileMenu()">RECRUIT</a>
+            <a href="https://docs.google.com/forms/d/e/1FAIpQLSc_LmT79L4sRqRoRngPX62I5F1kGEbQP72rBYkJkikGSVT0bQ/viewform" 
+               target="_blank" onclick="toggleMobileMenu()" class="btn-nav-contact">CONTACT</a>
         </div>
     </header>
 

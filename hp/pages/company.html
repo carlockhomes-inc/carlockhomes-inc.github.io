@@ -1026,6 +1026,24 @@
                 margin-left: -5%;
             }
         }
+
+        /* Nav Contact Button (Ghost Style) */
+        .btn-nav-contact {
+            border: 1px solid var(--gold) !important;
+            padding: 8px 20px !important;
+            border-radius: 4px;
+            color: var(--gold) !important;
+            transition: 0.3s !important;
+            margin-left: 15px;
+            text-decoration: none !important;
+            font-family: 'Outfit', sans-serif;
+            font-size: 0.85rem;
+            letter-spacing: 2px;
+        }
+        .btn-nav-contact:hover {
+            background: var(--gold);
+            color: #000 !important;
+        }
     </style>
 </head>
 
@@ -1043,6 +1061,8 @@
             <a href="../index.html">TOP</a>
             <a href="company.html" style="color: var(--gold);">COMPANY</a>
             <a href="recruitment.html">RECRUIT</a>
+            <a href="https://docs.google.com/forms/d/e/1FAIpQLSfQdOJRgQ3qhmnS-wAnycbUptNVp2VWEPQPdxnI3WDpsn7fgg/viewform"
+                class="btn-nav-contact" target="_blank">CONTACT</a>
         </nav>
         <div class="menu-btn" onclick="toggleMobileMenu()">
             <span></span>
@@ -1053,6 +1073,8 @@
             <a href="../index.html" onclick="toggleMobileMenu()">TOP</a>
             <a href="company.html" onclick="toggleMobileMenu()">COMPANY</a>
             <a href="recruitment.html" onclick="toggleMobileMenu()">RECRUIT</a>
+            <a href="https://docs.google.com/forms/d/e/1FAIpQLSfQdOJRgQ3qhmnS-wAnycbUptNVp2VWEPQPdxnI3WDpsn7fgg/viewform"
+                  target="_blank" onclick="toggleMobileMenu()" class="btn-nav-contact">CONTACT</a>
         </div>
     </header>
 
