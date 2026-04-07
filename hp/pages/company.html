@@ -699,65 +699,99 @@
             }
         }
 
-        /* --- Print & PDF Optimization (Simplified & Hardened) --- */
+        /* --- Print & PDF Optimization (Ultra-Stable Layout) --- */
         @media print {
-            /* Reset basics */
+            /* General Reset */
             * { transition: none !important; animation: none !important; box-shadow: none !important; text-shadow: none !important; }
             body { background: #ffffff !important; color: #000000 !important; margin: 0 !important; padding: 0 !important; }
             
-            /* Hide UI & Dynamic interactive elements */
+            /* Hide non-essential UI */
             header, footer, .back-to-top, #progress-bar, .menu-btn, .mobile-nav, 
             .btn-print-box, #detail-drawer, .btn-toggle-details, .close-drawer-bottom, iframe { 
                 display: none !important; 
             }
             
-            /* Section Layout for A4 */
+            /* Standard A4 Flow */
             section { 
                 display: block !important;
                 background: none !important; 
                 height: auto !important; 
-                min-height: 290mm !important; /* Force A4 Heightish */
-                padding: 40mm 20mm !important; 
+                padding: 30mm 15mm !important; 
                 page-break-after: always !important; 
                 opacity: 1 !important;
                 visibility: visible !important;
+                border: none !important;
             }
-            .hero { background: none !important; }
+            .hero { background: none !important; min-height: 250mm !important; }
             .hero::before { display: none !important; }
 
-            /* Force visibility for all content */
-            .reveal, .card-container, .card, .grid-container, .grid-item { 
-                opacity: 1 !important; 
-                transform: none !important; 
-                visibility: visible !important;
+            /* Force Branding elements to Stack Vertically */
+            .hero-branding {
                 display: block !important;
+                text-align: center !important;
+                padding-top: 50mm !important;
+            }
+            .hero-branding > div, .hero-branding > h1, .hero-branding > h2, .hero-branding > p {
+                display: block !important;
+                width: 100% !important;
+                margin: 0 auto 15pt !important;
+                text-align: center !important;
+                position: static !important;
             }
 
-            /* Content Styling (Solid Black) */
+            /* Content Visibility (Solid Black) */
             h1, h2, h3, h4, p, span, div, td, th {
                 color: #000000 !important;
                 -webkit-text-fill-color: #000000 !important;
                 background: none !important;
                 opacity: 1 !important;
+                visibility: visible !important;
             }
 
-            .section-title { font-size: 24pt !important; margin-bottom: 20pt !important; text-align: center !important; }
+            .section-title { 
+                font-size: 28pt !important; 
+                margin-bottom: 20pt !important; 
+                color: #000 !important; 
+                text-align: center !important;
+                border-bottom: 1px solid #000 !important;
+                padding-bottom: 10pt !important;
+            }
             .section-subtitle { font-size: 14pt !important; margin-bottom: 30pt !important; text-align: center !important; }
             
-            .card-container { display: flex !important; flex-wrap: wrap !important; gap: 10mm !important; }
+            /* Card Layout for Print */
+            .card-container { display: block !important; }
             .card { 
-                border: 1px solid #000000 !important; 
-                padding: 15pt !important; 
-                margin-bottom: 10pt !important;
+                display: block !important;
+                border: 1px solid #cccccc !important; 
+                padding: 20pt !important; 
+                margin-bottom: 20pt !important;
                 width: 100% !important;
+                background: #fcfcfc !important;
                 page-break-inside: avoid !important;
             }
             
-            .grid-container { display: grid !important; grid-template-columns: 1fr 1fr 1fr !important; gap: 5pt !important; }
-            .grid-item { border: 1px solid #777777 !important; padding: 5pt !important; font-size: 9pt !important; }
+            /* Grid Layout for Partners */
+            .grid-container { 
+                display: block !important; 
+                column-count: 2 !important; /* 2 columns is safer for list visibility */
+                column-gap: 20pt !important;
+            }
+            .grid-item { 
+                display: block !important;
+                border-bottom: 1px solid #eeeeee !important; 
+                padding: 6pt !important; 
+                font-size: 10pt !important; 
+                margin-bottom: 5pt !important;
+            }
             
-            .profile-table { width: 100% !important; border-top: 1px solid #000 !important; }
-            .profile-table td { border-bottom: 1px solid #ccc !important; padding: 10pt !important; font-size: 10pt !important; }
+            .profile-table { width: 100% !important; border-top: 2px solid #000 !important; }
+            .profile-table td { border-bottom: 1px solid #ccc !important; padding: 12pt !important; font-size: 11pt !important; }
+            
+            .reveal { 
+                opacity: 1 !important; 
+                transform: none !important; 
+                visibility: visible !important;
+            }
         }
 
         .btn-print-box {
