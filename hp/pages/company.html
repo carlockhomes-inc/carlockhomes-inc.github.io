@@ -1039,10 +1039,40 @@
             font-family: 'Outfit', sans-serif;
             font-size: 0.85rem;
             letter-spacing: 2px;
+            position: relative;
         }
         .btn-nav-contact:hover {
             background: var(--gold);
             color: #000 !important;
+        }
+
+        /* Tooltip style */
+        .btn-nav-contact::after {
+            content: attr(data-tooltip);
+            position: absolute;
+            top: calc(100% + 15px);
+            right: 0;
+            width: 240px;
+            background: rgba(0, 18, 35, 0.95);
+            color: #fff;
+            font-size: 0.75rem;
+            padding: 12px 15px;
+            border-radius: 4px;
+            border: 1px solid var(--gold);
+            opacity: 0;
+            visibility: hidden;
+            transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            pointer-events: none;
+            line-height: 1.5;
+            text-align: left;
+            letter-spacing: 0;
+            z-index: 10000;
+            text-transform: none;
+        }
+        .btn-nav-contact:hover::after {
+            opacity: 1;
+            visibility: visible;
+            top: calc(100% + 10px);
         }
     </style>
 </head>
@@ -1062,7 +1092,8 @@
             <a href="company.html" style="color: var(--gold);">COMPANY</a>
             <a href="recruitment.html">RECRUIT</a>
             <a href="https://docs.google.com/forms/d/e/1FAIpQLSfQdOJRgQ3qhmnS-wAnycbUptNVp2VWEPQPdxnI3WDpsn7fgg/viewform"
-                class="btn-nav-contact" target="_blank">CONTACT</a>
+                class="btn-nav-contact" target="_blank" 
+                data-tooltip="※営業目的のお問い合わせなど、内容によってはお返事を差し上げられない場合がございます。">CONTACT</a>
         </nav>
         <div class="menu-btn" onclick="toggleMobileMenu()">
             <span></span>
