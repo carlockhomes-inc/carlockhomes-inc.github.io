@@ -674,6 +674,29 @@
             .menu-btn {
                 display: flex;
             }
+
+            /* --- Mobile Hero Branding Fix --- */
+            .hero-clh { 
+                font-size: clamp(1.8rem, 8vw, 2.8rem) !important; 
+                letter-spacing: 4px !important; 
+                margin-bottom: 10px !important;
+            }
+            .hero-main-title { 
+                font-size: clamp(2rem, 10vw, 3.2rem) !important; 
+            }
+            .hero-precision { 
+                font-size: 0.8rem !important; 
+                letter-spacing: 3px !important; 
+            }
+            .hero-branding h2 {
+                font-size: 0.8rem !important;
+                letter-spacing: 3px !important;
+            }
+            .hero-branding p {
+                font-size: 1rem !important;
+                letter-spacing: 2px !important;
+                line-height: 1.5 !important;
+            }
         }
 
         /* --- Print & PDF Optimization (Simplified & Hardened) --- */
@@ -1217,13 +1240,6 @@
             <span>05 / 05</span>
         </div>
     </section>
-
-    <div class="btn-print-box">
-        <button class="btn-print" onclick="window.print()">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9V2h12v7"></path><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"></path><rect x="6" y="14" width="12" height="8"></rect></svg>
-            PDF/PRINT資料出力
-        </button>
-    </div>
 
     <script>
         // --- Scroll Reveal Animation ---
