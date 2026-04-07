@@ -676,67 +676,65 @@
             }
         }
 
-        /* --- Print & PDF Optimization --- */
+        /* --- Print & PDF Optimization (Simplified & Hardened) --- */
         @media print {
+            /* Reset basics */
+            * { transition: none !important; animation: none !important; box-shadow: none !important; text-shadow: none !important; }
             body { background: #ffffff !important; color: #000000 !important; margin: 0 !important; padding: 0 !important; }
-            header, footer, .back-to-top, #progress-bar, .menu-btn, .mobile-nav, .btn-print-box { display: none !important; }
-            #detail-drawer, .btn-toggle-details, .close-drawer-bottom { display: none !important; height: 0 !important; overflow: hidden !important; }
             
+            /* Hide UI & Dynamic interactive elements */
+            header, footer, .back-to-top, #progress-bar, .menu-btn, .mobile-nav, 
+            .btn-print-box, #detail-drawer, .btn-toggle-details, .close-drawer-bottom, iframe { 
+                display: none !important; 
+            }
+            
+            /* Section Layout for A4 */
             section { 
+                display: block !important;
                 background: none !important; 
-                height: 98vh !important; /* Slightly less than 100 to avoid unintended page spills */
-                min-height: 98vh !important;
-                padding: 80px 60px !important; /* Increase top padding to prevent title clipping */
+                height: auto !important; 
+                min-height: 290mm !important; /* Force A4 Heightish */
+                padding: 40mm 20mm !important; 
                 page-break-after: always !important; 
-                page-break-inside: avoid !important;
-                position: relative !important; 
                 opacity: 1 !important;
                 visibility: visible !important;
-                display: flex !important;
-                flex-direction: column !important;
-                justify-content: center !important;
-                align-items: center !important;
-                text-align: center !important;
-                box-sizing: border-box !important;
             }
-            .hero { background: #ffffff !important; }
+            .hero { background: none !important; }
             .hero::before { display: none !important; }
 
-            /* Fix Transparent/Gradient Text for Printing */
-            .hero-clh, .hero-main-title, .hero-precision, .section-title, .section-subtitle, 
-            .grid-item, .card h3, .card p, .card-icon, .label, .profile-table td { 
-                color: #000000 !important; 
-                -webkit-text-fill-color: #000000 !important;
-                background: none !important;
-                -webkit-print-color-adjust: exact; 
-                print-color-adjust: exact;
-                text-shadow: none !important;
-                opacity: 1 !important;
-                animation: none !important;
-                filter: none !important;
-            }
-            .card { border: 1px solid #eeeeee !important; background: none !important; }
-            .grid-item { border: 1px solid #dddddd !important; background: none !important; }
-            .grid-container { 
-                grid-template-columns: repeat(3, 1fr) !important; 
-                gap: 8px !important; 
-            }
-            .grid-item { 
-                padding: 10px !important; 
-                font-size: 0.75rem !important; 
-                line-height: 1.2 !important;
-            }
-            .section-title { font-size: 1.8rem !important; margin-bottom: 20px !important; }
-            .section-subtitle { font-size: 1rem !important; margin-bottom: 20px !important; }
-            .profile-table { font-size: 0.8rem !important; }
-            .profile-table td { padding: 8px !important; }
-            
-            .reveal { 
+            /* Force visibility for all content */
+            .reveal, .card-container, .card, .grid-container, .grid-item { 
                 opacity: 1 !important; 
                 transform: none !important; 
                 visibility: visible !important;
-                transition: none !important;
+                display: block !important;
             }
+
+            /* Content Styling (Solid Black) */
+            h1, h2, h3, h4, p, span, div, td, th {
+                color: #000000 !important;
+                -webkit-text-fill-color: #000000 !important;
+                background: none !important;
+                opacity: 1 !important;
+            }
+
+            .section-title { font-size: 24pt !important; margin-bottom: 20pt !important; text-align: center !important; }
+            .section-subtitle { font-size: 14pt !important; margin-bottom: 30pt !important; text-align: center !important; }
+            
+            .card-container { display: flex !important; flex-wrap: wrap !important; gap: 10mm !important; }
+            .card { 
+                border: 1px solid #000000 !important; 
+                padding: 15pt !important; 
+                margin-bottom: 10pt !important;
+                width: 100% !important;
+                page-break-inside: avoid !important;
+            }
+            
+            .grid-container { display: grid !important; grid-template-columns: 1fr 1fr 1fr !important; gap: 5pt !important; }
+            .grid-item { border: 1px solid #777777 !important; padding: 5pt !important; font-size: 9pt !important; }
+            
+            .profile-table { width: 100% !important; border-top: 1px solid #000 !important; }
+            .profile-table td { border-bottom: 1px solid #ccc !important; padding: 10pt !important; font-size: 10pt !important; }
         }
 
         .btn-print-box {
