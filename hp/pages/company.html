@@ -678,15 +678,15 @@
 
         /* --- Print & PDF Optimization --- */
         @media print {
-            body { background: #ffffff !important; color: #000000 !important; }
+            body { background: #ffffff !important; color: #000000 !important; margin: 0 !important; padding: 0 !important; }
             header, footer, .back-to-top, #progress-bar, .menu-btn, .mobile-nav, .btn-print-box { display: none !important; }
             #detail-drawer, .btn-toggle-details, .close-drawer-bottom { display: none !important; height: 0 !important; overflow: hidden !important; }
             
             section { 
                 background: none !important; 
-                height: 100vh !important; /* Force single slide height */
-                min-height: 100vh !important;
-                padding: 40px !important; 
+                height: 98vh !important; /* Slightly less than 100 to avoid unintended page spills */
+                min-height: 98vh !important;
+                padding: 80px 60px !important; /* Increase top padding to prevent title clipping */
                 page-break-after: always !important; 
                 page-break-inside: avoid !important;
                 position: relative !important; 
@@ -695,6 +695,9 @@
                 display: flex !important;
                 flex-direction: column !important;
                 justify-content: center !important;
+                align-items: center !important;
+                text-align: center !important;
+                box-sizing: border-box !important;
             }
             .hero { background: #ffffff !important; }
             .hero::before { display: none !important; }
