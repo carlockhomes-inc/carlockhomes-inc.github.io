@@ -703,7 +703,8 @@
             .hero::before { display: none !important; }
 
             /* Fix Transparent/Gradient Text for Printing */
-            .hero-clh, .hero-main-title, .hero-precision, .section-title, .section-subtitle, .grid-item, .label, .profile-table td { 
+            .hero-clh, .hero-main-title, .hero-precision, .section-title, .section-subtitle, 
+            .grid-item, .card h3, .card p, .card-icon, .label, .profile-table td { 
                 color: #000000 !important; 
                 -webkit-text-fill-color: #000000 !important;
                 background: none !important;
@@ -714,6 +715,7 @@
                 animation: none !important;
                 filter: none !important;
             }
+            .card { border: 1px solid #eeeeee !important; background: none !important; }
             .grid-item { border: 1px solid #dddddd !important; background: none !important; }
             .grid-container { 
                 grid-template-columns: repeat(3, 1fr) !important; 
@@ -1008,16 +1010,21 @@
 
     <!-- Slide 1: Cover (Fixed to Screenshot) -->
     <section class="hero company-hero">
-        <div class="hero-branding reveal active">
+        <div class="hero-branding reveal active" style="gap: 5px;">
             <div
-                style="font-family: 'Outfit', sans-serif; font-size: clamp(0.9rem, 3vw, 1.3rem); letter-spacing: 0.6em; color: var(--gold); margin-bottom: 35px; text-transform: uppercase; font-weight: 700;">
-                Company Profile</div>
-            <div class="hero-clh">CLH</div>
-            <h1 class="hero-main-title">CarlockHomes</h1>
-            <div class="hero-precision">PRECISION & TRUST</div>
+                style="font-family: 'Outfit', sans-serif; font-size: clamp(0.9rem, 3vw, 1.2rem); letter-spacing: 0.8em; color: var(--gold); margin-bottom: 20px; text-transform: uppercase; font-weight: 700; opacity: 0.6;">
+                Corporate Identity</div>
+            <div class="hero-clh" style="font-size: 3.5rem; letter-spacing: 20px; margin-bottom: 0;">CLH</div>
+            <h1 class="hero-main-title" style="margin-bottom: 10px;">CarlockHomes</h1>
+            <div class="hero-precision" style="margin-bottom: 20px;">PRECISION & TRUST</div>
+            
+            <div style="width: 40px; height: 1px; background: var(--gold); margin: 20px auto; opacity: 0.5;"></div>
+            
+            <h2 style="font-family: 'Outfit', sans-serif; font-size: 1.1rem; letter-spacing: 6px; color: var(--gold); font-weight: 300;">COMPANY PROFILE</h2>
+            
             <p
-                style="font-size: clamp(0.9rem, 2.5vw, 1.4rem); margin-top: 40px; color: rgba(255,255,255,0.7); letter-spacing: 4px; font-weight: 300;">
-                カギの先にある、お客様の「日常」を守る。</p>
+                style="font-size: clamp(1rem, 2.8vw, 1.5rem); margin-top: 40px; color: rgba(255,255,255,0.9); letter-spacing: 5px; font-weight: 300; line-height: 1.8;">
+                カギの先にある、<br>お客様の「日常」を守る。</p>
         </div>
         <div class="slide-footer">
             <span>© CarlockHomes Co., Ltd.</span>
