@@ -1,10 +1,13 @@
 <!DOCTYPE html>
 <html lang="ja">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>会社案内 | カーロックホームズ株式会社</title>
-    <link href="https://fonts.googleapis.com/css2?family=Crimson+Text:wght@700&family=Outfit:wght@700&family=Zen+Kaku+Gothic+New:wght@400;700&display=swap" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Crimson+Text:wght@700&family=Outfit:wght@700&family=Zen+Kaku+Gothic+New:wght@400;700&display=swap"
+        rel="stylesheet">
     <style>
         :root {
             --navy: #001a33;
@@ -14,7 +17,11 @@
             --glass-border: rgba(255, 255, 255, 0.1);
         }
 
-        * { margin: 0; padding: 0; box-sizing: border-box; }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
         body {
             font-family: 'Zen Kaku Gothic New', sans-serif;
@@ -31,6 +38,7 @@
             transform: translateY(30px);
             transition: all 1.2s cubic-bezier(0.22, 1, 0.36, 1);
         }
+
         .reveal.active {
             opacity: 1;
             transform: translateY(0);
@@ -69,20 +77,34 @@
             transition: 0.4s;
             backdrop-filter: blur(10px);
         }
+
         .back-to-top.show {
             opacity: 1;
             visibility: visible;
         }
+
         .back-to-top:hover {
             background: var(--gold);
             color: var(--navy);
             transform: translateY(-5px);
             box-shadow: 0 10px 20px rgba(197, 160, 89, 0.3);
         }
-        @keyframes shine { 
-            0% { left: -150%; top: -100%; } 
-            25% { left: 250%; top: 100%; } 
-            100% { left: 250%; top: 100%; } 
+
+        @keyframes shine {
+            0% {
+                left: -150%;
+                top: -100%;
+            }
+
+            25% {
+                left: 250%;
+                top: 100%;
+            }
+
+            100% {
+                left: 250%;
+                top: 100%;
+            }
         }
 
         /* --- Header --- */
@@ -102,9 +124,18 @@
         }
 
         /* --- Header Logo Shimmer (Refined Sequential Flow) --- */
-        .logo-box-header { display: flex; flex-direction: column; line-height: 1.1; overflow: hidden; position: relative; gap: 2px; }
-        
-        .logo-main-header, .main-logo-text-header, .logo-sub-header {
+        .logo-box-header {
+            display: flex;
+            flex-direction: column;
+            line-height: 1.1;
+            overflow: hidden;
+            position: relative;
+            gap: 2px;
+        }
+
+        .logo-main-header,
+        .main-logo-text-header,
+        .logo-sub-header {
             position: relative;
             overflow: hidden;
             display: inline-block;
@@ -112,52 +143,124 @@
         }
 
         /* Shine Slits for each segment */
-        .logo-main-header::after, .main-logo-text-header::after, .logo-sub-header::after {
+        .logo-main-header::after,
+        .main-logo-text-header::after,
+        .logo-sub-header::after {
             content: '';
             position: absolute;
             top: 0;
             left: -150%;
             width: 120px;
             height: 100%;
-            background: linear-gradient(
-                105deg,
-                transparent 30%,
-                rgba(255, 255, 255, 0.5) 45%,
-                rgba(255, 255, 255, 0.7) 50%,
-                rgba(255, 255, 255, 0.5) 55%,
-                transparent 70%
-            );
+            background: linear-gradient(105deg,
+                    transparent 30%,
+                    rgba(255, 255, 255, 0.5) 45%,
+                    rgba(255, 255, 255, 0.7) 50%,
+                    rgba(255, 255, 255, 0.5) 55%,
+                    transparent 70%);
             transform: skewX(-20deg);
             animation: sequentialFlow-header 8s infinite cubic-bezier(0.23, 1, 0.32, 1);
         }
 
         /* Sequential Baton-Pass Delays */
-        .logo-main-header::after { animation-delay: 0s; }
-        .main-logo-text-header::after { animation-delay: 1.2s; }
-        .logo-sub-header::after { animation-delay: 2.4s; }
+        .logo-main-header::after {
+            animation-delay: 0s;
+        }
+
+        .main-logo-text-header::after {
+            animation-delay: 1.2s;
+        }
+
+        .logo-sub-header::after {
+            animation-delay: 2.4s;
+        }
 
         @keyframes sequentialFlow-header {
-            0% { left: -150%; }
-            30% { left: 150%; } /* Smooth passage over the text */
-            100% { left: 150%; }
+            0% {
+                left: -150%;
+            }
+
+            30% {
+                left: 150%;
+            }
+
+            /* Smooth passage over the text */
+            100% {
+                left: 150%;
+            }
         }
 
         /* Elements from Screenshot */
-        .logo-main-header { font-family: 'Outfit', sans-serif; font-size: 1.6rem; font-weight: 700; color: #ffffff; letter-spacing: 2px; }
-        .main-logo-text-header { font-size: 0.7rem; color: #ffffff; opacity: 0.9; font-weight: 400; letter-spacing: 1px; margin-left: 8px; }
-        .logo-sub-header { font-family: 'Crimson Text', serif; font-size: 0.6rem; color: #c5a059; letter-spacing: 5px; text-transform: uppercase; font-weight: 700; margin-top: 2px; }
+        .logo-main-header {
+            font-family: 'Outfit', sans-serif;
+            font-size: 1.6rem;
+            font-weight: 700;
+            color: #ffffff;
+            letter-spacing: 2px;
+        }
 
-        nav { display: flex; gap: 2.5rem; align-items: center; }
-        nav a { text-decoration: none; color: var(--white); font-size: 0.85rem; font-weight: 700; letter-spacing: 1px; opacity: 0.7; transition: 0.3s; position: relative; }
-        nav a::after { content: ''; position: absolute; width: 0; height: 1px; bottom: -5px; left: 0; background: var(--gold); transition: 0.3s; }
-        nav a:hover { opacity: 1; color: var(--gold); }
-        nav a:hover::after { width: 100%; }
+        .main-logo-text-header {
+            font-size: 0.7rem;
+            color: #ffffff;
+            opacity: 0.9;
+            font-weight: 400;
+            letter-spacing: 1px;
+            margin-left: 8px;
+        }
+
+        .logo-sub-header {
+            font-family: 'Crimson Text', serif;
+            font-size: 0.6rem;
+            color: #c5a059;
+            letter-spacing: 5px;
+            text-transform: uppercase;
+            font-weight: 700;
+            margin-top: 2px;
+        }
+
+        nav {
+            display: flex;
+            gap: 2.5rem;
+            align-items: center;
+        }
+
+        nav a {
+            text-decoration: none;
+            color: var(--white);
+            font-size: 0.85rem;
+            font-weight: 700;
+            letter-spacing: 1px;
+            opacity: 0.7;
+            transition: 0.3s;
+            position: relative;
+        }
+
+        nav a::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 1px;
+            bottom: -5px;
+            left: 0;
+            background: var(--gold);
+            transition: 0.3s;
+        }
+
+        nav a:hover {
+            opacity: 1;
+            color: var(--gold);
+        }
+
+        nav a:hover::after {
+            width: 100%;
+        }
 
         /* Dropdown Styles */
         .dropdown {
             position: relative;
             display: inline-block;
         }
+
         .dropdown-content {
             display: none;
             position: absolute;
@@ -166,7 +269,7 @@
             transform: translateX(-50%);
             background: rgba(0, 26, 51, 0.95);
             min-width: 180px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
             border: 1px solid rgba(197, 160, 89, 0.2);
             border-radius: 4px;
             z-index: 1001;
@@ -174,6 +277,7 @@
             overflow: hidden;
             animation: fadeIn 0.3s ease;
         }
+
         /* Bridge the gap for hover */
         .dropdown::after {
             content: '';
@@ -183,7 +287,17 @@
             width: 100%;
             height: 20px;
         }
-        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+
+            to {
+                opacity: 1;
+            }
+        }
+
         .dropdown-content::before {
             content: '';
             position: absolute;
@@ -194,6 +308,7 @@
             border-style: solid;
             border-color: transparent transparent rgba(197, 160, 89, 0.2) transparent;
         }
+
         .dropdown-content a {
             color: var(--white);
             padding: 15px 20px;
@@ -203,30 +318,40 @@
             text-align: center;
             opacity: 0.8;
             transition: 0.3s;
-            border-bottom: 1px solid rgba(255,255,255,0.05);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
         }
-        .dropdown-content a:last-child { border-bottom: none; }
+
+        .dropdown-content a:last-child {
+            border-bottom: none;
+        }
+
         .dropdown-content a:hover {
             background: rgba(197, 160, 89, 0.1);
             color: var(--gold);
             opacity: 1;
         }
+
         .dropdown:hover .dropdown-content {
             display: block;
         }
 
-        .btn-cta-header { 
-            background: transparent; 
-            color: var(--gold); 
-            border: 1px solid var(--gold); 
-            padding: 0.6rem 1.5rem; 
-            border-radius: 4px; 
-            font-weight: 700; 
-            text-decoration: none; 
+        .btn-cta-header {
+            background: transparent;
+            color: var(--gold);
+            border: 1px solid var(--gold);
+            padding: 0.6rem 1.5rem;
+            border-radius: 4px;
+            font-weight: 700;
+            text-decoration: none;
             transition: 0.4s;
             font-size: 0.8rem;
         }
-        .btn-cta-header:hover { background: var(--gold); color: var(--navy); transform: scale(1.05); }
+
+        .btn-cta-header:hover {
+            background: var(--gold);
+            color: var(--navy);
+            transform: scale(1.05);
+        }
 
         /* --- Mobile Navigation --- */
         .menu-btn {
@@ -237,6 +362,7 @@
             z-index: 2001;
             padding: 10px;
         }
+
         .menu-btn span {
             display: block;
             width: 30px;
@@ -244,14 +370,25 @@
             background: var(--gold);
             transition: 0.4s;
         }
-        .menu-btn.active span:nth-child(1) { transform: translateY(8px) rotate(45deg); }
-        .menu-btn.active span:nth-child(2) { opacity: 0; }
-        .menu-btn.active span:nth-child(3) { transform: translateY(-8px) rotate(-45deg); }
+
+        .menu-btn.active span:nth-child(1) {
+            transform: translateY(8px) rotate(45deg);
+        }
+
+        .menu-btn.active span:nth-child(2) {
+            opacity: 0;
+        }
+
+        .menu-btn.active span:nth-child(3) {
+            transform: translateY(-8px) rotate(-45deg);
+        }
 
         .mobile-nav {
             position: fixed;
-            top: 0; right: -100%;
-            width: 100%; height: 100vh;
+            top: 0;
+            right: -100%;
+            width: 100%;
+            height: 100vh;
             background: rgba(0, 18, 35, 0.98);
             backdrop-filter: blur(20px);
             z-index: 2000;
@@ -262,7 +399,11 @@
             gap: 2.5rem;
             transition: 0.5s cubic-bezier(0.22, 1, 0.36, 1);
         }
-        .mobile-nav.active { right: 0; }
+
+        .mobile-nav.active {
+            right: 0;
+        }
+
         .mobile-nav a {
             font-size: 1.5rem;
             color: var(--white);
@@ -272,12 +413,20 @@
             opacity: 0.8;
             transition: 0.3s;
         }
-        .mobile-nav a:hover { color: var(--gold); opacity: 1; }
-        .mobile-nav .dropdown-mobile { text-align: center; }
-        .mobile-nav .dropdown-sub { 
-            margin-top: 1rem; 
-            display: flex; 
-            flex-direction: column; 
+
+        .mobile-nav a:hover {
+            color: var(--gold);
+            opacity: 1;
+        }
+
+        .mobile-nav .dropdown-mobile {
+            text-align: center;
+        }
+
+        .mobile-nav .dropdown-sub {
+            margin-top: 1rem;
+            display: flex;
+            flex-direction: column;
             gap: 1rem;
             font-size: 1rem;
             border-left: 1px solid var(--gold);
@@ -324,29 +473,29 @@
             z-index: 2;
         }
 
-        .hero-clh { 
-            font-family: 'Outfit', sans-serif; 
-            font-size: 2.2rem; 
-            font-weight: 700; 
+        .hero-clh {
+            font-family: 'Outfit', sans-serif;
+            font-size: 2.2rem;
+            font-weight: 700;
             letter-spacing: 12px;
             opacity: 0;
             margin-bottom: 5px;
             animation: slideInTop 1.5s cubic-bezier(0.22, 1, 0.36, 1) forwards 0.3s;
-            
+
             /* Brilliant High-Contrast Gold - Mirror Refine */
             background: linear-gradient(to bottom, #ffffff 0%, #fff6e5 20%, #e6d5b8 45%, #c5a059 55%, #8b6d3b 100%);
             -webkit-background-clip: text;
             background-clip: text;
             -webkit-text-fill-color: transparent;
             display: inline-block;
-            filter: drop-shadow(0 4px 15px rgba(0,0,0,0.5));
+            filter: drop-shadow(0 4px 15px rgba(0, 0, 0, 0.5));
         }
 
-        .hero h1.hero-main-title { 
-            font-family: 'Outfit', sans-serif; 
-            font-weight: 700; 
-            font-size: clamp(3rem, 10vw, 6rem); 
-            line-height: 1; 
+        .hero h1.hero-main-title {
+            font-family: 'Outfit', sans-serif;
+            font-weight: 700;
+            font-size: clamp(3rem, 10vw, 6rem);
+            line-height: 1;
             letter-spacing: -2px;
             text-align: center;
             opacity: 0;
@@ -361,13 +510,13 @@
             filter: drop-shadow(0 10px 30px rgba(0, 0, 0, 0.7));
         }
 
-        .hero-precision { 
-            font-family: 'Crimson Text', serif; 
-            font-weight: 700; 
-            font-size: clamp(1rem, 3vw, 2.2rem); 
-            letter-spacing: 8px; 
-            text-align: center; 
-            margin-top: -10px; 
+        .hero-precision {
+            font-family: 'Crimson Text', serif;
+            font-weight: 700;
+            font-size: clamp(1rem, 3vw, 2.2rem);
+            letter-spacing: 8px;
+            text-align: center;
+            margin-top: -10px;
             margin-bottom: 40px;
             opacity: 0;
             animation: slideInRight 1.5s cubic-bezier(0.22, 1, 0.36, 1) forwards 0.4s;
@@ -378,7 +527,7 @@
             background-clip: text;
             -webkit-text-fill-color: transparent;
             display: inline-block;
-            filter: drop-shadow(0 2px 8px rgba(0,0,0,0.5));
+            filter: drop-shadow(0 2px 8px rgba(0, 0, 0, 0.5));
         }
 
         .section-title {
@@ -391,12 +540,31 @@
             position: relative;
             font-family: 'Outfit', sans-serif;
         }
-        .section-title::after { content: ''; display: block; width: 60px; height: 1px; background: var(--gold); margin: 20px auto; }
 
-        .section-subtitle { font-size: 1.5rem; text-align: center; margin-bottom: 60px; line-height: 1.6; color: rgba(255,255,255,0.8); }
+        .section-title::after {
+            content: '';
+            display: block;
+            width: 60px;
+            height: 1px;
+            background: var(--gold);
+            margin: 20px auto;
+        }
+
+        .section-subtitle {
+            font-size: 1.5rem;
+            text-align: center;
+            margin-bottom: 60px;
+            line-height: 1.6;
+            color: rgba(255, 255, 255, 0.8);
+        }
 
         /* カードデザイン */
-        .card-container { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; }
+        .card-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
         .card {
             background: var(--glass);
             border: 1px solid var(--glass-border);
@@ -405,18 +573,36 @@
             transition: 0.5s cubic-bezier(0.22, 1, 0.36, 1);
             backdrop-filter: blur(10px);
         }
-        .card:hover { 
-            transform: translateY(-10px) scale(1.02); 
+
+        .card:hover {
+            transform: translateY(-10px) scale(1.02);
             border-color: var(--gold);
-            box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
         }
-        .card h3 { font-size: 1.4rem; color: var(--gold); margin-bottom: 20px; border-bottom: 1px solid rgba(197,160,89,0.2); padding-bottom: 10px; }
-        .card p { font-size: 1rem; line-height: 2; color: rgba(255,255,255,0.8); }
+
+        .card h3 {
+            font-size: 1.4rem;
+            color: var(--gold);
+            margin-bottom: 20px;
+            border-bottom: 1px solid rgba(197, 160, 89, 0.2);
+            padding-bottom: 10px;
+        }
+
+        .card p {
+            font-size: 1rem;
+            line-height: 2;
+            color: rgba(255, 255, 255, 0.8);
+        }
 
         /* 取引先グリッド */
-        .grid-container { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 12px; }
+        .grid-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 12px;
+        }
+
         .grid-item {
-            background: rgba(255,255,255,0.03);
+            background: rgba(255, 255, 255, 0.03);
             border: 1px solid rgba(197, 160, 89, 0.2);
             padding: 15px;
             font-size: 0.85rem;
@@ -424,12 +610,32 @@
             border-radius: 4px;
             transition: 0.3s;
         }
-        .grid-item:hover { background: rgba(197, 160, 89, 0.1); border-color: var(--gold); transform: scale(1.05); }
+
+        .grid-item:hover {
+            background: rgba(197, 160, 89, 0.1);
+            border-color: var(--gold);
+            transform: scale(1.05);
+        }
 
         /* プロフィールテーブル */
-        .profile-table { width: 100%; max-width: 900px; margin: 0 auto; border-collapse: collapse; }
-        .profile-table td { padding: 25px 15px; border-bottom: 1px solid rgba(255,255,255,0.05); font-size: 1.1rem; }
-        .label { color: var(--gold); font-weight: bold; width: 30%; }
+        .profile-table {
+            width: 100%;
+            max-width: 900px;
+            margin: 0 auto;
+            border-collapse: collapse;
+        }
+
+        .profile-table td {
+            padding: 25px 15px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            font-size: 1.1rem;
+        }
+
+        .label {
+            color: var(--gold);
+            font-weight: bold;
+            width: 30%;
+        }
 
         /* スライドフッター */
         .slide-footer {
@@ -437,18 +643,37 @@
             display: flex;
             justify-content: space-between;
             font-size: 0.85rem;
-            color: rgba(255,255,255,0.3);
+            color: rgba(255, 255, 255, 0.3);
             border-top: 1px solid rgba(197, 160, 89, 0.15);
             padding-top: 15px;
         }
 
         /* レスポンシブ */
         @media (max-width: 900px) {
-            nav { display: none; }
-            section { padding: 120px 5% 60px; }
-            .label { width: 100%; display: block; border-bottom: none; padding-bottom: 5px; }
-            .profile-table td { display: block; width: 100%; padding: 15px 5px; }
-            .menu-btn { display: flex; }
+            nav {
+                display: none;
+            }
+
+            section {
+                padding: 120px 5% 60px;
+            }
+
+            .label {
+                width: 100%;
+                display: block;
+                border-bottom: none;
+                padding-bottom: 5px;
+            }
+
+            .profile-table td {
+                display: block;
+                width: 100%;
+                padding: 15px 5px;
+            }
+
+            .menu-btn {
+                display: flex;
+            }
         }
 
         /* --- Electric Lock Accordion --- */
@@ -461,6 +686,7 @@
             background: rgba(255, 255, 255, 0.02);
             border-radius: 8px;
         }
+
         .details-wrapper.active {
             max-height: 2000px;
             opacity: 1;
@@ -468,22 +694,26 @@
             padding: 30px;
             border: 1px solid rgba(197, 160, 89, 0.15);
         }
+
         .detail-item {
             margin-bottom: 25px;
             padding-left: 20px;
             border-left: 2px solid var(--gold);
         }
+
         .detail-item h4 {
             color: var(--gold);
             font-size: 1rem;
             margin-bottom: 10px;
             letter-spacing: 1px;
         }
+
         .detail-item p {
             font-size: 0.85rem !important;
             line-height: 1.8 !important;
             opacity: 0.7;
         }
+
         .btn-toggle-details {
             background: transparent;
             color: var(--gold);
@@ -499,13 +729,16 @@
             align-items: center;
             gap: 8px;
         }
+
         .btn-toggle-details:hover {
             background: rgba(197, 160, 89, 0.1);
             border-color: var(--gold);
         }
+
         .btn-toggle-details i {
             transition: 0.3s;
         }
+
         .btn-toggle-details.active i {
             transform: rotate(180deg);
         }
@@ -518,18 +751,22 @@
             opacity: 0;
             margin-top: 0;
             width: 100vw;
-            margin-left: calc(-10% - 0px); /* Break out of container */
-            background: #fdfbf7; /* Elegant ivory/off-white */
+            margin-left: calc(-10% - 0px);
+            /* Break out of container */
+            background: #fdfbf7;
+            /* Elegant ivory/off-white */
             color: #1a1a1a;
             position: relative;
             z-index: 100;
         }
+
         #detail-drawer.active {
             max-height: 5000px;
             opacity: 1;
             margin-top: 80px;
             padding: 120px 10%;
         }
+
         .editorial-title {
             font-family: 'Zen Kaku Gothic New', serif;
             font-size: clamp(2.4rem, 6vw, 4.2rem);
@@ -539,6 +776,7 @@
             margin-bottom: 25px;
             line-height: 1.2;
         }
+
         .editorial-subtitle {
             font-size: 0.95rem;
             color: #888;
@@ -546,12 +784,14 @@
             margin-bottom: 60px;
             text-transform: uppercase;
         }
+
         .editorial-grid {
             display: grid;
             grid-template-columns: 1fr 1.5fr;
             gap: 100px;
             margin-top: 100px;
         }
+
         .editorial-section-label {
             font-family: 'Outfit', sans-serif;
             font-size: 0.8rem;
@@ -561,6 +801,7 @@
             margin-bottom: 30px;
             display: block;
         }
+
         .editorial-lead {
             font-size: 2.2rem;
             line-height: 1.4;
@@ -568,6 +809,7 @@
             font-family: 'Zen Kaku Gothic New', serif;
             margin-bottom: 40px;
         }
+
         .solution-card-lite {
             border-bottom: 1px solid #eee;
             padding: 40px 0;
@@ -575,30 +817,36 @@
             gap: 40px;
             transition: 0.4s;
         }
+
         .solution-card-lite:hover {
             padding-left: 20px;
             background: rgba(197, 160, 89, 0.03);
         }
+
         .solution-card-lite .num {
             font-family: 'Outfit', sans-serif;
             font-size: 1rem;
             color: #c5a059;
             opacity: 0.5;
         }
+
         .solution-card-lite h5 {
             font-size: 1.4rem;
             margin-bottom: 15px;
             color: #111;
         }
+
         .solution-card-lite p {
             font-size: 1rem !important;
             color: #666;
             line-height: 1.8 !important;
         }
+
         .close-drawer-bottom {
             margin-top: 100px;
             text-align: center;
         }
+
         .btn-close-editorial {
             background: none;
             border: none;
@@ -611,18 +859,29 @@
             transition: 0.3s;
             text-transform: uppercase;
         }
+
         .btn-close-editorial:hover {
             color: #c5a059;
             letter-spacing: 0.6em;
         }
-        
+
         @media (max-width: 1000px) {
-            .editorial-grid { grid-template-columns: 1fr; gap: 60px; }
-            .editorial-title { font-size: 3.5rem; }
-            #detail-drawer { margin-left: -5%; }
+            .editorial-grid {
+                grid-template-columns: 1fr;
+                gap: 60px;
+            }
+
+            .editorial-title {
+                font-size: 3.5rem;
+            }
+
+            #detail-drawer {
+                margin-left: -5%;
+            }
         }
     </style>
 </head>
+
 <body>
 
     <header id="header">
@@ -636,16 +895,9 @@
         <nav>
             <a href="../index.html">TOP</a>
             <a href="company.html" style="color: var(--gold);">COMPANY</a>
-            <a href="../index.html#services">SERVICES</a>
-            <div class="dropdown">
-                <a href="javascript:void(0)" onclick="toggleDropdown(event)" style="cursor: pointer;">NEWS</a>
-                <div class="dropdown-content">
-                    <a href="https://share.google/xH3kdy4HI9U73eQa8" target="_blank">社長名鑑</a>
-                    <a href="javascript:void(0)" style="opacity: 0.4;">活動報告 (準備中)</a>
-                </div>
-            </div>
             <a href="recruitment.html">RECRUIT</a>
-            <a href="https://docs.google.com/forms/d/e/1FAIpQLSfQdOJRgQ3qhmnS-wAnycbUptNVp2VWEPQPdxnI3WDpsn7fgg/viewform" class="btn-cta-header" target="_blank">お問い合わせ</a>
+            <a href="https://docs.google.com/forms/d/e/1FAIpQLSfQdOJRgQ3qhmnS-wAnycbUptNVp2VWEPQPdxnI3WDpsn7fgg/viewform"
+                class="btn-cta-header" target="_blank">お問い合わせ</a>
         </nav>
         <div class="menu-btn" onclick="toggleMobileMenu()">
             <span></span>
@@ -655,17 +907,9 @@
         <div class="mobile-nav" id="mobileNav">
             <a href="../index.html" onclick="toggleMobileMenu()">TOP</a>
             <a href="company.html" onclick="toggleMobileMenu()">COMPANY</a>
-            <a href="../index.html#services" onclick="toggleMobileMenu()">SERVICES</a>
-            <div class="dropdown-mobile">
-                <a href="javascript:void(0)" style="color: var(--gold); pointer-events: none;">NEWS</a>
-                <div class="dropdown-sub">
-                    <a href="https://share.google/xH3kdy4HI9U73eQa8" target="_blank" onclick="toggleMobileMenu()">社長名鑑</a>
-                    <a href="javascript:void(0)" style="opacity: 0.4;">活動報告 (準備中)</a>
-                </div>
-            </div>
             <a href="recruitment.html" onclick="toggleMobileMenu()">RECRUIT</a>
-            <a href="../index.html#news" onclick="toggleMobileMenu()">NEWS</a>
-            <a href="https://docs.google.com/forms/d/e/1FAIpQLSfQdOJRgQ3qhmnS-wAnycbUptNVp2VWEPQPdxnI3WDpsn7fgg/viewform" class="btn-cta-header" target="_blank" onclick="toggleMobileMenu()">お問い合わせ</a>
+            <a href="https://docs.google.com/forms/d/e/1FAIpQLSfQdOJRgQ3qhmnS-wAnycbUptNVp2VWEPQPdxnI3WDpsn7fgg/viewform"
+                class="btn-cta-header" target="_blank" onclick="toggleMobileMenu()">お問い合わせ</a>
         </div>
     </header>
 
@@ -675,86 +919,33 @@
     <!-- Slide 1: Cover (Fixed to Screenshot) -->
     <section class="hero company-hero">
         <div class="hero-branding reveal active">
-             <div style="font-family: 'Outfit', sans-serif; font-size: clamp(0.7rem, 2vw, 0.9rem); letter-spacing: 0.8em; color: var(--gold); margin-bottom: 30px; text-transform: uppercase;">Company Profile</div>
+            <div
+                style="font-family: 'Outfit', sans-serif; font-size: clamp(0.7rem, 2vw, 0.9rem); letter-spacing: 0.8em; color: var(--gold); margin-bottom: 30px; text-transform: uppercase;">
+                Company Profile</div>
             <div class="hero-clh">CLH</div>
             <h1 class="hero-main-title">CarlockHomes</h1>
             <div class="hero-precision">PRECISION & TRUST</div>
-             <p style="font-size: clamp(0.9rem, 2.5vw, 1.4rem); margin-top: 40px; color: rgba(255,255,255,0.7); letter-spacing: 4px; font-weight: 300;">カギの先にある、お客様の「日常」を守る。</p>
+            <p
+                style="font-size: clamp(0.9rem, 2.5vw, 1.4rem); margin-top: 40px; color: rgba(255,255,255,0.7); letter-spacing: 4px; font-weight: 300;">
+                カギの先にある、お客様の「日常」を守る。</p>
         </div>
         <div class="slide-footer">
             <span>© CarlockHomes Co., Ltd.</span>
-            <span>01 / 05</span>
+            <span>01 / 04</span>
         </div>
     </section>
 
-    <!-- Slide 2: Business Content -->
-    <section>
-        <div class="reveal">
-            <h2 class="section-title">Business Content</h2>
-            <h3 class="section-subtitle">24時間３６５日カギのトラブル対応<br>社会に安心を届ける緊急対応サービス</h3>
-        </div>
-        <div class="card-container" style="grid-template-columns: 1fr; max-width: 800px; margin: 0 auto;">
-            <div class="card reveal" style="text-align: center;">
-                <div class="card-icon" style="opacity: 0.2; font-size: 1.2rem; white-space: nowrap;">CLH - CarlockHomes</div>
-                <h3>カギ・防犯<br>セキュリティ</h3>
-                <p>● 緊急解錠・修理（住宅・金庫）</p>
-                <p>● 鍵の交換・取付（IC・電子錠）</p>
-                <p>● 防犯カメラ・インターフォン工事</p>
-                <p>● オートロック・電気錠システム構築</p>
-
-                <button class="btn-toggle-details" onclick="toggleDetails(this)">
-                    電気錠の詳細を見る <i style="display:inline-block; transition: 0.4s;">↓</i>
-                </button>
-            </div>
-        </div>
-
-        <!-- Editorial Styled Detail Drawer -->
-        <div id="detail-drawer">
-            <div style="width: 100%; max-width: 1200px; margin: 0 auto; min-height: 800px; padding: 60px 0;">
-                
-                <!-- Latest Premium Smart Lock Content from GAS -->
-                <iframe src="https://script.google.com/macros/s/AKfycbz5B0Kj-goWNSIJCoBt8tkP4XKdujdfaYQtV2qBC-1UpHbjBbiuVl2DL2lafyrUBpUvyA/exec" 
-                        style="width: 100%; height: 1600px; border: none; border-radius: 12px; background: #fdfbf7; box-shadow: 0 10px 30px rgba(0,0,0,0.08);"
-                        title="Premium Smart Lock Solutions">
-                </iframe>
-                
-                <div class="close-drawer-bottom" style="margin-top: 50px;">
-                    <button class="btn-close-editorial" onclick="closeDetails(this)">- Close Details -</button>
-                </div>
-            </div>
-        </div>
-        <div style="margin-top: 100px;">
-            <div class="card-container" style="grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; max-width: 1200px; margin: 0 auto;">
-                <div class="card reveal" style="transition-delay: 0.2s;">
-                    <h3>住宅設備<br>メンテナンス</h3>
-                    <p>● サッシ・戸車・網戸・ガラス修理</p>
-                    <p>● 水漏れ・排水詰まり対応</p>
-                    <p>● 共用部点検</p>
-                    <p>● 除菌施工・リフレッシュ工事</p>
-                </div>
-                <div class="card reveal" style="transition-delay: 0.4s;">
-                    <h3>管理代行<br>アウトソーシング</h3>
-                    <p>● 入居前点検</p>
-                    <p>● 作業員派遣業務（保守点検等）</p>
-                    <p>● 全国180の強力なネットワーク</p>
-                    <p>● 24時間365日の受付・出動体制</p>
-                </div>
-            </div>
-        </div>
-
-        <div class="slide-footer">
-            <span>© CarlockHomes Co., Ltd.</span>
-            <span>02 / 05</span>
-        </div>
-    </section>
 
     <!-- Slide 3: Trust -->
     <section>
         <div class="reveal">
             <h2 class="section-title">Trust & Partnership</h2>
-            <div style="text-align: center; color: var(--gold); margin-bottom: 20px; font-weight: bold; letter-spacing: 2px;">加盟店・代理店・特約店</div>
+            <div
+                style="text-align: center; color: var(--gold); margin-bottom: 20px; font-weight: bold; letter-spacing: 2px;">
+                加盟店・代理店・特約店</div>
         </div>
-        <div class="grid-container reveal" style="margin-bottom: 40px; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));">
+        <div class="grid-container reveal"
+            style="margin-bottom: 40px; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));">
             <div class="grid-item">内閣総理大臣認可<br>日本ロックセキュリティ協同組合 加盟店</div>
             <div class="grid-item">美和ロック株式会社<br>サービス代行店（SD店）</div>
             <div class="grid-item">株式会社ゴール<br>メンテナンスステーション（GMS）</div>
@@ -765,7 +956,9 @@
         </div>
 
         <div class="reveal">
-            <div style="text-align: center; color: var(--gold); margin-bottom: 20px; font-weight: bold; letter-spacing: 2px;">主要取引先企業</div>
+            <div
+                style="text-align: center; color: var(--gold); margin-bottom: 20px; font-weight: bold; letter-spacing: 2px;">
+                主要取引先企業</div>
         </div>
         <div class="grid-container reveal">
             <div class="grid-item">綜合警備保障株式会社</div>
@@ -788,7 +981,7 @@
         </div>
         <div class="slide-footer">
             <span>© CarlockHomes Co., Ltd.</span>
-            <span>03 / 05</span>
+            <span>02 / 04</span>
         </div>
     </section>
 
@@ -798,23 +991,45 @@
             <h2 class="section-title">Company Profile</h2>
         </div>
         <table class="profile-table reveal">
-            <tr><td class="label">商号</td><td>カーロックホームズ株式会社</td></tr>
-            <tr><td class="label">英名表記</td><td>CarlockHomes CO., LTD. (CLH)</td></tr>
-            <tr><td class="label">所在地</td><td>〒167-0042 東京都杉並区西荻北2-37-12</td></tr>
-            <tr><td class="label">創業</td><td>平成14年8月</td></tr>
-            <tr><td class="label">取引銀行</td><td>三菱UFJ銀行 入間支店</td></tr>
-            <tr><td class="label">連絡先</td><td>TEL: 03-5311-0556 / Mail: office@carlock.co.jp</td></tr>
-            <tr><td class="label">グループ会社</td><td>
-                株式会社TENKEN GO 
-                <a href="https://www.amazon.co.jp/dp/B0FHK3FPJ2" target="_blank" style="margin-left: 10px; color: #ff9900; border: 1px solid #ff9900; padding: 2px 10px; border-radius: 4px; font-size: 0.8rem; text-decoration: none; font-weight: 700; display: inline-block;">
-                    Amazonストア ↗
-                </a>
-                <br>株式会社One Stop Labo
-            </td></tr>
+            <tr>
+                <td class="label">商号</td>
+                <td>カーロックホームズ株式会社</td>
+            </tr>
+            <tr>
+                <td class="label">英名表記</td>
+                <td>CarlockHomes CO., LTD. (CLH)</td>
+            </tr>
+            <tr>
+                <td class="label">所在地</td>
+                <td>〒167-0042 東京都杉並区西荻北2-37-12</td>
+            </tr>
+            <tr>
+                <td class="label">創業</td>
+                <td>平成14年8月</td>
+            </tr>
+            <tr>
+                <td class="label">取引銀行</td>
+                <td>三菱UFJ銀行 入間支店</td>
+            </tr>
+            <tr>
+                <td class="label">連絡先</td>
+                <td>TEL: 03-5311-0556 / Mail: office@carlock.co.jp</td>
+            </tr>
+            <tr>
+                <td class="label">グループ会社</td>
+                <td>
+                    株式会社TENKEN GO
+                    <a href="https://www.amazon.co.jp/dp/B0FHK3FPJ2" target="_blank"
+                        style="margin-left: 10px; color: #ff9900; border: 1px solid #ff9900; padding: 2px 10px; border-radius: 4px; font-size: 0.8rem; text-decoration: none; font-weight: 700; display: inline-block;">
+                        Amazonストア ↗
+                    </a>
+                    <br>株式会社One Stop Labo
+                </td>
+            </tr>
         </table>
         <div class="slide-footer">
             <span>© CarlockHomes Co., Ltd.</span>
-            <span>04 / 05</span>
+            <span>03 / 04</span>
         </div>
     </section>
 
@@ -827,24 +1042,23 @@
             <div style="flex: 1; min-width: 300px; font-size: 1.2rem; line-height: 2;">
                 <p><strong style="color:var(--gold)">住所：</strong><br>東京都杉並区西荻北2-37-12<br>ブランシュ西荻 中2階</p>
                 <p style="margin-top: 20px;"><strong style="color:var(--gold)">最寄駅：</strong><br>JR西荻窪駅より徒歩5分</p>
-                <a href="https://www.google.com/maps?q=%E3%82%AB%E3%83%BC%E3%83%AD%E3%83%83%E3%82%AF%E3%83%9B%E3%83%BC%E3%83%A0%E3%82%BA%E6%A0%AA%E5%BC%8F%E4%BC%9A%E7%A4%BE+%E6%9D%B1%E4%BA%AC%E9%83%BD%E6%9D%89%E4%B8%A6%E5%8C%BA%E8%A5%BF%E8%81%BB%E5%8C%972-37-12" target="_blank" style="color: var(--gold); text-decoration: none; font-size: 1rem; border: 1px solid var(--gold); padding: 12px 25px; border-radius: 4px; font-weight: 700; transition: 0.3s; display: inline-block; margin-top: 40px;">
+                <a href="https://www.google.com/maps?q=%E3%82%AB%E3%83%BC%E3%83%AD%E3%83%83%E3%82%AF%E3%83%9B%E3%83%BC%E3%83%A0%E3%82%BA%E6%A0%AA%E5%BC%8F%E4%BC%9A%E7%A4%BE+%E6%9D%B1%E4%BA%AC%E9%83%BD%E6%9D%89%E4%B8%A6%E5%8C%BA%E8%A5%BF%E8%81%BB%E5%8C%972-37-12"
+                    target="_blank"
+                    style="color: var(--gold); text-decoration: none; font-size: 1rem; border: 1px solid var(--gold); padding: 12px 25px; border-radius: 4px; font-weight: 700; transition: 0.3s; display: inline-block; margin-top: 40px;">
                     Googleマップを開く ↗
                 </a>
             </div>
-            <div style="flex: 1.5; min-width: 300px; height: 400px; border: 1px solid var(--gold); border-radius: 8px; overflow: hidden; box-shadow: 0 20px 50px rgba(0,0,0,0.5);">
-                <iframe 
-                    src="https://maps.google.com/maps?q=%E3%82%AB%E3%83%BC%E3%83%AD%E3%83%83%E3%82%AF%E3%83%9B%E3%83%BC%E3%83%A0%E3%82%BA%E6%A0%AA%E5%BC%8F%E4%BC%9A%E7%A4%BE+%E8%A5%BF%E8%81%BB%E7%AA%AA&hl=ja&z=15&output=embed" 
-                    width="100%" 
-                    height="100%" 
-                    style="border:0;" 
-                    allowfullscreen="" 
-                    loading="lazy">
+            <div
+                style="flex: 1.5; min-width: 300px; height: 400px; border: 1px solid var(--gold); border-radius: 8px; overflow: hidden; box-shadow: 0 20px 50px rgba(0,0,0,0.5);">
+                <iframe
+                    src="https://maps.google.com/maps?q=%E3%82%AB%E3%83%BC%E3%83%AD%E3%83%83%E3%82%AF%E3%83%9B%E3%83%BC%E3%83%A0%E3%82%BA%E6%A0%AA%E5%BC%8F%E4%BC%9A%E7%A4%BE+%E8%A5%BF%E8%81%BB%E7%AA%AA&hl=ja&z=15&output=embed"
+                    width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy">
                 </iframe>
             </div>
         </div>
         <div class="slide-footer">
             <span>© CarlockHomes Co., Ltd.</span>
-            <span>05 / 05</span>
+            <span>04 / 04</span>
         </div>
     </section>
 
@@ -889,7 +1103,7 @@
             const drawer = document.getElementById('detail-drawer');
             drawer.classList.toggle('active');
             btn.classList.toggle('active');
-            
+
             if (drawer.classList.contains('active')) {
                 btn.innerHTML = '詳細を閉じる <i style="display:inline-block; transition: 0.4s; transform: rotate(180deg);">↓</i>';
                 // Scroll to drawer smoothly
@@ -907,7 +1121,7 @@
             drawer.classList.remove('active');
             btn.classList.remove('active');
             btn.innerHTML = '電気錠の詳細を見る <i style="display:inline-block; transition: 0.4s;">↓</i>';
-            
+
             // Scroll back up to the card area
             const servicesPos = document.querySelector('.card-container').getBoundingClientRect().top + window.pageYOffset - 100;
             window.scrollTo({ top: servicesPos, behavior: 'smooth' });
@@ -946,4 +1160,5 @@
     </script>
 
 </body>
+
 </html>
