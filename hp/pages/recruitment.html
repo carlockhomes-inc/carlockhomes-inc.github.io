@@ -103,15 +103,50 @@
             transition: 0.5s;
         }
 
-        .logo-box { position: relative; overflow: hidden; display: flex; flex-direction: column; line-height: 1.1; text-decoration: none; }
-        .logo-main { font-family: 'Outfit', sans-serif; font-size: 1.8rem; font-weight: 700; color: var(--white); letter-spacing: 2px; position: relative; }
-        .logo-main::after {
-            content: ''; position: absolute; top: 0; left: -100%; width: 50px; height: 100%; 
-            background: linear-gradient(to right, transparent, rgba(255,255,255,0.3), transparent);
-            transform: skewX(-25deg);
-            animation: shine 4s infinite linear;
+        /* --- Header Logo Shimmer (Refined Sequential Flow) --- */
+        .logo-box-header { display: flex; flex-direction: column; line-height: 1.1; overflow: hidden; position: relative; gap: 2px; text-decoration: none; }
+        
+        .logo-main-header, .main-logo-text-header, .logo-sub-header {
+            position: relative;
+            overflow: hidden;
+            display: inline-block;
+            width: fit-content;
         }
-        .logo-sub { font-family: 'Crimson Text', serif; font-size: 0.8rem; color: var(--brand-gold); letter-spacing: 4px; text-transform: uppercase; }
+
+        /* Shine Slits for each segment */
+        .logo-main-header::after, .main-logo-text-header::after, .logo-sub-header::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -150%;
+            width: 120px;
+            height: 100%;
+            background: linear-gradient(
+                105deg,
+                transparent 30%,
+                rgba(255, 255, 255, 0.5) 45%,
+                rgba(255, 255, 255, 0.7) 50%,
+                rgba(255, 255, 255, 0.5) 55%,
+                transparent 70%
+            );
+            transform: skewX(-20deg);
+            animation: sequentialFlow-header 8s infinite cubic-bezier(0.23, 1, 0.32, 1);
+        }
+
+        /* Sequential Baton-Pass Delays */
+        .logo-main-header::after { animation-delay: 0s; }
+        .main-logo-text-header::after { animation-delay: 1.2s; }
+        .logo-sub-header::after { animation-delay: 2.4s; }
+
+        @keyframes sequentialFlow-header {
+            0% { left: -150%; }
+            30% { left: 150%; } /* Smooth passage over the text */
+            100% { left: 150%; }
+        }
+
+        .logo-main-header { font-family: 'Outfit', sans-serif; font-size: 1.6rem; font-weight: 700; color: #ffffff; letter-spacing: 2px; }
+        .main-logo-text-header { font-size: 0.7rem; color: #ffffff; opacity: 0.9; font-weight: 400; letter-spacing: 1px; margin-left: 8px; }
+        .logo-sub-header { font-family: 'Crimson Text', serif; font-size: 0.6rem; color: #c5a059; letter-spacing: 5px; text-transform: uppercase; font-weight: 700; margin-top: 2px; }
 
         nav { display: flex; gap: 2.5rem; align-items: center; }
         nav a { text-decoration: none; color: var(--white); font-size: 0.85rem; font-weight: 700; letter-spacing: 1px; opacity: 0.7; transition: 0.3s; position: relative; }
@@ -256,17 +291,43 @@
         .hero {
             padding: 220px 10% 120px;
             text-align: center;
-            background: linear-gradient(to bottom, #001a33, #002e5d);
+            background: url('../images/hero_premium.png') center/cover no-repeat;
             position: relative;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0, 26, 51, 0.6);
+            z-index: 1;
+        }
+
+        .hero-content-wrap {
+            position: relative;
+            z-index: 2;
+            width: 100%;
         }
 
         .hero h1 { 
-            font-size: clamp(2.5rem, 6vw, 4.5rem); 
+            font-size: clamp(2.5rem, 8vw, 6rem); 
             margin-bottom: 1.5rem; 
             font-weight: 700; 
-            color: var(--brand-gold); 
             font-family: 'Outfit', sans-serif;
-            letter-spacing: 2px;
+            letter-spacing: 4px;
+            
+            /* Pure Brilliant White with subtle depth */
+            background: linear-gradient(to bottom, #ffffff 0%, #ffffff 48%, #f0f0f0 50%, #ffffff 52%, #ffffff 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            display: inline-block;
+            filter: drop-shadow(0 10px 30px rgba(0, 0, 0, 0.7));
         }
         .hero p { font-size: 1.3rem; max-width: 800px; margin: 0 auto; opacity: 0.9; font-weight: 700; letter-spacing: 1px; }
 
@@ -366,9 +427,12 @@
 <body>
 
     <header id="header">
-        <a href="../index.html" class="logo-box">
-            <span class="logo-main">CLH</span>
-            <span class="logo-sub">Carlock Homes</span>
+        <a href="../index.html" class="logo-box-header">
+            <div style="display: flex; align-items: baseline;">
+                <span class="logo-main-header">CLH</span>
+                <span class="main-logo-text-header">CarlockHomes</span>
+            </div>
+            <span class="logo-sub-header">Precision & Trust</span>
         </a>
         <nav>
             <a href="../index.html">TOP</a>
@@ -410,8 +474,18 @@
     <a href="#" class="back-to-top" id="backToTop">↑</a>
 
     <section class="hero reveal active">
-        <h1>RECRUITMENT</h1>
-        <p>あなたの「人生経験」が、誰かの「安心」に変わる。</p>
+        <div class="hero-content-wrap">
+            <div style="font-family: 'Outfit', sans-serif; font-size: clamp(0.7rem, 2vw, 0.9rem); letter-spacing: 0.8em; color: #c5a059; margin-bottom: 40px; text-transform: uppercase;">Recruitment</div>
+            
+            <!-- Shared Branding Stack -->
+            <div style="display: flex; flex-direction: column; align-items: center; gap: 15px; margin-bottom: 40px;">
+                <div style="font-family: 'Outfit', sans-serif; font-size: 1.8rem; font-weight: 700; letter-spacing: 10px; background: linear-gradient(to bottom, #ffffff 0%, #fff6e5 20%, #e6d5b8 45%, #c5a059 55%, #8b6d3b 100%); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; filter: drop-shadow(0 4px 15px rgba(0,0,0,0.5));">CLH</div>
+                <h2 style="font-family: 'Outfit', sans-serif; font-weight: 700; font-size: clamp(3rem, 10vw, 5rem); line-height: 1; letter-spacing: 1px; background: linear-gradient(to bottom, #ffffff 0%, #ffffff 48%, #f0f0f0 50%, #ffffff 52%, #ffffff 100%); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; filter: drop-shadow(0 10px 30px rgba(0, 0, 0, 0.7));">CarlockHomes</h2>
+                <div style="font-family: 'Crimson Text', serif; font-weight: 700; font-size: clamp(1rem, 3vw, 1.8rem); letter-spacing: 6px; background: linear-gradient(to bottom, #ffffff 0%, #fff6e5 20%, #e6d5b8 45%, #c5a059 55%, #8b6d3b 100%); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; filter: drop-shadow(0 4px 12px rgba(0,0,0,0.5));">PRECISION & TRUST</div>
+            </div>
+
+            <p style="font-size: clamp(0.9rem, 2.5vw, 1.2rem); margin-top: 20px; opacity: 0.8; letter-spacing: 1.5px; font-weight: 400;">あなたの「人生経験」が、誰かの「安心」に変わる。</p>
+        </div>
     </section>
 
     <div class="container">
