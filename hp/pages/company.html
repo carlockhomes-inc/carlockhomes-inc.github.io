@@ -680,27 +680,45 @@
         @media print {
             body { background: #ffffff !important; color: #000000 !important; }
             header, footer, .back-to-top, #progress-bar, .menu-btn, .mobile-nav, .btn-print-box { display: none !important; }
+            #detail-drawer, .btn-toggle-details, .close-drawer-bottom { display: none !important; height: 0 !important; overflow: hidden !important; }
+            
             section { 
                 background: none !important; 
-                height: auto !important; 
-                min-height: auto !important; 
+                height: 100vh !important; /* Force single slide height */
+                min-height: 100vh !important;
                 padding: 40px !important; 
-                page-break-after: always; 
+                page-break-after: always !important; 
+                page-break-inside: avoid !important;
                 position: relative !important; 
                 opacity: 1 !important;
                 visibility: visible !important;
+                display: flex !important;
+                flex-direction: column !important;
+                justify-content: center !important;
             }
             .hero { background: #ffffff !important; }
             .hero::before { display: none !important; }
-            .hero-clh, .hero-main-title, .section-title, .section-subtitle, .grid-item, .label, .profile-table td { 
+
+            /* Fix Transparent/Gradient Text for Printing */
+            .hero-clh, .hero-main-title, .hero-precision, .section-title, .section-subtitle, .grid-item, .label, .profile-table td { 
                 color: #000000 !important; 
+                -webkit-text-fill-color: #000000 !important;
+                background: none !important;
                 -webkit-print-color-adjust: exact; 
                 print-color-adjust: exact;
                 text-shadow: none !important;
+                opacity: 1 !important;
+                animation: none !important;
+                filter: none !important;
             }
             .grid-item { border: 1px solid #dddddd !important; background: none !important; }
             .profile-table td { border-bottom: 1px solid #eeeeee !important; }
-            .reveal { opacity: 1 !important; transform: none !important; }
+            .reveal { 
+                opacity: 1 !important; 
+                transform: none !important; 
+                visibility: visible !important;
+                transition: none !important;
+            }
         }
 
         .btn-print-box {
