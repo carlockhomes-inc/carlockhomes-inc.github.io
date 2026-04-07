@@ -676,6 +676,61 @@
             }
         }
 
+        /* --- Print & PDF Optimization --- */
+        @media print {
+            body { background: #ffffff !important; color: #000000 !important; }
+            header, footer, .back-to-top, #progress-bar, .menu-btn, .mobile-nav, .btn-print-box { display: none !important; }
+            section { 
+                background: none !important; 
+                height: auto !important; 
+                min-height: auto !important; 
+                padding: 40px !important; 
+                page-break-after: always; 
+                position: relative !important; 
+                opacity: 1 !important;
+                visibility: visible !important;
+            }
+            .hero { background: #ffffff !important; }
+            .hero::before { display: none !important; }
+            .hero-clh, .hero-main-title, .section-title, .section-subtitle, .grid-item, .label, .profile-table td { 
+                color: #000000 !important; 
+                -webkit-print-color-adjust: exact; 
+                text-shadow: none !important;
+            }
+            .grid-item { border: 1px solid #dddddd !important; background: none !important; }
+            .profile-table td { border-bottom: 1px solid #eeeeee !important; }
+            .reveal { opacity: 1 !important; transform: none !important; }
+        }
+
+        .btn-print-box {
+            position: fixed;
+            bottom: 40px;
+            right: 40px;
+            z-index: 2000;
+        }
+
+        .btn-print {
+            background: var(--gold);
+            color: var(--navy);
+            border: none;
+            padding: 12px 25px;
+            border-radius: 50px;
+            font-weight: 700;
+            font-size: 0.85rem;
+            letter-spacing: 2px;
+            cursor: pointer;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.3);
+            transition: 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .btn-print:hover {
+            transform: scale(1.05);
+            box-shadow: 0 15px 30px rgba(197, 160, 89, 0.4);
+        }
+
         /* --- Electric Lock Accordion --- */
         .details-wrapper {
             max-height: 0;
@@ -920,7 +975,7 @@
     <section class="hero company-hero">
         <div class="hero-branding reveal active">
             <div
-                style="font-family: 'Outfit', sans-serif; font-size: clamp(0.7rem, 2vw, 0.9rem); letter-spacing: 0.8em; color: var(--gold); margin-bottom: 30px; text-transform: uppercase;">
+                style="font-family: 'Outfit', sans-serif; font-size: clamp(0.9rem, 3vw, 1.3rem); letter-spacing: 0.6em; color: var(--gold); margin-bottom: 35px; text-transform: uppercase; font-weight: 700;">
                 Company Profile</div>
             <div class="hero-clh">CLH</div>
             <h1 class="hero-main-title">CarlockHomes</h1>
@@ -1061,6 +1116,13 @@
             <span>04 / 04</span>
         </div>
     </section>
+
+    <div class="btn-print-box">
+        <button class="btn-print" onclick="window.print()">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9V2h12v7"></path><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"></path><rect x="6" y="14" width="12" height="8"></rect></svg>
+            PDF/PRINT資料出力
+        </button>
+    </div>
 
     <script>
         // --- Scroll Reveal Animation ---
