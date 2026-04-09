@@ -312,9 +312,71 @@
             .hero-illustration { width: 240px; height: 240px; }
             .glass-card { padding: 40px 20px; }
         }
+
+        /* --- Auth Overlay --- */
+        #auth-overlay {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: #1a0808;
+            z-index: 10000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            text-align: center;
+            color: #fff;
+        }
+        .auth-container {
+            background: rgba(255,255,255,0.05);
+            padding: 50px;
+            border-radius: 30px;
+            border: 1px solid rgba(255,255,255,0.1);
+            backdrop-filter: blur(20px);
+            width: 90%;
+            max-width: 400px;
+        }
+        .auth-logo { font-family: 'Outfit', sans-serif; font-size: 2.5rem; font-weight: 900; margin-bottom: 30px; }
+        .auth-input {
+            width: 100%;
+            padding: 15px;
+            background: rgba(0,0,0,0.3);
+            border: 1px solid rgba(255,255,255,0.2);
+            border-radius: 10px;
+            color: #fff;
+            text-align: center;
+            font-size: 1.2rem;
+            margin-bottom: 20px;
+        }
+        .auth-btn {
+            width: 100%;
+            padding: 15px;
+            background: var(--brand-orange);
+            color: #fff;
+            border: none;
+            border-radius: 10px;
+            font-weight: 900;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+        .auth-btn:hover { background: #ff4d4d; transform: scale(1.02); }
+        #auth-error { color: #ff4d4d; font-size: 0.8rem; margin-top: 15px; display: none; }
+        #main-content { display: none; }
     </style>
 </head>
 <body>
+
+    <!-- Simple Password Protection Overlay -->
+    <div id="auth-overlay">
+        <div class="auth-container">
+            <div class="auth-logo">🔑 CLH</div>
+            <div style="margin-bottom: 20px; font-size: 0.9rem; opacity: 0.6; letter-spacing: 2px;">RECRUITMENT HUB</div>
+            <input type="password" id="password-input" class="auth-input" placeholder="PASSWORD">
+            <button class="auth-btn" onclick="checkAuth()">SIGN IN</button>
+            <div id="auth-error">パスワードが正しくありません</div>
+        </div>
+    </div>
+
+    <div id="main-content">
 
     <!-- Tabs Navigation -->
     <div class="tab-nav-wrapper">
@@ -536,6 +598,41 @@
             card.style.transform = 'translateY(30px)';
             card.style.transition = '0.8s cubic-bezier(0.22, 1, 0.36, 1)';
             observer.observe(card);
+        });
+
+        // --- Simple Auth Logic ---
+        const AUTH_KEY = 'clh_recruit_pre_auth';
+        const CORRECT_PASS = 'clh2026';
+
+        function checkAuth() {
+            const input = document.getElementById('password-input').value;
+            if (input === CORRECT_PASS) {
+                sessionStorage.setItem(AUTH_KEY, 'true');
+                unlockContent();
+            } else {
+                const error = document.getElementById('auth-error');
+                error.style.display = 'block';
+                document.getElementById('password-input').value = '';
+            }
+        }
+
+        function unlockContent() {
+            document.getElementById('auth-overlay').style.display = 'none';
+            document.getElementById('main-content').style.display = 'block';
+            document.body.style.overflow = 'auto';
+            window.dispatchEvent(new Event('scroll'));
+        }
+
+        window.addEventListener('load', () => {
+            if (sessionStorage.getItem(AUTH_KEY) === 'true') {
+                unlockContent();
+            } else {
+                document.body.style.overflow = 'hidden';
+            }
+        });
+
+        document.getElementById('password-input').addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') checkAuth();
         });
     </script>
 </body>
