@@ -1,0 +1,114 @@
+/* CarlockHomes V2 - Complete Fidelity Styles */
+@import url('https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@400;500;700;900&family=Shippori+Antique+B1&family=Reggae+One&family=Dela+Gothic+One&family=Yomogi&display=swap');
+
+:root {
+  --font-main: 'Zen Maru Gothic', sans-serif;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: var(--font-main);
+  background: #fcfcfc;
+}
+
+/* Tab Switcher - Matches JSX App container UI style */
+#design-switcher {
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  background: #fff;
+  border-bottom: 2px solid #eee;
+  padding: 12px 20px;
+  display: flex;
+  gap: 6px;
+  overflow-x: auto;
+  font-family: 'Zen Maru Gothic', sans-serif;
+}
+
+.switch-btn {
+  padding: 10px 16px;
+  border-radius: 50px;
+  border: 2px solid #ddd;
+  background: #fff;
+  color: #666;
+  font-weight: 900;
+  font-size: 12px;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: all 0.2s;
+}
+
+.switch-btn:hover {
+  background: #f5f5f5;
+}
+
+.switch-btn.active {
+  border-color: #FF4444;
+  background: #FFF0F0;
+  color: #FF4444;
+}
+
+.switch-btn span {
+  font-size: 10px;
+  font-weight: 400;
+  margin-left: 4px;
+  opacity: 0.7;
+}
+
+/* Animations defined in the JSX */
+@keyframes flicker {
+  0%, 100% { opacity: 1 }
+  50% { opacity: .85 }
+}
+
+@keyframes dust {
+  0% { transform: translateY(0) rotate(0); opacity: .6 }
+  100% { transform: translateY(-60px) rotate(180deg); opacity: 0 }
+}
+
+@keyframes slam {
+  0% { transform: scale(.3) rotate(-8deg); opacity: 0 }
+  60% { transform: scale(1.08) rotate(1deg) }
+  100% { transform: scale(1) rotate(0); opacity: 1 }
+}
+
+@keyframes riseUp {
+  from { transform: translateY(60px); opacity: 0 }
+  to { transform: translateY(0); opacity: 1 }
+}
+
+@keyframes gentlePulse {
+  0%, 100% { transform: scale(1) }
+  50% { transform: scale(1.04) }
+}
+
+@keyframes drawLine {
+  from { stroke-dashoffset: 200 }
+  to { stroke-dashoffset: 0 }
+}
+
+@keyframes fadeSlide {
+  from { opacity: 0; transform: translateY(24px) }
+  to { opacity: 1; transform: translateY(0) }
+}
+
+@keyframes popBig {
+  0% { transform: scale(0) rotate(-10deg) }
+  70% { transform: scale(1.1) rotate(2deg) }
+  100% { transform: scale(1) rotate(0) }
+}
+
+@keyframes tapeWiggle {
+  0%, 100% { transform: rotate(-2deg) }
+  50% { transform: rotate(1deg) }
+}
+
+/* Content Container */
+.design-section {
+  display: none;
+}
+
+.design-section.active {
+  display: block;
+}
