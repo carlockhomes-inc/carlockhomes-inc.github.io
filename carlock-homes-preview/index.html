@@ -728,6 +728,23 @@
 </div>
 
 <script>
+  // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  // ▼ GAS デプロイ後にここを書き換えてください ▼
+  // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  const GAS_URL = 'YOUR_GAS_DEPLOY_URL_HERE';
+  // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  // ── GAS にデータを送信する共通関数 ──
+  async function postToGAS(payload) {
+    const res = await fetch(GAS_URL, {
+      method: 'POST',
+      body: JSON.stringify(payload),
+    });
+    const data = await res.json();
+    if (!data.success) throw new Error(data.message || '送信エラー');
+    return data;
+  }
+
   // ── Modal: エントリーフォーム ──
   function openEntry() {
     const m = document.getElementById('modal-entry');
@@ -745,16 +762,34 @@
   document.getElementById('modal-entry').addEventListener('click', function(e) {
     if (e.target === this) closeEntry();
   });
-  function submitEntry(e) {
+  async function submitEntry(e) {
     e.preventDefault();
     const btn = document.getElementById('entry-submit-btn');
-    btn.textContent = '送信中...';
+    const origText = btn.textContent;
+    btn.innerHTML = '<span style="display:inline-block;animation:rotate 1s linear infinite;">⏳</span> 送信中...';
     btn.disabled = true;
-    // TODO: Google Forms / GAS エンドポイントに差し替える
-    setTimeout(() => {
+
+    const workStyle = document.querySelector('input[name="work-style"]:checked');
+
+    const payload = {
+      type:      'entry',
+      name:      document.getElementById('entry-name').value,
+      age:       document.getElementById('entry-age').value,
+      contact:   document.getElementById('entry-contact').value,
+      workStyle: workStyle ? workStyle.value : '未選択',
+      pr:        document.getElementById('entry-pr').value,
+    };
+
+    try {
+      await postToGAS(payload);
       document.getElementById('entry-form').style.display = 'none';
       document.getElementById('entry-success').style.display = 'block';
-    }, 1200);
+    } catch (err) {
+      console.error(err);
+      alert('送信中にエラーが発生しました。\n時間をおいて再度お試しください。\n\n' + err.message);
+      btn.textContent = origText;
+      btn.disabled = false;
+    }
   }
 
   // ── Modal: お問い合わせフォーム ──
@@ -773,16 +808,34 @@
   document.getElementById('modal-contact').addEventListener('click', function(e) {
     if (e.target === this) closeContact();
   });
-  function submitContact(e) {
+  async function submitContact(e) {
     e.preventDefault();
     const btn = document.getElementById('contact-submit-btn');
-    btn.textContent = '送信中...';
+    const origText = btn.textContent;
+    btn.innerHTML = '<span style="display:inline-block;animation:rotate 1s linear infinite;">⏳</span> 送信中...';
     btn.disabled = true;
-    // TODO: Google Forms / GAS エンドポイントに差し替える
-    setTimeout(() => {
+
+    const contactType = document.querySelector('input[name="contact-type"]:checked');
+
+    const payload = {
+      type:        'contact',
+      contactType: contactType ? contactType.value : '未選択',
+      name:        document.getElementById('contact-name').value,
+      email:       document.getElementById('contact-email').value,
+      tel:         document.getElementById('contact-tel').value,
+      body:        document.getElementById('contact-body').value,
+    };
+
+    try {
+      await postToGAS(payload);
       document.getElementById('contact-form').style.display = 'none';
       document.getElementById('contact-success').style.display = 'block';
-    }, 1200);
+    } catch (err) {
+      console.error(err);
+      alert('送信中にエラーが発生しました。\n時間をおいて再度お試しください。\n\n' + err.message);
+      btn.textContent = origText;
+      btn.disabled = false;
+    }
   }
 
   // ESCキーで閉じる
