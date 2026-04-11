@@ -135,8 +135,8 @@
         <div style="display:flex;gap:20px;font-size:13px;font-weight:700;color:#FFBB80;">
           <span style="cursor:pointer;text-shadow:1px 1px 0 #000;">想い</span>
           <span style="cursor:pointer;text-shadow:1px 1px 0 #000;">仲間</span>
-          <span style="cursor:pointer;text-shadow:1px 1px 0 #000;">募集</span>
-          <span style="cursor:pointer;text-shadow:1px 1px 0 #000;">連絡</span>
+          <span onclick="openEntry()" style="cursor:pointer;text-shadow:1px 1px 0 #000;">募集</span>
+          <span onclick="openContact()" style="cursor:pointer;text-shadow:1px 1px 0 #000;">連絡</span>
         </div>
       </nav>
 
@@ -155,7 +155,7 @@
           泥臭い根性なら、誰にも負けない。<br>
           さあ、もう一度飛んでみないか。
         </p>
-        <button style="font-family:'Reggae One',cursive;background:#FF6B2B;color:#fff;border:4px solid #FFD4A0;padding:18px 48px;border-radius:12px;font-size:18px;cursor:pointer;box-shadow:0 8px 30px rgba(255,107,43,.5),inset 0 -3px 0 #C0392B;animation:riseUp 1s ease-out .6s both;">
+        <button onclick="openEntry()" style="font-family:'Reggae One',cursive;background:#FF6B2B;color:#fff;border:4px solid #FFD4A0;padding:18px 48px;border-radius:12px;font-size:18px;cursor:pointer;box-shadow:0 8px 30px rgba(255,107,43,.5),inset 0 -3px 0 #C0392B;animation:riseUp 1s ease-out .6s both;transition:transform .15s;" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
           🔥 挑戦する
         </button>
       </div>
@@ -207,8 +207,8 @@
       <div style="display:flex;gap:24px;font-size:14px;font-weight:700;color:#8B7D6B;">
         <span style="cursor:pointer;">ハブとは</span>
         <span style="cursor:pointer;">仲間紹介</span>
-        <span style="cursor:pointer;">採用情報</span>
-        <span style="cursor:pointer;">お問い合わせ</span>
+        <span onclick="openEntry()" style="cursor:pointer;">採用情報</span>
+        <span onclick="openContact()" style="cursor:pointer;">お問い合わせ</span>
       </div>
     </nav>
 
@@ -292,9 +292,9 @@
       <div style="font-family:'Dela Gothic One',cursive;font-size:20px;color:#FFE135;">🔑 CLH</div>
       <div style="display:flex;gap:16px;font-size:13px;font-weight:900;">
         <span style="color:#FFE135;border:2px solid #FFE135;padding:6px 14px;border-radius:4px;cursor:pointer;">TOP</span>
-        <span style="color:#FFE135;border:2px solid #FFE135;padding:6px 14px;border-radius:4px;cursor:pointer;">求人</span>
+        <span onclick="openEntry()" style="color:#FFE135;border:2px solid #FFE135;padding:6px 14px;border-radius:4px;cursor:pointer;">求人</span>
         <span style="color:#FFE135;border:2px solid #FFE135;padding:6px 14px;border-radius:4px;cursor:pointer;">仲間</span>
-        <span style="color:#FFE135;border:2px solid #FFE135;padding:6px 14px;border-radius:4px;cursor:pointer;">問い合わせ</span>
+        <span onclick="openContact()" style="color:#FFE135;border:2px solid #FFE135;padding:6px 14px;border-radius:4px;cursor:pointer;">問い合わせ</span>
       </div>
     </nav>
 
@@ -306,7 +306,7 @@
           <div style="display:inline-block;background:#FFE135;color:#111;padding:6px 20px;font-weight:900;font-size:14px;margin-bottom:20px;transform:rotate(-2deg);font-family:'Dela Gothic One',cursive;">📅 今月のコア募集</div>
           <h1 style="font-family:'Dela Gothic One',cursive;font-size:56px;color:#FFE135;line-height:1.3;margin:0 0 8px;animation:popBig .6s ease-out;">ゲーム<br>オタク<br>集まれ。</h1>
           <p style="font-size:16px;color:#999;line-height:2;margin:20px 0 32px;">「100人に1人、刺さればいい。」<br>趣味を隠さず働ける職場がここにある。<br>レベル上げより、現場が楽しいｗ</p>
-          <button style="font-family:'Dela Gothic One',cursive;background:#FFE135;color:#111;border:none;padding:16px 40px;font-size:16px;cursor:pointer;box-shadow:4px 4px 0 #fff;">🎮 エントリーする</button>
+          <button onclick="openEntry()" style="font-family:'Dela Gothic One',cursive;background:#FFE135;color:#111;border:none;padding:16px 40px;font-size:16px;cursor:pointer;box-shadow:4px 4px 0 #fff;transition:transform .15s;" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">🎮 エントリーする</button>
         </div>
         <!-- Right -->
         <div style="position:relative;height:400px;">
@@ -349,8 +349,8 @@
         <div style="display:flex;gap:20px;font-size:14px;font-weight:700;color:#8B7D6B;">
           <span style="cursor:pointer;">みんなの素顔</span>
           <span style="cursor:pointer;">お仕事</span>
-          <span style="cursor:pointer;">採用</span>
-          <span style="cursor:pointer;">連絡先</span>
+          <span onclick="openEntry()" style="cursor:pointer;">採用</span>
+          <span onclick="openContact()" style="cursor:pointer;">連絡先</span>
         </div>
       </nav>
 
@@ -461,8 +461,8 @@
         <span style="cursor:pointer;">会社案内</span>
         <span style="cursor:pointer;">事業内容</span>
         <span style="cursor:pointer;">スタッフ</span>
-        <span style="cursor:pointer;">採用</span>
-        <span style="cursor:pointer;">お問い合わせ</span>
+        <span onclick="openEntry()" style="cursor:pointer;">採用</span>
+        <span onclick="openContact()" style="cursor:pointer;">お問い合わせ</span>
       </div>
     </nav>
 
@@ -604,6 +604,191 @@
       wrap.appendChild(el);
     });
   })();
+</script>
+
+<!-- ══════════════════════════════════════════
+     MODAL: エントリーフォーム
+═══════════════════════════════════════════ -->
+<div id="modal-entry" style="display:none;position:fixed;inset:0;z-index:9999;background:rgba(0,0,0,.6);backdrop-filter:blur(6px);align-items:center;justify-content:center;padding:20px;">
+  <div style="background:#fff;border-radius:24px;max-width:520px;width:100%;max-height:90vh;overflow-y:auto;position:relative;box-shadow:0 24px 80px rgba(0,0,0,.3);">
+    <!-- ヘッダー -->
+    <div style="background:linear-gradient(135deg,#FF6B2B,#FF4444);padding:32px 32px 24px;border-radius:24px 24px 0 0;position:relative;">
+      <button onclick="closeEntry()" style="position:absolute;top:16px;right:16px;background:rgba(255,255,255,.2);border:none;color:#fff;width:36px;height:36px;border-radius:50%;font-size:18px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:background .2s;" onmouseover="this.style.background='rgba(255,255,255,.35)'" onmouseout="this.style.background='rgba(255,255,255,.2)'">✕</button>
+      <div style="font-size:32px;margin-bottom:8px;">🔥</div>
+      <h2 style="color:#fff;font-family:'Zen Maru Gothic',sans-serif;font-weight:900;font-size:22px;margin:0 0 6px;">エントリーフォーム</h2>
+      <p style="color:rgba(255,255,255,.85);font-size:13px;margin:0;">まずは気軽にご連絡ください。雇用形態はご相談に応じます。</p>
+    </div>
+    <!-- フォーム本体 -->
+    <form id="entry-form" onsubmit="submitEntry(event)" style="padding:28px 32px 32px;">
+      <div style="margin-bottom:20px;">
+        <label style="display:block;font-weight:700;font-size:13px;color:#555;margin-bottom:6px;">お名前 <span style="color:#FF4444;">*</span></label>
+        <input id="entry-name" type="text" required placeholder="山田 太郎" style="width:100%;padding:12px 16px;border:2px solid #E8E8E8;border-radius:10px;font-size:15px;font-family:'Zen Maru Gothic',sans-serif;outline:none;transition:border-color .2s;" onfocus="this.style.borderColor='#FF6B2B'" onblur="this.style.borderColor='#E8E8E8'">
+      </div>
+      <div style="margin-bottom:20px;">
+        <label style="display:block;font-weight:700;font-size:13px;color:#555;margin-bottom:6px;">年齢 <span style="color:#FF4444;">*</span></label>
+        <input id="entry-age" type="number" required min="18" max="80" placeholder="48" style="width:100%;padding:12px 16px;border:2px solid #E8E8E8;border-radius:10px;font-size:15px;font-family:'Zen Maru Gothic',sans-serif;outline:none;transition:border-color .2s;" onfocus="this.style.borderColor='#FF6B2B'" onblur="this.style.borderColor='#E8E8E8'">
+      </div>
+      <div style="margin-bottom:20px;">
+        <label style="display:block;font-weight:700;font-size:13px;color:#555;margin-bottom:6px;">電話番号またはメール <span style="color:#FF4444;">*</span></label>
+        <input id="entry-contact" type="text" required placeholder="090-xxxx-xxxx または example@mail.com" style="width:100%;padding:12px 16px;border:2px solid #E8E8E8;border-radius:10px;font-size:15px;font-family:'Zen Maru Gothic',sans-serif;outline:none;transition:border-color .2s;" onfocus="this.style.borderColor='#FF6B2B'" onblur="this.style.borderColor='#E8E8E8'">
+      </div>
+      <div style="margin-bottom:20px;">
+        <label style="display:block;font-weight:700;font-size:13px;color:#555;margin-bottom:8px;">希望の働き方</label>
+        <div style="display:flex;gap:8px;flex-wrap:wrap;">
+          <label style="display:flex;align-items:center;gap:6px;background:#FFF0F0;border:2px solid #FFCCCC;border-radius:8px;padding:8px 14px;cursor:pointer;font-size:13px;font-weight:700;color:#FF4444;">
+            <input type="radio" name="work-style" value="正社員" style="accent-color:#FF4444;"> 正社員
+          </label>
+          <label style="display:flex;align-items:center;gap:6px;background:#FFF8F0;border:2px solid #FFD4A0;border-radius:8px;padding:8px 14px;cursor:pointer;font-size:13px;font-weight:700;color:#FF6B2B;">
+            <input type="radio" name="work-style" value="外注・業務委託" style="accent-color:#FF6B2B;"> 外注・業務委託
+          </label>
+          <label style="display:flex;align-items:center;gap:6px;background:#F0F8FF;border:2px solid #BBDDFF;border-radius:8px;padding:8px 14px;cursor:pointer;font-size:13px;font-weight:700;color:#4D96FF;">
+            <input type="radio" name="work-style" value="パート・時短" style="accent-color:#4D96FF;"> パート・時短
+          </label>
+          <label style="display:flex;align-items:center;gap:6px;background:#F0FFF4;border:2px solid #BBEECC;border-radius:8px;padding:8px 14px;cursor:pointer;font-size:13px;font-weight:700;color:#2D9B50;">
+            <input type="radio" name="work-style" value="まずは相談したい" checked style="accent-color:#2D9B50;"> まずは相談したい
+          </label>
+        </div>
+      </div>
+      <div style="margin-bottom:24px;">
+        <label style="display:block;font-weight:700;font-size:13px;color:#555;margin-bottom:6px;">趣味・自己PR（任意）</label>
+        <textarea id="entry-pr" rows="3" placeholder="例: ゲーム、家庭菜園、音楽が好きです。前職は○○でした。" style="width:100%;padding:12px 16px;border:2px solid #E8E8E8;border-radius:10px;font-size:14px;font-family:'Zen Maru Gothic',sans-serif;outline:none;resize:vertical;transition:border-color .2s;" onfocus="this.style.borderColor='#FF6B2B'" onblur="this.style.borderColor='#E8E8E8'"></textarea>
+      </div>
+      <button type="submit" id="entry-submit-btn" style="width:100%;background:linear-gradient(135deg,#FF6B2B,#FF4444);color:#fff;border:none;padding:16px;border-radius:12px;font-size:17px;font-weight:900;font-family:'Zen Maru Gothic',sans-serif;cursor:pointer;box-shadow:0 6px 24px rgba(255,107,43,.4);transition:all .2s;" onmouseover="this.style.transform='translateY(-2px)';this.style.boxShadow='0 10px 32px rgba(255,107,43,.5)'" onmouseout="this.style.transform='translateY(0)';this.style.boxShadow='0 6px 24px rgba(255,107,43,.4)'">
+        🔥 エントリーを送信する
+      </button>
+      <p style="text-align:center;font-size:12px;color:#AAA;margin-top:12px;">送信後、担当者から3営業日以内にご連絡いたします</p>
+    </form>
+    <!-- 送信完了 -->
+    <div id="entry-success" style="display:none;padding:48px 32px;text-align:center;">
+      <div style="font-size:64px;margin-bottom:16px;">🎉</div>
+      <h3 style="font-family:'Zen Maru Gothic',sans-serif;font-weight:900;font-size:22px;color:#333;margin-bottom:8px;">エントリー受付完了！</h3>
+      <p style="color:#777;font-size:14px;line-height:1.8;">ありがとうございます。<br>3営業日以内にご連絡いたします。</p>
+      <button onclick="closeEntry()" style="margin-top:24px;background:#FF6B2B;color:#fff;border:none;padding:12px 32px;border-radius:10px;font-size:15px;font-weight:900;font-family:'Zen Maru Gothic',sans-serif;cursor:pointer;">閉じる</button>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════
+     MODAL: お問い合わせフォーム
+═══════════════════════════════════════════ -->
+<div id="modal-contact" style="display:none;position:fixed;inset:0;z-index:9999;background:rgba(0,0,0,.6);backdrop-filter:blur(6px);align-items:center;justify-content:center;padding:20px;">
+  <div style="background:#fff;border-radius:24px;max-width:520px;width:100%;max-height:90vh;overflow-y:auto;position:relative;box-shadow:0 24px 80px rgba(0,0,0,.3);">
+    <!-- ヘッダー -->
+    <div style="background:linear-gradient(135deg,#4D96FF,#6BCB77);padding:32px 32px 24px;border-radius:24px 24px 0 0;position:relative;">
+      <button onclick="closeContact()" style="position:absolute;top:16px;right:16px;background:rgba(255,255,255,.2);border:none;color:#fff;width:36px;height:36px;border-radius:50%;font-size:18px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:background .2s;" onmouseover="this.style.background='rgba(255,255,255,.35)'" onmouseout="this.style.background='rgba(255,255,255,.2)'">✕</button>
+      <div style="font-size:32px;margin-bottom:8px;">💬</div>
+      <h2 style="color:#fff;font-family:'Zen Maru Gothic',sans-serif;font-weight:900;font-size:22px;margin:0 0 6px;">お問い合わせ</h2>
+      <p style="color:rgba(255,255,255,.85);font-size:13px;margin:0;">企業様・パートナー様からのご相談もお気軽にどうぞ。</p>
+    </div>
+    <!-- フォーム本体 -->
+    <form id="contact-form" onsubmit="submitContact(event)" style="padding:28px 32px 32px;">
+      <div style="margin-bottom:16px;">
+        <label style="display:block;font-weight:700;font-size:13px;color:#555;margin-bottom:8px;">お問い合わせ種別 <span style="color:#4D96FF;">*</span></label>
+        <div style="display:flex;gap:8px;flex-wrap:wrap;">
+          <label style="display:flex;align-items:center;gap:6px;background:#F0F8FF;border:2px solid #BBDDFF;border-radius:8px;padding:8px 14px;cursor:pointer;font-size:13px;font-weight:700;color:#4D96FF;">
+            <input type="radio" name="contact-type" value="企業・業務提携」" style="accent-color:#4D96FF;"> 企業・業務提携
+          </label>
+          <label style="display:flex;align-items:center;gap:6px;background:#F0FFF4;border:2px solid #BBEECC;border-radius:8px;padding:8px 14px;cursor:pointer;font-size:13px;font-weight:700;color:#2D9B50;">
+            <input type="radio" name="contact-type" value="サービス内容について" checked style="accent-color:#2D9B50;"> サービス内容について
+          </label>
+          <label style="display:flex;align-items:center;gap:6px;background:#FFF8F0;border:2px solid #FFD4A0;border-radius:8px;padding:8px 14px;cursor:pointer;font-size:13px;font-weight:700;color:#FF6B2B;">
+            <input type="radio" name="contact-type" value="その他" style="accent-color:#FF6B2B;"> その他
+          </label>
+        </div>
+      </div>
+      <div style="margin-bottom:20px;">
+        <label style="display:block;font-weight:700;font-size:13px;color:#555;margin-bottom:6px;">会社名・お名前 <span style="color:#4D96FF;">*</span></label>
+        <input id="contact-name" type="text" required placeholder="株式会社〇〇 / 山田 太郎" style="width:100%;padding:12px 16px;border:2px solid #E8E8E8;border-radius:10px;font-size:15px;font-family:'Zen Maru Gothic',sans-serif;outline:none;transition:border-color .2s;" onfocus="this.style.borderColor='#4D96FF'" onblur="this.style.borderColor='#E8E8E8'">
+      </div>
+      <div style="margin-bottom:20px;">
+        <label style="display:block;font-weight:700;font-size:13px;color:#555;margin-bottom:6px;">メールアドレス <span style="color:#4D96FF;">*</span></label>
+        <input id="contact-email" type="email" required placeholder="example@company.com" style="width:100%;padding:12px 16px;border:2px solid #E8E8E8;border-radius:10px;font-size:15px;font-family:'Zen Maru Gothic',sans-serif;outline:none;transition:border-color .2s;" onfocus="this.style.borderColor='#4D96FF'" onblur="this.style.borderColor='#E8E8E8'">
+      </div>
+      <div style="margin-bottom:20px;">
+        <label style="display:block;font-weight:700;font-size:13px;color:#555;margin-bottom:6px;">電話番号（任意）</label>
+        <input id="contact-tel" type="tel" placeholder="03-xxxx-xxxx" style="width:100%;padding:12px 16px;border:2px solid #E8E8E8;border-radius:10px;font-size:15px;font-family:'Zen Maru Gothic',sans-serif;outline:none;transition:border-color .2s;" onfocus="this.style.borderColor='#4D96FF'" onblur="this.style.borderColor='#E8E8E8'">
+      </div>
+      <div style="margin-bottom:24px;">
+        <label style="display:block;font-weight:700;font-size:13px;color:#555;margin-bottom:6px;">お問い合わせ内容 <span style="color:#4D96FF;">*</span></label>
+        <textarea id="contact-body" rows="4" required placeholder="ご質問・ご相談の内容をご記載ください。" style="width:100%;padding:12px 16px;border:2px solid #E8E8E8;border-radius:10px;font-size:14px;font-family:'Zen Maru Gothic',sans-serif;outline:none;resize:vertical;transition:border-color .2s;" onfocus="this.style.borderColor='#4D96FF'" onblur="this.style.borderColor='#E8E8E8'"></textarea>
+      </div>
+      <button type="submit" id="contact-submit-btn" style="width:100%;background:linear-gradient(135deg,#4D96FF,#6BCB77);color:#fff;border:none;padding:16px;border-radius:12px;font-size:17px;font-weight:900;font-family:'Zen Maru Gothic',sans-serif;cursor:pointer;box-shadow:0 6px 24px rgba(77,150,255,.4);transition:all .2s;" onmouseover="this.style.transform='translateY(-2px)';this.style.boxShadow='0 10px 32px rgba(77,150,255,.5)'" onmouseout="this.style.transform='translateY(0)';this.style.boxShadow='0 6px 24px rgba(77,150,255,.4)'">
+        💬 送信する
+      </button>
+      <p style="text-align:center;font-size:12px;color:#AAA;margin-top:12px;">送信後、担当者から3営業日以内にご連絡いたします</p>
+    </form>
+    <!-- 送信完了 -->
+    <div id="contact-success" style="display:none;padding:48px 32px;text-align:center;">
+      <div style="font-size:64px;margin-bottom:16px;">✅</div>
+      <h3 style="font-family:'Zen Maru Gothic',sans-serif;font-weight:900;font-size:22px;color:#333;margin-bottom:8px;">お問い合わせ受付完了！</h3>
+      <p style="color:#777;font-size:14px;line-height:1.8;">ありがとうございます。<br>3営業日以内にご連絡いたします。</p>
+      <button onclick="closeContact()" style="margin-top:24px;background:#4D96FF;color:#fff;border:none;padding:12px 32px;border-radius:10px;font-size:15px;font-weight:900;font-family:'Zen Maru Gothic',sans-serif;cursor:pointer;">閉じる</button>
+    </div>
+  </div>
+</div>
+
+<script>
+  // ── Modal: エントリーフォーム ──
+  function openEntry() {
+    const m = document.getElementById('modal-entry');
+    m.style.display = 'flex';
+    document.getElementById('entry-form').style.display = 'block';
+    document.getElementById('entry-success').style.display = 'none';
+    document.body.style.overflow = 'hidden';
+    setTimeout(() => m.querySelector('div').style.animation = 'fadeSlide .3s ease-out', 10);
+  }
+  function closeEntry() {
+    document.getElementById('modal-entry').style.display = 'none';
+    document.body.style.overflow = '';
+    document.getElementById('entry-form').reset();
+  }
+  document.getElementById('modal-entry').addEventListener('click', function(e) {
+    if (e.target === this) closeEntry();
+  });
+  function submitEntry(e) {
+    e.preventDefault();
+    const btn = document.getElementById('entry-submit-btn');
+    btn.textContent = '送信中...';
+    btn.disabled = true;
+    // TODO: Google Forms / GAS エンドポイントに差し替える
+    setTimeout(() => {
+      document.getElementById('entry-form').style.display = 'none';
+      document.getElementById('entry-success').style.display = 'block';
+    }, 1200);
+  }
+
+  // ── Modal: お問い合わせフォーム ──
+  function openContact() {
+    const m = document.getElementById('modal-contact');
+    m.style.display = 'flex';
+    document.getElementById('contact-form').style.display = 'block';
+    document.getElementById('contact-success').style.display = 'none';
+    document.body.style.overflow = 'hidden';
+  }
+  function closeContact() {
+    document.getElementById('modal-contact').style.display = 'none';
+    document.body.style.overflow = '';
+    document.getElementById('contact-form').reset();
+  }
+  document.getElementById('modal-contact').addEventListener('click', function(e) {
+    if (e.target === this) closeContact();
+  });
+  function submitContact(e) {
+    e.preventDefault();
+    const btn = document.getElementById('contact-submit-btn');
+    btn.textContent = '送信中...';
+    btn.disabled = true;
+    // TODO: Google Forms / GAS エンドポイントに差し替える
+    setTimeout(() => {
+      document.getElementById('contact-form').style.display = 'none';
+      document.getElementById('contact-success').style.display = 'block';
+    }, 1200);
+  }
+
+  // ESCキーで閉じる
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') { closeEntry(); closeContact(); }
+  });
 </script>
 </body>
 </html>
