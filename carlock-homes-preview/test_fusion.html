@@ -980,87 +980,115 @@
   }
 </script>
 <!-- ══════════════════════════════════════════
-     OFFICIAL FUSION OVERLAY (Refined V2)
+     OFFICIAL FUSION OVERLAY (TRUE MIRROR MODE)
 ═══════════════════════════════════════════ -->
-<div id="official-fusion-overlay" style="display:none; position:fixed; inset:0; z-index:99999; background:#fff; overflow-y:auto; padding:60px 5%; animation:fadeSlide 0.5s ease-out; font-family:'Zen Maru Gothic', sans-serif;">
-  <div style="max-width:1200px; margin:0 auto;">
-    
-    <!-- Hero (Official Style) -->
-    <div style="text-align:center; margin-bottom:80px;">
-      <div style="display:inline-block; background:#4D96FF; color:#fff; padding:4px 16px; border-radius:20px; font-weight:900; font-size:14px; margin-bottom:24px;">Official Website Info</div>
-      <h2 style="font-size:clamp(2.5rem, 6vw, 4rem); font-weight:900; line-height:1.2; margin-bottom:30px; color:#2D3436; font-family:'Zen Maru Gothic';">あなたの日常に、<br>確かな安心を。</h2>
-      <p style="font-size:18px; color:rgba(0,0,0,0.6); max-width:700px; margin:0 auto; line-height:2;">カーロックホームズは、カギと防犯のプロフェッショナルとして、そして住まいのメンテナンスパートナーとして、180以上の全国ネットワークで24時間365日あなたをサポートします。</p>
-    </div>
+<div id="official-fusion-overlay" style="display:none; position:fixed; inset:0; z-index:99999; background:#fdf7f7; overflow-y:auto; animation:fadeSlide 0.5s ease-out;">
+  <style>
+    :root {
+      --primary: #4D96FF; --secondary: #FFE135; --accent: #FF6B6B; --text: #2D3436; --bg: #fdf7f7; --white: #ffffff; --shadow: 0 10px 30px rgba(0,0,0,0.05);
+    }
+    #official-fusion-overlay section { padding: 100px 10%; max-width: 1400px; margin: 0 auto; line-height: 1.8; font-family: 'Zen Maru Gothic', sans-serif; }
+    .section-title { text-align: center; margin-bottom: 80px; }
+    .section-title h2 { font-family: 'Outfit', sans-serif; font-size: 42px; font-weight: 900; color: var(--primary); margin-bottom: 10px; }
+    .section-title p { font-weight: 700; color: #999; }
+    .service-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 40px; }
+    .service-card { background: var(--white); padding: 50px 40px; border-radius: 32px; box-shadow: var(--shadow); transition: 0.4s; position: relative; overflow: hidden; border: 2px solid transparent; }
+    .service-card:hover { transform: translateY(-10px); border-color: var(--primary); }
+    .service-icon { font-size: 40px; margin-bottom: 24px; display: block; }
+    .service-card h3 { font-size: 24px; font-weight: 900; margin-bottom: 16px; color: var(--text); }
+    .service-card ul { list-style: none; }
+    .service-card li { margin-bottom: 10px; position: relative; padding-left: 20px; font-size: 15px; color: #555; }
+    .service-card li::before { content: '・'; position: absolute; left: 0; color: var(--primary); font-weight: 900; }
+    .profile-box { background: var(--white); border-radius: 40px; padding: 60px; box-shadow: var(--shadow); max-width: 1000px; margin: 0 auto; }
+    .profile-table { width: 100%; border-collapse: collapse; }
+    .profile-table tr { border-bottom: 1px solid #eee; }
+    .profile-table tr:last-child { border-bottom: none; }
+    .profile-table th { text-align: left; padding: 24px 0; width: 30%; color: var(--primary); font-weight: 900; }
+    .profile-table td { padding: 24px 0; font-weight: 400; color: #444; }
+  </style>
 
-    <!-- Fusion: Business/Services Content (EXTRACTED FROM hp/index.html) -->
-    <div id="fusion-sub-company" class="fusion-sub-page" style="display:none;">
-      <div style="text-align:center; margin-bottom:60px;">
-        <h3 style="font-family:'Outfit', sans-serif; font-size:42px; font-weight:900; color:#4D96FF; margin-bottom:10px;">Our Business</h3>
-        <p style="font-weight:700; color:#999;">事業内容について</p>
-      </div>
+  <button onclick="closeFusion()" style="position:fixed; top:30px; right:30px; z-index:100000; background:#111; color:#fff; border:none; padding:12px 30px; border-radius:50px; font-weight:900; cursor:pointer; font-family:'Zen Maru Gothic'; box-shadow:0 8px 30px rgba(0,0,0,0.2);">← 採用サイトへ戻る</button>
 
-      <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(320px, 1fr)); gap:40px;">
-        <!-- Card 1 -->
-        <div style="background:#fff; padding:50px 40px; border-radius:32px; box-shadow:0 10px 30px rgba(0,0,0,0.05); border:2px solid #f8f8f8; transition:0.4s;">
-          <span style="font-size:40px; margin-bottom:24px; display:block;">🛡️</span>
-          <h3 style="font-size:24px; font-weight:900; margin-bottom:16px; color:#2D3436;">カギ・防犯<br>セキュリティー</h3>
-          <ul style="list-style:none;">
-            <li style="margin-bottom:10px; position:relative; padding-left:20px; font-size:15px; color:#555;">緊急解錠・修理（住宅・金庫）</li>
-            <li style="margin-bottom:10px; position:relative; padding-left:20px; font-size:15px; color:#555;">カギの交換・取付（スマートロック等）</li>
-            <li style="margin-bottom:10px; position:relative; padding-left:20px; font-size:15px; color:#555;">防犯カメラ・インターホン工事</li>
-            <li style="margin-bottom:10px; position:relative; padding-left:20px; font-size:15px; color:#555;">オートロック・電気錠システム構築</li>
-          </ul>
+  <div id="fusion-mirror-content">
+    <!-- Services Section (BIT-FOR-BIT COPY FROM hp/index.html) -->
+    <section id="services">
+        <div class="section-title">
+            <h2>Our Business</h2>
+            <p>事業内容について</p>
         </div>
-        <!-- Card 2 -->
-        <div style="background:#fff; padding:50px 40px; border-radius:32px; box-shadow:0 10px 30px rgba(0,0,0,0.05); border:2px solid #f8f8f8; transition:0.4s;">
-          <span style="font-size:40px; margin-bottom:24px; display:block;">🏠</span>
-          <h3 style="font-size:24px; font-weight:900; margin-bottom:16px; color:#2D3436;">住宅設備<br>メンテナンス</h3>
-          <ul style="list-style:none;">
-            <li style="margin-bottom:10px; position:relative; padding-left:20px; font-size:15px; color:#555;">サッシ・網戸・ガラス修理</li>
-            <li style="margin-bottom:10px; position:relative; padding-left:20px; font-size:15px; color:#555;">水漏れ・排水詰まり対応</li>
-            <li style="margin-bottom:10px; position:relative; padding-left:20px; font-size:15px; color:#555;">共用部点検・メンテナンス</li>
-            <li style="margin-bottom:10px; position:relative; padding-left:20px; font-size:15px; color:#555;">除菌施工・リフレッシュ工事</li>
-          </ul>
+        <div class="service-grid">
+            <div class="service-card">
+                <span class="service-icon">🛡️</span>
+                <h3>カギ・防犯<br>セキュリティー</h3>
+                <ul>
+                    <li>緊急解錠・修理（住宅・金庫）</li>
+                    <li>カギの交換・取付（スマートロック等）</li>
+                    <li>防犯カメラ・インターホン工事</li>
+                    <li>オートロック・電気錠システム構築</li>
+                </ul>
+            </div>
+            <div class="service-card">
+                <span class="service-icon">🏠</span>
+                <h3>住宅設備<br>メンテナンス</h3>
+                <ul>
+                    <li>サッシ・網戸・ガラス修理</li>
+                    <li>水漏れ・排水詰まり対応</li>
+                    <li>共用部点検・メンテナンス</li>
+                    <li>除菌施工・リフレッシュ工事</li>
+                </ul>
+            </div>
+            <div class="service-card">
+                <span class="service-icon">🤝</span>
+                <h3>管理代行<br>アウトソーシング</h3>
+                <ul>
+                    <li>入居前点検・鍵管理業務</li>
+                    <li>保守点検等の作業員派遣</li>
+                    <li>全国180の強力なネットワーク</li>
+                    <li>24時間365日の受付・出動体制</li>
+                </ul>
+            </div>
         </div>
-        <!-- Card 3 -->
-        <div style="background:#fff; padding:50px 40px; border-radius:32px; box-shadow:0 10px 30px rgba(0,0,0,0.05); border:2px solid #f8f8f8; transition:0.4s;">
-          <span style="font-size:40px; margin-bottom:24px; display:block;">🤝</span>
-          <h3 style="font-size:24px; font-weight:900; margin-bottom:16px; color:#2D3436;">管理代行<br>アウトソーシング</h3>
-          <ul style="list-style:none;">
-            <li style="margin-bottom:10px; position:relative; padding-left:20px; font-size:15px; color:#555;">入居前点検・鍵管理業務</li>
-            <li style="margin-bottom:10px; position:relative; padding-left:20px; font-size:15px; color:#555;">保守点検等の作業員派遣</li>
-            <li style="margin-bottom:10px; position:relative; padding-left:20px; font-size:15px; color:#555;">全国180の強力なネットワーク</li>
-            <li style="margin-bottom:10px; position:relative; padding-left:20px; font-size:15px; color:#555;">24時間365日の受付・出動体制</li>
-          </ul>
-        </div>
-      </div>
-    </div>
+    </section>
 
-    <!-- Fusion: Access/Map (Also part of official vibe) -->
-    <div id="fusion-sub-business" class="fusion-sub-page" style="display:none;">
-      <div style="text-align:center; margin-bottom:60px;">
-        <h3 style="font-family:'Outfit', sans-serif; font-size:42px; font-weight:900; color:#4D96FF; margin-bottom:10px;">Access</h3>
-        <p style="font-weight:700; color:#999;">アクセス</p>
-      </div>
-      <div style="display:grid; grid-template-columns:1fr 1.5fr; gap:60px; align-items:center;">
-        <div>
-          <h4 style="font-size:24px; margin-bottom:20px; font-weight:900;">JR西荻窪駅より徒歩5分</h4>
-          <p style="color:#666; margin-bottom:30px; font-size:16px; line-height:2;">
-            東京都杉並区西荻北2-37-12 ブランシュ西荻 中2階<br>
-            TEL: 03-5311-0556
-          </p>
+    <!-- Company Section (BIT-FOR-BIT COPY FROM hp/index.html) -->
+    <section id="company">
+        <div class="section-title">
+            <h2>Company Info</h2>
+            <p>会社情報</p>
         </div>
-        <div style="width:100%; height:450px; border-radius:32px; overflow:hidden; box-shadow:0 10px 30px rgba(0,0,0,0.05); border:1px solid #eee;">
-          <iframe src="https://maps.google.com/maps?q=%E3%82%AB%E3%83%BC%E3%83%AD%E3%83%83%E3%82%AF%E3%83%9B%E3%83%BC%E3%83%A0%E3%82%BA%E6%A0%AA%E5%BC%8F%E4%BC%9A%E7%A4%BE+%E8%A5%BF%E8%81%BB%E7%AA%AA&hl=ja&z=15&output=embed" width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+        <div class="profile-box">
+            <table class="profile-table">
+                <tr>
+                    <th>商号</th>
+                    <td>カーロックホームズ株式会社</td>
+                </tr>
+                <tr>
+                    <th>英名表記</th>
+                    <td>CarlockHomes CO., LTD. (CLH)</td>
+                </tr>
+                <tr>
+                    <th>所在地</th>
+                    <td>〒167-0042 東京都杉並区西荻北2-37-12 ブランシュ西荻 中2階</td>
+                </tr>
+                <tr>
+                    <th>創業</th>
+                    <td>平成14年8月</td>
+                </tr>
+                <tr>
+                    <th>主なサービス</th>
+                    <td>カギ・防犯、住宅設備メンテナンス、管理代行</td>
+                </tr>
+                <tr>
+                    <th>グループ会社</th>
+                    <td>株式会社TENKEN GO / 株式会社One Stop Labo</td>
+                </tr>
+            </table>
         </div>
-      </div>
-    </div>
-
-    <button onclick="closeFusion()" style="display:block; margin:60px auto 40px; background:#111; color:#fff; border:none; padding:18px 60px; border-radius:50px; font-weight:900; cursor:pointer; font-size:16px; box-shadow:0 10px 30px rgba(0,0,0,0.3); transition:0.3s;" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">採用ハブへ戻る</button>
+    </section>
   </div>
-  
-  <!-- Copyright sign in overlay -->
-  <div style="text-align:center; padding:40px 0; color:#aaa; font-size:11px; border-top:1px solid #eee; margin-top:40px; letter-spacing:1px;">
+
+  <!-- Global Footer Signature -->
+  <div style="text-align:center; padding:60px 0; color:#aaa; font-size:12px; border-top:1px solid #eee; margin-top:60px; letter-spacing:1px; line-height:2;">
     &copy; 2026 CarlockHomes CO., LTD. produced by CLH Creativeteam
   </div>
 </div>
