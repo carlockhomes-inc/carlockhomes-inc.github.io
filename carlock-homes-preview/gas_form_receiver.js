@@ -1,8 +1,8 @@
 const SPREADSHEET_ID = '12Q8LWHjtkb0KW18KtQ_uqcEk2lfJXXGAwhGt9KlUhvM';
 const SHEET_ENTRY = 'エントリー';
 const SHEET_CONTACT = 'お問い合わせ';
-const ENTRY_HEADERS = ['受信日時', 'お名前', '年齢', '電話/メール', '希望の働き方', '趣味・自己PR', '流入元ページ'];
-const CONTACT_HEADERS = ['受信日時', '種別', '会社名/お名前', 'メールアドレス', '電話番号', 'お問い合わせ内容'];
+const ENTRY_HEADERS = ['受信日時', 'お名前', '年齢', '電話/メール', '希望の働き方', '趣味・自己PR', '流入元ページ', 'アクセス元'];
+const CONTACT_HEADERS = ['受信日時', '種別', '会社名/お名前', 'メールアドレス', '電話番号', 'お問い合わせ内容', 'アクセス元'];
 
 function doPost(e) {
   try {
@@ -26,13 +26,30 @@ function doPost(e) {
 function writeEntry(ss, params) {
   const sheet = getOrCreateSheet(ss, SHEET_ENTRY, ENTRY_HEADERS);
   const now = Utilities.formatDate(new Date(), 'Asia/Tokyo', 'yyyy/MM/dd HH:mm:ss');
-  sheet.appendRow([now, params.name || '', params.age || '', params.contact || '', params.workStyle || '', params.pr || '', params.source || '']);
+  sheet.appendRow([
+    now,
+    params.name || '',
+    params.age || '',
+    params.contact || '',
+    params.workStyle || '',
+    params.pr || '',
+    params.source || '',
+    params.traffic || ''
+  ]);
 }
 
 function writeContact(ss, params) {
   const sheet = getOrCreateSheet(ss, SHEET_CONTACT, CONTACT_HEADERS);
   const now = Utilities.formatDate(new Date(), 'Asia/Tokyo', 'yyyy/MM/dd HH:mm:ss');
-  sheet.appendRow([now, params.contactType || '', params.name || '', params.email || '', params.tel || '', params.body || '']);
+  sheet.appendRow([
+    now,
+    params.contactType || '',
+    params.name || '',
+    params.email || '',
+    params.tel || '',
+    params.body || '',
+    params.traffic || ''
+  ]);
 }
 
 function getOrCreateSheet(ss, sheetName, headers) {

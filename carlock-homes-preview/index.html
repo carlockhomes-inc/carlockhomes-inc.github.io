@@ -734,6 +734,34 @@
   // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
   const GAS_URL = 'https://script.google.com/macros/s/AKfycbz6i_kzRqqNucjkWGLiD1S-V4sA7xnuNMKiGWEZ4E56ZPpwy5qntivgRu3iyQ4XD0l5/exec';
 
+  // ── 流入元を自動判定 ──
+  function getTrafficSource() {
+    const ref = document.referrer;
+    const params = new URLSearchParams(window.location.search);
+    const utmSource = params.get('utm_source') || '';
+    const utmMedium = params.get('utm_medium') || '';
+    const utmCampaign = params.get('utm_campaign') || '';
+
+    // UTMパラメータがあればそれを優先
+    if (utmSource) {
+      return utmSource + (utmMedium ? ' / ' + utmMedium : '') + (utmCampaign ? ' / ' + utmCampaign : '');
+    }
+
+    // referrerから自動判定
+    if (!ref) return '直接アクセス';
+    if (ref.includes('google.')) return 'Google検索';
+    if (ref.includes('yahoo.co.jp')) return 'Yahoo検索';
+    if (ref.includes('bing.com')) return 'Bing検索';
+    if (ref.includes('twitter.com') || ref.includes('x.com')) return 'X (Twitter)';
+    if (ref.includes('instagram.com')) return 'Instagram';
+    if (ref.includes('facebook.com')) return 'Facebook';
+    if (ref.includes('line.me') || ref.includes('line.naver')) return 'LINE';
+    if (ref.includes('tiktok.com')) return 'TikTok';
+    if (ref.includes('youtube.com')) return 'YouTube';
+    return ref; // その他はURLをそのまま記録
+  }
+  const trafficSource = getTrafficSource();
+
   // ── GAS にデータを送信する共通関数（CORS対応） ──
   async function postToGAS(payload) {
     try {
@@ -757,6 +785,7 @@
 
   // ── 現在のエントリーソース ──
   let currentEntrySource = '';
+
 
   // ── Modal: エントリーフォーム ──
   function openEntry(source) {
@@ -795,6 +824,7 @@
       workStyle: workStyle ? workStyle.value : '未選択',
       pr:        document.getElementById('entry-pr').value,
       source:    currentEntrySource,
+      traffic:   trafficSource,
     };
 
     try {
@@ -843,6 +873,7 @@
       email:       document.getElementById('contact-email').value,
       tel:         document.getElementById('contact-tel').value,
       body:        document.getElementById('contact-body').value,
+      traffic:     trafficSource,
     };
 
     try {
