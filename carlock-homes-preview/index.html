@@ -635,7 +635,7 @@
       <p style="color:rgba(255,255,255,.85);font-size:13px;margin:0;">まずは気軽にご連絡ください。雇用形態はご相談に応じます。</p>
     </div>
     <!-- フォーム本体 -->
-    <form id="entry-form" onsubmit="submitEntry(event)" style="padding:28px 32px 32px;">
+    <form id="entry-form" onsubmit="submitEntry(event)" onkeydown="if(event.key==='Enter'&&event.target.tagName!=='TEXTAREA')event.preventDefault()" style="padding:28px 32px 32px;">
       <div style="margin-bottom:20px;">
         <label style="display:block;font-weight:700;font-size:13px;color:#555;margin-bottom:6px;">お名前 <span style="color:#FF4444;">*</span></label>
         <input id="entry-name" type="text" required placeholder="山田 太郎" style="width:100%;padding:12px 16px;border:2px solid #E8E8E8;border-radius:10px;font-size:15px;font-family:'Zen Maru Gothic',sans-serif;outline:none;transition:border-color .2s;" onfocus="this.style.borderColor='#FF6B2B'" onblur="this.style.borderColor='#E8E8E8'">
@@ -697,7 +697,7 @@
       <p style="color:rgba(255,255,255,.85);font-size:13px;margin:0;">企業様・パートナー様からのご相談もお気軽にどうぞ。</p>
     </div>
     <!-- フォーム本体 -->
-    <form id="contact-form" onsubmit="submitContact(event)" style="padding:28px 32px 32px;">
+    <form id="contact-form" onsubmit="submitContact(event)" onkeydown="if(event.key==='Enter'&&event.target.tagName!=='TEXTAREA')event.preventDefault()" style="padding:28px 32px 32px;">
       <div style="margin-bottom:16px;">
         <label style="display:block;font-weight:700;font-size:13px;color:#555;margin-bottom:8px;">お問い合わせ種別 <span style="color:#4D96FF;">*</span></label>
         <div style="display:flex;gap:8px;flex-wrap:wrap;">
