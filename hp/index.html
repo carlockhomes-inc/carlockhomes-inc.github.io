@@ -1,487 +1,80 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="ja">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CLH - CarlockHomes | Security & Life Support</title>
-    <link
-        href="https://fonts.googleapis.com/css2?family=Crimson+Text:wght@700&family=Outfit:wght@700&family=Zen+Kaku+Gothic+New:wght@400;700&display=swap"
-        rel="stylesheet">
+    <title>カーロックホームズ株式会社 | CarlockHomes Official HP</title>
+    <link href="https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@400;700;900&family=Outfit:wght@700;900&display=swap" rel="stylesheet">
     <style>
         :root {
-            --navy: #001a33;
-            --gold: #c5a059;
+            --primary: #4D96FF;
+            --secondary: #FFE135;
+            --accent: #FF6B6B;
+            --text: #2D3436;
+            --bg: #fdf7f7;
             --white: #ffffff;
-            --navy-gradient: linear-gradient(135deg, #001223 0%, #002e5d 100%);
-            --glass: rgba(255, 255, 255, 0.03);
-            --gold-gradient: linear-gradient(135deg, #c5a059 0%, #e6d5b8 50%, #c5a059 100%);
-            --glass-border: rgba(255, 255, 255, 0.1);
+            --shadow: 0 10px 30px rgba(0,0,0,0.05);
         }
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        /* --- Password Protection Overlay --- */
-        #auth-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: var(--navy-gradient);
-            z-index: 9999;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            text-align: center;
-            padding: 20px;
-        }
-
-        .auth-container {
-            background: var(--glass);
-            border: 1px solid var(--gold);
-            padding: 50px 40px;
-            border-radius: 12px;
-            max-width: 400px;
-            width: 100%;
-            backdrop-filter: blur(20px);
-            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.5);
-        }
-
-        .auth-logo {
-            font-family: 'Outfit', sans-serif;
-            font-size: 2.5rem;
-            color: var(--white);
-            letter-spacing: 4px;
-            margin-bottom: 30px;
-            font-weight: 700;
-        }
-
-        .auth-label {
-            display: block;
-            margin-bottom: 20px;
-            color: var(--gold);
-            font-size: 0.9rem;
-            letter-spacing: 2px;
-        }
-
-        .auth-input {
-            width: 100%;
-            padding: 15px;
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid rgba(197, 160, 89, 0.3);
-            border-radius: 4px;
-            color: white;
-            text-align: center;
-            font-size: 1.2rem;
-            margin-bottom: 20px;
-            outline: none;
-            transition: 0.3s;
-        }
-
-        .auth-input:focus {
-            border-color: var(--gold);
-            background: rgba(255, 255, 255, 0.1);
-        }
-
-        .auth-btn {
-            background: var(--gold-gradient);
-            color: var(--navy);
-            border: none;
-            padding: 12px 30px;
-            border-radius: 4px;
-            font-weight: 700;
-            cursor: pointer;
-            width: 100%;
-            transition: 0.4s;
-            letter-spacing: 2px;
-        }
-
-        .auth-btn:hover {
-            transform: scale(1.02);
-            opacity: 0.9;
-        }
-
-        #auth-error {
-            color: #ff4d4d;
-            font-size: 0.8rem;
-            margin-top: 15px;
-            display: none;
-        }
-
+        * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
-            font-family: 'Zen Kaku Gothic New', sans-serif;
-            background-color: var(--navy);
-            color: var(--white);
+            font-family: 'Zen Maru Gothic', sans-serif;
+            background-color: var(--bg);
+            color: var(--text);
             line-height: 1.8;
             overflow-x: hidden;
-            scroll-behavior: smooth;
-        }
-
-        /* --- Initially hide everything --- */
-        #main-content {
-            display: none;
-        }
-
-        /* --- Animations --- */
-        .reveal {
-            opacity: 0;
-            transform: translateY(50px);
-            transition: all 1.2s cubic-bezier(0.22, 1, 0.36, 1);
-        }
-
-        .reveal.active {
-            opacity: 1;
-            transform: translateY(0);
-        }
-
-        /* --- Scroll Progress Bar --- */
-        #progress-bar {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 0%;
-            height: 3px;
-            background: var(--gold-gradient);
-            z-index: 2002;
-            transition: width 0.1s;
-        }
-
-        /* --- Back to Top --- */
-        .back-to-top {
-            position: fixed;
-            bottom: 30px;
-            right: 30px;
-            width: 50px;
-            height: 50px;
-            background: rgba(0, 26, 51, 0.8);
-            border: 1px solid var(--gold);
-            border-radius: 50%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            color: var(--gold);
-            text-decoration: none;
-            z-index: 1000;
-            opacity: 0;
-            visibility: hidden;
-            transition: 0.4s;
-            backdrop-filter: blur(10px);
-        }
-
-        .back-to-top.show {
-            opacity: 1;
-            visibility: visible;
-        }
-
-        .back-to-top:hover {
-            background: var(--gold);
-            color: var(--navy);
-            transform: translateY(-5px);
-            box-shadow: 0 10px 20px rgba(197, 160, 89, 0.3);
-        }
-
-        @keyframes slideInLeft {
-            from {
-                opacity: 0;
-                transform: translateX(-100px);
-            }
-
-            to {
-                opacity: 1;
-                transform: translateX(0);
-            }
-        }
-
-        @keyframes slideInRight {
-            from {
-                opacity: 0;
-                transform: translateX(100px);
-            }
-
-            to {
-                opacity: 1;
-                transform: translateX(0);
-            }
-        }
-
-        @keyframes shine {
-            0% {
-                left: -150%;
-                top: -100%;
-            }
-
-            30% {
-                left: 250%;
-                top: 100%;
-            }
-
-            100% {
-                left: 250%;
-                top: 100%;
-            }
-        }
-
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-            }
-
-            to {
-                opacity: 1;
-            }
+            word-break: break-all;
         }
 
         /* --- Header --- */
         header {
             position: fixed;
-            width: 100%;
-            padding: 1.5rem 5%;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 90%;
+            max-width: 1200px;
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(10px);
+            padding: 12px 30px;
+            border-radius: 50px;
             display: flex;
             justify-content: space-between;
             align-items: center;
             z-index: 1000;
-            background: rgba(0, 26, 51, 0.6);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            border-bottom: 1px solid rgba(197, 160, 89, 0.15);
-            transition: 0.5s;
+            box-shadow: var(--shadow);
+            border: 1px solid rgba(255,255,255,0.3);
         }
-
-        /* --- Header Logo Shimmer (Refined Sequential Flow) --- */
-        .logo-box {
+        .logo {
             display: flex;
-            flex-direction: column;
-            line-height: 1.1;
-            overflow: hidden;
-            position: relative;
-            gap: 2px;
-        }
-
-        .logo-main,
-        .logo-main-sub,
-        .logo-sub {
-            position: relative;
-            overflow: hidden;
-            display: inline-block;
-            width: fit-content;
-        }
-
-        /* Shine Slits for each segment */
-        .logo-main::after,
-        .logo-main-sub::after,
-        .logo-sub::after {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -150%;
-            width: 120px;
-            height: 100%;
-            background: linear-gradient(105deg,
-                    transparent 30%,
-                    rgba(255, 255, 255, 0.5) 45%,
-                    rgba(255, 255, 255, 0.7) 50%,
-                    rgba(255, 255, 255, 0.5) 55%,
-                    transparent 70%);
-            transform: skewX(-20deg);
-            animation: sequentialFlow 8s infinite cubic-bezier(0.23, 1, 0.32, 1);
-        }
-
-        /* Sequential Baton-Pass Delays */
-        .logo-main::after {
-            animation-delay: 0s;
-        }
-
-        .logo-main-sub::after {
-            animation-delay: 1.2s;
-        }
-
-        .logo-sub::after {
-            animation-delay: 2.4s;
-        }
-
-        @keyframes sequentialFlow {
-            0% {
-                left: -150%;
-            }
-
-            30% {
-                left: 150%;
-            }
-
-            /* Smooth passage over the text */
-            100% {
-                left: 150%;
-            }
-        }
-
-        .logo-main {
-            font-family: 'Outfit', sans-serif;
-            font-size: 1.8rem;
-            font-weight: 700;
-            color: #ffffff;
-            letter-spacing: 2px;
-        }
-
-        .logo-main-sub {
-            font-size: 0.8rem;
-            color: #ffffff;
-            opacity: 0.9;
-            font-weight: 400;
-            letter-spacing: 1px;
-            margin-left: 8px;
-        }
-
-        .logo-sub {
-            font-family: 'Crimson Text', serif;
-            font-size: 0.65rem;
-            color: #c5a059;
-            letter-spacing: 5px;
-            text-transform: uppercase;
-            font-weight: 700;
-            margin-top: 2px;
-        }
-
-        /* Hover effect to stop shimmer if desired, but keeping it elegant for now */
-
-        nav {
-            display: flex;
-            gap: 2.5rem;
             align-items: center;
-        }
-
-        nav a {
+            gap: 10px;
             text-decoration: none;
-            color: var(--white);
-            font-size: 0.85rem;
-            font-weight: 700;
-            letter-spacing: 1px;
-            opacity: 0.7;
-            transition: 0.3s;
-            position: relative;
+            color: var(--text);
         }
-
-        nav a::after {
-            content: '';
-            position: absolute;
-            width: 0;
-            height: 1px;
-            bottom: -5px;
-            left: 0;
-            background: var(--gold);
-            transition: 0.3s;
-        }
-
-        nav a:hover {
-            opacity: 1;
-            color: var(--gold);
-        }
-
-        nav a:hover::after {
-            width: 100%;
-        }
-
-        /* --- Mobile Navigation --- */
-        .menu-btn {
-            display: none;
-            flex-direction: column;
-            gap: 6px;
-            cursor: pointer;
-            z-index: 2001;
-            padding: 10px;
-        }
-
-        .menu-btn span {
-            display: block;
-            width: 30px;
-            height: 2px;
-            background: var(--gold);
-            transition: 0.4s;
-        }
-
-        .menu-btn.active span:nth-child(1) {
-            transform: translateY(8px) rotate(45deg);
-        }
-
-        .menu-btn.active span:nth-child(2) {
-            opacity: 0;
-        }
-
-        .menu-btn.active span:nth-child(3) {
-            transform: translateY(-8px) rotate(-45deg);
-        }
-
-        .mobile-nav {
-            position: fixed;
-            top: 0;
-            right: -100%;
-            width: 100%;
-            height: 100vh;
-            background: rgba(0, 18, 35, 0.98);
-            backdrop-filter: blur(20px);
-            z-index: 2000;
+        .logo-icon {
+            background: var(--accent);
+            color: #fff;
+            width: 32px;
+            height: 32px;
+            border-radius: 8px;
             display: flex;
-            flex-direction: column;
+            align-items: center;
             justify-content: center;
-            align-items: center;
-            gap: 2.5rem;
-            transition: 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+            font-weight: 900;
+            font-size: 18px;
         }
+        .logo-text { font-family: 'Outfit', sans-serif; font-weight: 900; font-size: 20px; letter-spacing: -0.5px; }
 
-        .mobile-nav.active {
-            right: 0;
-        }
-
-        .mobile-nav a {
-            font-size: 1.5rem;
-            color: var(--white);
-            text-decoration: none;
-            font-weight: 700;
-            letter-spacing: 2px;
-            opacity: 0.8;
-            transition: 0.3s;
-        }
-
-        .btn-cta {
-            background: transparent;
-            color: var(--gold);
-            border: 1px solid var(--gold);
-            padding: 0.7rem 2rem;
-            border-radius: 4px;
-            font-weight: 700;
-            text-decoration: none;
-            transition: 0.4s;
-            position: relative;
-            overflow: hidden;
-            display: inline-block;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
-            cursor: pointer;
-        }
-
-        .btn-cta:hover {
-            color: var(--navy);
-            transform: scale(1.05);
-        }
-
-        .btn-cta::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: var(--gold-gradient);
-            transition: 0.5s;
-            z-index: -1;
-        }
-
-        .btn-cta:hover::before {
-            left: 0;
+        nav { display: flex; gap: 24px; align-items: center; }
+        nav a { text-decoration: none; color: var(--text); font-weight: 700; font-size: 14px; opacity: 0.7; transition: 0.3s; }
+        nav a:hover { opacity: 1; color: var(--primary); }
+        .btn-contact {
+            background: var(--primary);
+            color: #fff !important;
+            padding: 8px 20px;
+            border-radius: 20px;
+            opacity: 1 !important;
         }
 
         /* --- Hero --- */
@@ -490,1045 +83,267 @@
             display: flex;
             align-items: center;
             justify-content: center;
+            text-align: center;
             padding: 0 10%;
-            background: url('images/hero_premium.png') center/cover no-repeat;
-            position: relative;
-            text-align: center;
-            overflow: hidden;
+            background: radial-gradient(circle at 10% 20%, rgba(77, 150, 255, 0.05) 0%, transparent 50%),
+                        radial-gradient(circle at 90% 80%, rgba(255, 225, 53, 0.05) 0%, transparent 50%);
         }
-
-        .hero::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 26, 51, 0.6);
-            z-index: 1;
-        }
-
-        .hero-content {
-            position: relative;
-            z-index: 2;
-            width: 100%;
-        }
-
-        /* --- Hero Branding Style (STRICTLY PHYSICAL ENTRANCE ONLY) --- */
-        .hero-branding {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 15px;
-            margin-bottom: 4rem;
-            position: relative;
-            background: none !important;
-        }
-
-        @keyframes slideInTop {
-            from {
-                opacity: 0;
-                transform: translateY(-30px);
-            }
-
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        .hero-clh {
-            font-family: 'Outfit', sans-serif;
-            font-size: 2.2rem;
-            font-weight: 700;
-            letter-spacing: 12px;
-            opacity: 0;
-            margin-bottom: 5px;
-            animation: slideInTop 1.5s cubic-bezier(0.22, 1, 0.36, 1) forwards 0.3s;
-
-            /* Brilliant High-Contrast Gold - Mirror Refine */
-            background: linear-gradient(to bottom, #ffffff 0%, #fff6e5 20%, #e6d5b8 45%, #c5a059 55%, #8b6d3b 100%);
-            -webkit-background-clip: text;
-            background-clip: text;
-            -webkit-text-fill-color: transparent;
+        .hero-inner { max-width: 900px; }
+        .hero-tag {
             display: inline-block;
-            filter: drop-shadow(0 4px 15px rgba(0, 0, 0, 0.5));
-        }
-
-        .hero h1.hero-main-title {
-            font-family: 'Outfit', sans-serif;
-            font-weight: 700;
-            font-size: clamp(2.2rem, 10vw, 6.5rem);
-            line-height: 1;
-            letter-spacing: 2px;
-            margin-bottom: 25px;
-            opacity: 0;
-            animation: slideInLeft 1.5s cubic-bezier(0.22, 1, 0.36, 1) forwards;
-
-            /* Pure Brilliant White with subtle depth */
-            background: linear-gradient(to bottom, #ffffff 0%, #ffffff 48%, #f0f0f0 50%, #ffffff 52%, #ffffff 100%);
-            -webkit-background-clip: text;
-            background-clip: text;
-            -webkit-text-fill-color: transparent;
-            display: inline-block;
-            filter: drop-shadow(0 10px 30px rgba(0, 0, 0, 0.7));
-        }
-
-        .hero-precision {
-            font-family: 'Crimson Text', serif;
-            font-weight: 700;
-            font-size: clamp(0.9rem, 4.5vw, 1.8rem);
-            letter-spacing: 6px;
-            text-transform: uppercase;
-            opacity: 0;
-            animation: slideInRight 1.5s cubic-bezier(0.22, 1, 0.36, 1) forwards 0.4s;
-
-            /* Brilliant High-Contrast Gold (Champagne) */
-            background: linear-gradient(to bottom, #ffffff 0%, #fff6e5 20%, #c5a059 60%, #8b6d3b 100%);
-            -webkit-background-clip: text;
-            background-clip: text;
-            -webkit-text-fill-color: transparent;
-            display: inline-block;
-            filter: drop-shadow(0 2px 8px rgba(0, 0, 0, 0.5));
-        }
-
-        .hero-cta-box {
-            margin-top: 3.5rem;
-            opacity: 0;
-            animation: fadeIn 2s forwards 1s;
-        }
-
-        .btn-cta-hero {
-            font-size: clamp(1rem, 3vw, 1.2rem);
-            padding: 1.2rem 3.5rem;
-        }
-
-        /* Nav Contact Button (Ghost Style) */
-        .btn-nav-contact {
-            border: 1px solid var(--gold) !important;
-            padding: 8px 20px !important;
-            border-radius: 4px;
-            color: var(--gold) !important;
-            transition: 0.3s !important;
-            margin-left: 15px;
-            text-decoration: none !important;
-            position: relative;
-        }
-        .btn-nav-contact:hover {
-            background: var(--gold);
-            color: #000 !important;
-        }
-
-        /* Tooltip style */
-        .btn-nav-contact::after {
-            content: attr(data-tooltip);
-            position: absolute;
-            top: calc(100% + 15px);
-            right: 0;
-            width: 240px;
-            background: rgba(0, 18, 35, 0.95);
+            background: var(--primary);
             color: #fff;
-            font-size: 0.7rem;
-            padding: 12px 15px;
-            border-radius: 4px;
-            border: 1px solid var(--gold);
-            opacity: 0;
-            visibility: hidden;
-            transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            pointer-events: none;
-            line-height: 1.5;
-            text-align: left;
-            letter-spacing: 0;
-            z-index: 10000;
+            padding: 4px 16px;
+            border-radius: 20px;
+            font-weight: 900;
+            font-size: 14px;
+            margin-bottom: 24px;
         }
-        .btn-nav-contact:hover::after {
-            opacity: 1;
-            visibility: visible;
-            top: calc(100% + 10px);
+        .hero h1 {
+            font-size: clamp(2.5rem, 8vw, 4.5rem);
+            font-weight: 900;
+            line-height: 1.2;
+            margin-bottom: 30px;
+            color: var(--text);
         }
-
-        @media (max-width: 900px) {
-            .hero-clh { 
-                font-size: clamp(1.8rem, 8vw, 2.5rem) !important; 
-                letter-spacing: 5px !important; 
-                margin-bottom: 5px !important;
-            }
-            .hero h1.hero-main-title { 
-                font-size: clamp(2.2rem, 12vw, 3.8rem) !important; 
-                letter-spacing: -1px !important;
-                margin-bottom: 15px !important;
-            }
-            .hero-precision { 
-                font-size: 0.85rem !important; 
-                letter-spacing: 3px !important; 
-            }
-            .hero-cta-box {
-                margin-top: 2.5rem !important;
-            }
-        }
-
-        /* --- Scroll Indicator --- */
-        .scroll-indicator {
-            position: absolute;
-            bottom: 40px;
-            left: 50%;
-            transform: translateX(-50%);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 10px;
-            opacity: 0.5;
-            animation: fadeIn 2s forwards 2s;
-            z-index: 2;
-        }
-
-        .scroll-line {
-            width: 1px;
-            height: 60px;
-            background: linear-gradient(to bottom, var(--gold), transparent);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .scroll-line::after {
-            content: '';
-            position: absolute;
-            top: -100%;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: var(--white);
-            animation: scrollLineMove 2s infinite;
-        }
-
-        @keyframes scrollLineMove {
-            0% {
-                top: -100%;
-            }
-
-            100% {
-                top: 100%;
-            }
-        }
-
-        /* --- Content Sections --- */
-        .section {
-            padding: 180px 10%;
-            background: var(--navy);
-            position: relative;
-        }
-
-        .section-title {
-            font-size: clamp(2.2rem, 6vw, 3.5rem);
-            color: var(--gold);
-            margin: 0 auto 120px;
-            text-align: center;
-            font-family: 'Outfit', sans-serif;
-            letter-spacing: 4px;
-            position: relative;
-        }
-
-        .section-title::after {
-            content: '';
-            display: block;
-            width: 80px;
-            height: 1px;
-            background: var(--gold);
-            margin: 30px auto;
-        }
-
-        /* --- Service Cards --- */
-        .card-container {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 30px;
-            max-width: 1200px;
+        .hero p {
+            font-size: clamp(1rem, 2vw, 1.2rem);
+            color: rgba(0,0,0,0.6);
+            max-width: 600px;
             margin: 0 auto;
         }
 
-        .card {
-            background: var(--glass);
-            border: 1px solid var(--glass-border);
-            border-radius: 12px;
-            padding: 50px 40px;
-            transition: 0.5s cubic-bezier(0.22, 1, 0.36, 1);
-            backdrop-filter: blur(10px);
-            text-align: left;
-        }
-
-        .card:hover {
-            transform: translateY(-15px);
-            border-color: var(--gold);
-            background: rgba(197, 160, 89, 0.05);
-            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.4);
-        }
-
-        .card h3 {
-            font-size: 1.5rem;
-            color: var(--gold);
-            margin-bottom: 25px;
-            font-family: 'Outfit', sans-serif;
-            letter-spacing: 2px;
-        }
-
-        .card p {
-            font-size: 0.95rem;
-            line-height: 2.2;
-            color: rgba(255, 255, 255, 0.7);
-            margin-bottom: 8px;
-        }
-
-        .card-icon {
-            font-size: 2rem;
-            color: var(--gold);
-            opacity: 0.5;
-            margin-bottom: 20px;
-        }
-
-        /* --- News Section --- */
-        .news-item {
-            display: flex;
-            gap: 30px;
-            background: var(--glass);
-            border: 1px solid rgba(255, 255, 255, 0.05);
-            padding: 30px;
-            border-radius: 8px;
-            transition: 0.4s;
-            text-decoration: none;
-            color: inherit;
-            margin-bottom: 20px;
-            align-items: center;
-        }
-
-        .news-item:hover {
-            background: rgba(197, 160, 89, 0.08);
-            border-color: var(--gold);
-            transform: translateX(15px);
-        }
-
-        .news-date {
-            font-weight: 700;
-            color: var(--gold);
-            font-size: 0.9rem;
-            min-width: 100px;
-        }
-
-        .news-tag {
-            background: var(--gold);
-            color: var(--navy);
-            padding: 2px 12px;
-            font-size: 0.7rem;
-            font-weight: 700;
-            border-radius: 20px;
-            text-transform: uppercase;
-        }
-
-        .news-title {
-            font-size: 1.1rem;
-            font-weight: 700;
-            flex: 1;
-        }
-
-        .news-arrow {
-            opacity: 0;
-            transition: 0.3s;
-            color: var(--gold);
-        }
-
-        .news-item:hover .news-arrow {
-            opacity: 1;
-            transform: translateX(10px);
-        }
-
-        /* --- SNS Section --- */
-        .sns-section {
-            background: #000c14;
-            padding: 100px 10%;
+        /* --- Sections --- */
+        section { padding: 100px 10%; max-width: 1400px; margin: 0 auto; }
+        .section-title {
             text-align: center;
+            margin-bottom: 80px;
         }
+        .section-title h2 {
+            font-family: 'Outfit', sans-serif;
+            font-size: 42px;
+            font-weight: 900;
+            color: var(--primary);
+            margin-bottom: 10px;
+        }
+        .section-title p { font-weight: 700; color: #999; }
 
-        .sns-grid {
-            display: flex;
-            justify-content: center;
+        /* --- Business/Services --- */
+        .service-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
             gap: 40px;
-            margin-top: 50px;
-            flex-wrap: wrap;
         }
-
-        .sns-card {
-            background: var(--glass);
-            border: 1px solid var(--glass-border);
-            padding: 30px 15px;
-            border-radius: 12px;
-            width: 220px;
+        .service-card {
+            background: var(--white);
+            padding: 50px 40px;
+            border-radius: 32px;
+            box-shadow: var(--shadow);
             transition: 0.4s;
-            text-decoration: none;
-            color: inherit;
-            display: block;
-            cursor: pointer;
-        }
-
-        .sns-card:hover {
-            transform: translateY(-5px);
-            border-color: var(--gold);
-            background: rgba(197, 160, 89, 0.05);
-        }
-
-        .sns-icon {
-            font-size: 1.8rem;
-            color: var(--gold);
-            margin-bottom: 15px;
-        }
-
-        .qr-placeholder {
-            width: 140px;
-            height: 140px;
-            background: white;
-            margin: 20px auto;
-            border-radius: 8px;
-            border: 3px solid var(--gold);
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            position: relative;
             overflow: hidden;
+            border: 2px solid transparent;
         }
+        .service-card:hover { transform: translateY(-10px); border-color: var(--primary); }
+        .service-icon { font-size: 40px; margin-bottom: 24px; display: block; }
+        .service-card h3 { font-size: 24px; font-weight: 900; margin-bottom: 16px; color: var(--text); }
+        .service-card ul { list-style: none; }
+        .service-card li { margin-bottom: 10px; position: relative; padding-left: 20px; font-size: 15px; color: #555; }
+        .service-card li::before { content: '・'; position: absolute; left: 0; color: var(--primary); font-weight: 900; }
 
-        .sns-label {
-            font-weight: 700;
-            letter-spacing: 2px;
-            color: var(--white);
-            margin-top: 5px;
-            display: block;
-            font-size: 0.9rem;
+        /* --- Company Profile --- */
+        .profile-box {
+            background: var(--white);
+            border-radius: 40px;
+            padding: 60px;
+            box-shadow: var(--shadow);
+            max-width: 1000px;
+            margin: 0 auto;
         }
+        .profile-table { width: 100%; border-collapse: collapse; }
+        .profile-table tr { border-bottom: 1px solid #eee; }
+        .profile-table tr:last-child { border-bottom: none; }
+        .profile-table th { text-align: left; padding: 24px 0; width: 30%; color: var(--primary); font-weight: 900; }
+        .profile-table td { padding: 24px 0; font-weight: 400; color: #444; }
 
-        @media (max-width: 768px) {
-            .news-item {
-                flex-direction: column;
-                align-items: flex-start;
-                gap: 10px;
-            }
-
-            .news-date {
-                min-width: auto;
-            }
-
-            .sns-grid {
-                gap: 30px;
-            }
-
-            .qr-placeholder {
-                display: none;
-            }
-
-            .hero-sub {
-                letter-spacing: 4px;
-                margin-bottom: 3rem;
-            }
-
-            .section {
-                padding: 100px 5%;
-            }
-
-            .section-title {
-                margin-bottom: 60px;
-            }
+        /* --- Access --- */
+        .access-grid {
+            display: grid;
+            grid-template-columns: 1fr 1.5fr;
+            gap: 60px;
+            align-items: center;
         }
-
-        @media (max-width: 480px) {
-            header {
-                padding: 0.8rem 5%;
-            }
-
-            .logo-main-sub {
-                display: none;
-            }
-
-            /* Hide 'CarlockHomes' text in header logo on very small screens */
-            .hero-content {
-                padding: 0 5%;
-            }
-
-            .hero h1 {
-                font-size: 1.8rem;
-                letter-spacing: 1px;
-            }
-
-            .hero-sub {
-                font-size: 0.8rem;
-                letter-spacing: 3px;
-                margin-top: 1rem;
-            }
-
-            .hero-cta-box {
-                margin-top: 2.5rem;
-            }
-
-            .btn-cta-hero {
-                padding: 1rem 2.5rem;
-                width: 100%;
-            }
-
-            .card {
-                padding: 40px 20px;
-            }
+        .map-frame {
+            width: 100%;
+            height: 450px;
+            border-radius: 32px;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            border: 1px solid #eee;
         }
 
         /* --- Footer --- */
         footer {
-            padding: 100px 10% 60px;
-            background: #000c14;
-            text-align: center;
-            border-top: 1px solid rgba(197, 160, 89, 0.1);
-        }
-
-        .copyright {
-            font-size: 0.75rem;
-            opacity: 0.15;
-            letter-spacing: 4px;
-        }
-
-        /* --- Electric Lock Accordion --- */
-        .details-wrapper {
-            max-height: 0;
-            overflow: hidden;
-            transition: max-height 0.8s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.5s;
-            opacity: 0;
-            margin-top: 0;
-            background: rgba(255, 255, 255, 0.02);
-            border-radius: 8px;
-        }
-
-        .details-wrapper.active {
-            max-height: 2000px;
-            /* Large enough to fit content */
-            opacity: 1;
-            margin-top: 30px;
-            padding: 30px;
-            border: 1px solid rgba(197, 160, 89, 0.15);
-        }
-
-        .detail-item {
-            margin-bottom: 25px;
-            padding-left: 20px;
-            border-left: 2px solid var(--gold);
-        }
-
-        .detail-item h4 {
-            color: var(--gold);
-            font-size: 1rem;
-            margin-bottom: 10px;
-            letter-spacing: 1px;
-        }
-
-        .detail-item p {
-            font-size: 0.85rem !important;
-            line-height: 1.8 !important;
-            opacity: 0.7;
-        }
-
-        .btn-toggle-details {
-            background: transparent;
-            color: var(--gold);
-            border: 1px solid rgba(197, 160, 89, 0.4);
-            padding: 8px 20px;
-            border-radius: 4px;
-            font-size: 0.75rem;
-            font-weight: 700;
-            cursor: pointer;
-            margin-top: 20px;
-            transition: 0.3s;
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .btn-toggle-details:hover {
-            background: rgba(197, 160, 89, 0.1);
-            border-color: var(--gold);
-        }
-
-        .btn-toggle-details i {
-            transition: 0.3s;
-        }
-
-        .btn-toggle-details.active i {
-            transform: rotate(180deg);
-        }
-
-        /* --- High-Aesthetic Detail Layout (Editorial Style) --- */
-        #detail-drawer {
-            max-height: 0;
-            overflow: hidden;
-            transition: max-height 1.2s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.8s, margin-top 0.8s;
-            opacity: 0;
-            margin-top: 0;
-            background: #fdfbf7;
-            /* Elegant ivory/off-white */
-            color: #1a1a1a;
-            position: relative;
-            z-index: 100;
-            border-radius: 12px;
-        }
-
-        #detail-drawer.active {
-            max-height: 8000px;
-            opacity: 1;
-            margin-top: 80px;
-            padding: 120px 5%;
-        }
-
-        .editorial-title {
-            font-family: 'Zen Kaku Gothic New', serif;
-            font-size: clamp(2.4rem, 6vw, 4.2rem);
-            font-weight: 400;
-            letter-spacing: 0.05em;
-            color: #222;
-            margin-bottom: 25px;
-            line-height: 1.2;
-        }
-
-        .editorial-subtitle {
-            font-size: 0.95rem;
-            color: #888;
-            letter-spacing: 0.4em;
-            margin-bottom: 60px;
-            text-transform: uppercase;
-        }
-
-        .editorial-grid {
-            display: grid;
-            grid-template-columns: 1fr 1.5fr;
-            gap: 100px;
-            margin-top: 100px;
-        }
-
-        .editorial-section-label {
-            font-family: 'Outfit', sans-serif;
-            font-size: 0.8rem;
-            letter-spacing: 0.5em;
-            color: #c5a059;
-            text-transform: uppercase;
-            margin-bottom: 30px;
-            display: block;
-        }
-
-        .editorial-lead {
-            font-size: 2.2rem;
-            line-height: 1.4;
-            color: #333;
-            font-family: 'Zen Kaku Gothic New', serif;
-            margin-bottom: 40px;
-        }
-
-        .solution-card-lite {
-            border-bottom: 1px solid #eee;
-            padding: 40px 0;
-            display: flex;
-            gap: 40px;
-            transition: 0.4s;
-        }
-
-        .solution-card-lite:hover {
-            padding-left: 20px;
-            background: rgba(197, 160, 89, 0.03);
-        }
-
-        .solution-card-lite .num {
-            font-family: 'Outfit', sans-serif;
-            font-size: 1rem;
-            color: #c5a059;
-            opacity: 0.5;
-        }
-
-        .solution-card-lite h5 {
-            font-size: 1.4rem;
-            margin-bottom: 15px;
-            color: #111;
-        }
-
-        .solution-card-lite p {
-            font-size: 1rem !important;
-            color: #666;
-            line-height: 1.8 !important;
-        }
-
-        .close-drawer-bottom {
-            margin-top: 100px;
+            background: #2D3436;
+            color: #fff;
+            padding: 80px 10% 40px;
             text-align: center;
         }
+        .footer-logo { font-family: 'Outfit', sans-serif; font-size: 32px; font-weight: 900; margin-bottom: 20px; display: block; }
+        .footer-nav { margin-bottom: 40px; display: flex; justify-content: center; gap: 30px; flex-wrap: wrap; }
+        .footer-nav a { color: #aaa; text-decoration: none; font-size: 14px; transition: 0.3s; }
+        .footer-nav a:hover { color: #fff; }
+        .copyright { font-size: 12px; color: #666; margin-top: 40px; }
 
-        .btn-close-editorial {
-            background: none;
-            border: none;
-            font-family: 'Outfit', sans-serif;
-            font-size: 0.9rem;
-            letter-spacing: 0.4em;
-            color: #999;
-            cursor: pointer;
-            padding: 20px;
-            transition: 0.3s;
-            text-transform: uppercase;
-        }
-
-        .btn-close-editorial:hover {
-            color: #c5a059;
-            letter-spacing: 0.6em;
-        }
-
-        @media (max-width: 1000px) {
-            .editorial-grid {
-                grid-template-columns: 1fr;
-                gap: 60px;
-            }
-
-            .editorial-title {
-                font-size: 3.5rem;
-            }
-
-            #detail-drawer {
-                margin-left: -5%;
-            }
+        /* --- Responsive --- */
+        @media (max-width: 900px) {
+            header { top: 10px; padding: 10px 20px; }
+            nav { display: none; }
+            section { padding: 80px 20px; }
+            .hero h1 { font-size: 36px; }
+            .access-grid { grid-template-columns: 1fr; }
+            .profile-table th { width: 40%; font-size: 14px; }
+            .profile-table td { font-size: 14px; }
+            .profile-box { padding: 30px; }
         }
     </style>
 </head>
-
 <body>
 
-    <!-- Simple Password Protection Overlay -->
-    <div id="auth-overlay">
-        <div class="auth-container">
-            <div class="auth-logo">CLH</div>
-            <label class="auth-label">ENTER PASSWORD</label>
-            <input type="password" id="password-input" class="auth-input" placeholder="窶｢窶｢窶｢窶｢窶｢窶｢窶｢窶｢">
-            <button class="auth-btn" onclick="checkAuth()">SIGN IN</button>
-            <div id="auth-error">繝代せ繝ｯ繝ｼ繝峨′豁｣縺励￥縺ゅｊ縺ｾ縺帙ｓ</div>
-            <div style="margin-top: 30px; font-size: 0.6rem; color: rgba(255,255,255,0.3); letter-spacing: 4px;">
-                CARLOCKHOMES - PREMIER HUB</div>
+    <header>
+        <a href="#" class="logo">
+            <div class="logo-icon">🔑</div>
+            <span class="logo-text">CarlockHomes</span>
+        </a>
+        <nav>
+            <a href="#services">事業内容</a>
+            <a href="#company">会社案内</a>
+            <a href="#access">アクセス</a>
+            <a href="https://fmfmfm0207-max.github.io/m-lab/carlock-homes-preview/" class="btn-contact">採用プロジェクト</a>
+        </nav>
+    </header>
+
+    <section class="hero">
+        <div class="hero-inner">
+            <span class="hero-tag">Official Website</span>
+            <h1>あなたの日常に、<br>確かな安心を。</h1>
+            <p>カーロックホームズは、カギと防犯のプロフェッショナルとして、そして住まいのメンテナンスパートナーとして、180以上の全国ネットワークで24時間365日あなたをサポートします。</p>
         </div>
-    </div>
+    </section>
 
-    <!-- Main Content Wrapped for Protection -->
-    <div id="main-content">
-
-        <div id="progress-bar"></div>
-        <a href="#" class="back-to-top" id="backToTop">竊・/a>
-
-        <header id="header">
-            <div class="logo-box">
-                <div style="display: flex; align-items: baseline;">
-                    <span class="logo-main">CLH</span>
-                    <span class="logo-main-sub">CarlockHomes</span>
-                </div>
-                <span class="logo-sub">Precision & Trust</span>
+    <!-- Services Section -->
+    <section id="services">
+        <div class="section-title">
+            <h2>Our Business</h2>
+            <p>事業内容について</p>
+        </div>
+        <div class="service-grid">
+            <div class="service-card">
+                <span class="service-icon">🛡️</span>
+                <h3>カギ・防犯<br>セキュリティー</h3>
+                <ul>
+                    <li>緊急解錠・修理（住宅・金庫）</li>
+                    <li>カギの交換・取付（スマートロック等）</li>
+                    <li>防犯カメラ・インターホン工事</li>
+                    <li>オートロック・電気錠システム構築</li>
+                </ul>
             </div>
-            <nav>
-                <a href="index.html">TOP</a>
-                <a href="pages/company.html">COMPANY</a>
-                <a href="pages/recruitment.html">RECRUIT</a>
-                <a href="https://docs.google.com/forms/d/e/1FAIpQLSfQdOJRgQ3qhmnS-wAnycbUptNVp2VWEPQPdxnI3WDpsn7fgg/viewform"
-                    target="_blank" class="btn-nav-contact" 
-                    data-tooltip="窶ｻ蝟ｶ讌ｭ逶ｮ逧・・縺雁撫縺・粋繧上○縺ｪ縺ｩ縲∝・螳ｹ縺ｫ繧医▲縺ｦ縺ｯ縺願ｿ比ｺ九ｒ蟾ｮ縺嶺ｸ翫￡繧峨ｌ縺ｪ縺・ｴ蜷医′縺斐＊縺・∪縺吶・>CONTACT</a>
-            </nav>
-            <div class="menu-btn" onclick="toggleMobileMenu()">
-                <span></span><span></span><span></span>
+            <div class="service-card">
+                <span class="service-icon">🏠</span>
+                <h3>住宅設備<br>メンテナンス</h3>
+                <ul>
+                    <li>サッシ・網戸・ガラス修理</li>
+                    <li>水漏れ・排水詰まり対応</li>
+                    <li>共用部点検・メンテナンス</li>
+                    <li>除菌施工・リフレッシュ工事</li>
+                </ul>
             </div>
-            <div class="mobile-nav">
-                <a href="index.html" onclick="toggleMobileMenu()">TOP</a>
-                <a href="pages/company.html" onclick="toggleMobileMenu()">COMPANY</a>
-                <a href="pages/recruitment.html" onclick="toggleMobileMenu()">RECRUIT</a>
-                <a href="https://docs.google.com/forms/d/e/1FAIpQLSfQdOJRgQ3qhmnS-wAnycbUptNVp2VWEPQPdxnI3WDpsn7fgg/viewform"
-                    target="_blank" onclick="toggleMobileMenu()">CONTACT</a>
+            <div class="service-card">
+                <span class="service-icon">🤝</span>
+                <h3>管理代行<br>アウトソーシング</h3>
+                <ul>
+                    <li>入居前点検・鍵管理業務</li>
+                    <li>保守点検等の作業員派遣</li>
+                    <li>全国180の強力なネットワーク</li>
+                    <li>24時間365日の受付・出動体制</li>
+                </ul>
             </div>
-        </header>
+        </div>
+    </section>
 
-        <section class="hero">
-            <div class="hero-content">
-                <div class="hero-branding">
-                    <div class="hero-clh">CLH</div>
-                    <h1 class="hero-main-title">CarlockHomes</h1>
-                    <div class="hero-precision">PRECISION & TRUST</div>
-                </div>
-            </div>
-            <div class="scroll-indicator">
-                <span style="font-size: 0.6rem; letter-spacing: 2px; color: var(--gold);">SCROLL</span>
-                <div class="scroll-line"></div>
-            </div>
-        </section>
+    <!-- Company Section -->
+    <section id="company">
+        <div class="section-title">
+            <h2>Company Info</h2>
+            <p>会社情報</p>
+        </div>
+        <div class="profile-box">
+            <table class="profile-table">
+                <tr>
+                    <th>商号</th>
+                    <td>カーロックホームズ株式会社</td>
+                </tr>
+                <tr>
+                    <th>英名表記</th>
+                    <td>CarlockHomes CO., LTD. (CLH)</td>
+                </tr>
+                <tr>
+                    <th>所在地</th>
+                    <td>〒167-0042 東京都杉並区西荻北2-37-12 ブランシュ西荻 中2階</td>
+                </tr>
+                <tr>
+                    <th>創業</th>
+                    <td>平成14年8月</td>
+                </tr>
+                <tr>
+                    <th>主なサービス</th>
+                    <td>カギ・防犯、住宅設備メンテナンス、管理代行</td>
+                </tr>
+                <tr>
+                    <th>グループ会社</th>
+                    <td>株式会社TENKEN GO / 株式会社One Stop Labo</td>
+                </tr>
+            </table>
+        </div>
+    </section>
 
-        <!-- Services Section -->
-        <section id="services" class="section">
-            <div class="reveal">
-                <h2 class="section-title">Our Business</h2>
-            </div>
-            <div class="card-container" style="grid-template-columns: 1fr; max-width: 800px; margin: 0 auto;">
-                <div class="card reveal" style="text-align: center;">
-                    <div class="card-icon" style="opacity: 0.2; font-size: 1.2rem; white-space: nowrap;">CLH -
-                        CarlockHomes</div>
-                    <h3>繧ｫ繧ｮ繝ｻ髦ｲ迥ｯ<br>繧ｻ繧ｭ繝･繝ｪ繝・ぅ</h3>
-                    <p>笳・邱頑･隗｣骭繝ｻ菫ｮ逅・ｼ井ｽ丞ｮ・・驥大ｺｫ・・/p>
-                    <p>笳・骰ｵ縺ｮ莠､謠帙・蜿紋ｻ假ｼ・C繝ｻ髮ｻ蟄宣権・・/p>
-                    <p>笳・髦ｲ迥ｯ繧ｫ繝｡繝ｩ繝ｻ繧､繝ｳ繧ｿ繝ｼ繝輔か繝ｳ蟾･莠・/p>
-                    <p>笳・繧ｪ繝ｼ繝医Ο繝・け繝ｻ髮ｻ豌鈴権繧ｷ繧ｹ繝・Β讒狗ｯ・/p>
-
-                    <button class="btn-toggle-details" onclick="toggleDetails(this)">
-                        髮ｻ豌鈴権縺ｮ隧ｳ邏ｰ繧定ｦ九ｋ <i style="display:inline-block; transition: 0.4s;">竊・/i>
-                    </button>
-                </div>
-            </div>
-
-            <div id="detail-drawer">
-                <div style="width: 100%; max-width: 1200px; margin: 0 auto; min-height: 800px; padding: 60px 0;">
-
-                    <!-- Latest Premium Smart Lock Content from GAS -->
-                    <iframe
-                        src="https://script.google.com/macros/s/AKfycbz5B0Kj-goWNSIJCoBt8tkP4XKdujdfaYQtV2qBC-1UpHbjBbiuVl2DL2lafyrUBpUvyA/exec"
-                        style="width: 100%; height: 1600px; border: none; border-radius: 12px; background: #fdfbf7; box-shadow: 0 10px 30px rgba(0,0,0,0.08);"
-                        title="Premium Smart Lock Solutions">
-                    </iframe>
-
-                    <div class="close-drawer-bottom" style="margin-top: 50px;">
-                        <button class="btn-close-editorial" onclick="closeDetails(this)">- Close Details -</button>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Secondary Business Items -->
-            <div style="margin-top: 100px;">
-                <div class="card-container"
-                    style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; max-width: 1200px; margin: 0 auto;">
-                    <div class="card reveal" style="padding: 40px; background: rgba(255,255,255,0.02);">
-                        <div class="card-icon" style="font-size: 1.2rem; opacity: 0.3; margin-bottom: 15px;">Maintenance</div>
-                        <h3 style="font-size: 1.3rem;">菴丞ｮ・ｨｭ蛯・br>繝｡繝ｳ繝・リ繝ｳ繧ｹ</h3>
-                        <p style="font-size: 0.85rem !important;">笳・繧ｵ繝・す繝ｻ謌ｸ霆翫・邯ｲ謌ｸ繝ｻ繧ｬ繝ｩ繧ｹ菫ｮ逅・/p>
-                        <p style="font-size: 0.85rem !important;">笳・豌ｴ貍上ｌ繝ｻ謗呈ｰｴ隧ｰ縺ｾ繧雁ｯｾ蠢・/p>
-                        <p style="font-size: 0.85rem !important;">笳・蜈ｱ逕ｨ驛ｨ轤ｹ讀・/p>
-                        <p style="font-size: 0.85rem !important;">笳・髯､闖梧命蟾･繝ｻ繝ｪ繝輔Ξ繝・す繝･蟾･莠・/p>
-                    </div>
-                    <div class="card reveal" style="padding: 40px; background: rgba(255,255,255,0.02);">
-                        <div class="card-icon" style="font-size: 1.2rem; opacity: 0.3; margin-bottom: 15px;">Outsourcing</div>
-                        <h3 style="font-size: 1.3rem;">邂｡逅・ｻ｣陦・br>繧｢繧ｦ繝医た繝ｼ繧ｷ繝ｳ繧ｰ</h3>
-                        <p style="font-size: 0.85rem !important;">笳・蜈･螻・燕轤ｹ讀・/p>
-                        <p style="font-size: 0.85rem !important;">笳・菴懈･ｭ蜩｡豢ｾ驕｣讌ｭ蜍呻ｼ井ｿ晏ｮ育せ讀懃ｭ会ｼ・/p>
-                        <p style="font-size: 0.85rem !important;">笳・蜈ｨ蝗ｽ180縺ｮ蠑ｷ蜉帙↑繝阪ャ繝医Ρ繝ｼ繧ｯ</p>
-                        <p style="font-size: 0.85rem !important;">笳・24譎る俣365譌･縺ｮ蜿嶺ｻ倥・蜃ｺ蜍穂ｽ灘宛</p>
-                    </div>
-                </div>
-            </div>
-
-            <div style="text-align: center; margin-top: 80px;" class="reveal">
-                <a href="pages/company.html" class="btn-cta">VIEW ALL SERVICES & COMPANY INFO</a>
-            </div>
-        </section>
-
-        <!-- News Section -->
-        <section id="news" class="section" style="background: #001223;">
-            <div class="reveal">
-                <h2 class="section-title">Latest Topics</h2>
-            </div>
-            <div class="container" style="max-width: 1000px; margin: 0 auto;">
-                <a href="https://shachomeikan.jp/industry_article/5444" target="_blank" class="news-item reveal">
-                    <span class="news-date">2026.04.10</span>
-                    <span class="news-tag">Media</span>
-                    <span class="news-title">縲檎､ｾ髟ｷ蜷埼荘縲阪↓縺ｦ蠑顔､ｾ莉｣陦ｨ 荳企㍽蜴溘・繧､繝ｳ繧ｿ繝薙Η繝ｼ蜍慕判縺悟・髢九＆繧後∪縺励◆縲・/span>
-                    <span class="news-arrow">竊・/span>
-                </a>
-                <a href="pages/recruitment.html" class="news-item reveal">
-                    <span class="news-date">2026.03.15</span>
-                    <span class="news-tag" style="background: #e6d5b8;">Notice</span>
-                    <span class="news-title">縲先治逕ｨ諠・ｱ縲第橿陦薙せ繧ｿ繝・ヵ縺ｮ蜍滄寔繧帝幕蟋九＞縺溘＠縺ｾ縺励◆縲・/span>
-                    <span class="news-arrow">竊・/span>
+    <!-- Access Section -->
+    <section id="access">
+        <div class="section-title">
+            <h2>Access</h2>
+            <p>アクセス</p>
+        </div>
+        <div class="access-grid">
+            <div>
+                <h3 style="font-size: 24px; margin-bottom: 20px;">JR西荻窪駅より徒歩5分</h3>
+                <p style="color: #666; margin-bottom: 30px;">
+                    東京都杉並区西荻北2-37-12 ブランシュ西荻 中2階<br>
+                    TEL: 03-5311-0556
+                </p>
+                <a href="https://www.google.com/maps?q=%E3%82%AB%E3%83%BC%E3%83%AD%E3%83%83%E3%82%AF%E3%83%9B%E3%83%BC%E3%83%A0%E3%82%BA%E6%A0%AA%E5%BC%8F%E4%BC%9A%E7%A4%BE+%E6%9D%B1%E4%BA%AC%E9%83%BD%E6%9D%89%E4%B8%A6%E5%8C%BA%E8%A5%BF%E8%81%BB%E5%8C%972-37-12" target="_blank" 
+                   style="display: inline-block; background: var(--secondary); color: var(--text); text-decoration: none; padding: 15px 30px; border-radius: 50px; font-weight: 900; box-shadow: 0 10px 20px rgba(255, 225, 53, 0.2);">
+                   Googleマップで見る ↗
                 </a>
             </div>
-        </section>
-
-        <!-- SNS Section -->
-        <section id="sns" class="section sns-section">
-            <div class="reveal">
-                <h2 class="section-title">Follow Us</h2>
-                <p style="text-align: center; color: rgba(255,255,255,0.5); margin-top: -80px; letter-spacing: 2px;">
-                    譛譁ｰ縺ｮ豢ｻ蜍輔ｒ逋ｺ菫｡荳ｭ</p>
+            <div class="map-frame">
+                <iframe src="https://maps.google.com/maps?q=%E3%82%AB%E3%83%BC%E3%83%AD%E3%83%83%E3%82%AF%E3%83%9B%E3%83%BC%E3%83%A0%E3%82%BA%E6%A0%AA%E5%BC%8F%E4%BC%9A%E7%A4%BE+%E8%A5%BF%E8%81%BB%E7%AA%AA&hl=ja&z=15&output=embed" width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
             </div>
-            <div class="sns-grid container">
-                <a href="https://www.facebook.com/profile.php?id=61588020825959" target="_blank"
-                    class="sns-card reveal">
-                    <div class="sns-icon">
-                        <svg width="40" height="40" viewBox="0 0 24 24" fill="currentColor">
-                            <path
-                                d="M18.77,7.46H14.5v-1.9c0-.9.6-1.1,1-1.1h3V.5h-4.33C10.24.5,9.5,3.44,9.5,5.32v2.14h-3v4h3v12h5v-12h3.85l.42-4Z" />
-                        </svg>
-                    </div>
-                    <span class="sns-label">Facebook</span>
-                    <div class="qr-placeholder">
-                        <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://www.facebook.com/profile.php?id=61588020825959&bgcolor=ffffff&color=000000"
-                            alt="Facebook QR"
-                            style="width: 100%; height: 100%; object-fit: contain; background: white; border-radius: 4px;">
-                    </div>
-                    <span style="font-size: 0.7rem; color: var(--gold);">View Profile 竊・/span>
-                </a>
+        </div>
+    </section>
 
-                <a href="https://www.instagram.com/carlockhomes_official?igsh=" target="_blank" class="sns-card reveal">
-                    <div class="sns-icon">
-                        <svg width="40" height="40" viewBox="0 0 24 24" fill="currentColor">
-                            <path
-                                d="M12,2.16c3.2,0,3.58.01,4.85.07,3.25.15,4.77,1.69,4.92,4.92.06,1.27.07,1.65.07,4.85s-.01,3.58-.07,4.85c-.15,3.23-1.66,4.77-4.92,4.92-1.27.06-1.65.07-4.85.07s-3.58-.01-4.85-.07c-3.26-.15-4.77-1.7-4.92-4.92-.06-1.27-.07-1.65-.07-4.85s.01-3.58.07-4.85C2.42,3.93,3.92,2.39,7.15,2.23c1.27-.06,1.65-.07,4.85-.07m0-2.16C8.74,0,8.33.02,7.06.08,3.15.26.97,2.44.79,6.35.73,7.62.72,8.03.72,11.29s.01,3.67.07,4.94c.18,3.91,2.36,6.09,6.27,6.27,1.27.06,1.68.07,4.94.07s3.67-.01,4.94-.07c3.91-.18,6.09-2.36,6.27-6.27.06-1.27.07-1.68.07-4.94s-.01-3.67-.07-4.94c-.18-3.91-2.36-6.09-6.27-6.27-1.27-.06-1.68-.07-4.94-.07Zm0,5.49c-3.2,0-5.8,2.6-5.8,5.8s2.6,5.8,5.8,5.8,5.8-2.6,5.8-5.8-2.6-5.8-5.8-5.8Zm0,9.43c-2,0-3.63-1.63-3.63-3.63s1.63-3.63,3.63-3.63,3.63,1.63,3.63,3.63-1.63,3.63-3.63,3.63Zm6.41-11.81c-.72,0-1.31.59-1.31,1.31s.59,1.31,1.31,1.31,1.31-.59,1.31-1.31-.59-1.31-1.31-1.31Z" />
-                        </svg>
-                    </div>
-                    <span class="sns-label">Instagram</span>
-                    <div class="qr-placeholder">
-                        <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://www.instagram.com/carlockhomes_official&bgcolor=ffffff&color=000000"
-                            alt="Instagram QR"
-                            style="width: 100%; height: 100%; object-fit: contain; background: white; border-radius: 4px;">
-                    </div>
-                    <span style="font-size: 0.7rem; color: var(--gold);">View Profile 竊・/span>
-                </a>
+    <footer>
+        <span class="footer-logo">CarlockHomes</span>
+        <div class="footer-nav">
+            <a href="#services">事業内容</a>
+            <a href="#company">会社情報</a>
+            <a href="#access">アクセス</a>
+            <a href="https://fmfmfm0207-max.github.io/m-lab/carlock-homes-preview/">採用サイト</a>
+        </div>
+        <div style="margin-bottom: 20px;">
+            <p style="font-size: 14px; color: #888;">Group Companies: TENKEN GO / One Stop Labo</p>
+        </div>
+        <p class="copyright">© CarlockHomes Co., Ltd. All Rights Reserved.</p>
+    </footer>
 
-                <a href="https://www.amazon.co.jp/dp/B0FHK3FPJ2" target="_blank" class="sns-card reveal">
-                    <div class="sns-icon">
-                        <svg width="40" height="40" viewBox="0 0 24 24" fill="currentColor">
-                            <path
-                                d="M18.15 16.03c-2.02 1.4-5.63 2.15-7.51 2.15-2.73 0-5.18-.75-7.14-2.1-.47-.32-.05-.9.44-.6 1.95 1.18 4.6 1.83 7.04 1.83 1.83 0 4.14-.38 6.54-1.85.5-.33.95.14.63.67zm.77-1.1c-.13-.18-.4-.14-.54.02-.3.35-1.55 1.77-1.55 1.77-.1.12-.1.28 0 .4l.4.52c.1.13.3.13.4 0 0 0 .86-1.12 1.13-1.47.1-.12.1-.28 0-.4l-.24-.32c-.08-.1-.13-.36-.4-.52zM12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm3.33 13.9c-2.4 1.48-4.7 1.85-6.53 1.85-2.44 0-5.1-.65-7.04-1.83-.5-.3-.92.28-.44.6 1.96 1.35 4.4 2.1 7.14 2.1 1.88 0 5.49-.75 7.51-2.15.32-.53-.13-1-.64-.67z" />
-                        </svg>
-                    </div>
-                    <span class="sns-label">Amazon</span>
-                    <div class="qr-placeholder">
-                        <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://www.amazon.co.jp/dp/B0FHK3FPJ2&bgcolor=ffffff&color=000000"
-                            alt="Amazon QR"
-                            style="width: 100%; height: 100%; object-fit: contain; background: white; border-radius: 4px;">
-                    </div>
-                    <span style="font-size: 0.7rem; color: var(--gold);">Recommended Book 竊・/span>
-                </a>
-            </div>
-        </section>
-
-        <footer>
-            <div style="margin-bottom: 30px;">
-                <div
-                    style="font-family: 'Outfit', sans-serif; font-size: 2.2rem; color: var(--gold); font-weight: 700;">
-                    CLH</div>
-                <div
-                    style="font-size: 0.7rem; color: rgba(255,255,255,0.4); letter-spacing: 4px; font-weight: 700; text-transform: uppercase;">
-                    CarlockHomes</div>
-            </div>
-            <div style="margin-bottom: 25px; font-family: 'Outfit', sans-serif; font-size: 0.65rem; color: rgba(255,255,255,0.25); letter-spacing: 3px; text-transform: uppercase;">
-                Produced by CLH Digital Creative Team & AI
-            </div>
-            <div style="margin-bottom: 20px; font-size: 0.7rem; color: rgba(255,255,255,0.3); letter-spacing: 1px;">
-                窶ｻ蝟ｶ讌ｭ逶ｮ逧・・縺雁撫縺・粋繧上○遲峨∝・螳ｹ縺ｫ繧医▲縺ｦ縺ｯ縺願ｿ比ｺ九ｒ蟾ｮ縺嶺ｸ翫￡繧峨ｌ縺ｪ縺・ｴ蜷医′縺斐＊縺・∪縺吶ゆｺ医ａ縺比ｺ・価縺上□縺輔＞縲・
-            </div>
-            <div class="copyright">&copy; 2026 CLH - CarlockHomes CO., LTD. ALL RIGHTS RESERVED.</div>
-        </footer>
-
-    </div> <!-- End Main Content Wrapper -->
-
-    <script>
-        // --- Simple Auth Logic ---
-        const AUTH_KEY = 'clh_authenticated';
-        const CORRECT_PASS = 'clh2026';
-
-        function checkAuth() {
-            const input = document.getElementById('password-input').value;
-            if (input === CORRECT_PASS) {
-                sessionStorage.setItem(AUTH_KEY, 'true');
-                unlockContent();
-            } else {
-                const error = document.getElementById('auth-error');
-                error.style.display = 'block';
-                document.getElementById('password-input').value = '';
-            }
-        }
-
-        function unlockContent() {
-            document.getElementById('auth-overlay').style.display = 'none';
-            document.getElementById('main-content').style.display = 'block';
-            document.body.style.overflow = 'auto';
-            // Trigger intersection observer since elements might be visible now
-            window.dispatchEvent(new Event('scroll'));
-        }
-
-        // Initialize Auth Status
-        window.onload = () => {
-            if (sessionStorage.getItem(AUTH_KEY) === 'true') {
-                unlockContent();
-            } else {
-                document.body.style.overflow = 'hidden';
-            }
-        };
-
-        // Handle Enter Key
-        document.getElementById('password-input').addEventListener('keypress', function (e) {
-            if (e.key === 'Enter') checkAuth();
-        });
-
-        // --- Scroll Reveal Animation ---
-        const observerOptions = { threshold: 0.1, rootMargin: '0px 0px -50px 0px' };
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) entry.target.classList.add('active');
-            });
-        }, observerOptions);
-        document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
-
-        // --- Mobile Menu Toggle ---
-        function toggleMobileMenu() {
-            const btn = document.querySelector('.menu-btn');
-            const nav = document.querySelector('.mobile-nav');
-            btn.classList.toggle('active');
-            nav.classList.toggle('active');
-            document.body.style.overflow = nav.classList.contains('active') ? 'hidden' : 'auto';
-        }
-
-        // --- Details Accordion Logic ---
-        function toggleDetails(btn) {
-            const drawer = document.getElementById('detail-drawer');
-            drawer.classList.toggle('active');
-            btn.classList.toggle('active');
-
-            if (drawer.classList.contains('active')) {
-                btn.innerHTML = '隧ｳ邏ｰ繧帝哩縺倥ｋ <i style="display:inline-block; transition: 0.4s; transform: rotate(180deg);">竊・/i>';
-                // Scroll to drawer smoothly
-                setTimeout(() => {
-                    drawer.scrollIntoView({ behavior: 'smooth', block: 'start' });
-                }, 100);
-            } else {
-                btn.innerHTML = '髮ｻ豌鈴権縺ｮ隧ｳ邏ｰ繧定ｦ九ｋ <i style="display:inline-block; transition: 0.4s;">竊・/i>';
-            }
-        }
-
-        function closeDetails(el) {
-            const drawer = document.getElementById('detail-drawer');
-            const btn = document.querySelector('.btn-toggle-details');
-            drawer.classList.remove('active');
-            btn.classList.remove('active');
-            btn.innerHTML = '髮ｻ豌鈴権縺ｮ隧ｳ邏ｰ繧定ｦ九ｋ <i style="display:inline-block; transition: 0.4s;">竊・/i>';
-
-            // Scroll back to the original card
-            document.getElementById('services').scrollIntoView({ behavior: 'smooth', block: 'start' });
-        }
-
-        // --- Scroll Logic ---
-        window.addEventListener('scroll', () => {
-            const header = document.getElementById('header');
-            const progress = document.getElementById('progress-bar');
-            const backToTop = document.getElementById('backToTop');
-
-            const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
-            const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
-            const scrolled = (winScroll / height) * 100;
-            if (progress) progress.style.width = scrolled + "%";
-
-            if (window.scrollY > 50) {
-                header.style.backgroundColor = 'rgba(0, 26, 51, 0.98)';
-                header.style.padding = '1rem 5%';
-            } else {
-                header.style.backgroundColor = 'rgba(0, 26, 51, 0.6)';
-                header.style.padding = '1.5rem 5%';
-            }
-
-            if (window.scrollY > 500) backToTop.classList.add('show');
-            else backToTop.classList.remove('show');
-        });
-    </script>
 </body>
-
 </html>
