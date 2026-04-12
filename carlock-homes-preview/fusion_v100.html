@@ -946,6 +946,11 @@
     .profile-table tr:last-child { border-bottom: none; }
     .profile-table th { text-align: left; padding: 24px 0; width: 30%; color: var(--primary); font-weight: 900; }
     .profile-table td { padding: 24px 0; font-weight: 400; color: #444; }
+
+    /* --- Access (PORTED FROM hp/index.html) --- */
+    .access-grid { display: grid; grid-template-columns: 1fr 1.5fr; gap: 60px; align-items: center; }
+    .map-frame { width: 100%; height: 450px; border-radius: 32px; overflow: hidden; box-shadow: var(--shadow); border: 1px solid #eee; }
+    @media (max-width: 900px) { .access-grid { grid-template-columns: 1fr; gap: 40px; } }
   </style>
 
   <button onclick="closeFusion()" style="position:fixed; top:30px; right:30px; z-index:100000; background:#111; color:#fff; border:none; padding:12px 30px; border-radius:50px; font-weight:900; cursor:pointer; font-family:'Zen Maru Gothic'; box-shadow:0 8px 30px rgba(0,0,0,0.2);">← 戻る</button>
@@ -1028,6 +1033,30 @@
                     <td>株式会社TENKEN GO / 株式会社One Stop Labo</td>
                 </tr>
             </table>
+        </div>
+    </section>
+
+    <!-- Access Section (EXACT COPY FROM hp/index.html Lines 311-332) -->
+    <section id="access">
+        <div class="section-title">
+            <h2>Access</h2>
+            <p>アクセス</p>
+        </div>
+        <div class="access-grid">
+            <div>
+                <h3 style="font-size: 24px; margin-bottom: 20px;">JR西荻窪駅より徒歩5分</h3>
+                <p style="color: #666; margin-bottom: 30px;">
+                    東京都杉並区西荻北2-37-12 ブランシュ西荻 中2階<br>
+                    TEL: 03-5311-0556
+                </p>
+                <a href="https://www.google.com/maps?q=%E3%82%AB%E3%83%BC%E3%83%AD%E3%83%83%E3%82%AF%E3%83%9B%E3%83%BC%E3%83%A0%E3%82%BA%E6%A0%AA%E5%BC%8F%E4%BC%9A%E7%A4%BE+%E6%9D%B1%E4%BA%AC%E9%83%BD%E6%9D%89%E4%B8%A6%E5%8C%BA%E8%A5%BF%E8%81%BB%E5%8C%972-37-12" target="_blank" 
+                   style="display: inline-block; background: var(--secondary); color: var(--text); text-decoration: none; padding: 15px 30px; border-radius: 50px; font-weight: 900; box-shadow: 0 10px 20px rgba(255, 225, 53, 0.2);">
+                   Googleマップで見る ↗
+                </a>
+            </div>
+            <div class="map-frame">
+                <iframe src="https://maps.google.com/maps?q=%E3%82%AB%E3%83%BC%E3%83%AD%E3%83%83%E3%82%AF%E3%83%9B%E3%83%BC%E3%83%A0%E3%82%BA%E6%A0%AA%E5%BC%8F%E4%BC%9A%E7%A4%BE+%E8%A5%BF%E8%81%BB%E7%AA%AA&hl=ja&z=15&output=embed" width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+            </div>
         </div>
     </section>
   </div>
