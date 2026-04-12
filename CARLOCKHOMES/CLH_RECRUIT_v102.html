@@ -1,0 +1,855 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CLH 採用コンセプト プレビュー (v1.0.2)</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@400;500;700;900&family=Shippori+Antique+B1&family=Reggae+One&family=Dela+Gothic+One&family=Yomogi&family=Outfit:wght@900&display=swap" rel="stylesheet">
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'Zen Maru Gothic', sans-serif; overflow-x: hidden; }
+
+    /* ── Selector (App component) ── */
+    #selector {
+      position: sticky; top: 0; z-index: 100;
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(10px);
+      border-bottom: 2px solid #eee;
+      padding: 12px 20px;
+      display: flex; gap: 8px;
+      overflow-x: auto;
+      scrollbar-width: none;
+    }
+    #selector::-webkit-scrollbar { display: none; }
+    
+    .sel-btn {
+      padding: 10px 20px;
+      border-radius: 50px;
+      border: 3px solid #eee;
+      background: #fff;
+      color: #777;
+      font-weight: 900;
+      font-size: 13px;
+      cursor: pointer;
+      white-space: nowrap;
+      font-family: 'Zen Maru Gothic', sans-serif;
+      transition: all .25s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+    .sel-btn .desc { font-size: 10px; font-weight: 400; margin-left: 6px; opacity: .7; }
+    .sel-btn.active {
+      border-color: #FF4444;
+      background: #FFF0F0;
+      color: #FF4444;
+      transform: scale(1.05);
+      box-shadow: 0 4px 15px rgba(255,68,68,0.15);
+    }
+
+    .design-section { display: none; min-height: 100vh; }
+    .design-section.active { display: block; }
+
+    /* ── Shared Animations ── */
+    @keyframes flicker { 0%,100% { opacity: 1; } 50% { opacity: 0.85; } }
+    @keyframes dust { 0% { transform: translateY(0) rotate(0deg); opacity: .6; } 100% { transform: translateY(-60px) rotate(180deg); opacity: 0; } }
+    @keyframes slam { 0% { transform: scale(.3) rotate(-8deg); opacity: 0; } 60% { transform: scale(1.08) rotate(1deg); } 100% { transform: scale(1) rotate(0deg); opacity: 1; } }
+    @keyframes riseUp { from { transform: translateY(60px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+    @keyframes gentlePulse { 0%,100% { transform: scale(1); } 50% { transform: scale(1.04); } }
+    @keyframes drawLine { from { stroke-dashoffset: 200; } to { stroke-dashoffset: 0; } }
+    @keyframes fadeSlide { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
+    @keyframes popBig { 0% { transform: scale(0) rotate(-10deg); } 70% { transform: scale(1.1) rotate(2deg); } 100% { transform: scale(1) rotate(0deg); } }
+    
+    /* UX helper: Focus ring color */
+    input:focus, textarea:focus { border-color: #4D96FF !important; }
+    
+    /* Overlay Styles (FUSION) */
+    #official-fusion-overlay {
+      display:none; position:fixed; inset:0; z-index:99999; 
+      background:rgba(253, 247, 247, 0.98); backdrop-filter: blur(12px);
+      overflow-y:auto; 
+    }
+    .overlay-close {
+        position:fixed; top:30px; right:30px; z-index:100000; 
+        background:#111; color:#fff; border:none; padding:12px 30px; 
+        border-radius:50px; font-weight:900; cursor:pointer; 
+        font-family:'Zen Maru Gothic'; box-shadow:0 8px 30px rgba(0,0,0,0.2);
+    }
+  </style>
+</head>
+<body>
+
+<!-- ── Selector ── -->
+<div id="selector">
+  <button class="sel-btn active" onclick="switchDesign(0,this)">
+    1. 泥臭エネルギー<span class="desc">夕日×熱血ポップ</span>
+  </button>
+  <button class="sel-btn" onclick="switchDesign(1,this)">
+    2. 街のハブ<span class="desc">虹色×温かいつながり</span>
+  </button>
+  <button class="sel-btn" onclick="switchDesign(2,this)">
+    3. 月替わりコア募集<span class="desc">オタク×ポップアート</span>
+  </button>
+  <button class="sel-btn" onclick="switchDesign(3,this)">
+    4. 会社案内パンフ<span class="desc">グリッド構成×機能美</span>
+  </button>
+</div>
+
+<!-- ══════════════════════════════════════════
+     DESIGN 1 : 泥臭エネルギー
+═══════════════════════════════════════════ -->
+<section id="d1" class="design-section active">
+  <div style="background:#1A0F05;padding-bottom:100px;font-family:'Zen Maru Gothic',sans-serif;overflow:hidden;position:relative;min-height:100vh;">
+    <div style="position:absolute;inset:0;background:radial-gradient(ellipse at 50% 120%,#FF6B2B 0%,#C0392B 30%,#1A0F05 70%);opacity:.9;pointer-events:none;"></div>
+    <div id="d1-dust" style="position:absolute;inset:0;pointer-events:none;"></div>
+
+    <div style="position:relative;z-index:10;">
+      <nav style="display:flex;justify-content:space-between;align-items:center;padding:25px 40px;">
+        <div style="font-family:'Reggae One',cursive;font-size:24px;color:#FFD4A0;text-shadow:2px 2px 0 #000;">🔑 カーロックホームズ</div>
+        <div style="display:flex;gap:25px;font-size:14px;font-weight:900;color:#FFBB80;">
+          <span onclick="openFusion('company')" style="cursor:pointer;text-shadow:1px 1px 0 #000;border-bottom:2px solid #FFBB80;">会社案内</span>
+          <span onclick="openEntry('泥臭エネルギー')" style="cursor:pointer;text-shadow:1px 1px 0 #000;">採用エントリー</span>
+        </div>
+      </nav>
+
+      <div style="padding:80px 40px 60px;max-width:800px;margin:0 auto;text-align:center;">
+        <div style="width:180px;height:180px;margin:0 auto 40px;border-radius:50%;background:radial-gradient(circle,#FF6B2B 0%,transparent 75%);display:flex;align-items:center;justify-content:center;animation:flicker 3s ease-in-out infinite;">
+          <div style="font-size:90px;filter:drop-shadow(0 4px 25px rgba(255,107,43,0.7));">🏃</div>
+        </div>
+        <h1 style="font-family:'Reggae One',cursive;font-size:clamp(40px, 8vw, 60px);color:#FFE8CC;line-height:1.2;margin:0 0 16px;text-shadow:4px 4px 0 #5C1A00, 8px 8px 0 rgba(0,0,0,.3);animation:slam .8s cubic-bezier(0.175, 0.885, 0.32, 1.275);">
+          45歳、<br>ここからが本番。
+        </h1>
+        <p style="font-family:'Shippori Antique B1',serif;font-size:clamp(15px, 2.5vw, 18px);color:#FFBB80;line-height:2.2;margin:25px auto 40px;max-width:550px;animation:riseUp 1s ease-out .3s both;">
+          若さのスピードには勝てなくても、<br>
+          泥臭い根性なら、誰にも負けない。<br>
+          さあ、もう一度飛んでみませんか。
+        </p>
+        <button onclick="openEntry('泥臭エネルギー')" style="font-family:'Reggae One',cursive;background:#FF6B2B;color:#fff;border:4px solid #FFD4A0;padding:22px 60px;border-radius:15px;font-size:20px;cursor:pointer;box-shadow:0 10px 40px rgba(255,107,43,.5),inset 0 -4px 0 #C0392B;animation:riseUp 1s ease-out .6s both;transition:transform .15s;outline:none;" onmouseover="this.style.transform='scale(1.08)'" onmouseout="this.style.transform='scale(1)'">
+          🔥 今すぐ挑戦する
+        </button>
+      </div>
+
+      <div style="padding:60px 40px;max-width:1000px;margin:0 auto;">
+        <h2 style="font-family:'Reggae One',cursive;font-size:26px;color:#FFD4A0;text-align:center;margin-bottom:40px;text-shadow:2px 2px 0 #000;">💪 泥臭い仲間たち</h2>
+        <div style="display:flex;gap:20px;flex-wrap:wrap;justify-content:center;">
+          <div style="flex:1;min-width:280px;background:rgba(255,180,100,.08);border:2px solid rgba(255,180,100,.2);border-radius:24px;padding:32px;text-align:center;animation:riseUp .8s ease-out .2s both;">
+            <div style="font-size:52px;margin-bottom:15px;">🏋️</div>
+            <div style="font-weight:900;font-size:16px;color:#FFD4A0;margin-bottom:12px;">田中さん（52歳）</div>
+            <div style="font-family:'Shippori Antique B1',serif;font-size:14px;color:#FFD4A0;line-height:2;opacity:0.9;">「18段は無理でも<br>3段なら毎日跳べる！」</div>
+          </div>
+          <div style="flex:1;min-width:280px;background:rgba(255,180,100,.08);border:2px solid rgba(255,180,100,.4);border-radius:24px;padding:32px;text-align:center;animation:riseUp .8s ease-out .35s both;box-shadow:0 10px 30px rgba(0,0,0,0.2);">
+            <div style="font-size:52px;margin-bottom:15px;">🌾</div>
+            <div style="font-weight:900;font-size:16px;color:#FFD4A0;margin-bottom:12px;">佐藤さん（48歳）</div>
+            <div style="font-family:'Shippori Antique B1',serif;font-size:14px;color:#FFD4A0;line-height:2;opacity:0.9;">「汗かいた分だけ<br>「ありがとう」が返ってくる」</div>
+          </div>
+          <div style="flex:1;min-width:280px;background:rgba(255,180,100,.08);border:2px solid rgba(255,180,100,.2);border-radius:24px;padding:32px;text-align:center;animation:riseUp .8s ease-out .5s both;">
+            <div style="font-size:52px;margin-bottom:15px;">✨</div>
+            <div style="font-weight:900;font-size:16px;color:#FFD4A0;margin-bottom:12px;">山本さん（55歳）</div>
+            <div style="font-family:'Shippori Antique B1',serif;font-size:14px;color:#FFD4A0;line-height:2;opacity:0.9;">「定年なんて<br>自分で決める！」</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════
+     DESIGN 2 : 街のハブ
+═══════════════════════════════════════════ -->
+<section id="d2" class="design-section">
+  <div style="background:#FAF6EE;padding-bottom:100px;font-family:'Zen Maru Gothic',sans-serif;position:relative;min-height:100vh;">
+    <nav style="display:flex;justify-content:space-between;align-items:center;padding:25px 40px;">
+      <div style="display:flex;align-items:center;gap:12px;">
+        <span style="display:inline-flex;width:38px;height:38px;border-radius:50%;background:#FF6B6B;color:#fff;font-weight:900;font-size:16px;align-items:center;justify-content:center;box-shadow:0 4px 10px rgba(255,107,107,0.3);">C</span>
+        <span style="display:inline-flex;width:38px;height:38px;border-radius:50%;background:#FFC93C;color:#fff;font-weight:900;font-size:16px;align-items:center;justify-content:center;box-shadow:0 4px 10px rgba(255,201,60,0.3);">L</span>
+        <span style="display:inline-flex;width:38px;height:38px;border-radius:50%;background:#6BCB77;color:#fff;font-weight:900;font-size:16px;align-items:center;justify-content:center;box-shadow:0 4px 10px rgba(107,203,119,0.3);">H</span>
+        <span style="font-weight:900;font-size:19px;color:#4A3D2E;margin-left:8px;">カーロックホームズ</span>
+      </div>
+      <div style="display:flex;gap:25px;font-size:14px;font-weight:900;color:#8B7D6B;">
+        <span onclick="openFusion('company')" style="cursor:pointer;border-bottom:2px solid #D2C6B6;">会社について</span>
+        <span onclick="openEntry('街のハブ')" style="cursor:pointer;color:#FF6B6B;">採用情報</span>
+      </div>
+    </nav>
+
+    <div style="padding:60px 40px 0;max-width:900px;margin:0 auto;text-align:center;">
+      <div style="display:inline-block;background:#FF6B6B;color:#fff;padding:10px 28px;border-radius:100px;font-size:13px;font-weight:900;margin-bottom:35px;box-shadow:0 8px 15px rgba(255,107,107,0.25);">🌈 共に歩む仲間を募集中</div>
+      <h1 style="font-size:clamp(30px, 6vw, 42px);font-weight:900;color:#4A3D2E;line-height:1.6;margin:0 0 20px;animation:fadeSlide .8s ease-out;">
+        私たちは鍵を直すのではない。<br>
+        <span style="background:linear-gradient(transparent 60%,rgba(255,224,128,.5) 60%);">街のつながりを、直している。</span>
+      </h1>
+      <p style="font-size:17px;color:#8B7D6B;line-height:2.2;margin-bottom:50px;max-width:700px;margin-left:auto;margin-right:auto;">
+        鍵という「家の入り口」を通じて、人と地域をつなぐ。<br>
+        カーロックホームズは、そんな「暮らしのハブ」を目指しています。
+      </p>
+
+      <div style="position:relative;width:400px;height:400px;margin:0 auto 60px;">
+        <div style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:120px;height:120px;border-radius:50%;background:linear-gradient(135deg,#FF6B6B,#FFC93C,#6BCB77,#4D96FF,#9B59B6,#FF6B6B);display:flex;align-items:center;justify-content:center;animation:gentlePulse 4s ease-in-out infinite;box-shadow:0 12px 40px rgba(255,107,107,0.25);z-index:3;">
+          <div style="width:100px;height:100px;border-radius:50%;background:#FAF6EE;display:flex;align-items:center;justify-content:center;flex-direction:column;">
+            <div style="font-size:40px;">🔑</div>
+            <div style="font-size:11px;font-weight:900;color:#5D4E37;">LIFE HUB</div>
+          </div>
+        </div>
+        <svg style="position:absolute;inset:0;width:400px;height:400px;z-index:1;">
+          <line x1="200" y1="200" x2="200" y2="50"  stroke="#FF6B6B" stroke-width="4" stroke-dasharray="10 6" opacity=".5" style="animation:drawLine 2s ease-out 0s both;"/>
+          <line x1="200" y1="200" x2="330" y2="123" stroke="#FFC93C" stroke-width="4" stroke-dasharray="10 6" opacity=".5" style="animation:drawLine 2s ease-out .2s both;"/>
+          <line x1="200" y1="200" x2="330" y2="277" stroke="#6BCB77" stroke-width="4" stroke-dasharray="10 6" opacity=".5" style="animation:drawLine 2s ease-out .4s both;"/>
+          <line x1="200" y1="200" x2="200" y2="350" stroke="#4D96FF" stroke-width="4" stroke-dasharray="10 6" opacity=".5" style="animation:drawLine 2s ease-out .6s both;"/>
+          <line x1="200" y1="200" x2="70"  y2="277" stroke="#9B59B6" stroke-width="4" stroke-dasharray="10 6" opacity=".5" style="animation:drawLine 2s ease-out .8s both;"/>
+          <line x1="200" y1="200" x2="70"  y2="123" stroke="#FF8C42" stroke-width="4" stroke-dasharray="10 6" opacity=".5" style="animation:drawLine 2s ease-out 1s both;"/>
+        </svg>
+        <div id="d2-nodes" style="position:absolute;inset:0;z-index:2;"></div>
+      </div>
+    </div>
+
+    <div style="padding:40px;max-width:1000px;margin:0 auto;">
+      <h2 style="text-align:center;font-size:26px;font-weight:900;color:#4A3D2E;margin-bottom:40px;">🌱 つなぐ仲間たち</h2>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit, minmax(300px, 1fr));gap:25px;">
+        <div style="background:#fff;border-radius:30px;padding:35px;text-align:center;box-shadow:0 4px 25px rgba(0,0,0,.04);border-left:8px solid #FF6B6B;">
+          <div style="width:64px;height:64px;border-radius:50%;background:rgba(255,107,107,.1);margin:0 auto 15px;display:flex;align-items:center;justify-content:center;font-size:30px;">😊</div>
+          <div style="font-weight:900;font-size:17px;color:#4A3D2E;">田中さん（52歳）</div>
+          <div style="font-size:13px;color:#FF6B6B;font-weight:900;margin:6px 0 12px;background:#FFF0F0;display:inline-block;padding:4px 12px;border-radius:50px;">ゲームオタク</div>
+          <div style="background:#FAF6EE;border-radius:15px;padding:12px 16px;font-size:14px;color:#5D4E37;line-height:1.7;">「鍵を通じて地域の力になれる。その実感が嬉しいんです」</div>
+        </div>
+        <div style="background:#fff;border-radius:30px;padding:35px;text-align:center;box-shadow:0 4px 25px rgba(0,0,0,.04);border-left:8px solid #6BCB77;">
+          <div style="width:64px;height:64px;border-radius:50%;background:rgba(107,203,119,.1);margin:0 auto 15px;display:flex;align-items:center;justify-content:center;font-size:30px;">😊</div>
+          <div style="font-weight:900;font-size:17px;color:#4A3D2E;">佐藤さん（48歳）</div>
+          <div style="font-size:13px;color:#6BCB77;font-weight:900;margin:6px 0 12px;background:#F0FFF4;display:inline-block;padding:4px 12px;border-radius:50px;">家庭菜園</div>
+          <div style="background:#FAF6EE;border-radius:15px;padding:12px 16px;font-size:14px;color:#5D4E37;line-height:1.7;">「汗をかいた分だけ、直接笑顔が返ってくる仕事です」</div>
+        </div>
+        <div style="background:#fff;border-radius:30px;padding:35px;text-align:center;box-shadow:0 4px 25px rgba(0,0,0,.04);border-left:8px solid #4D96FF;">
+          <div style="width:64px;height:64px;border-radius:50%;background:rgba(77,150,255,.1);margin:0 auto 15px;display:flex;align-items:center;justify-content:center;font-size:30px;">😊</div>
+          <div style="font-weight:900;font-size:17px;color:#4A3D2E;">山本さん（55歳）</div>
+          <div style="font-size:13px;color:#4D96FF;font-weight:900;margin:6px 0 12px;background:#F0F8FF;display:inline-block;padding:4px 12px;border-radius:50px;">バンド活動</div>
+          <div style="background:#FAF6EE;border-radius:15px;padding:12px 16px;font-size:14px;color:#5D4E37;line-height:1.7;">「いくつになっても挑戦できる。ここの仲間が最高です」</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════
+     DESIGN 3 : 月替わりコア募集 (POP ART)
+═══════════════════════════════════════════ -->
+<section id="d3" class="design-section">
+  <div style="background:#111;padding-bottom:100px;font-family:'Zen Maru Gothic',sans-serif;position:relative;overflow:hidden;min-height:100vh;">
+    <div style="position:absolute;inset:0;background-image:radial-gradient(circle,#FFE135 1px,transparent 1px);background-size:24px 24px;opacity:.06;pointer-events:none;"></div>
+
+    <nav style="display:flex;justify-content:space-between;align-items:center;padding:20px 40px;border-bottom:3px solid #FFE135;background:rgba(17,17,17,0.8);backdrop-filter:blur(5px);position:sticky;top:0;z-index:20;">
+      <div style="font-family:'Dela Gothic One',cursive;font-size:22px;color:#FFE135;">🔑 CLH CO.</div>
+      <div style="display:flex;gap:20px;font-size:14px;font-weight:900;">
+        <span onclick="openFusion('company')" style="color:#FFE135;cursor:pointer;">COMPANY</span>
+        <span onclick="openEntry('コア募集')" style="color:#111;background:#FFE135;padding:8px 20px;border-radius:6px;cursor:pointer;box-shadow:4px 4px 0 #fff;">ENTRY</span>
+      </div>
+    </nav>
+
+    <div style="padding:60px 40px;max-width:1000px;margin:0 auto;position:relative;z-index:1;">
+      <div style="display:grid;grid-template-columns:repeat(auto-fit, minmax(320px, 1fr));gap:50px;align-items:center;">
+        <div>
+          <div style="display:inline-block;background:#FFE135;color:#111;padding:8px 24px;font-weight:900;font-size:15px;margin-bottom:25px;transform:rotate(-2deg);font-family:'Dela Gothic One',cursive;box-shadow:4px 4px 0 #FF6B6B;">📅 今月のコア募集テーマ</div>
+          <h1 style="font-family:'Dela Gothic One',cursive;font-size:clamp(48px, 10vw, 75px);color:#FFE135;line-height:1.2;margin:0 0 15px;animation:popBig .6s cubic-bezier(0.175, 0.885, 0.32, 1.275);">
+            ゲーム<br>オタク<br>集まれ。
+          </h1>
+          <p style="font-size:17px;color:#bbb;line-height:2.2;margin:25px 0 40px;">「100人に1人、深く刺さればいい。」<br>趣味を隠さず、自分らしく働ける職場。<br>新しいステージの攻略、一緒に始めませんか？🎮</p>
+          <button onclick="openEntry('コア募集')" style="font-family:'Dela Gothic One',cursive;background:#FFE135;color:#111;border:none;padding:20px 50px;font-size:18px;cursor:pointer;box-shadow:6px 6px 0 #fff;transition:all .2s;outline:none;" onmouseover="this.style.transform='translate(2px, 2px)';this.style.boxShadow='4px 4px 0 #fff'" onmouseout="this.style.transform='translate(0,0)';this.style.boxShadow='6px 6px 0 #fff'">⚡ 特設エントリーへ</button>
+        </div>
+        <div style="position:relative;height:450px;min-width:320px;">
+          <div style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);font-size:180px;animation:popBig .8s ease-out .2s both;filter:drop-shadow(10px 10px 0 #FFE135);">🎮</div>
+          <div style="position:absolute;top:10%;left:5%;background:#FF6B6B;color:#fff;padding:12px 20px;font-weight:900;font-size:14px;transform:rotate(-8deg);box-shadow:4px 4px 0 #000;animation:popBig .5s ease-out .4s both;">RPG好き大歓迎</div>
+          <div style="position:absolute;top:15%;right:5%;background:#4ECDC4;color:#fff;padding:12px 20px;font-weight:900;font-size:14px;transform:rotate(5deg);box-shadow:4px 4px 0 #000;animation:popBig .5s ease-out .5s both;">FPS民歓迎</div>
+          <div style="position:absolute;bottom:20%;left:10%;background:#9B59B6;color:#fff;padding:12px 20px;font-weight:900;font-size:14px;transform:rotate(3deg);box-shadow:4px 4px 0 #000;animation:popBig .5s ease-out .6s both;">格ゲー勢も！</div>
+          <div style="position:absolute;bottom:15%;right:10%;background:#FF8C42;color:#fff;padding:12px 20px;font-weight:900;font-size:14px;transform:rotate(-4deg);box-shadow:4px 4px 0 #000;animation:popBig .5s ease-out .7s both;">ボードゲーム派</div>
+        </div>
+      </div>
+      
+      <div style="margin-top:80px;background:rgba(255,255,255,0.03);padding:40px;border-radius:20px;border:1px solid rgba(255,225,53,0.15);">
+        <div style="color:#888;font-size:14px;font-weight:900;margin-bottom:25px;letter-spacing:1px;text-align:center;">NEXT THEMES ARCHIVE</div>
+        <div style="display:flex;gap:15px;overflow-x:auto;padding-bottom:10px;">
+          <div style="flex:1;min-width:140px;border:2px solid #FF6B6B;padding:20px;text-align:center;opacity:.7;border-radius:12px;"><div style="font-size:11px;color:#888;">3月</div><div style="font-size:15px;font-weight:900;color:#FF6B6B;margin-top:6px;">🌸 アニメ</div></div>
+          <div style="flex:1;min-width:140px;border:2px solid #4D96FF;padding:20px;text-align:center;opacity:.7;border-radius:12px;"><div style="font-size:11px;color:#888;">2月</div><div style="font-size:15px;font-weight:900;color:#4D96FF;margin-top:6px;">📚 読書</div></div>
+          <div style="flex:1;min-width:140px;border:2px solid #6BCB77;padding:20px;text-align:center;opacity:.7;border-radius:12px;"><div style="font-size:11px;color:#888;">1月</div><div style="font-size:15px;font-weight:900;color:#6BCB77;margin-top:6px;">🏃 筋トレ</div></div>
+          <div style="flex:1;min-width:140px;border:2px solid #9B59B6;padding:20px;text-align:center;opacity:.7;border-radius:12px;"><div style="font-size:11px;color:#888;">12月</div><div style="font-size:15px;font-weight:900;color:#9B59B6;margin-top:6px;">🎵 音楽</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════
+     DESIGN 4 : 会社案内パンフ (UTILITY PANEL)
+═══════════════════════════════════════════ -->
+<section id="d4" class="design-section">
+  <div style="background:#fff;padding-bottom:100px;font-family:'Zen Maru Gothic',sans-serif;min-height:100vh;">
+    <div style="display:flex;height:8px;">
+      <div style="flex:1;background:#FF4444;"></div><div style="flex:1;background:#FFB800;"></div><div style="flex:1;background:#4D96FF;"></div>
+      <div style="flex:1;background:#FF4444;"></div><div style="flex:1;background:#FFB800;"></div><div style="flex:1;background:#4D96FF;"></div>
+    </div>
+
+    <nav style="display:flex;justify-content:space-between;align-items:center;padding:20px 40px;border-bottom:2px solid #F0F0F0;">
+      <div style="display:flex;align-items:center;gap:12px;">
+        <div style="width:45px;height:45px;border-radius:12px;background:#FF4444;display:flex;align-items:center;justify-content:center;color:#fff;font-size:24px;box-shadow:0 6px 15px rgba(255,68,68,0.2);">🔑</div>
+        <div>
+          <div style="font-weight:900;font-size:18px;color:#111;">カーロックホームズ</div>
+          <div style="font-size:10px;color:#999;letter-spacing:1.5px;font-family:'Outfit';">CARLOCK HOMES</div>
+        </div>
+      </div>
+      <div style="display:flex;gap:25px;font-size:14px;font-weight:900;">
+        <span onclick="openFusion('company')" style="cursor:pointer; color:#4D96FF; border-bottom:2px solid #4D96FF;">企業情報</span>
+        <span onclick="openContact('会社案内パンフ')" style="cursor:pointer; color:#777;">お問い合わせ</span>
+      </div>
+    </nav>
+
+    <div style="padding:40px;max-width:1080px;margin:0 auto;">
+      <div style="display:grid;grid-template-columns:repeat(auto-fit, minmax(350px, 1fr));gap:24px;margin-bottom:24px;">
+        <div style="background:linear-gradient(135deg, #FF4444, #FF6B6B);border-radius:24px;padding:50px 40px;color:#fff;box-shadow:0 15px 40px rgba(255,68,68,0.2);position:relative;overflow:hidden;">
+            <div style="position:absolute;top:-20px;right:-20px;font-size:150px;opacity:0.1;">🔑</div>
+            <div style="display:inline-block;background:#fff;color:#FF4444;padding:6px 20px;border-radius:100px;font-size:12px;font-weight:900;margin-bottom:20px;">RECRUIT 2026</div>
+            <h1 style="font-size:36px;font-weight:900;line-height:1.4;margin:0 0 16px;">あなたの人生経験、<br>活かせる場所があります。</h1>
+            <p style="font-size:15px;opacity:.95;line-height:2;">45〜55代中心に活躍中。経験は問いません。多様な働き方をご提案します。</p>
+        </div>
+        <div style="display:grid;grid-template-rows:1fr 1fr;gap:20px;">
+          <div style="background:#FFB800;border-radius:24px;padding:25px 32px;color:#664400;display:flex;align-items:center;gap:20px;box-shadow:0 10px 30px rgba(255,184,0,0.15);">
+            <div style="font-size:45px;">👥</div>
+            <div><div style="font-size:13px;font-weight:900;opacity:.8;">スタッフ平均年齢</div><div style="font-size:32px;font-weight:900;">48.5歳</div></div>
+          </div>
+          <div style="background:#4D96FF;border-radius:24px;padding:25px 32px;color:#fff;display:flex;align-items:center;gap:20px;box-shadow:0 10px 30px rgba(77,150,255,0.15);">
+            <div style="font-size:45px;">🛡️</div>
+            <div><div style="font-size:13px;font-weight:900;opacity:.9;">月間対応件数</div><div style="font-size:32px;font-weight:900;">3,000件＋</div></div>
+          </div>
+        </div>
+      </div>
+
+      <div style="display:grid;grid-template-columns:repeat(auto-fit, minmax(300px, 1fr));gap:20px;margin-bottom:40px;">
+        <div style="background:#F9F9F9;border-radius:24px;padding:35px;border:1px solid #EEE;">
+          <div style="width:45px;height:45px;border-radius:12px;background:#FF4444;display:flex;align-items:center;justify-content:center;font-size:24px;margin-bottom:15px;">🔍</div>
+          <div style="font-weight:900;font-size:18px;color:#111;margin-bottom:15px;">事業内容</div>
+          <ul style="list-style:none;font-size:14px;color:#555;line-height:2.2;">
+            <li style="border-bottom:1px solid #EEE;padding-bottom:5px;">・一般住宅・金庫の緊急解錠</li>
+            <li style="border-bottom:1px solid #EEE;padding-bottom:5px;">・スマートロック・防犯カメラ設置</li>
+            <li style="border-bottom:1px solid #EEE;padding-bottom:5px;">・建物共用部の点検・管理代行</li>
+            <li>・全国180拠点のネットワーク運営</li>
+          </ul>
+        </div>
+        <div style="background:#F9F9F9;border-radius:24px;padding:35px;border:1px solid #EEE;">
+          <div style="width:45px;height:45px;border-radius:12px;background:#FFB800;display:flex;align-items:center;justify-content:center;font-size:24px;margin-bottom:15px;">💡</div>
+          <div style="font-weight:900;font-size:18px;color:#111;margin-bottom:15px;">私たちの想い</div>
+          <p style="font-size:14px;color:#555;line-height:1.9;">カギを開けることは、お客様の安心と生活の入り口を開くこと。私たちは「街のハブ」として、技術以上に真心と根性を大切にしています。</p>
+        </div>
+        <div style="background:#F9F9F9;border-radius:24px;padding:35px;border:2px solid #FF4444;box-shadow:0 10px 30px rgba(255,68,68,0.05);">
+          <div style="width:45px;height:45px;border-radius:12px;background:#4D96FF;display:flex;align-items:center;justify-content:center;font-size:24px;margin-bottom:15px;">📋</div>
+          <div style="font-weight:900;font-size:18px;color:#111;margin-bottom:15px;">募集要項（公式）</div>
+          <div style="font-size:11px;color:#999;font-weight:900;margin-bottom:2px;">職種</div>
+          <div style="font-size:14px;color:#111;font-weight:900;margin-bottom:10px;">カギの緊急対応スタッフ（技術職）</div>
+          <div style="font-size:11px;color:#999;font-weight:900;margin-bottom:2px;">給与</div>
+          <div style="font-size:15px;color:#FF4444;font-weight:900;">23万〜40万円以上</div>
+          <div style="font-size:11px;color:#FF4444;font-weight:700;margin-top:2px;">※インセンティブ等含、要相談</div>
+          <button onclick="openEntry('パンフデザイン')" style="margin-top:20px;width:100%;padding:12px;background:#FF4444;color:#fff;border:none;border-radius:10px;font-weight:900;cursor:pointer;">エントリー画面へ</button>
+        </div>
+      </div>
+
+      <div style="background:#FFF9E5;border:3px dashed #FFB800;border-radius:24px;padding:25px;text-align:center;display:flex;align-items:center;justify-content:center;gap:20px;">
+        <span style="font-size:35px;">🖨️</span>
+        <div style="text-align:left;">
+          <div style="font-weight:900;font-size:15px;color:#664400;">このページを印刷してのご持参も大歓迎です。</div>
+          <div style="font-size:12px;color:#997700;margin-top:2px;">会社案内パンフレット形式として、そのままご活用いただけます。</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════
+     共通 SNS フッター
+═══════════════════════════════════════════ -->
+<div style="background:linear-gradient(135deg,#1a1a2e,#16213e);padding:80px 20px 50px;text-align:center;border-top:5px solid #FF4444;">
+    <div style="max-width:850px;margin:0 auto 50px;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.1);border-radius:32px;padding:50px;text-align:left;position:relative;">
+        <div style="position:absolute;top:-25px;left:40px;background:#FFE135;color:#111;padding:8px 30px;border-radius:50px;font-weight:900;font-size:16px;">Verified Recruit Info</div>
+        <h3 style="color:#FFE135;font-weight:900;font-size:24px;margin-bottom:30px;font-family:'Zen Maru Gothic',sans-serif;">募集概要</h3>
+        <div style="display:grid;gap:20px;color:#fff;font-family:'Zen Maru Gothic',sans-serif;">
+            <div style="display:flex;border-bottom:1px solid rgba(255,255,255,0.1);padding-bottom:12px;">
+                <span style="width:100px;color:#FFE135;font-weight:900;font-size:14px;">職種</span>
+                <span style="font-size:16px;font-weight:700;">カギの緊急対応スタッフ（技術職）</span>
+            </div>
+            <div style="display:flex;border-bottom:1px solid rgba(255,255,255,0.1);padding-bottom:12px;">
+                <span style="width:100px;color:#FFE135;font-weight:900;font-size:14px;">対象</span>
+                <span style="font-size:16px;font-weight:700;">年齢・経験不問。45〜55代の未経験者が多数活躍中！</span>
+            </div>
+            <div style="display:flex;padding-bottom:12px;">
+                <span style="width:100px;color:#FFE135;font-weight:900;font-size:14px;">給与</span>
+                <div style="flex:1;">
+                    <div style="font-size:16px;font-weight:700;">月給 23万〜40万円以上（インセンティブあり）</div>
+                    <div style="font-size:12px;color:#FFE135;margin-top:6px;opacity:0.9;">※働き方によって変わります、まずはオンライン・対面で相談しましょう。</div>
+                </div>
+            </div>
+        </div>
+        <div style="margin-top:40px;text-align:center;">
+            <button onclick="openEntry('共通フッター')" style="background:#FFE135;color:#111;border:none;padding:18px 60px;border-radius:100px;font-weight:900;font-size:18px;cursor:pointer;box-shadow:0 10px 30px rgba(255,225,53,0.3);transition:transform .2s;" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
+                まずは一度、話してみる →
+            </button>
+        </div>
+    </div>
+
+    <p style="font-family:'Zen Maru Gothic',sans-serif;font-size:16px;color:#bbb;margin:0 0 30px;font-weight:900;letter-spacing:1px;">📱 OFFICIAL SNS</p>
+    <div style="display:flex;justify-content:center;gap:20px;margin-bottom:40px;flex-wrap:wrap;">
+      <a href="https://www.instagram.com/carlockhomes_official" target="_blank" rel="noopener" style="background:linear-gradient(135deg,#E1306C,#F56040,#FCAF45);color:#fff;text-decoration:none;padding:14px 35px;border-radius:15px;font-size:14px;font-weight:900;box-shadow:0 8px 15px rgba(225,48,108,0.3);">📸 Instagram</a>
+      <a href="https://www.facebook.com/profile.php?id=61588020825959" target="_blank" rel="noopener" style="background:linear-gradient(135deg,#1877F2,#4267B2);color:#fff;text-decoration:none;padding:14px 35px;border-radius:15px;font-size:14px;font-weight:900;box-shadow:0 8px 15px rgba(24,119,242,0.3);">👍 Facebook</a>
+      <a href="https://www.amazon.co.jp/dp/B0FHK3FPJ2" target="_blank" rel="noopener" style="background:linear-gradient(135deg,#FF9900,#FFB200);color:#232F3E;text-decoration:none;padding:14px 35px;border-radius:15px;font-size:14px;font-weight:900;box-shadow:0 8px 15px rgba(255,153,0,0.3);">📦 Amazon</a>
+    </div>
+    <p style="font-family:'Zen Maru Gothic',sans-serif;font-size:12px;color:#555;margin:0;font-weight:700;">© 2026 CarlockHomes Inc. All rights reserved.</p>
+</div>
+
+<!-- ══════════════════════════════════════════
+     MODAL: エントリーフォーム (UX OPTIMIZED)
+═══════════════════════════════════════════ -->
+<div id="modal-entry" style="display:none;position:fixed;inset:0;z-index:9999;background:rgba(0,0,0,.7);backdrop-filter:blur(8px);align-items:center;justify-content:center;padding:15px;">
+  <div style="background:#fff;border-radius:32px;max-width:560px;width:100%;max-height:92vh;overflow-y:auto;position:relative;box-shadow:0 30px 100px rgba(0,0,0,0.4);animation:popBig 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);">
+    <div style="background:linear-gradient(135deg,#FF6B2B,#FF4444);padding:40px 40px 30px;border-radius:32px 32px 0 0;position:relative;">
+      <button onclick="closeEntry()" style="position:absolute;top:20px;right:20px;background:rgba(255,255,255,0.2);border:none;color:#fff;width:40px;height:40px;border-radius:50%;font-size:20px;cursor:pointer;display:flex;align-items:center;justify-content:center;">✕</button>
+      <div style="font-size:35px;margin-bottom:12px;">🔥</div>
+      <h2 style="color:#fff;font-family:'Zen Maru Gothic',sans-serif;font-weight:900;font-size:24px;margin:0 0 8px;">採用エントリーフォーム</h2>
+      <p style="color:rgba(255,255,255,0.9);font-size:14px;margin:0;">まずは気軽なご相談から。あなたの「これから」を応援します。</p>
+    </div>
+    <form id="entry-form" onsubmit="submitEntry(event)" style="padding:40px;">
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-bottom:20px;">
+        <div>
+          <label style="display:block;font-weight:900;font-size:13px;color:#555;margin-bottom:8px;">お名前 <span style="color:#FF4444;">*</span></label>
+          <input id="entry-name" type="text" required placeholder="山田 太郎" autocomplete="name" style="width:100%;padding:14px 18px;border:2px solid #E8E8E8;border-radius:12px;font-size:16px;outline:none;transition:0.2s;">
+        </div>
+        <div>
+          <label style="display:block;font-weight:900;font-size:13px;color:#555;margin-bottom:8px;">年齢 <span style="color:#FF4444;">*</span></label>
+          <input id="entry-age" type="number" required min="18" max="85" placeholder="48" style="width:100%;padding:14px 18px;border:2px solid #E8E8E8;border-radius:12px;font-size:16px;outline:none;">
+        </div>
+      </div>
+      <div style="margin-bottom:25px;">
+        <label style="display:block;font-weight:900;font-size:13px;color:#555;margin-bottom:8px;">電話番号 または メールアドレス <span style="color:#FF4444;">*</span></label>
+        <input id="entry-contact" type="text" required placeholder="090-xxxx-xxxx / example@mail.com" style="width:100%;padding:14px 18px;border:2px solid #E8E8E8;border-radius:12px;font-size:16px;outline:none;">
+      </div>
+      <div style="margin-bottom:25px;">
+        <label style="display:block;font-weight:900;font-size:13px;color:#555;margin-bottom:12px;">希望の働き方</label>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
+          <label class="radio-tab"><input type="radio" name="work-style" value="正社員"><span>正社員</span></label>
+          <label class="radio-tab"><input type="radio" name="work-style" value="外注・報酬制"><span>業務委託</span></label>
+          <label class="radio-tab"><input type="radio" name="work-style" value="パート・時短"><span>パート・時短</span></label>
+          <label class="radio-tab"><input type="radio" name="work-style" value="まずは話したい" checked><span>まずは相談</span></label>
+        </div>
+        <style>
+          .radio-tab { display:block; border:2px solid #EEE; padding:12px; border-radius:12px; text-align:center; cursor:pointer; font-size:14px; font-weight:900; color:#777; transition:0.2s; }
+          .radio-tab input { display:none; }
+          .radio-tab:has(input:checked) { border-color:#FF6B2B; background:#FFF0F0; color:#FF6B2B; }
+        </style>
+      </div>
+      <div style="margin-bottom:30px;">
+        <label style="display:block;font-weight:900;font-size:13px;color:#555;margin-bottom:8px;">自己PR・趣味など（任意）</label>
+        <textarea id="entry-pr" rows="3" placeholder="（例：ゲーム好きです！前職の経験を活かしたい等）" style="width:100%;padding:14px 18px;border:2px solid #E8E8E8;border-radius:12px;font-size:15px;outline:none;resize:vertical;"></textarea>
+      </div>
+      
+      <!-- Privacy Policy Agreement -->
+      <div style="margin-bottom:30px; background:#F9F9F9; padding:15px; border-radius:12px; border:1px solid #EEE;">
+        <label style="display:flex; align-items:center; gap:12px; cursor:pointer; font-size:14px; font-weight:700; color:#444;">
+          <input type="checkbox" id="entry-agree" required style="width:20px; height:20px; accent-color:#FF6B2B;">
+          <span>
+            <a href="#" onclick="openFusion('privacy'); return false;" style="color:#4D96FF; text-decoration:underline;">個人情報の取り扱いについて</a>に同意します。 <span style="color:#FF4444;">*</span>
+          </span>
+        </label>
+      </div>
+
+      <button type="submit" id="entry-submit-btn" style="width:100%;background:linear-gradient(135deg,#FF6B2B,#FF4444);color:#fff;border:none;padding:18px;border-radius:15px;font-size:18px;font-weight:900;cursor:pointer;box-shadow:0 10px 30px rgba(255,107,43,0.4);transition:0.2s;">
+        🔥 エントリーを送信する
+      </button>
+      <p style="text-align:center;font-size:15px;color:#999;margin-top:20px;font-weight:700;">※5営業日以内に、担当者よりご連絡いたします。</p>
+    </form>
+    <div id="entry-success" style="display:none;padding:60px 40px;text-align:center;">
+      <div style="font-size:70px;margin-bottom:20px;">🎉</div>
+      <h3 style="font-weight:900;font-size:24px;color:#111;margin-bottom:12px;">エントリーを受け付けました！</h3>
+      <p style="color:#666;font-size:18px;font-weight:700;line-height:1.8;">ありがとうございます。担当者が内容を確認し、<br>折り返しご連絡させていただきます。</p>
+      <button onclick="closeEntry()" style="margin-top:30px;background:#FF6B2B;color:#fff;border:none;padding:12px 40px;border-radius:12px;font-weight:900;cursor:pointer;">閉じる</button>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════
+     MODAL: お問い合わせ (STANDARD)
+═══════════════════════════════════════════ -->
+<div id="modal-contact" style="display:none;position:fixed;inset:0;z-index:9999;background:rgba(0,0,0,.7);backdrop-filter:blur(8px);align-items:center;justify-content:center;padding:15px;">
+  <div style="background:#fff;border-radius:32px;max-width:560px;width:100%;max-height:92vh;overflow-y:auto;position:relative;box-shadow:0 30px 100px rgba(0,0,0,0.4);">
+    <div style="background:linear-gradient(135deg,#4D96FF,#6BCB77);padding:40px;border-radius:32px 32px 0 0;position:relative;">
+      <button onclick="closeContact()" style="position:absolute;top:20px;right:20px;background:rgba(255,255,255,0.2);border:none;color:#fff;width:40px;height:40px;border-radius:50%;font-size:20px;cursor:pointer;display:flex;align-items:center;justify-content:center;">✕</button>
+      <div style="font-size:35px;margin-bottom:12px;">💬</div>
+      <h2 style="color:#fff;font-family:'Zen Maru Gothic',sans-serif;font-weight:900;font-size:24px;margin:0 0 8px;">お問い合わせフォーム</h2>
+      <p style="color:rgba(255,255,255,0.9);font-size:14px;margin:0;">企業・パートナー様のご相談も承ります。</p>
+    </div>
+    <form id="contact-form" onsubmit="submitContact(event)" style="padding:40px;">
+      <div style="margin-bottom:20px;">
+        <label style="display:block;font-weight:900;font-size:13px;color:#555;margin-bottom:8px;">ご用件</label>
+        <div style="display:flex;gap:10px;">
+          <label class="radio-tab2"><input type="radio" name="contact-type" value="サービスについて" checked><span>サービスについて</span></label>
+          <label class="radio-tab2"><input type="radio" name="contact-type" value="提携・ビジネス"><span>提携・ビジネス</span></label>
+        </div>
+        <style>
+          .radio-tab2 { flex:1; border:2px solid #EEE; padding:10px; border-radius:10px; text-align:center; cursor:pointer; font-size:13px; font-weight:900; color:#777; }
+          .radio-tab2 input { display:none; }
+          .radio-tab2:has(input:checked) { border-color:#4D96FF; background:#F0F8FF; color:#4D96FF; }
+        </style>
+      </div>
+      <div style="margin-bottom:20px;">
+        <label style="display:block;font-weight:900;font-size:13px;color:#555;margin-bottom:8px;">会社名 または お名前 <span style="color:#FF4444;">*</span></label>
+        <input id="contact-name" type="text" required placeholder="株式会社〇〇 / 山田 太郎" autocomplete="organization" style="width:100%;padding:14px 18px;border:2px solid #E8E8E8;border-radius:12px;font-size:16px;outline:none;">
+      </div>
+      <div style="margin-bottom:20px;">
+        <label style="display:block;font-weight:900;font-size:13px;color:#555;margin-bottom:8px;">メールアドレス <span style="color:#FF4444;">*</span></label>
+        <input id="contact-email" type="email" required placeholder="example@mail.com" autocomplete="email" style="width:100%;padding:14px 18px;border:2px solid #E8E8E8;border-radius:12px;font-size:16px;outline:none;">
+      </div>
+      <div style="margin-bottom:20px;">
+        <label style="display:block;font-weight:900;font-size:13px;color:#555;margin-bottom:8px;">電話番号</label>
+        <input id="contact-tel" type="tel" placeholder="03-xxxx-xxxx" autocomplete="tel" style="width:100%;padding:14px 18px;border:2px solid #E8E8E8;border-radius:12px;font-size:16px;outline:none;">
+      </div>
+      <div style="margin-bottom:25px;">
+        <label style="display:block;font-weight:900;font-size:13px;color:#555;margin-bottom:8px;">お問い合わせ内容 <span style="color:#FF4444;">*</span></label>
+        <textarea id="contact-body" rows="4" required placeholder="具体的なご質問・ご相談内容をご記入ください。" style="width:100%;padding:14px 18px;border:2px solid #E8E8E8;border-radius:12px;font-size:15px;outline:none;resize:vertical;"></textarea>
+      </div>
+
+      <div style="margin-bottom:30px; background:#F9F9F9; padding:15px; border-radius:12px; border:1px solid #EEE;">
+        <label style="display:flex; align-items:center; gap:12px; cursor:pointer; font-size:14px; font-weight:700; color:#444;">
+          <input type="checkbox" id="contact-agree" required style="width:20px; height:20px; accent-color:#4D96FF;">
+          <span>
+            <a href="#" onclick="openFusion('privacy'); return false;" style="color:#4D96FF; text-decoration:underline;">個人情報の取り扱いについて</a>に同意します。 <span style="color:#FF4444;">*</span>
+          </span>
+        </label>
+      </div>
+
+      <button type="submit" id="contact-submit-btn" style="width:100%;background:linear-gradient(135deg,#4D96FF,#6BCB77);color:#fff;border:none;padding:18px;border-radius:15px;font-size:18px;font-weight:900;cursor:pointer;box-shadow:0 10px 30px rgba(77,150,255,0.3);">
+        💬 メッセージを送信する
+      </button>
+    </form>
+    <div id="contact-success" style="display:none;padding:60px 40px;text-align:center;">
+      <div style="font-size:70px;margin-bottom:20px;">✅</div>
+      <h3 style="font-weight:900;font-size:24px;color:#111;margin-bottom:12px;">送信完了しました</h3>
+      <p style="color:#666;font-size:18px;font-weight:700;line-height:1.8;">お問い合わせありがとうございます。<br>5営業日以内に担当者より折り返しご連絡いたします。</p>
+      <button onclick="closeContact()" style="margin-top:30px;background:#4D96FF;color:#fff;border:none;padding:12px 40px;border-radius:12px;font-weight:900;cursor:pointer;">閉じる</button>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════
+     OFFICIAL FUSION OVERLAY (TRUTH)
+═══════════════════════════════════════════ -->
+<div id="official-fusion-overlay">
+  <style>
+    :root { --p:#4D96FF; --s:#FFE135; --a:#FF6B6B; --tx:#2D3436; --shadow:0 10px 40px rgba(0,0,0,0.06); }
+    #official-fusion-overlay section { padding: 80px 10%; max-width: 1400px; margin: 0 auto; line-height: 2.0; }
+    .stitle { text-align: center; margin-bottom: 60px; }
+    .stitle h2 { font-family: 'Outfit', sans-serif; font-size: clamp(32px, 5vw, 42px); font-weight: 900; color: var(--p); margin-bottom: 5px; }
+    .stitle p { font-weight: 900; color: #BBB; font-size: 14px; letter-spacing: 2px; }
+    .card-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 30px; }
+    .b-card { background:#fff; padding: 50px 40px; border-radius: 40px; box-shadow: var(--shadow); border: 2px solid transparent; transition: 0.3s; }
+    .b-card:hover { border-color: var(--p); transform: translateY(-5px); }
+    .b-icon { font-size: 40px; margin-bottom: 25px; display: block; }
+    .b-card h3 { font-size: 22px; font-weight: 900; margin-bottom: 20px; color: var(--tx); }
+    .b-card ul { list-style: none; }
+    .b-card li { margin-bottom: 12px; font-size: 15px; color: #555; padding-left: 20px; position: relative; }
+    .b-card li::before { content: '●'; position: absolute; left: 0; color: var(--p); font-size: 10px; }
+    .pbox { background: #fff; border-radius: 40px; padding: 60px; box-shadow: var(--shadow); max-width: 1000px; margin: 0 auto; border: 1px solid #EEE; }
+    .ptable { width: 100%; border-collapse: collapse; }
+    .ptable tr { border-bottom: 1px solid #F5F5F5; }
+    .ptable th { text-align: left; padding: 25px 0; width: 30%; color: var(--p); font-weight: 900; font-size: 15px; }
+    .ptable td { padding: 25px 0; font-weight: 500; color: #444; font-size: 16px; }
+  </style>
+
+  <button onclick="closeFusion()" class="overlay-close">← プレビューに戻る</button>
+
+  <div style="padding-top:100px;">
+    <section id="services">
+        <div class="stitle">
+            <h2>OUR BUSINESS</h2>
+            <p>事業内容</p>
+        </div>
+        <div class="card-grid">
+            <div class="b-card">
+                <span class="b-icon">🛡️</span>
+                <h3>カギ・防犯<br>セキュリティー</h3>
+                <ul>
+                    <li>住宅・金庫等の緊急解錠および修理</li>
+                    <li>鍵・スマートロックの交換および新規取付</li>
+                    <li>監視カメラ・インターホン等の通信工事</li>
+                    <li>オートロック・電気錠システムの保守点検</li>
+                </ul>
+            </div>
+            <div class="b-card">
+                <span class="b-icon">🏠</span>
+                <h3>住宅設備<br>メンテナンス</h3>
+                <ul>
+                    <li>サッシ・網戸・ペアガラスの修理交換</li>
+                    <li>水漏れ・排水詰まりの24時間緊急対応</li>
+                    <li>建物共用部の定期安全点検・修繕提案</li>
+                    <li>退去後清掃・リフレッシュ工事の受託</li>
+                </ul>
+            </div>
+            <div class="b-card">
+                <span class="b-icon">🤝</span>
+                <h3>管理代行<br>アウトソーシング</h3>
+                <ul>
+                    <li>不動産管理会社向けの入居前点検代行</li>
+                    <li>全国180拠点を活かした巡回点検</li>
+                    <li>24時間365日の受付・緊急出動体制</li>
+                    <li>建物価値向上を目指すコンサル業務</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <section id="company">
+        <div class="stitle">
+            <h2>COMPANY INFO</h2>
+            <p>会社情報</p>
+        </div>
+        <div class="pbox">
+            <table class="ptable">
+                <tr><th>商号</th><td>カーロックホームズ株式会社</td></tr>
+                <tr><th>英名表記</th><td>CarlockHomes CO., LTD. (CLH)</td></tr>
+                <tr><th>所在地</th><td>〒167-0042 東京都杉並区西荻北2-37-12 ブランシュ西荻 中2階</td></tr>
+                <tr><th>創業</th><td>平成14年8月</td></tr>
+                <tr><th>代表取締役</th><td>上野原 政司</td></tr>
+                <tr><th>グループ会社</th><td>株式会社TENKEN GO / 株式会社One Stop Labo</td></tr>
+            </table>
+        </div>
+    </section>
+
+    <div style="margin: 0 auto 100px; max-width: 1000px; background: #fff; padding: 60px; border-radius: 40px; box-shadow: var(--shadow); border: 1px solid #EEE;">
+        <h3 style="font-size: 18px; font-weight: 900; color: var(--p); margin-bottom: 25px; border-left: 5px solid var(--p); padding-left: 15px;">加盟・特約・協力店</h3>
+        <ul style="list-style:none; padding:0; margin-bottom:50px; color:#555; font-size:15px; line-height:2.2;">
+            <li>・美和ロック株式会社 指定サービス代行店(SD)</li>
+            <li>・株式会社ゴール 指定メンテナンスステーション(GMS)</li>
+            <li>・日本ロックセキュリティ協同組合 正会員</li>
+            <li>・株式会社シブタニ Clavisサービス代行店</li>
+            <li>・全国180拠点に及ぶ強力なパートナーネットワーク</li>
+        </ul>
+        <h3 style="font-size: 18px; font-weight: 900; color: var(--tx); margin-bottom: 25px; border-left: 5px solid var(--tx); padding-left: 15px;">主要取引先 (順不同)</h3>
+        <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(280px, 1fr)); gap:10px; font-size:14px; color:#666; font-weight:700;">
+            <div>・綜合警備保障株式会社 (ALSOK)</div>
+            <div>・大和リビング株式会社</div>
+            <div>・プレステージ・コアソリューション</div>
+            <div>・株式会社リロクリエイト</div>
+            <div>・三井不動産レジデンシャルリース</div>
+            <div>・伊藤忠アーバンコミュニティー</div>
+            <div>・株式会社ハウスメイト</div>
+            <div>・スターツアメニティー株式会社</div>
+            <div>・株式会社カインズ</div>
+            <div>・東建コーポレーション</div>
+            <div>・美和ロック株式会社</div>
+            <div>・株式会社ゴール</div>
+            <div>・株式会社シブタニ</div>
+            <div>・日本ロックサービス</div>
+            <div>・株式会社ミスタークリーン</div>
+            <div>・株式会社TOKAI</div>
+            <div>・株式会社穴吹ハウジングサービス</div>
+        </div>
+    <!-- PRIVACY POLICY SECTION (UPGRADED) -->
+    <section id="fusion-privacy">
+        <div class="stitle">
+            <h2>PRIVACY POLICY</h2>
+            <p>個人情報の取り扱いについて</p>
+        </div>
+        <div style="background:#fff; padding:50px; border-radius:40px; box-shadow:var(--shadow); border:1px solid #EEE; font-size:14px; color:#555; max-width:1000px; margin:0 auto; line-height:1.8;">
+          <p style="margin-bottom:25px; font-weight:700; color:#111;">カーロックホームズ株式会社（以下、「当社」）は、本サイトを通じてお預かりする応募者様および利用者様の個人情報を、以下の通り適切に管理・保護いたします。</p>
+          
+          <div style="margin-bottom:25px;">
+            <h4 style="color:var(--p); margin-bottom:10px; font-weight:900; border-bottom:1px solid var(--p); display:inline-block;">1. 法令の遵守</h4>
+            <p>当社は個人情報保護に関する法令、国が定める指針、およびその他の規範を遵守いたします。</p>
+          </div>
+
+          <div style="margin-bottom:25px;">
+            <h4 style="color:var(--p); margin-bottom:10px; font-weight:900; border-bottom:1px solid var(--p); display:inline-block;">2. 利用目的について</h4>
+            <p>お預かりした個人情報は、以下の目的のみに利用し、目的外利用は行いません。</p>
+            <ul style="list-style:none; padding:10px 0 0 10px;">
+              <li>・採用選考、面接日程の調整、および合否のご連絡</li>
+              <li>・お問い合わせ内容に対する回答および資料送付</li>
+              <li>・採用後の人事管理および教育研修</li>
+            </ul>
+          </div>
+
+          <div style="margin-bottom:25px;">
+            <h4 style="color:var(--p); margin-bottom:10px; font-weight:900; border-bottom:1px solid var(--p); display:inline-block;">3. 安全管理措置</h4>
+            <p>当社は、個人情報の漏洩、紛失、破壊、または改ざんを防ぐため、物理的・技術的なセキュリティ対策を講じ、厳重に管理いたします。</p>
+          </div>
+
+          <div style="margin-bottom:25px;">
+            <h4 style="color:var(--p); margin-bottom:10px; font-weight:900; border-bottom:1px solid var(--p); display:inline-block;">4. 第三者への提供</h4>
+            <p>法令に基づく要請がある場合を除き、ご本人の事前の同意なく個人情報を第三者に提供することはありません。</p>
+          </div>
+
+          <div style="margin-bottom:25px;">
+            <h4 style="color:var(--p); margin-bottom:10px; font-weight:900; border-bottom:1px solid var(--p); display:inline-block;">5. 開示・訂正・削除</h4>
+            <p>ご本人から個人情報の開示、訂正、または削除の依頼があった場合は、速やかに対応いたします。下記窓口までご連絡ください。</p>
+          </div>
+
+          <div style="margin-top:40px; border-top:1px dashed #EEE; padding-top:25px; color:#888;">
+            <h4 style="font-weight:900; color:#111; margin-bottom:5px;">個人情報お問い合わせ窓口</h4>
+            <p>カーロックホームズ株式会社　採用担当係</p>
+            <p>住所：東京都杉並区西荻北2-37-12 ブランシュ西荻 中2階</p>
+            <p>電話：03-5311-0556</p>
+          </div>
+
+          <p style="text-align:right; margin-top:30px; font-weight:900; color:#333;">代表取締役 上野原 政司</p>
+          <p style="text-align:right; font-size:12px;">制定：2026年4月12日</p>
+        </div>
+    </section>
+  </div>
+</div>
+
+<!-- ── SCRIPTS ── -->
+<script>
+  const ids = ['d1','d2','d3','d4'];
+  const GAS_URL = 'https://script.google.com/macros/s/AKfycbz6i_kzRqqNucjkWGLiD1S-V4sA7xnuNMKiGWEZ4E56ZPpwy5qntivgRu3iyQ4XD0l5/exec';
+
+  function switchDesign(i, btn) {
+    ids.forEach(id => document.getElementById(id).classList.remove('active'));
+    document.querySelectorAll('.sel-btn').forEach(b => b.classList.remove('active'));
+    document.getElementById(ids[i]).classList.add('active');
+    btn.classList.add('active');
+    window.scrollTo({top: 0, behavior: 'smooth'});
+  }
+
+  // D1 Dust
+  (function(){
+    const c = document.getElementById('d1-dust');
+    for(let i=0;i<15;i++){
+      const d = document.createElement('div');
+      const dur = (3 + Math.random()*2).toFixed(2);
+      const del = (Math.random()*3).toFixed(2);
+      d.style.cssText = `position:absolute;bottom:10%;left:${5+i*6}%;width:4px;height:4px;border-radius:50%;background:#FFD4A0;animation:dust ${dur}s ease-out ${del}s infinite;opacity:.4;`;
+      c.appendChild(d);
+    }
+  })();
+
+  // D2 Nodes
+  (function(){
+    const nodes = [
+      { angle:-90,  emoji:'👧', label:'シングル親', color:'#FF6B6B' },
+      { angle:-30,  emoji:'👴', label:'独居高齢者', color:'#FFC93C' },
+      { angle: 30,  emoji:'👶', label:'子育て世帯', color:'#6BCB77' },
+      { angle: 90,  emoji:'🏢', label:'管理会社',   color:'#4D96FF' },
+      { angle:150,  emoji:'🏠', label:'空家対策',   color:'#9B59B6' },
+      { angle:210,  emoji:'🎮', label:'趣味人たち', color:'#FF8C42' },
+    ];
+    const wrap = document.getElementById('d2-nodes');
+    nodes.forEach((n,i)=>{
+      const r = 150;
+      const x = 200 + r*Math.cos(n.angle*Math.PI/180) - 35;
+      const y = 200 + r*Math.sin(n.angle*Math.PI/180) - 35;
+      const el = document.createElement('div');
+      el.style.cssText = `position:absolute;left:${x}px;top:${y}px;width:70px;height:70px;border-radius:50%;background:#fff;border:3px solid ${n.color};display:flex;align-items:center;justify-content:center;flex-direction:column;box-shadow:0 6px 15px rgba(0,0,0,.08);animation:fadeSlide .6s ease-out ${.5+i*.1}s both;`;
+      el.innerHTML = `<div style="font-size:24px;">${n.emoji}</div><div style="font-size:9px;font-weight:900;color:${n.color};margin-top:2px;">${n.label}</div>`;
+      wrap.appendChild(el);
+    });
+  })();
+
+  // Common Functions
+  let currentEntrySource = '';
+  function openEntry(src) {
+    currentEntrySource = src;
+    document.getElementById('modal-entry').style.display='flex';
+    document.getElementById('entry-form').style.display='block';
+    document.getElementById('entry-success').style.display='none';
+    document.body.style.overflow='hidden';
+  }
+  function closeEntry() {
+    document.getElementById('modal-entry').style.display='none';
+    document.body.style.overflow='';
+    document.getElementById('entry-form').reset();
+  }
+  function openContact(src) {
+    document.getElementById('modal-contact').style.display='flex';
+    document.getElementById('contact-form').style.display='block';
+    document.getElementById('contact-success').style.display='none';
+    document.body.style.overflow='hidden';
+  }
+  function closeContact() {
+    document.getElementById('modal-contact').style.display='none';
+    document.body.style.overflow='';
+  }
+  function openFusion(type) {
+    document.getElementById('official-fusion-overlay').style.display='block';
+    document.body.style.overflow='hidden';
+    if(type === 'privacy') {
+      setTimeout(() => {
+        const target = document.getElementById('fusion-privacy');
+        if(target) target.scrollIntoView({ behavior: 'smooth' });
+      }, 100);
+    }
+  }
+  function closeFusion() {
+    document.getElementById('official-fusion-overlay').style.display='none';
+    document.body.style.overflow='';
+  }
+
+  // Network
+  function submitEntry(e) {
+    e.preventDefault();
+    if(!document.getElementById('entry-agree').checked) return alert('同意が必要です');
+    
+    const btn = document.getElementById('entry-submit-btn');
+    btn.innerHTML = '⚡ 送信中...'; btn.disabled = true;
+    
+    const payload = {
+      type: 'entry',
+      name: document.getElementById('entry-name').value,
+      age: document.getElementById('entry-age').value,
+      contact: document.getElementById('entry-contact').value,
+      workStyle: document.querySelector('input[name="work-style"]:checked').value,
+      pr: document.getElementById('entry-pr').value,
+      source: currentEntrySource,
+      traffic: 'Web Preview'
+    };
+
+    // Send data (no-cors mode for GAS)
+    fetch(GAS_URL, { 
+      method: 'POST', 
+      mode: 'no-cors', 
+      body: JSON.stringify(payload) 
+    }).catch(err => console.error('GAS Error:', err));
+    
+    // UI transition (instant for better UX)
+    setTimeout(() => {
+      document.getElementById('entry-form').style.display = 'none';
+      document.getElementById('entry-success').style.display = 'block';
+      // Scroll modal to top
+      const scrollWrap = document.querySelector('#modal-entry > div');
+      if(scrollWrap) scrollWrap.scrollTop = 0;
+    }, 500);
+  }
+
+  function submitContact(e) {
+    e.preventDefault();
+    if(!document.getElementById('contact-agree').checked) return alert('同意が必要です');
+    
+    const btn = document.getElementById('contact-submit-btn');
+    btn.innerHTML = '⚡ 送信中...'; btn.disabled = true;
+
+    const payload = {
+      type: 'contact',
+      contactType: document.querySelector('input[name="contact-type"]:checked').value,
+      name: document.getElementById('contact-name').value,
+      email: document.getElementById('contact-email').value,
+      tel: document.getElementById('contact-tel') ? document.getElementById('contact-tel').value : '',
+      body: document.getElementById('contact-body').value,
+      source: 'Direct Contact', 
+      traffic: 'Web Preview'
+    };
+
+    fetch(GAS_URL, { 
+      method: 'POST', 
+      mode: 'no-cors',
+      body: JSON.stringify(payload) 
+    }).catch(err => console.error('GAS Error:', err));
+
+    setTimeout(() => {
+      document.getElementById('contact-form').style.display = 'none';
+      document.getElementById('contact-success').style.display = 'block';
+      const scrollWrap = document.querySelector('#modal-contact > div');
+      if(scrollWrap) scrollWrap.scrollTop = 0;
+    }, 500);
+  }
+
+  // ESC to close
+  window.addEventListener('keydown', (e)=> { if(e.key==='Escape'){closeEntry();closeContact();closeFusion();} });
+</script>
+</body>
+</html>
