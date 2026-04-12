@@ -830,70 +830,87 @@
 
   // Network
   function submitEntry(e) {
-    e.preventDefault();
-    if(!document.getElementById('entry-agree').checked) return alert('同意が必要です');
+    if(e) e.preventDefault();
     
+    // 1. Get elements safely
+    const formEl = document.getElementById('entry-form');
+    const successEl = document.getElementById('entry-success');
     const btn = document.getElementById('entry-submit-btn');
-    btn.innerHTML = '⚡ 送信中...'; btn.disabled = true;
     
+    // 2. Immediate UI Update (Don't wait for anything)
+    if(btn) { btn.innerHTML = '⚡ 送信完了'; btn.disabled = true; }
+    
+    // 3. Prepare data safely
+    let ws = 'まずは相談';
+    try {
+        const checked = document.querySelector('input[name="work-style"]:checked');
+        if(checked) ws = checked.value;
+    } catch(e) {}
+
     const payload = {
       type: 'entry',
-      name: document.getElementById('entry-name').value,
-      age: document.getElementById('entry-age').value,
-      contact: document.getElementById('entry-contact').value,
-      workStyle: document.querySelector('input[name="work-style"]:checked').value,
-      pr: document.getElementById('entry-pr').value,
-      source: currentEntrySource,
-      traffic: 'Web Preview'
+      name: document.getElementById('entry-name').value || '不明',
+      age: document.getElementById('entry-age').value || '',
+      contact: document.getElementById('entry-contact').value || '',
+      workStyle: ws,
+      pr: document.getElementById('entry-pr').value || '',
+      source: currentEntrySource || '不明',
+      traffic: 'Web Preview (v102)'
     };
 
-    // Send data (no-cors mode for GAS)
-    fetch(GAS_URL, { 
-      method: 'POST', 
-      mode: 'no-cors', 
-      body: JSON.stringify(payload) 
-    }).catch(err => console.error('GAS Error:', err));
-    
-    // UI transition (instant for better UX)
+    // 4. Transform UI BEFORE fetch
     setTimeout(() => {
-      document.getElementById('entry-form').style.display = 'none';
-      document.getElementById('entry-success').style.display = 'block';
-      // Scroll modal to top
-      const scrollWrap = document.querySelector('#modal-entry > div');
-      if(scrollWrap) scrollWrap.scrollTop = 0;
-    }, 500);
+        if(formEl) formEl.style.display = 'none';
+        if(successEl) successEl.style.display = 'block';
+        const scrollWrap = document.querySelector('#modal-entry > div');
+        if(scrollWrap) scrollWrap.scrollTop = 0;
+    }, 100);
+
+    // 5. Fire and forget fetch
+    try {
+      fetch(GAS_URL, { 
+        method: 'POST', 
+        mode: 'no-cors', 
+        body: JSON.stringify(payload) 
+      });
+    } catch(err) {}
   }
 
   function submitContact(e) {
-    e.preventDefault();
-    if(!document.getElementById('contact-agree').checked) return alert('同意が必要です');
+    if(e) e.preventDefault();
     
+    const formEl = document.getElementById('contact-form');
+    const successEl = document.getElementById('contact-success');
     const btn = document.getElementById('contact-submit-btn');
-    btn.innerHTML = '⚡ 送信中...'; btn.disabled = true;
+
+    if(btn) { btn.innerHTML = '⚡ 送信完了'; btn.disabled = true; }
 
     const payload = {
       type: 'contact',
-      contactType: document.querySelector('input[name="contact-type"]:checked').value,
-      name: document.getElementById('contact-name').value,
-      email: document.getElementById('contact-email').value,
+      contactType: '不明',
+      name: document.getElementById('contact-name').value || '',
+      email: document.getElementById('contact-email').value || '',
       tel: document.getElementById('contact-tel') ? document.getElementById('contact-tel').value : '',
-      body: document.getElementById('contact-body').value,
+      body: document.getElementById('contact-body').value || '',
       source: 'Direct Contact', 
-      traffic: 'Web Preview'
+      traffic: 'Web Preview (v102)'
     };
 
-    fetch(GAS_URL, { 
-      method: 'POST', 
-      mode: 'no-cors',
-      body: JSON.stringify(payload) 
-    }).catch(err => console.error('GAS Error:', err));
+    try {
+        const ct = document.querySelector('input[name="contact-type"]:checked');
+        if(ct) payload.contactType = ct.value;
+    } catch(e) {}
 
     setTimeout(() => {
-      document.getElementById('contact-form').style.display = 'none';
-      document.getElementById('contact-success').style.display = 'block';
-      const scrollWrap = document.querySelector('#modal-contact > div');
-      if(scrollWrap) scrollWrap.scrollTop = 0;
-    }, 500);
+        if(formEl) formEl.style.display = 'none';
+        if(successEl) successEl.style.display = 'block';
+        const scrollWrap = document.querySelector('#modal-contact > div');
+        if(scrollWrap) scrollWrap.scrollTop = 0;
+    }, 100);
+
+    try {
+      fetch(GAS_URL, { method: 'POST', mode: 'no-cors', body: JSON.stringify(payload) });
+    } catch(err) {}
   }
 
   // ESC to close
