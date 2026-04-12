@@ -889,6 +889,16 @@
 
   // ESC to close
   window.addEventListener('keydown', (e)=> { if(e.key==='Escape'){closeEntry();closeContact();closeFusion();} });
+
+  // Prevent Enter-key submission for single-line inputs
+  [document.getElementById('entry-form'), document.getElementById('contact-form')].forEach(form => {
+    if(!form) return;
+    form.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' && e.target.tagName !== 'TEXTAREA') {
+        e.preventDefault();
+      }
+    });
+  });
 </script>
 </body>
 </html>
