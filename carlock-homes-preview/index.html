@@ -136,7 +136,7 @@
           <span style="cursor:pointer;text-shadow:1px 1px 0 #000;">想い</span>
           <span style="cursor:pointer;text-shadow:1px 1px 0 #000;">仲間</span>
           <span onclick="openEntry('泥臭エネルギー')" style="cursor:pointer;text-shadow:1px 1px 0 #000;">募集</span>
-          <span onclick="openContact()" style="cursor:pointer;text-shadow:1px 1px 0 #000;">連絡</span>
+          <span onclick="openContact('泥臭エネルギー')" style="cursor:pointer;text-shadow:1px 1px 0 #000;">連絡</span>
         </div>
       </nav>
 
@@ -208,7 +208,7 @@
         <span style="cursor:pointer;">ハブとは</span>
         <span style="cursor:pointer;">仲間紹介</span>
         <span onclick="openEntry('街のハブ')" style="cursor:pointer;">採用情報</span>
-        <span onclick="openContact()" style="cursor:pointer;">お問い合わせ</span>
+        <span onclick="openContact('街のハブ')" style="cursor:pointer;">お問い合わせ</span>
       </div>
     </nav>
 
@@ -294,7 +294,7 @@
         <span style="color:#FFE135;border:2px solid #FFE135;padding:6px 14px;border-radius:4px;cursor:pointer;">TOP</span>
         <span onclick="openEntry('コア募集')" style="color:#FFE135;border:2px solid #FFE135;padding:6px 14px;border-radius:4px;cursor:pointer;">求人</span>
         <span style="color:#FFE135;border:2px solid #FFE135;padding:6px 14px;border-radius:4px;cursor:pointer;">仲間</span>
-        <span onclick="openContact()" style="color:#FFE135;border:2px solid #FFE135;padding:6px 14px;border-radius:4px;cursor:pointer;">問い合わせ</span>
+        <span onclick="openContact('コア募集')" style="color:#FFE135;border:2px solid #FFE135;padding:6px 14px;border-radius:4px;cursor:pointer;">問い合わせ</span>
       </div>
     </nav>
 
@@ -350,7 +350,7 @@
           <span style="cursor:pointer;">みんなの素顔</span>
           <span style="cursor:pointer;">お仕事</span>
           <span onclick="openEntry('スクラップブック')" style="cursor:pointer;">採用</span>
-          <span onclick="openContact()" style="cursor:pointer;">連絡先</span>
+          <span onclick="openContact('スクラップブック')" style="cursor:pointer;">連絡先</span>
         </div>
       </nav>
 
@@ -462,7 +462,7 @@
         <span style="cursor:pointer;">事業内容</span>
         <span style="cursor:pointer;">スタッフ</span>
         <span onclick="openEntry('会社案内パンフ')" style="cursor:pointer;">採用</span>
-        <span onclick="openContact()" style="cursor:pointer;">お問い合わせ</span>
+        <span onclick="openContact('会社案内パンフ')" style="cursor:pointer;">お問い合わせ</span>
       </div>
     </nav>
 
@@ -865,7 +865,9 @@
   }
 
   // ── Modal: お問い合わせフォーム ──
-  function openContact() {
+  let currentContactSource = '';
+  function openContact(source) {
+    currentContactSource = source || '不明';
     const m = document.getElementById('modal-contact');
     m.style.display = 'flex';
     document.getElementById('contact-form').style.display = 'block';
@@ -898,6 +900,7 @@
       email:       document.getElementById('contact-email').value,
       tel:         document.getElementById('contact-tel').value,
       body:        document.getElementById('contact-body').value,
+      source:      currentContactSource,
       traffic:     trafficSource,
     };
 
