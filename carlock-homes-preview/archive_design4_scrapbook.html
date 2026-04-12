@@ -106,7 +106,10 @@
     3. コア募集<span class="desc">月替わりオタク募集のポップアート</span>
   </button>
   <button class="sel-btn" onclick="switchDesign(3,this)">
-    4. 会社案内パンフ<span class="desc">印刷OK！グリッド構成の機能美</span>
+    4. スクラップブック<span class="desc">ポラロイド×手書きのスタッフ素顔</span>
+  </button>
+  <button class="sel-btn" onclick="switchDesign(4,this)">
+    5. 会社案内パンフ<span class="desc">印刷OK！グリッド構成の機能美</span>
   </button>
 </div>
 
@@ -326,9 +329,108 @@
 </section>
 
 <!-- ══════════════════════════════════════════
-     DESIGN 4 : 会社案内パンフ (PROMOTED)
+     DESIGN 4 : スクラップブック
 ═══════════════════════════════════════════ -->
 <section id="d4" class="design-section">
+  <div style="background:#E8DDD0;min-height:100vh;font-family:'Zen Maru Gothic',sans-serif;position:relative;">
+    <!-- Craft paper texture -->
+    <div style="position:absolute;inset:0;background-image:url(\"data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23C4B59A' fill-opacity='0.12'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E\");opacity:.5;pointer-events:none;"></div>
+
+    <div style="position:relative;z-index:1;">
+      <!-- Nav -->
+      <nav style="display:flex;justify-content:space-between;align-items:center;padding:20px 40px;">
+        <div style="font-family:'Yomogi',cursive;font-size:24px;color:#5D4E37;">✂️ カーロックホームズ</div>
+        <div style="display:flex;gap:20px;font-size:14px;font-weight:700;color:#8B7D6B;">
+          <span style="cursor:pointer;">みんなの素顔</span>
+          <span style="cursor:pointer;">お仕事</span>
+          <span onclick="openEntry('スクラップブック')" style="cursor:pointer;">採用</span>
+          <span onclick="openContact('スクラップブック')" style="cursor:pointer;">連絡先</span>
+        </div>
+      </nav>
+
+      <!-- Hero message -->
+      <div style="text-align:center;padding:40px 40px 20px;">
+        <h1 style="font-family:'Yomogi',cursive;font-size:38px;color:#4A3D2E;line-height:1.6;margin:0 0 12px;">
+          履歴書より、<br>
+          <span style="background:rgba(255,224,128,.5);padding:2px 8px;border-radius:4px;">あなたの趣味の話を聞かせてください。</span>
+        </h1>
+        <p style="font-family:'Yomogi',cursive;font-size:16px;color:#8B7D6B;line-height:2;">カーロックホームズは、「あなたらしさ」を大切にする鍵屋です。</p>
+      </div>
+
+      <!-- Polaroid grid -->
+      <div style="padding:20px 40px 60px;max-width:900px;margin:0 auto;display:grid;grid-template-columns:repeat(3,1fr);gap:24px;">
+        <!-- Card 1 -->
+        <div style="transform:rotate(-2deg);">
+          <div style="background:#fff;padding:16px 16px 24px;box-shadow:4px 6px 20px rgba(0,0,0,.1);position:relative;">
+            <div style="position:absolute;top:-10px;left:30%;width:60px;height:20px;background:#FFFACD;border-radius:2px;transform:rotate(-5deg);opacity:.9;animation:tapeWiggle 4s ease-in-out infinite;"></div>
+            <div style="background:#FFF8F0;height:180px;border-radius:4px;display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden;margin-bottom:16px;">
+              <div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:60px;opacity:.15;letter-spacing:12px;">🕹️🎧🎲🕹️🎧🎲</div>
+              <div style="font-size:64px;z-index:1;">😊</div>
+            </div>
+            <div style="font-family:'Yomogi',cursive;">
+              <div style="font-weight:700;font-size:16px;color:#4A3D2E;margin-bottom:2px;">田中さん（52歳）</div>
+              <div style="font-size:12px;color:#A09080;margin-bottom:10px;">鍵師 / 現場歴8年 ／ 趣味: 🎮 ゲーム</div>
+              <div style="background:#FAF6EE;border:2px solid #E8DDD0;border-radius:12px;padding:10px 14px;font-size:14px;color:#5D4E37;line-height:1.7;">
+                <div style="font-weight:700;font-size:11px;color:#A09080;margin-bottom:4px;">🗣️ なぜここにいるの？</div>
+                「社長が面白いから<br>ここにいる。それだけ。」
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- Card 2 -->
+        <div style="transform:rotate(1.5deg);">
+          <div style="background:#fff;padding:16px 16px 24px;box-shadow:4px 6px 20px rgba(0,0,0,.1);position:relative;">
+            <div style="position:absolute;top:-10px;left:30%;width:60px;height:20px;background:#D1F0FF;border-radius:2px;transform:rotate(-5deg);opacity:.9;animation:tapeWiggle 4s ease-in-out infinite;"></div>
+            <div style="background:#F0FFF4;height:180px;border-radius:4px;display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden;margin-bottom:16px;">
+              <div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:60px;opacity:.15;letter-spacing:12px;">🌿🥕🍅🌿🥕🍅</div>
+              <div style="font-size:64px;z-index:1;">😊</div>
+            </div>
+            <div style="font-family:'Yomogi',cursive;">
+              <div style="font-weight:700;font-size:16px;color:#4A3D2E;margin-bottom:2px;">佐藤さん（48歳）</div>
+              <div style="font-size:12px;color:#A09080;margin-bottom:10px;">事務 / 入社3年目 ／ 趣味: 🌱 家庭菜園</div>
+              <div style="background:#FAF6EE;border:2px solid #E8DDD0;border-radius:12px;padding:10px 14px;font-size:14px;color:#5D4E37;line-height:1.7;">
+                <div style="font-weight:700;font-size:11px;color:#A09080;margin-bottom:4px;">🗣️ なぜここにいるの？</div>
+                「週3日勤務で<br>畑との両立ができてる。」
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- Card 3 -->
+        <div style="transform:rotate(-1deg);">
+          <div style="background:#fff;padding:16px 16px 24px;box-shadow:4px 6px 20px rgba(0,0,0,.1);position:relative;">
+            <div style="position:absolute;top:-10px;left:30%;width:60px;height:20px;background:#FFD1DC;border-radius:2px;transform:rotate(-5deg);opacity:.9;animation:tapeWiggle 4s ease-in-out infinite;"></div>
+            <div style="background:#F0F4FF;height:180px;border-radius:4px;display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden;margin-bottom:16px;">
+              <div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:60px;opacity:.15;letter-spacing:12px;">🎸🎵🎤🎸🎵🎤</div>
+              <div style="font-size:64px;z-index:1;">😊</div>
+            </div>
+            <div style="font-family:'Yomogi',cursive;">
+              <div style="font-weight:700;font-size:16px;color:#4A3D2E;margin-bottom:2px;">山本さん（38歳）</div>
+              <div style="font-size:12px;color:#A09080;margin-bottom:10px;">見習い / 入社1年目 ／ 趣味: 🎸 バンド</div>
+              <div style="background:#FAF6EE;border:2px solid #E8DDD0;border-radius:12px;padding:10px 14px;font-size:14px;color:#5D4E37;line-height:1.7;">
+                <div style="font-weight:700;font-size:11px;color:#A09080;margin-bottom:4px;">🗣️ なぜここにいるの？</div>
+                「異業種からでも<br>ゼロから教えてもらえた。」
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Hub concept -->
+      <div style="background:#fff;max-width:700px;margin:0 auto 40px;border-radius:16px;padding:32px;text-align:center;box-shadow:0 2px 16px rgba(0,0,0,.04);">
+        <div style="font-size:40px;margin-bottom:12px;">🏠🔑🤝🌍</div>
+        <h3 style="font-family:'Yomogi',cursive;font-size:22px;color:#4A3D2E;margin-bottom:8px;">カギ＝暮らしの入口</h3>
+        <p style="font-family:'Yomogi',cursive;font-size:14px;color:#8B7D6B;line-height:1.8;">多様な人々が集まり、社会と繋がるためのプラットフォーム。<br>それがカーロックホームズの目指す姿です。</p>
+      </div>
+
+      <div style="background:#D8CCBC;padding:20px 40px;text-align:center;font-size:14px;color:#5D4E37;">雇用形態は、あなたの人生に合わせて相談しましょう（正社員・外注・時短など）</div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════
+     DESIGN 5 : 会社案内パンフ
+═══════════════════════════════════════════ -->
+<section id="d5" class="design-section">
   <div style="background:#fff;min-height:100vh;font-family:'Zen Maru Gothic',sans-serif;">
     <!-- Color bar -->
     <div style="display:flex;height:6px;">
@@ -454,7 +556,7 @@
 
 <script>
   // ── Design switcher ──
-  const ids = ['d1','d2','d3','d4'];
+  const ids = ['d1','d2','d3','d4','d5'];
   function switchDesign(i, btn) {
     ids.forEach(id => document.getElementById(id).classList.remove('active'));
     document.querySelectorAll('.sel-btn').forEach(b => b.classList.remove('active'));
