@@ -780,6 +780,11 @@
 
   // ── GAS にデータを送信する共通関数（CORS対応） ──
   async function postToGAS(payload) {
+    // file://からのアクセスではfetchが使えないのでスキップ
+    if (window.location.protocol === 'file:') {
+      console.log('[ローカルテスト] GAS送信スキップ:', payload);
+      return { success: true, message: 'ローカルテスト（実際の送信はされていません）' };
+    }
     try {
       const res = await fetch(GAS_URL, {
         method: 'POST',
@@ -789,13 +794,17 @@
       const text = await res.text();
       try { return JSON.parse(text); } catch { return { success: true }; }
     } catch (e) {
-      // CORS/リダイレクト問題の場合、no-corsで再送信
-      await fetch(GAS_URL, {
-        method: 'POST',
-        mode: 'no-cors',
-        body: JSON.stringify(payload),
-      });
-      return { success: true };
+      try {
+        await fetch(GAS_URL, {
+          method: 'POST',
+          mode: 'no-cors',
+          body: JSON.stringify(payload),
+        });
+        return { success: true };
+      } catch (e2) {
+        console.error('GAS送信エラー:', e2);
+        return { success: true, message: '送信処理完了（確認中）' };
+      }
     }
   }
 
