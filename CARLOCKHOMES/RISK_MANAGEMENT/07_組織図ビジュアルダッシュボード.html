@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>CLH Master Strategy Portal v4</title>
+  <title>CLH Master Strategy Portal v5</title>
   <link href="https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@400;700;900&family=Outfit:wght@900&display=swap" rel="stylesheet">
   <style>
     :root {
@@ -50,7 +50,7 @@
     .view-content.active { display: block; opacity: 1; }
 
     /* ── View 0: Hub Graph ── */
-    #hub-canvas { width: 100%; height: 620px; position: relative; margin-top:10px; }
+    #hub-canvas { width: 100%; height: 620px; position: relative; }
     .node { position: absolute; border-radius: 50%; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; cursor: pointer; transition: 0.4s; border: 1px solid var(--border); }
     .c-node { width: 160px; height: 160px; background: radial-gradient(circle, var(--primary) 0%, #c0392b 100%); z-index: 100; font-weight: 900; animation: pulse 4s infinite; }
     .s-node { width: 100px; height: 100px; background: var(--glass); font-size: 10px; font-weight: 700; backdrop-filter: blur(10px); }
@@ -64,24 +64,20 @@
     .chart-bar-bg { background: rgba(255,255,255,0.05); height: 8px; border-radius: 10px; margin-top: 15px; overflow: hidden; }
     .chart-bar { height: 100%; transition: 1s cubic-bezier(0.19, 1, 0.22, 1); }
 
-    /* ── View 2: Risk & Policy ── */
-    .risk-section { margin-top:30px; }
-    .risk-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
-    .risk-card { background: var(--card-bg); border-radius: 20px; border: 1px solid var(--border); overflow: hidden; }
-    .risk-head { padding: 15px 20px; background: rgba(255,255,255,0.05); font-weight: 900; color: var(--accent); }
-    .risk-body { padding: 20px; font-size: 13px; line-height: 1.8; color: #cbd5e1; }
-    .risk-body strong { color: #fff; border-bottom: 2px solid var(--primary); }
-
-    /* ── View 3: Template (FULL & EXACT) ── */
+    /* ── View 3: Template (CRISIS TOOLKIT) ── */
+    .doc-selector { display: flex; gap: 10px; margin-bottom: 20px; }
+    .doc-sel-btn { padding: 10px 20px; background: var(--glass); border: 1px solid var(--border); border-radius: 50px; color: #fff; cursor: pointer; font-size: 12px; transition: 0.3s; }
+    .doc-sel-btn.active { background: var(--secondary); border: none; box-shadow: 0 0 15px var(--secondary); }
+    
     .doc-preview {
       background: #fff; color: #1e293b; padding: 50px 70px; border-radius: 4px; border: 1px solid #ccc;
-      font-size: 12px; line-height: 1.8; max-width: 800px; margin: 20px auto;
-      box-shadow: 0 30px 60px rgba(0,0,0,0.7); position: relative;
+      font-size: 11px; line-height: 1.8; max-width: 800px; margin: 0 auto;
+      box-shadow: 0 30px 60px rgba(0,0,0,0.7); display: none;
     }
-    .doc-title { text-align: center; font-weight: 900; font-size: 18px; margin: 30px 0; border-bottom: 2px solid #333; display: inline-block; width: 100%; letter-spacing: 2px; }
-    .doc-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 30px; }
-    .doc-item-head { font-weight: 900; margin-top: 20px; border-bottom: 1px solid #ddd; padding-bottom: 5px; margin-bottom: 10px; }
-    .doc-footer { margin-top: 50px; border-top: 1px dashed #ccc; padding-top: 20px; font-size: 11px; }
+    .doc-preview.active { display: block; }
+    .doc-title { text-align: center; font-weight: 900; font-size: 16px; margin: 25px 0; border-bottom: 2px solid #333; display: inline-block; width: 100%; letter-spacing: 2px; }
+    .doc-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 20px; }
+    .doc-item-head { font-weight: 900; margin-top: 15px; border-bottom: 1px solid #ddd; padding-bottom: 3px; margin-bottom: 8px; }
 
     /* ── Side Panel ── */
     #side-panel {
@@ -92,14 +88,12 @@
     .panel-title { font-size: 26px; font-weight: 900; color: var(--primary); margin-bottom: 5px; }
     .panel-count { font-family: 'Outfit'; font-size: 36px; color: #fff; margin-bottom: 15px; border-bottom: 2px solid var(--primary); padding-bottom: 10px; width: fit-content; }
     .panel-role-desc { font-size: 14px; line-height: 2.2; color: #cbd5e1; }
-    .p-head { color: #fff; font-weight: 900; margin-top: 25px; border-left: 4px solid var(--primary); padding-left: 12px; }
 
     @keyframes pulse { 0%,100% { box-shadow: 0 0 20px var(--primary); } 50% { box-shadow: 0 0 60px var(--primary); } }
     @keyframes dash { to { stroke-dashoffset: -1000; } }
 
     h2 { font-weight: 900; font-size: 32px; margin: 0; background: linear-gradient(to right, #fff, var(--primary)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-    .subtitle { color: #64748b; font-size: 14px; margin: 8px 0 20px; }
-    .view-card { background: var(--card-bg); padding: 30px; border-radius: 24px; border: 1px solid var(--border); }
+    .subtitle { color: #64748b; font-size: 13px; margin: 8px 0 20px; }
   </style>
 </head>
 <body>
@@ -108,7 +102,7 @@
     <div class="nav-btn active" onclick="switchView(0,this)" title="組織ハブ">🌐</div>
     <div class="nav-btn" onclick="switchView(1,this)" title="人員配置">👥</div>
     <div class="nav-btn" onclick="switchView(2,this)" title="リスク・法務">🛡️</div>
-    <div class="nav-btn" onclick="switchView(3,this)" title="削除証明書">📄</div>
+    <div class="nav-btn" onclick="switchView(3,this)" title="ビジネス文書">📄</div>
   </nav>
 
   <div id="main-view">
@@ -136,66 +130,70 @@
         <div class="stat-card"><div>法人営業</div><div class="stat-num">5</div><div>名 (10%)</div><div class="chart-bar-bg"><div class="chart-bar" style="width:10%;background:#FFD93D"></div></div></div>
         <div class="stat-card"><div>経営・DX等</div><div class="stat-num">5</div><div>名 (10%)</div><div class="chart-bar-bg"><div class="chart-bar" style="width:10%;background:#FF6B6B"></div></div></div>
       </div>
-      <div class="view-card" style="margin-top:30px;">
-         <h3 style="color:var(--primary);margin-top:0">🎯 高生産性の鍵：2,000万円</h3>
-         <p style="font-size:14px; line-height:2.2;">DX（デジタルトランスフォーメーション）を活用することで、現場スタッフの「移動時間」と「事務作業」を激減させます。1日あと1件の現場に対応できる時間を捻出することが、売上10億円突破の物理的な条件です。この少数精鋭体制により、業界最高水準の待遇と堅実な利益を両立します。</p>
-      </div>
     </div>
 
-    <!-- VIEW 2: RISK & POLICY -->
+    <!-- VIEW 2: RISK & POLICY (Condensed) -->
     <div id="view-risk" class="view-content">
       <h2>RISK & POLICY</h2>
-      <p class="subtitle">「合言葉」から「法律」まで、会社を守るための知識全集</p>
-      <div class="risk-section">
-        <h3 style="border-left:5px solid var(--primary);padding-left:15px">🎒 小学生版：基本の「お約束」</h3>
-        <div class="risk-grid">
-          <div class="risk-card"><div class="risk-head">🔑 秘密基地の合言葉</div><div class="risk-body"><strong>clh2026</strong>を絶対に外部に漏らさないこと。「URLを知っているだけの人」を弾くための、最も基本的で重要な鍵です。</div></div>
-          <div class="risk-card"><div class="risk-head">🗺️ キャッシュの魔法</div><div class="risk-body">修正したのに直っていない時は、ブラウザが「古い脳」を見ている証拠。<strong>Ctrl+F5</strong>（スーパーリロード）で脳を最新にしましょう。</div></div>
-        </div>
-      </div>
-      <div class="risk-section" style="margin-top:40px">
-        <h3 style="border-left:5px solid var(--secondary);padding-left:15px">⚖️ 中学生版：法律の「ウラ側」</h3>
-        <div class="risk-grid">
-          <div class="risk-card"><div class="risk-head">🎯 利用目的の特定</div><div class="risk-body">採用で集めたメールアドレスを営業に使ってはいけません。法的に「使い道」を制限することで、個人の権利を守るブレーキがかかっています。</div></div>
-          <div class="risk-card"><div class="risk-head">⚔️ 安全管理措置</div><div class="risk-body">物理的には「カギ付き棚」、技術的には「暗号化」。お客様の「信頼」を預かっているという意識が、最強のセキュリティを作ります。</div></div>
-        </div>
+      <p class="subtitle">「情報の守り方」と「最新のルール」</p>
+      <div style="background:var(--card-bg); padding:30px; border-radius:24px; border:1px solid var(--border); margin-top:20px;">
+        <h4 style="color:var(--primary)">🔑 小学生版：基本の合言葉</h4>
+        <p style="font-size:14px; line-height:2;">・clh2026を教えない<br>・Ctrl+F5でリフレッシュ</p>
+        <h4 style="color:var(--secondary);margin-top:30px;">⚖️ 中学生版：法律のウラ側</h4>
+        <p style="font-size:14px; line-height:2;">・利用目的外には絶対に使わない（不信感のリスク）<br>・安全管理措置（カギかけと暗号化）</p>
       </div>
     </div>
 
-    <!-- VIEW 3: TEMPLATE (FULL & PERFECT CONTENT) -->
+    <!-- VIEW 3: TEMPLATE (TWO TEMPLATES) -->
     <div id="view-tool" class="view-content">
-      <h2>CRISIS TOOLKIT</h2>
-      <p class="subtitle">削除要請に即座に対応するための「公的な証明書」の全文章</p>
+      <h2>DOCUMENT TOOLKIT</h2>
+      <p class="subtitle">実務ですぐに使える2つの重要ドキュメント</p>
       
-      <div class="doc-preview">
+      <div class="doc-selector">
+        <button class="doc-sel-btn active" onclick="switchDoc(0)">1. 個人情報の取扱い（同意書）</button>
+        <button class="doc-sel-btn" onclick="switchDoc(1)">2. 削除完了通知書</button>
+      </div>
+
+      <!-- DOC 0: CONSENT -->
+      <div id="doc-0" class="doc-preview active">
         <div class="doc-header">
           <div>令和○年○月○日</div>
-          <div style="text-align:right">東京都杉並区西荻北2-37-12<br><b>カーロックホームズ株式会社</b><br>代表取締役 上野原 政司</div>
+          <div style="text-align:right"><b>カーロックホームズ株式会社</b><br>代表取締役 上野原 政司</div>
         </div>
-        <div>[お名前] 様</div>
+        <div class="doc-title">個人情報の取扱いに関する同意書</div>
+        <p>当社は、お預かりする個人情報を以下の通り適切に管理・保護いたします。内容をご確認の上、ご同意をお願い申し上げます。</p>
+        
+        <div class="doc-item-head">1. 利用目的</div>
+        <p>お預かりした個人情報は、採用選考、面接日程の調整、および合否のご連絡の目的のみに利用いたします。</p>
+        
+        <div class="doc-item-head">2. 安全管理</div>
+        <p>当社は、個人情報の漏洩や紛失を防ぐため、最新のセキュリティ対策を講じ、厳重に管理いたします。</p>
+        
+        <div class="doc-item-head">3. 第三者への提供</div>
+        <p>法令に基づく場合を除き、ご本人の同意なく第三者に個人情報を提供することはありません。</p>
+        
+        <div class="doc-item-head">4. 権利の行使</div>
+        <p>ご本人は、ご自身の個人情報の開示、訂正、または削除を請求する権利を有します。請求があった場合は速やかに対応いたします。</p><br>
+        <div style="border:1px solid #333; padding:20px; text-align:center; height:100px;">上記内容に同意いたします。　　氏名：____________________</div>
+      </div>
+
+      <!-- DOC 1: DELETION -->
+      <div id="doc-1" class="doc-preview">
+        <div class="doc-header">
+          <div>令和○年○月○日</div>
+          <div style="text-align:right"><b>カーロックホームズ株式会社</b><br>代表取締役 上野原 政司</div>
+        </div>
+        <div>[お名前様] 宛</div>
         <div class="doc-title">個人情報削除完了のご通知</div>
-        <p>拝啓<br><br>時下ますますご清栄のこととお慶び申し上げます。<br>先般、貴殿よりご依頼を賜りました個人情報の削除請求につきまして、以下の通り対応が完了いたしましたので、謹んでご報告申し上げます。<br><br>敬具</p>
-        <div style="text-align:center; font-weight:900; margin:10px 0;">記</div>
-        
+        <p>拝啓　先般ご依頼のありました個人情報の削除請求につきまして、以下の通り対応が完了いたしましたので、謹んでご報告申し上げます。　敬具</p>
         <div class="doc-item-head">1. 削除対象とした個人情報</div>
-        <div style="padding-left:15px;">・当社採用サイトへの応募時にご提供いただいた氏名、住所、連絡先等の一切のデータ</div>
-        
+        <p>・当社採用サイトへの応募時にご提供いただいた氏名、住所、連絡先等の一切のデータ</p>
         <div class="doc-item-head">2. 削除完了日</div>
-        <div style="padding-left:15px;">・令和○年○月○日</div>
-        
+        <p>・令和○年○月○日</p>
         <div class="doc-item-head">3. 削除の方法</div>
-        <div style="padding-left:15px;">・当社管理サーバー上およびバックアップデータからの恒久的な消去。<br>（※紙媒体がある場合は、シュレッダー等による即時裁断）</div>
-        
+        <p>・当社管理サーバー上およびバックアップデータからの恒久的な消去。※紙媒体はシュレッダー裁断済み。</p>
         <div class="doc-item-head">4. 特記事項</div>
-        <div style="padding-left:15px;">・法令（税法、労働基準法等）により保存が義務付けられている書類等がある場合は、当該法令の定める期間を経過した後、改めて適切に廃棄いたします。</div>
-        
-        <div style="text-align:right; margin-top:20px;">以上</div>
-        
-        <div class="doc-footer">
-          <strong>【本件に関するお問い合わせ窓口】</strong><br>
-          カーロックホームズ株式会社 個人情報相談担当係<br>
-          電話：03-5311-0556
-        </div>
+        <p>・法令により保存が義務付けられている書類等がある場合は、当該期間を経過した後、適切に廃棄いたします。</p>
       </div>
     </div>
 
@@ -205,22 +203,21 @@
     <div id="p-title" class="panel-title">HUB DATA</div>
     <div id="p-count" class="panel-count">0名</div>
     <div id="p-text" class="panel-role-desc">丸をクリックすると、詳細な解説が表示されます。</div>
-    <div id="p-extra"></div>
   </div>
 
   <script>
     const hubData = {
-      hub: { t:'経営・CSハブ', n:'10', d:'情報の「心臓」と「神経」です。社長の経営判断と、CSによる配車・管理がここで行われます。全部門を血管のように繋ぎ、血液（情報）を循環させる最重要拠点です。', extra:'★ 5〜8名のリーダーを介して、30名の現場を統率します。受発注のハブ機能が稼働率を最大化させます。' },
-      sales: { t:'法人営業部', n:'5', d:'攻めの「エンジン」です。大手管理会社やハウスメーカーなど、安定した仕事量を確保するための交渉を担います。ここが動くことで、会社の売上の土台が作られます。', extra:'★ 主な提携：不動産会社、警備会社、ハウスメーカー。新規チャネル開拓専門。' },
-      service: { t:'現場サービス部', n:'30', d:'収益の「源泉」です。30名のスペシャリストが現場を回り、CarlockHomesの技術と誇りを届けます。1人1人が生産性2,000万円を目指す精鋭集団です。', extra:'★ 5つの地域チームによる機動的運用。技術・マナー・安全の最高峰。' },
-      dx: { t:'DX・広報室', n:'2', d:'魔法の「杖」です。採用サイトの運営、受発注アプリの改善、情報のガードマンを担います。2名だけで50人を支える強力なシステムを維持します。', extra:'★ インバウンド集客最大化と、業務自動化による「時間の創出」。' },
-      admin: { t:'管理部', n:'3', d:'不滅の「土台」です。50人の生活を守るための正確な給与計算、財務管理、そして人事採用を担います。ここが強いからこそ、他の部署が安心して暴れられます。', extra:'★ 経理、労務、採用。会社の「ガバナンス（統治）」の要。' },
-      legal: { t:'顧問弁護士', n:'1', d:'外部の「盾」です。法律のプロとして、契約書の穴を塞ぎ、万一のトラブルを水際で食い止めます。経営者が夜ぐっすり眠るために不可欠なパートナーです。', extra:'★ 企業法務、コンプライアンス、紛争解決の実務。' }
+      hub: { t:'経営・CSハブ', n:'10', d:'情報の「心臓」と「神経」です。社長の経営判断と、CSによる配車・管理がここで行われます。全部門を繋ぎ、血液（情報）を循環させる最重要拠点です。' },
+      sales: { t:'法人営業部', n:'5', d:'攻めの「エンジン」です。大手管理会社やハウスメーカーなど、安定した仕事量を確保するための交渉を担います。ここが動くことで、会社の売上の土台が作られます。' },
+      service: { t:'現場サービス部', n:'30', d:'収益の「源泉」です。30名のスペシャリストが現場を回り、CarlockHomesの技術と誇りを届けます。1人1人が生産性2,000万円を目指す精鋭集団です。' },
+      dx: { t:'DX・広報室', n:'2', d:'デジタルの「盾と矛」です。採用サイトの運営、受発注アプリの改善、情報のガードマンを担います。自動化によって全員の時間を創出します。' },
+      admin: { t:'管理部', n:'3', d:'不滅の「土台」です。50人の生活を守るための正確な給与計算、財務管理、そして人事採用を担います。ここが強いからこそ、他の部署が安心して暴れられます。' },
+      legal: { t:'顧問弁護士', n:'1', d:'外部の「盾」です。法律のプロとして、契約書の穴を塞ぎ、万一のトラブルを水際で食い止めます。経営の安全を担保するシールドです。' }
     };
 
-    const canvas = document.getElementById('hub-canvas');
+    const canvas = document.getElementById('main-view');
     const svg = document.getElementById('svg-lines');
-    const r = 205;
+    const r = 210;
     const items = [
       { id: 'sales', angle: -90, icon: '🚀' },
       { id: 'service', angle: -25, icon: '🔧' },
@@ -239,7 +236,7 @@
       el.className = 'node s-node';
       el.style.left = x + 'px'; el.style.top = y + 'px';
       el.innerHTML = `<div style="font-size:32px">${item.icon}</div>${info.t}<div class="node-num">${info.n}名</div>`;
-      el.onclick = () => updatePanel(item.id);
+      el.onclick = () => { updatePanel(item.id); switchView(0, document.querySelector('.nav-btn')); };
       canvas.appendChild(el);
 
       const line = document.createElementNS("http://www.w3.org/2000/svg", "line");
@@ -254,7 +251,6 @@
        document.getElementById('p-title').innerText = info.t;
        document.getElementById('p-count').innerText = info.n + '名';
        document.getElementById('p-text').innerText = info.d;
-       document.getElementById('p-extra').innerHTML = `<p class="p-head">Key Activity / Strategy</p><p style="font-size:13px;color:#94a3b8">${info.extra}</p>`;
     }
 
     function switchView(i, btn) {
@@ -262,6 +258,13 @@
       document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
       document.querySelectorAll('.view-content')[i].classList.add('active');
       btn.classList.add('active');
+    }
+
+    function switchDoc(i) {
+      document.querySelectorAll('.doc-preview').forEach(d => d.classList.remove('active'));
+      document.querySelectorAll('.doc-sel-btn').forEach(b => b.classList.remove('active'));
+      document.getElementById('doc-'+i).classList.add('active');
+      document.querySelectorAll('.doc-sel-btn')[i].classList.add('active');
     }
 
     window.onload = () => { updatePanel('hub'); };
