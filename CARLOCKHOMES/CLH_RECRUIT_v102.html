@@ -172,10 +172,7 @@
     2. 街のハブ
   </button>
   <button class="sel-btn" onclick="switchDesign(2,this)">
-    3. 月替わりコア募集
-  </button>
-  <button class="sel-btn" onclick="switchDesign(3,this)">
-    4. 会社案内パンフ
+    3. 会社案内パンフ
   </button>
 </div>
 
@@ -341,70 +338,6 @@
   </div>
 </section>
 
-<!-- ══════════════════════════════════════════
-     DESIGN 3 : 月替わりコア募集 (POP ART)
-═══════════════════════════════════════════ -->
-<section id="d3" class="design-section">
-  <div style="background:#111;padding-bottom:50px;font-family:'Zen Maru Gothic',sans-serif;position:relative;overflow:hidden;min-height:100vh;">
-    <div style="position:absolute;inset:0;background-image:radial-gradient(circle,#FFE135 1px,transparent 1px);background-size:24px 24px;opacity:.06;pointer-events:none;"></div>
-
-    <nav style="display:flex;justify-content:space-between;align-items:center;padding:15px 25px;border-bottom:3px solid #FFE135;background:rgba(17,17,17,0.8);backdrop-filter:blur(5px);position:sticky;top:0;z-index:20;">
-        <div style="font-family:'Dela Gothic One',cursive;font-size:clamp(16px, 4vw, 22px);color:#FFE135;display:flex;align-items:center;gap:10px;">🔑 カーロックホームズ</div>
-        <div style="display:flex;gap:12px;font-size:12px;font-weight:900;align-items:center;">
-          <span onclick="openFusion('company')" style="color:#888;cursor:pointer;">COMPANY</span>
-          <span onclick="openContact('コア募集')" style="color:#888;cursor:pointer;">問合わせ</span>
-          <span onclick="openEntry('コア募集')" style="color:#111;background:#FFE135;padding:8px 15px;border-radius:6px;cursor:pointer;box-shadow:4px 4px 0 #fff;">ENTRY</span>
-        </div>
-    </nav>
-
-    <div class="mobile-padding" style="padding:40px;max-width:1000px;margin:0 auto;position:relative;z-index:1;display:flex;flex-direction:column;gap:50px;">
-      <div class="mobile-stack" style="display:grid;grid-template-columns:repeat(auto-fit, minmax(320px, 1fr));gap:50px;align-items:center;">
-        <div>
-          <div style="display:inline-block;background:#FFE135;color:#111;padding:8px 24px;font-weight:900;font-size:14px;margin-bottom:20px;transform:rotate(-2deg);font-family:'Dela Gothic One',cursive;box-shadow:4px 4px 0 #FF6B6B;">📅 今月のコア募集テーマ</div>
-          <h1 style="font-family:'Dela Gothic One',cursive;font-size:clamp(40px, 10vw, 75px);color:#FFE135;line-height:1.2;margin:0 0 15px;animation:popBig .6s cubic-bezier(0.175, 0.885, 0.32, 1.275);">
-            ゲーム<br>オタク<br>集まれ。
-          </h1>
-          <p style="font-size:16px;color:#bbb;line-height:1.8;margin:25px 0 30px;">「100人に1人、深く刺さればいい。」<br>趣味を隠さず、自分らしく働ける職場。<br>新しいステージの攻略、一緒に始めませんか？🎮</p>
-          <button onclick="openEntry('コア募集')" style="font-family:'Dela Gothic One',cursive;background:#FFE135;color:#111;border:none;padding:15px 40px;font-size:16px;cursor:pointer;box-shadow:6px 6px 0 #fff;transition:all .2s;outline:none;" onmouseover="this.style.transform='translate(2px, 2px)';this.style.boxShadow='4px 4px 0 #fff'" onmouseout="this.style.transform='translate(0,0)';this.style.boxShadow='6px 6px 0 #fff'">⚡ 特設エントリーへ</button>
-        </div>
-        <div class="mobile-hide" style="position:relative;height:450px;min-width:320px;">
-          <div style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);font-size:180px;animation:popBig .8s ease-out .2s both;filter:drop-shadow(10px 10px 0 #FFE135);">🎮</div>
-          <div style="position:absolute;top:10%;left:5%;background:#FF6B6B;color:#fff;padding:12px 20px;font-weight:900;font-size:14px;transform:rotate(-8deg);box-shadow:4px 4px 0 #000;animation:popBig .5s ease-out .4s both;">RPG好き大歓迎</div>
-          <div style="position:absolute;top:15%;right:5%;background:#4ECDC4;color:#fff;padding:12px 20px;font-weight:900;font-size:14px;transform:rotate(5deg);box-shadow:4px 4px 0 #000;animation:popBig .5s ease-out .5s both;">FPS民歓迎</div>
-          <div style="position:absolute;bottom:20%;left:10%;background:#9B59B6;color:#fff;padding:12px 20px;font-weight:900;font-size:14px;transform:rotate(3deg);box-shadow:4px 4px 0 #000;animation:popBig .5s ease-out .6s both;">格ゲー勢も！</div>
-          <div style="position:absolute;bottom:15%;right:10%;background:#FF8C42;color:#fff;padding:12px 20px;font-weight:900;font-size:14px;transform:rotate(-4deg);box-shadow:4px 4px 0 #000;animation:popBig .5s ease-out .7s both;">ボードゲーム派</div>
-        </div>
-      </div>
-      
-      <div style="background:rgba(255,225,53,0.05);border:2px solid #FFE135;border-radius:32px;padding:40px;text-align:left;position:relative;margin-top:20px;">
-          <div style="position:absolute;top:-20px;left:30px;background:#FFE135;color:#111;padding:6px 25px;border-radius:50px;font-weight:900;font-size:14px;font-family:'Dela Gothic One',cursive;">SUMMARY</div>
-          <h3 style="color:#FFE135;font-weight:900;font-size:22px;margin-bottom:25px;font-family:'Dela Gothic One',cursive;">募集概要（共通）</h3>
-          <div style="display:grid;gap:20px;color:#fff;">
-              <div style="display:flex;border-bottom:1px solid rgba(255,255,255,0.1);padding-bottom:12px;">
-                  <span style="width:80px;color:#FFE135;font-weight:900;font-size:13px;">職種</span>
-                  <span style="font-size:16px;font-weight:700;">カギの緊急対応スタッフ（技術職）</span>
-              </div>
-              <div style="display:flex;border-bottom:1px solid rgba(255,255,255,0.1);padding-bottom:12px;">
-                  <span style="width:80px;color:#FFE135;font-weight:900;font-size:13px;">対象</span>
-                  <span style="font-size:16px;font-weight:700;">年齢・経験不問。45〜55代が多数活躍中！</span>
-              </div>
-              <div style="display:flex;">
-                  <span style="width:80px;color:#FFE135;font-weight:900;font-size:13px;">給与</span>
-                  <div style="flex:1;">
-                      <div style="font-size:16px;font-weight:700;color:#FFE135;">月給 23万〜40万円以上</div>
-                      <div style="font-size:12px;color:#888;margin-top:4px;">※働き方により応相談。インセンティブあり。</div>
-                  </div>
-              </div>
-          </div>
-      </div>
-
-      <div style="margin-top:40px; text-align:center; border:2px dashed #444; padding:30px; border-radius:15px;">
-        <p style="color:#FFE135; font-size:13px; margin-bottom:12px; font-family:'Dela Gothic One',cursive;">CORPORATE INQUIRY</p>
-        <button onclick="openContact('法人案件')" style="background:#fff; color:#111; border:none; padding:10px 25px; border-radius:5px; font-weight:900; cursor:pointer; font-size:13px; font-family:'Dela Gothic One',cursive;">提携・法人窓口</button>
-      </div>
-    </div>
-  </div>
-</section>
 
 <!-- ══════════════════════════════════════════
      DESIGN 4 : 会社案内パンフ (UTILITY PANEL)
@@ -831,7 +764,7 @@
 
 <!-- ── SCRIPTS ── -->
 <script>
-  const ids = ['d1','d2','d3','d4'];
+  const ids = ['d1','d2','d4'];
   const GAS_URL = 'https://script.google.com/macros/s/AKfycbz6i_kzRqqNucjkWGLiD1S-V4sA7xnuNMKiGWEZ4E56ZPpwy5qntivgRu3iyQ4XD0l5/exec';
 
   function switchDesign(i, btn) {
