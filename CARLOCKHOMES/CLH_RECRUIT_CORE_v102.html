@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>【公式】CLH 今月のコア募集 - ゲームオタク集まれ。</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@400;500;700;900&family=Shippori+Antique+B1&family=Reggae+One&family=Dela+Gothic+One&family=Outfit:wght@900&display=swap" rel="stylesheet">
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'Zen Maru Gothic', sans-serif; overflow-x: hidden; background: #111; color:#fff; }
+
+    /* --- FUSION / SELECTOR (Original Style) --- */
+    .tab-bar { background: #fff; padding: 15px 20px; display: flex; gap: 12px; overflow-x: auto; border-bottom: 2px solid #eee; }
+    .tab-item { padding: 15px 35px; border-radius: 100px; background: #f0f0f0; color: #666; font-weight: 900; font-size: 16px; box-shadow: 0 4px 0 #ddd; cursor:pointer; }
+    .tab-item.active { background: #FF4444; color: #fff; box-shadow: 0 6px 0 #b32d2d; }
+
+    header { background: #111; border-bottom: 3px solid #FFE135; padding: 20px 40px; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 100; }
+    .logo { font-family: 'Dela Gothic One', cursive; color: #FFE135; font-size: 24px; display: flex; align-items: center; gap: 12px; }
+    .entry-pill { background: #FFE135; color: #111; padding: 10px 28px; border-radius: 12px; font-family: 'Dela Gothic One'; text-decoration: none; box-shadow: 0 4px 0 #fff; }
+
+    @keyframes popBig { 0% { transform: scale(0) rotate(-10deg); } 70% { transform: scale(1.1) rotate(2deg); } 100% { transform: scale(1) rotate(0deg); } }
+
+    /* --- ORIGINAL DESIGN 3 (MONTHLY CORE) START --- */
+    .design-section { 
+      background: #111; 
+      padding-bottom: 50px; 
+      position: relative; 
+      overflow: hidden; 
+      min-height: 100vh;
+    }
+    .grid-dots {
+      position: absolute; inset: 0; 
+      background-image: radial-gradient(circle, #FFE135 1px, transparent 1px); 
+      background-size: 24px 24px; opacity: .06; pointer-events: none;
+    }
+
+    .mobile-padding { padding: 40px; max-width: 1000px; margin: 0 auto; position: relative; z-index: 1; }
+    
+    .badge-today { 
+      display: inline-block; background: #FFE135; color: #111; padding: 8px 24px; 
+      font-weight: 900; font-size: 14px; margin-bottom: 20px; transform: rotate(-2deg); 
+      font-family: 'Dela Gothic One', cursive; box-shadow: 4px 4px 0 #FF6B6B; 
+    }
+
+    .hero-title {
+      font-family: 'Dela Gothic One', cursive; font-size: clamp(40px, 10vw, 75px); 
+      color: #FFE135; line-height: 1.2; margin: 0 0 15px; 
+      animation: popBig .6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+
+    .hero-desc { font-size: 16px; color: #bbb; line-height: 1.8; margin: 25px 0 30px; }
+
+    .cta-btn {
+      font-family: 'Dela Gothic One', cursive; background: #FFE135; color: #111; 
+      border: none; padding: 15px 40px; font-size: 16px; cursor: pointer; 
+      box-shadow: 6px 6px 0 #fff; transition: all .2s; outline: none;
+    }
+
+    /* Floating Badges Area */
+    .visual-area { position: relative; height: 450px; min-width: 320px; }
+    .joystick-big { position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%); font-size: 180px; filter: drop-shadow(10px 10px 0 #FFE135); animation: popBig .8s ease-out .2s both; }
+    .label-float { position: absolute; color: #fff; padding: 12px 20px; font-weight: 900; font-size: 14px; box-shadow: 4px 4px 0 #000; animation: popBig .5s ease-out both; }
+
+    /* Summary Section */
+    .summary-box {
+      background: rgba(255, 225, 53, 0.05); border: 2px solid #FFE135; 
+      border-radius: 32px; padding: 40px; text-align: left; position: relative; margin-top: 20px;
+    }
+    .summary-label { position: absolute; top: -20px; left: 30px; background: #FFE135; color: #111; padding: 6px 25px; border-radius: 50px; font-weight: 900; font-size: 14px; font-family: 'Dela Gothic One', cursive; }
+    .summary-h3 { color: #FFE135; font-weight: 900; font-size: 22px; margin-bottom: 25px; font-family: 'Dela Gothic One', cursive; }
+    .summary-row { display: flex; border-bottom: 1px solid rgba(255, 255, 255, 0.1); padding-bottom: 12px; margin-bottom: 15px; }
+    .row-tag { width: 80px; color: #FFE135; font-weight: 900; font-size: 13px; }
+    .row-val { font-size: 16px; font-weight: 700; color: #fff; }
+
+    .inquiry-dashed { margin-top: 40px; text-align: center; border: 2px dashed #444; padding: 30px; border-radius: 15px; }
+
+    /* Footer styles from original hub */
+    .official-sns { margin-top: 50px; padding: 40px 20px; text-align: center; }
+    .sns-btns { display: flex; justify-content: center; gap: 15px; flex-wrap: wrap; margin-top: 20px; }
+    .sns-btn { padding: 15px 30px; border-radius: 12px; color: #fff; text-decoration: none; font-weight: 900; box-shadow: 0 10px 20px rgba(0,0,0,0.2); }
+
+    .white-contact-area { background: #f0f0f0; border-radius: 40px; padding: 50px 30px; color: #111; text-align: center; margin-bottom: 40px; margin-top: 50px; }
+    /* --- ORIGINAL DESIGN END --- */
+
+    /* Overlay / PW Gate */
+    #pw-gate { position:fixed; inset:0; z-index:999999; background:#fff; display:flex; align-items:center; justify-content:center; }
+    .pw-box { text-align:center; max-width:400px; width:90%; padding:40px; border:1px solid #eee; border-radius:30px; box-shadow:0 30px 100px rgba(0,0,0,0.05); color:#111; }
+    .pw-input { width:100%; padding:18px; margin:20px 0; border:2px solid #eee; border-radius:15px; font-size:18px; text-align:center; outline:none; font-family:sans-serif; }
+    .pw-btn-gate { width:100%; padding:18px; background:linear-gradient(135deg,#FF4444,#FF6B2B); color:#fff; border:none; border-radius:15px; font-weight:900; cursor:pointer; font-family:'Zen Maru Gothic'; }
+  </style>
+</head>
+<body style="opacity:0; transition: 0.5s;">
+  <div id="pw-gate">
+    <div class="pw-box">
+      <div style="font-size:50px; margin-bottom:20px;">🔒</div>
+      <h2 style="font-weight:900; font-family:'Zen Maru Gothic';">合言葉が必要です</h2>
+      <input type="password" id="pw-input" class="pw-input" placeholder="合言葉を入力">
+      <button onclick="checkPW()" class="pw-btn-gate">アクセス</button>
+    </div>
+  </div>
+  
+  <div class="tab-bar">
+    <div class="tab-item">1. 泥臭エネルギー</div>
+    <div class="tab-item">2. 街のハブ</div>
+    <div class="tab-item active" onclick="location.reload()">3. 月替わりコア募集</div>
+    <div class="tab-item">4. 会社案内パンフ</div>
+  </div>
+
+  <header>
+    <div class="logo">🔑 カーロックホームズ</div>
+    <div style="display:flex; gap:25px; align-items:center; font-size:12px; font-weight:900; color:#888;">
+      <span>COMPANY</span>
+      <span>問合わせ</span>
+      <a href="#" class="entry-pill">ENTRY</a>
+    </div>
+  </header>
+
+  <main class="design-section">
+    <div class="grid-dots"></div>
+
+    <div class="mobile-padding">
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 50px; align-items: center;">
+        <div>
+          <div class="badge-today">📅 今月のコア募集テーマ</div>
+          <h1 class="hero-title">ゲーム<br>オタク<br>集まれ。</h1>
+          <p class="hero-desc">「100人に1人、深く刺さればいい。」<br>趣味を隠さず、自分らしく働ける職場。<br>新しいステージの攻略、一緒に始めませんか？🎮</p>
+          <button class="cta-btn">⚡ 特設エントリーへ</button>
+        </div>
+
+        <div class="visual-area">
+          <div class="joystick-big">🎮</div>
+          <div class="label-float" style="top:10%; left:5%; background:#FF6B6B; transform:rotate(-8deg); animation-delay:.4s;">RPG好き大歓迎</div>
+          <div class="label-float" style="top:15%; right:5%; background:#4ECDC4; transform:rotate(5deg); animation-delay:.5s;">FPS民歓迎</div>
+          <div class="label-float" style="bottom:20%; left:10%; background:#9B59B6; transform:rotate(3deg); animation-delay:.6s;">格ゲー勢も！</div>
+          <div class="label-float" style="bottom:15%; right:10%; background:#FF8C42; transform:rotate(-4deg); animation-delay:.7s;">ボードゲーム派</div>
+        </div>
+      </div>
+
+      <div class="summary-box">
+        <div class="summary-label">SUMMARY</div>
+        <h3 class="summary-h3">募集概要（共通）</h3>
+        <div class="summary-row">
+          <div class="row-tag">職種</div>
+          <div class="row-val">カギの緊急対応スタッフ（技術職）</div>
+        </div>
+        <div class="summary-row">
+          <div class="row-tag">対象</div>
+          <div class="row-val">年齢・経験不問。45〜55代が多数活躍中！</div>
+        </div>
+        <div class="summary-row" style="border-bottom:none;">
+          <div class="row-tag">給与</div>
+          <div class="row-val">
+            <span style="color:#FFE135; font-size:20px;">月給 23万〜40万円以上</span><br>
+            <span style="font-size:12px; color:#888;">※働き方により応相談。インセンティブあり。</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="inquiry-dashed">
+        <p style="color:#FFE135; font-size:13px; margin-bottom:12px; font-family:'Dela Gothic One';">CORPORATE INQUIRY</p>
+        <button style="background:#fff; color:#111; border:none; padding:10px 25px; border-radius:5px; font-weight:900; cursor:pointer; font-family:'Dela Gothic One';">提携・法人窓口</button>
+      </div>
+
+      <div class="official-sns">
+        <div style="font-size:14px; font-weight:900; color:#aaa;">📯 OFFICIAL SNS</div>
+        <div class="sns-btns">
+          <a href="#" class="sns-btn" style="background:linear-gradient(135deg,#FF512F,#DD2476);">Instagram</a>
+          <a href="#" class="sns-btn" style="background:linear-gradient(135deg,#2193b0,#6dd5ed);">Facebook</a>
+          <a href="#" class="sns-btn" style="background:linear-gradient(135deg,#f12711,#f5af19);">Amazon</a>
+        </div>
+      </div>
+
+      <div class="white-contact-area">
+        <h2 style="font-weight:900; font-size:20px; margin-bottom:10px;">企業・提携に関するお問合せ</h2>
+        <p style="font-size:12px; color:#666; margin-bottom:20px;">法人案件、パートナー提携等のご相談は専用窓口にて承っております。</p>
+        <button style="background:#111; color:#fff; padding:12px 40px; border-radius:10px; border:none; font-weight:900; cursor:pointer;">お問合せフォームへ</button>
+      </div>
+
+    <footer style="margin-top:50px; text-align:center; color:#555; font-size:12px;">
+        <p style="font-weight:900; margin-bottom:10px; letter-spacing:2px;">PRODUCED BY CLH CREATIVE TEAM</p>
+        <p>&copy; 2026 CarlockHomes Inc. All rights reserved.</p>
+    </footer>
+
+    </div>
+  </main>
+
+  <script>
+    function checkPW(){ 
+      if(document.getElementById('pw-input').value === 'clh2026'){ 
+        sessionStorage.setItem('clh_in', '1'); 
+        document.getElementById('pw-gate').style.display='none'; 
+        document.body.style.opacity='1'; 
+      } else {
+        alert('合言葉が違います');
+      }
+    }
+    if(sessionStorage.getItem('clh_in')) { 
+      document.getElementById('pw-gate').style.display='none'; 
+      document.body.style.opacity='1'; 
+    }
+  </script>
+</body>
+</html>
