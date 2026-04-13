@@ -3,43 +3,43 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>CarlockHomes Safety Hub Visualizer</title>
+  <title>CLH Safety-Hub Interactive Visualizer</title>
   <style>
     :root {
       --primary: #FF7F50;
       --secondary: #4D96FF;
       --accent: #FFD93D;
       --bg: #0f172a;
-      --glass: rgba(255, 255, 255, 0.03);
+      --glass: rgba(255, 255, 255, 0.05);
       --border: rgba(255, 255, 255, 0.1);
     }
     body {
       margin: 0; padding: 0;
       background: var(--bg);
       color: #fff;
-      font-family: 'Zen Maru Gothic', 'Outfit', sans-serif;
+      font-family: 'Zen Maru Gothic', sans-serif;
       overflow: hidden;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      height: 100vh;
+      display: flex; height: 100vh;
     }
 
     /* ── Header ── */
     header {
-      position: absolute; top: 40px; text-align: center; z-index: 10;
+      position: absolute; top: 40px; left: 40px; z-index: 10;
     }
     h1 {
-      font-size: 32px; font-weight: 900; margin: 0; letter-spacing: 2px;
+      font-size: 28px; font-weight: 900; margin: 0;
       background: linear-gradient(135deg, #fff 0%, var(--primary) 100%);
       -webkit-background-clip: text; -webkit-text-fill-color: transparent;
     }
-    p { color: rgba(255,255,255,0.5); font-size: 14px; margin-top: 10px; }
 
-    /* ── The Hub Container ── */
-    #visual-net {
-      width: 100%; height: 100%; position: relative;
+    /* ── Layout ── */
+    #main-canvas { flex: 1; position: relative; overflow: hidden; }
+    #info-panel {
+      width: 350px; background: rgba(15, 23, 42, 0.8);
+      backdrop-filter: blur(20px); border-left: 1px solid var(--border);
+      padding: 40px; display: flex; flex-direction: column;
+      justify-content: center; z-index: 1000;
+      box-shadow: -20px 0 50px rgba(0,0,0,0.5);
     }
 
     /* ── Nodes ── */
@@ -47,110 +47,129 @@
       position: absolute; border-radius: 50%;
       display: flex; flex-direction: column; align-items: center; justify-content: center;
       text-align: center; cursor: pointer;
-      transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
       border: 1px solid var(--border);
-      backdrop-filter: blur(10px);
-      box-shadow: 0 0 50px rgba(0,0,0,0.5);
     }
-    .node:hover { transform: scale(1.1); box-shadow: 0 0 80px rgba(255,127,80,0.3); }
+    .node:hover { transform: scale(1.15); border-color: var(--primary); }
 
     .center-node {
-      width: 180px; height: 180px; background: radial-gradient(circle, var(--primary) 0%, #c0392b 100%);
-      z-index: 100; font-weight: 900; font-size: 20px;
+      width: 160px; height: 160px; background: radial-gradient(circle, var(--primary) 0%, #c0392b 100%);
+      z-index: 100; font-weight: 900; font-size: 18px;
       animation: pulse 4s infinite;
     }
     .sub-node {
-      width: 120px; height: 120px; background: var(--glass);
-      font-size: 12px; font-weight: 700;
+      width: 100px; height: 100px; background: var(--glass);
+      font-size: 11px; font-weight: 700;
     }
+    .node i { font-style: normal; font-size: 28px; margin-bottom: 5px; }
 
-    .node i { font-style: normal; font-size: 30px; margin-bottom: 5px; }
+    /* ── SVG ── */
+    svg { position: absolute; inset: 0; width: 100%; height: 100%; z-index: 1; pointer-events: none; }
+    .link-line { stroke: var(--primary); stroke-width: 1; opacity: 0.15; stroke-dasharray: 4; animation: dash 30s linear infinite; }
 
-    /* ── SVG Lines ── */
-    svg {
-      position: absolute; inset: 0; width: 100%; height: 100%; z-index: 1; pointer-events: none;
-    }
-    .link-line {
-      stroke: var(--primary); stroke-width: 2; opacity: 0.2;
-      stroke-dasharray: 5; animation: dash 20s linear infinite;
-    }
+    /* ── Details Panel Content ── */
+    #detail-box { opacity: 0; transition: 0.5s; transform: translateY(20px); }
+    #detail-box.active { opacity: 1; transform: translateY(0); }
+    .detail-icon { font-size: 50px; margin-bottom: 20px; }
+    .detail-title { font-size: 24px; font-weight: 900; color: var(--primary); margin-bottom: 15px; }
+    .detail-role { font-size: 15px; line-height: 1.8; color: #cbd5e1; }
+    .detail-tag { display: inline-block; padding: 4px 12px; border-radius: 50px; background: rgba(255,127,80,0.1); color: var(--primary); font-size: 11px; font-weight: 900; margin-top: 20px; }
 
-    /* ── Security Wall ── */
-    #outer-wall {
-      position: absolute; border: 2px dashed rgba(255,127,80,0.2);
-      border-radius: 50%; width: 650px; height: 650px;
-      animation: rotate 60s linear infinite;
-    }
-
-    @keyframes pulse { 0%,100% { transform: scale(1); box-shadow: 0 0 40px var(--primary); } 50% { transform: scale(1.05); box-shadow: 0 0 70px var(--primary); } }
-    @keyframes rotate { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+    @keyframes pulse { 0%,100% { transform: scale(1); box-shadow: 0 0 30px var(--primary); } 50% { transform: scale(1.06); box-shadow: 0 0 60px var(--primary); } }
     @keyframes dash { to { stroke-dashoffset: -1000; } }
 
-    /* ── Legend ── */
-    .legend {
-      position: absolute; bottom: 40px; right: 40px; text-align: right; font-size: 12px; color: #999;
+    #outer-wall {
+      position: absolute; border: 1px dashed rgba(255,127,80,0.1);
+      border-radius: 50%; width: 550px; height: 550px;
+      animation: rotate 100s linear infinite; pointer-events: none;
     }
+    @keyframes rotate { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
   </style>
 </head>
 <body>
 
   <header>
-    <h1>CLH SAFETY-HUB VISUALIZER</h1>
-    <p>売上10億円規模：循環型組織ネットワーク</p>
+    <h1>CLH ORGANIZATION HUB</h1>
   </header>
 
-  <div id="visual-net">
-    <div id="outer-wall" style="top: calc(50% - 325px); left: calc(50% - 325px);"></div>
-    
-    <!-- Lines -->
+  <div id="main-canvas">
+    <div id="outer-wall" style="top: calc(50% - 275px); left: calc(50% - 275px);"></div>
     <svg id="svg-lines"></svg>
-
-    <!-- Center -->
-    <div id="c-node" class="node center-node" style="top: calc(50% - 90px); left: calc(50% - 90px);">
-      <i>🍊</i>
-      経営・CSハブ
+    <div id="c-node" class="node center-node" style="top: calc(50% - 80px); left: calc(50% - 80px);" onclick="showDetail('hub')">
+      <i>🍊</i>ハブ
     </div>
-
-    <!-- Satellite Nodes -->
-    <div class="node sub-node" data-angle="-90" data-label="攻め：営業部" data-emoji="🚀"></div>
-    <div class="node sub-node" data-angle="-30" data-label="現場：サービス部" data-emoji="🔧"></div>
-    <div class="node sub-node" data-angle="30" data-label="加速：DX・広報室" data-emoji="⚡"></div>
-    <div class="node sub-node" data-angle="90" data-label="土台：管理部" data-emoji="🏢"></div>
-    <div class="node sub-node" data-angle="150" data-label="盾：顧問弁護士" data-emoji="🛡️"></div>
-    <div class="node sub-node" data-angle="210" data-label="教育・安全管理" data-emoji="🔰"></div>
+    <!-- Nodes generated by JS -->
   </div>
 
-  <div class="legend">
-    CarlockHomes Inc.<br>Corporate Architecture 2026
+  <div id="info-panel">
+    <div id="detail-box">
+      <div class="detail-icon" id="d-icon">🚀</div>
+      <div class="detail-title" id="d-title">部署名</div>
+      <div class="detail-role" id="d-role">ここに役割の説明が表示されます。丸をクリックしてみてください。</div>
+      <div class="detail-tag" id="d-tag">KEY ROLE</div>
+    </div>
   </div>
 
   <script>
-    const container = document.getElementById('visual-net');
+    const data = {
+      hub: { icon: '🍊', title: '経営・CSハブ', role: '会社の心臓部であり情報センターです。すべての現場状況と売上データが集まり、次の戦略を決定します。ハブが機能することで、全部門がバラバラにならず一つのチームとして動けます。', tag: 'DECISION & CORE' },
+      sales: { icon: '🚀', title: '攻め：営業部', role: '新規のお客様や法人パートナーを開拓する「燃料」の役割です。ニーズを掘り起こし、サービス部へ最高のパスを繋ぎます。会社の成長速度を決めるエンジンです。', tag: 'REVENUE GROWTH' },
+      service: { icon: '🔧', title: '現場：サービス部', role: '鍵のトラブルを解決する、会社の「一番の看板」です。最高技術と誠実な対応で「ありがとう」を直接生み出します。お客様の安心を物理的に守る部隊です。', tag: 'PROFESSIONAL SKILLS' },
+      dx: { icon: '⚡', title: '加速：DX・広報室', role: 'IT技術でみんなの仕事を楽にする「魔法」の部門です。採用サイトの運営や受発注アプリの改善、情報の守備（セキュリティ）を実際に担当し、会社を加速させます。', tag: 'IT & PROTECTION' },
+      admin: { icon: '🏢', title: '土台：管理部', role: '経理・人事・法務を担う「土台」です。しっかりとした給与計算や採用活動、コンプライアンスの維持により、全員が安心して働ける環境を支えます。', tag: 'FOUNDATION' },
+      legal: { icon: '🛡️', title: '盾：顧問弁護士', role: '外部から会社を守る「最強の盾」です。契約書の不備を防ぎ、トラブル発生時には法律という盾を持って交渉にあたります。経営の安全を担保するシールドです。', tag: 'EXTERNAL SHIELD' },
+      safety: { icon: '🔰', title: '教育・安全管理', role: '「事故ゼロ」と「品質向上」の番人です。新人教育や現場の安全パトロールを行い、会社の信頼を底上げします。', tag: 'QUALITY CONTROL' }
+    };
+
+    const canvas = document.getElementById('main-canvas');
     const svg = document.getElementById('svg-lines');
-    const cNode = document.getElementById('c-node');
-    const nodes = document.querySelectorAll('.sub-node');
-    const r = 240; // Radius
+    const r = 220;
+    const items = [
+      { id: 'sales', angle: -90 },
+      { id: 'service', angle: -35 },
+      { id: 'dx', angle: 25 },
+      { id: 'admin', angle: 85 },
+      { id: 'legal', angle: 145 },
+      { id: 'safety', angle: 205 }
+    ];
 
-    nodes.forEach(node => {
-      const angle = parseFloat(node.dataset.angle);
-      const rad = angle * Math.PI / 180;
-      const x = (container.clientWidth / 2) + r * Math.cos(rad) - 60;
-      const y = (container.clientHeight / 2) + r * Math.sin(rad) - 60;
+    items.forEach(item => {
+      const info = data[item.id];
+      const rad = item.angle * Math.PI / 180;
+      const x = (canvas.clientWidth / 2) + r * Math.cos(rad) - 50;
+      const y = (canvas.clientHeight / 2) + r * Math.sin(rad) - 50;
 
-      node.style.left = x + 'px';
-      node.style.top = y + 'px';
-      node.innerHTML = `<i>${node.dataset.emoji}</i><div>${node.dataset.label}</div>`;
+      const el = document.createElement('div');
+      el.className = 'node sub-node';
+      el.style.left = x + 'px'; el.style.top = y + 'px';
+      el.innerHTML = `<i>${info.icon}</i><div>${info.title}</div>`;
+      el.onclick = () => showDetail(item.id);
+      canvas.appendChild(el);
 
-      // Create SVG line
       const line = document.createElementNS("http://www.w3.org/2000/svg", "line");
-      line.setAttribute("x1", container.clientWidth / 2);
-      line.setAttribute("y1", container.clientHeight / 2);
-      line.setAttribute("x2", x + 60);
-      line.setAttribute("y2", y + 60);
+      line.setAttribute("x1", canvas.clientWidth / 2);
+      line.setAttribute("y1", canvas.clientHeight / 2);
+      line.setAttribute("x2", x + 50);
+      line.setAttribute("y2", y + 50);
       line.setAttribute("class", "link-line");
       svg.appendChild(line);
     });
 
+    function showDetail(id) {
+      const box = document.getElementById('detail-box');
+      box.classList.remove('active');
+      setTimeout(() => {
+        const info = data[id];
+        document.getElementById('d-icon').innerText = info.icon;
+        document.getElementById('d-title').innerText = info.title;
+        document.getElementById('d-role').innerText = info.role;
+        document.getElementById('d-tag').innerText = info.tag;
+        box.classList.add('active');
+      }, 100);
+    }
+
+    // Init with Hub
+    window.onload = () => { showDetail('hub'); };
     window.onresize = () => location.reload();
   </script>
 </body>
