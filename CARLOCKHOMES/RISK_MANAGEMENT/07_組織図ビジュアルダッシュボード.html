@@ -3,7 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>CLH Safety-Hub Interactive Visualizer</title>
+  <title>CLH Master Strategy Portal</title>
+  <link href="https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@400;700;900&family=Outfit:wght@900&display=swap" rel="stylesheet">
   <style>
     :root {
       --primary: #FF7F50;
@@ -12,164 +13,208 @@
       --bg: #0f172a;
       --glass: rgba(255, 255, 255, 0.05);
       --border: rgba(255, 255, 255, 0.1);
+      --card-bg: rgba(30, 41, 59, 0.7);
     }
+    * { box-sizing: border-box; }
     body {
       margin: 0; padding: 0;
       background: var(--bg);
-      color: #fff;
+      color: #f1f5f9;
       font-family: 'Zen Maru Gothic', sans-serif;
       overflow: hidden;
       display: flex; height: 100vh;
     }
 
-    /* ── Header ── */
-    header {
-      position: absolute; top: 40px; left: 40px; z-index: 10;
+    /* ── Sidebar Nav ── */
+    #sidebar {
+      width: 80px; background: rgba(15, 23, 42, 0.9);
+      border-right: 1px solid var(--border);
+      display: flex; flex-direction: column; align-items: center; padding: 30px 0;
+      gap: 30px; z-index: 2000;
     }
-    h1 {
-      font-size: 28px; font-weight: 900; margin: 0;
-      background: linear-gradient(135deg, #fff 0%, var(--primary) 100%);
-      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    .nav-btn {
+      width: 50px; height: 50px; border-radius: 12px;
+      display: flex; align-items: center; justify-content: center;
+      cursor: pointer; transition: 0.3s; font-size: 24px;
+      background: var(--glass); border: 1px solid var(--border);
     }
+    .nav-btn.active { background: var(--primary); color: #fff; box-shadow: 0 0 20px var(--primary); border: none; }
+    .nav-btn:hover:not(.active) { background: rgba(255,255,255,0.1); }
 
-    /* ── Layout ── */
-    #main-canvas { flex: 1; position: relative; overflow: hidden; }
-    #info-panel {
-      width: 350px; background: rgba(15, 23, 42, 0.8);
-      backdrop-filter: blur(20px); border-left: 1px solid var(--border);
-      padding: 40px; display: flex; flex-direction: column;
-      justify-content: center; z-index: 1000;
-      box-shadow: -20px 0 50px rgba(0,0,0,0.5);
+    /* ── Main View ── */
+    #main-view { flex: 1; position: relative; overflow: hidden; }
+    .view-content {
+      position: absolute; inset: 0; padding: 40px;
+      display: none; opacity: 0; transition: 0.5s;
     }
+    .view-content.active { display: block; opacity: 1; }
 
-    /* ── Nodes ── */
-    .node {
-      position: absolute; border-radius: 50%;
-      display: flex; flex-direction: column; align-items: center; justify-content: center;
-      text-align: center; cursor: pointer;
-      transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-      border: 1px solid var(--border);
-    }
-    .node:hover { transform: scale(1.15); border-color: var(--primary); }
-
-    .center-node {
-      width: 160px; height: 160px; background: radial-gradient(circle, var(--primary) 0%, #c0392b 100%);
-      z-index: 100; font-weight: 900; font-size: 18px;
-      animation: pulse 4s infinite;
-    }
-    .sub-node {
-      width: 100px; height: 100px; background: var(--glass);
-      font-size: 11px; font-weight: 700;
-    }
-    .node i { font-style: normal; font-size: 28px; margin-bottom: 5px; }
-
-    /* ── SVG ── */
+    /* ── View 1: Hub Graph ── */
+    #hub-canvas { width: 100%; height: 100%; position: relative; }
+    .node { position: absolute; border-radius: 50%; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; cursor: pointer; transition: 0.4s; border: 1px solid var(--border); }
+    .c-node { width: 150px; height: 150px; background: radial-gradient(circle, var(--primary) 0%, #c0392b 100%); z-index: 100; font-weight: 900; animation: pulse 4s infinite; }
+    .s-node { width: 90px; height: 90px; background: var(--glass); font-size: 10px; font-weight: 700; backdrop-filter: blur(10px); }
     svg { position: absolute; inset: 0; width: 100%; height: 100%; z-index: 1; pointer-events: none; }
-    .link-line { stroke: var(--primary); stroke-width: 1; opacity: 0.15; stroke-dasharray: 4; animation: dash 30s linear infinite; }
 
-    /* ── Details Panel Content ── */
-    #detail-box { opacity: 0; transition: 0.5s; transform: translateY(20px); }
-    #detail-box.active { opacity: 1; transform: translateY(0); }
-    .detail-icon { font-size: 50px; margin-bottom: 20px; }
-    .detail-title { font-size: 24px; font-weight: 900; color: var(--primary); margin-bottom: 15px; }
-    .detail-role { font-size: 15px; line-height: 1.8; color: #cbd5e1; }
-    .detail-tag { display: inline-block; padding: 4px 12px; border-radius: 50px; background: rgba(255,127,80,0.1); color: var(--primary); font-size: 11px; font-weight: 900; margin-top: 20px; }
+    /* ── View 2: Personnel Stats ── */
+    .stat-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; margin-top: 40px; }
+    .stat-card { background: var(--card-bg); border-radius: 24px; padding: 30px; border: 1px solid var(--border); text-align: center; }
+    .stat-num { font-family: 'Outfit'; font-size: 48px; color: var(--primary); margin: 10px 0; }
+    .chart-bar { height: 30px; background: var(--primary); border-radius: 50px; transition: 1s; }
 
-    @keyframes pulse { 0%,100% { transform: scale(1); box-shadow: 0 0 30px var(--primary); } 50% { transform: scale(1.06); box-shadow: 0 0 60px var(--primary); } }
+    /* ── View 3: Risk Cards ── */
+    .risk-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+    .risk-card { background: var(--card-bg); border-radius: 24px; border: 1px solid var(--border); overflow: hidden; }
+    .risk-head { padding: 20px; background: rgba(255,255,255,0.05); font-weight: 900; border-bottom: 1px solid var(--border); }
+    .risk-body { padding: 25px; font-size: 14px; line-height: 1.8; color: #cbd5e1; }
+
+    /* ── Panel ── */
+    #side-panel {
+      width: 320px; background: rgba(15, 23, 42, 0.8); backdrop-filter: blur(20px);
+      border-left: 1px solid var(--border); padding: 40px;
+      display: flex; flex-direction: column; justify-content: center; z-index: 3000;
+    }
+    .panel-title { font-size: 22px; font-weight: 900; color: var(--primary); margin-bottom: 20px; }
+    .panel-text { font-size: 14px; line-height: 2; color: #cbd5e1; }
+
+    @keyframes pulse { 0%,100% { box-shadow: 0 0 20px var(--primary); } 50% { box-shadow: 0 0 50px var(--primary); } }
     @keyframes dash { to { stroke-dashoffset: -1000; } }
 
-    #outer-wall {
-      position: absolute; border: 1px dashed rgba(255,127,80,0.1);
-      border-radius: 50%; width: 550px; height: 550px;
-      animation: rotate 100s linear infinite; pointer-events: none;
-    }
-    @keyframes rotate { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+    /* Utils */
+    h2 { font-weight: 900; font-size: 28px; margin: 0 0 10px; }
+    .subtitle { color: #64748b; font-size: 14px; margin-bottom: 30px; }
   </style>
 </head>
 <body>
 
-  <header>
-    <h1>CLH ORGANIZATION HUB</h1>
-  </header>
+  <nav id="sidebar">
+    <div class="nav-btn active" onclick="switchView(0,this)" title="組織ハブ">🌐</div>
+    <div class="nav-btn" onclick="switchView(1,this)" title="人員配置">👥</div>
+    <div class="nav-btn" onclick="switchView(2,this)" title="リスク・法務">🛡️</div>
+    <div class="nav-btn" onclick="switchView(3,this)" title="削除証明書">📄</div>
+  </nav>
 
-  <div id="main-canvas">
-    <div id="outer-wall" style="top: calc(50% - 275px); left: calc(50% - 275px);"></div>
-    <svg id="svg-lines"></svg>
-    <div id="c-node" class="node center-node" style="top: calc(50% - 80px); left: calc(50% - 80px);" onclick="showDetail('hub')">
-      <i>🍊</i>ハブ
+  <div id="main-view">
+    
+    <!-- VIEW 0: HUB -->
+    <div id="view-hub" class="view-content active">
+      <h2>ORGANIZATION HUB</h2>
+      <p class="subtitle">10億円規模の循環型ネットワーク</p>
+      <div id="hub-canvas">
+        <svg id="svg-lines"></svg>
+        <div class="node c-node" style="top:calc(50% - 75px); left:calc(50% - 75px);" onclick="updatePanel('hub')">
+          <div style="font-size:30px">🍊</div>ハブ
+        </div>
+      </div>
     </div>
-    <!-- Nodes generated by JS -->
+
+    <!-- VIEW 1: PERSONNEL -->
+    <div id="view-staff" class="view-content">
+      <h2>PERSONNEL SIMULATION</h2>
+      <p class="subtitle">売上10億円・合計50名体制の最適バランス</p>
+      <div class="stat-grid">
+        <div class="stat-card"><div>現場・サービス</div><div class="stat-num">30</div><div>人 (60%)</div><div style="background:rgba(255,255,255,0.05);height:10px;margin-top:20px;border-radius:10px"><div class="chart-bar" style="width:60%;background:#6BCB77"></div></div></div>
+        <div class="stat-card"><div>事務・CS・ハブ</div><div class="stat-num">10</div><div>人 (20%)</div><div style="background:rgba(255,255,255,0.05);height:10px;margin-top:20px;border-radius:10px"><div class="chart-bar" style="width:20%;background:#4D96FF"></div></div></div>
+        <div class="stat-card"><div>営業・法人開拓</div><div class="stat-num">5</div><div>人 (10%)</div><div style="background:rgba(255,255,255,0.05);height:10px;margin-top:20px;border-radius:10px"><div class="chart-bar" style="width:10%;background:#FFD93D"></div></div></div>
+        <div class="stat-card"><div>経営・管理・DX</div><div class="stat-num">5</div><div>人 (10%)</div><div style="background:rgba(255,255,255,0.05);height:10px;margin-top:20px;border-radius:10px"><div class="chart-bar" style="width:10%;background:#FF6B6B"></div></div></div>
+      </div>
+      <div style="margin-top:40px; background:var(--card-bg); padding:40px; border-radius:30px; border:1px solid var(--border);">
+         <h3 style="margin-top:0">🚀 生産性のゴール</h3>
+         <div style="font-size:20px; line-height:2;">1人あたりの年間生産性：<strong>2,000万円</strong></div>
+         <div style="font-size:14px; color:#94a3b8; margin-top:10px;">DX活用により無駄な移動と事務を削り、この高効率な体制を確立します。</div>
+      </div>
+    </div>
+
+    <!-- VIEW 2: RISK & POLICY -->
+    <div id="view-risk" class="view-content">
+      <h2>RISK & POLICY</h2>
+      <p class="subtitle">会社を守るための「秘密基地」のお約束</p>
+      <div class="risk-grid">
+        <div class="risk-card"><div class="risk-head">🔑 セキュリティ</div><div class="risk-body"><strong>・合言葉を守る</strong><br>clh2026を他人に教えない。<br><br><strong>・金庫を閉める</strong><br>Googleシートの共有設定を「関係者のみ」に限定する。</div></div>
+        <div class="risk-card"><div class="risk-head">⏳ 更新ラグ</div><div class="risk-body"><strong>・脳の写真を撮り直す</strong><br>Ctrl+F5でキャッシュを消して最新状態を確認する。<br><br><strong>・トラックを待つ</strong><br>プッシュ後2分は反映を待つ。</div></div>
+        <div class="risk-card"><div class="risk-head">🛡️ 法律(APPI)</div><div class="risk-body"><strong>・目的外に使わない</strong><br>採用の情報を営業に使わない。<br><br><strong>・隠し事をしない</strong><br>何に使うかをポリシーに明記し、透明性を保つ。</div></div>
+      </div>
+    </div>
+
+    <!-- VIEW 3: TEMPLATE -->
+    <div id="view-tool" class="view-content">
+      <h2>CRISIS TOOLKIT</h2>
+      <p class="subtitle">実務ですぐに使える削除完了通知書</p>
+      <div style="background:#fff; color:#333; padding:40px; border-radius:15px; font-size:10px; line-height:1.6; max-width:500px; margin:0 auto; box-shadow:0 10px 40px rgba(0,0,0,0.5);">
+        <div style="text-align:right">令和○年○月○日</div>
+        <div>[お名前様] 宛</div>
+        <div style="text-align:right">カーロックホームズ株式会社<br>代表取締役 上野原 政司</div>
+        <div style="text-align:center; font-weight:900; font-size:14px; margin:20px 0;">個人情報削除完了のご通知</div>
+        <div>先般ご依頼のあった個人情報の削除が以下の通り完了しました...</div>
+        <div style="margin-top:20px">1. 削除対象：採用応募データ一切</div>
+        <div>2. 完了日：令和○年○月○日</div>
+        <div>3. 方法：サーバーからの恒久的消去</div>
+      </div>
+      <center><button style="margin-top:30px; padding:15px 40px; background:var(--primary); color:#fff; border:none; border-radius:50px; font-weight:900; cursor:pointer;" onclick="alert('ひな型ファイルをコピーしてご利用ください')">ひな型を開く</button></center>
+    </div>
+
   </div>
 
-  <div id="info-panel">
-    <div id="detail-box">
-      <div class="detail-icon" id="d-icon">🚀</div>
-      <div class="detail-title" id="d-title">部署名</div>
-      <div class="detail-role" id="d-role">ここに役割の説明が表示されます。丸をクリックしてみてください。</div>
-      <div class="detail-tag" id="d-tag">KEY ROLE</div>
-    </div>
+  <div id="side-panel">
+    <div id="p-title" class="panel-title">HUB DATA</div>
+    <div id="p-text" class="panel-text">各部署をクリックすると、詳細な役割が表示されます。</div>
   </div>
 
   <script>
-    const data = {
-      hub: { icon: '🍊', title: '経営・CSハブ', role: '会社の心臓部であり情報センターです。すべての現場状況と売上データが集まり、次の戦略を決定します。ハブが機能することで、全部門がバラバラにならず一つのチームとして動けます。', tag: 'DECISION & CORE' },
-      sales: { icon: '🚀', title: '攻め：営業部', role: '新規のお客様や法人パートナーを開拓する「燃料」の役割です。ニーズを掘り起こし、サービス部へ最高のパスを繋ぎます。会社の成長速度を決めるエンジンです。', tag: 'REVENUE GROWTH' },
-      service: { icon: '🔧', title: '現場：サービス部', role: '鍵のトラブルを解決する、会社の「一番の看板」です。最高技術と誠実な対応で「ありがとう」を直接生み出します。お客様の安心を物理的に守る部隊です。', tag: 'PROFESSIONAL SKILLS' },
-      dx: { icon: '⚡', title: '加速：DX・広報室', role: 'IT技術でみんなの仕事を楽にする「魔法」の部門です。採用サイトの運営や受発注アプリの改善、情報の守備（セキュリティ）を実際に担当し、会社を加速させます。', tag: 'IT & PROTECTION' },
-      admin: { icon: '🏢', title: '土台：管理部', role: '経理・人事・法務を担う「土台」です。しっかりとした給与計算や採用活動、コンプライアンスの維持により、全員が安心して働ける環境を支えます。', tag: 'FOUNDATION' },
-      legal: { icon: '🛡️', title: '盾：顧問弁護士', role: '外部から会社を守る「最強の盾」です。契約書の不備を防ぎ、トラブル発生時には法律という盾を持って交渉にあたります。経営の安全を担保するシールドです。', tag: 'EXTERNAL SHIELD' },
-      safety: { icon: '🔰', title: '教育・安全管理', role: '「事故ゼロ」と「品質向上」の番人です。新人教育や現場の安全パトロールを行い、会社の信頼を底上げします。', tag: 'QUALITY CONTROL' }
+    const hubData = {
+      hub: { t:'経営・CSハブ', d:'情報の中心地。全部門の状況を集約し、社長が次の経営判断を即座に下すためのコントロールタワーです。' },
+      sales: { t:'営業部', d:'会社の成長を加速させる燃料。新規案件の獲得と法人提携を担います。' },
+      service: { t:'サービス部', d:'収益の源泉。高い技術で現場をこなし、お客様の信頼を物理的に守り切ります。' },
+      dx: { t:'DX・広報室', d:'システムの盾と矛。業務を自動化し、情報を敵から守り、WEBで人を集めます。' },
+      admin: { t:'管理部', d:'会社の土台。50人の生活を守るための経理・人事・法務を完璧にこなします。' },
+      legal: { t:'顧問弁護士', d:'外部の盾。法的リスクから会社を徹底的にガードするシールド役です。' },
+      safety: { t:'安全管理', d:'信頼の番人。事故を防ぎ、品質を最高レベルに保つ教育部隊です。' }
     };
 
-    const canvas = document.getElementById('main-canvas');
+    const canvas = document.getElementById('hub-canvas');
     const svg = document.getElementById('svg-lines');
-    const r = 220;
-    const items = [
-      { id: 'sales', angle: -90 },
-      { id: 'service', angle: -35 },
-      { id: 'dx', angle: 25 },
-      { id: 'admin', angle: 85 },
-      { id: 'legal', angle: 145 },
-      { id: 'safety', angle: 205 }
-    ];
+    const r = 200;
+    const angles = [-90, -35, 25, 85, 145, 205];
+    const ids = ['sales','service','dx','admin','legal','safety'];
 
-    items.forEach(item => {
-      const info = data[item.id];
-      const rad = item.angle * Math.PI / 180;
-      const x = (canvas.clientWidth / 2) + r * Math.cos(rad) - 50;
-      const y = (canvas.clientHeight / 2) + r * Math.sin(rad) - 50;
+    angles.forEach((a, i) => {
+      const rad = a * Math.PI / 180;
+      const x = (canvas.clientWidth / 2) + r * Math.cos(rad) - 45;
+      const y = (canvas.clientHeight / 2) + r * Math.sin(rad) - 45;
 
-      const el = document.createElement('div');
-      el.className = 'node sub-node';
-      el.style.left = x + 'px'; el.style.top = y + 'px';
-      el.innerHTML = `<i>${info.icon}</i><div>${info.title}</div>`;
-      el.onclick = () => showDetail(item.id);
-      canvas.appendChild(el);
+      const n = document.createElement('div');
+      n.className = 'node s-node';
+      n.style.left = x + 'px'; n.style.top = y + 'px';
+      n.innerHTML = `<div style="font-size:24px">${['🚀','🔧','⚡','🏢','🛡️','🔰'][i]}</div>${hubData[ids[i]].t}`;
+      n.onclick = () => updatePanel(ids[i]);
+      canvas.appendChild(n);
 
-      const line = document.createElementNS("http://www.w3.org/2000/svg", "line");
-      line.setAttribute("x1", canvas.clientWidth / 2);
-      line.setAttribute("y1", canvas.clientHeight / 2);
-      line.setAttribute("x2", x + 50);
-      line.setAttribute("y2", y + 50);
-      line.setAttribute("class", "link-line");
-      svg.appendChild(line);
+      const l = document.createElementNS("http://www.w3.org/2000/svg", "line");
+      l.setAttribute("x1", canvas.clientWidth / 2);
+      l.setAttribute("y1", canvas.clientHeight / 2);
+      l.setAttribute("x2", x + 45); l.setAttribute("y2", y + 45);
+      l.setAttribute("class", "link-line");
+      svg.appendChild(l);
     });
 
-    function showDetail(id) {
-      const box = document.getElementById('detail-box');
-      box.classList.remove('active');
-      setTimeout(() => {
-        const info = data[id];
-        document.getElementById('d-icon').innerText = info.icon;
-        document.getElementById('d-title').innerText = info.title;
-        document.getElementById('d-role').innerText = info.role;
-        document.getElementById('d-tag').innerText = info.tag;
-        box.classList.add('active');
-      }, 100);
+    function updatePanel(id) {
+       document.getElementById('p-title').innerText = hubData[id].t;
+       document.getElementById('p-text').innerText = hubData[id].d;
     }
 
-    // Init with Hub
-    window.onload = () => { showDetail('hub'); };
+    function switchView(i, btn) {
+      document.querySelectorAll('.view-content').forEach(v => v.classList.remove('active'));
+      document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+      document.querySelectorAll('.view-content')[i].classList.add('active');
+      btn.classList.add('active');
+      if(i === 2) updatePanel('risk');
+    }
+
+    function updatePanelSimple(t, d) {
+      document.getElementById('p-title').innerText = t;
+      document.getElementById('p-text').innerText = d;
+    }
+
     window.onresize = () => location.reload();
   </script>
 </body>
