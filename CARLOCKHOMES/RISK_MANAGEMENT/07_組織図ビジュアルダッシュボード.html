@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>CLH Enterprise Transformation Portal vUltimate-Final</title>
+  <title>CLH Enterprise Master Portal vAbsolute-Final</title>
   <link href="https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@400;700;900&family=Outfit:wght@900&display=swap" rel="stylesheet">
   <style>
     :root {
@@ -24,11 +24,11 @@
     .view-content { position: absolute; inset: 0; padding: 50px; display: none; opacity: 0; transform: translateY(10px); transition: 0.4s; overflow-y: auto; }
     .view-content.active { display: block; opacity: 1; transform: translateY(0); }
 
-    /* ── PAGE 0: REFORM ROADMAP ── */
+    /* ── View 0: Reform Roadmap ── */
     .compare-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 30px; margin-top: 10px; }
-    .model-card { background: var(--card-bg); border-radius: 30px; padding: 40px; border: 2px solid var(--border); }
-    .stat-val { font-family: 'Outfit'; font-size: 36px; font-weight: 900; color: var(--accent); margin: 15px 0; }
-    .booster-badge { display: inline-block; background: var(--accent); color: #000; padding: 6px 16px; border-radius: 50px; font-weight: 900; font-size: 11px; margin-top: 15px; }
+    .model-card { background: var(--card-bg); border-radius: 30px; padding: 35px; border: 2px solid var(--border); }
+    .stat-val { font-family: 'Outfit'; font-size: 36px; font-weight: 900; color: var(--accent); margin: 10px 0; }
+    .booster-badge { display: inline-block; background: var(--accent); color: #000; padding: 6px 16px; border-radius: 50px; font-weight: 900; font-size: 11px; margin-top: 10px; }
     
     .timeline-container { margin: 40px 0; background: rgba(255,255,255,0.03); padding: 35px; border-radius: 40px; border: 1px solid var(--border); text-align: center; }
     .timeline-flex { display: flex; justify-content: space-between; position: relative; margin-top: 30px; }
@@ -37,28 +37,29 @@
     .step-dot { width: 30px; height: 30px; background: var(--bg); border: 3px solid var(--accent); border-radius: 50%; margin: 0 auto 15px; }
     .step.active .step-dot { background: var(--accent); box-shadow: 0 0 20px var(--accent); }
 
-    /* ── PAGE 1: ORGANIZATION HUB ── */
+    /* ── View 1: Hub ── */
     #hub-wrap { width: 100%; height: 500px; position: relative; border: 1px solid var(--border); border-radius: 30px; background: rgba(0,0,0,0.2); overflow: hidden; }
     .node { position: absolute; border-radius: 50%; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; cursor: pointer; transition: 0.4s; border: 1px solid var(--border); background: var(--glass); backdrop-filter: blur(8px); transform: translate(-50%, -50%); }
-    .c-node { width: 150px; height: 150px; background: radial-gradient(circle, var(--primary), #c0392b); z-index: 100; font-weight: 900; box-shadow: 0 0 30px rgba(255,127,80,0.3); }
+    .c-node { width: 150px; height: 150px; background: radial-gradient(circle, var(--primary), #c0392b); z-index: 100; font-weight: 900; }
     .s-node { width: 95px; height: 95px; font-size: 10px; font-weight: 700; z-index: 50; }
-    .node-num { font-family: 'Outfit'; font-size: 13px; color: var(--accent); margin-top: 2px; }
     svg#svg-lines { position: absolute; inset: 0; width: 100%; height: 100%; z-index: 5; pointer-events: none; }
 
-    /* ── PAGE 2: RISK DEFINITION ── */
+    /* ── View 2: Risk Definition ── */
     .risk-matrix { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin-top: 30px; }
-    .risk-card { background: var(--card-bg); border-radius: 25px; padding: 35px; border: 1px solid var(--border); text-align: center; }
-    .risk-title { font-weight: 900; font-size: 19px; color: var(--accent); margin: 15px 0; }
-    .risk-body { font-size: 13px; line-height: 2; color: #cbd5e1; }
+    .risk-card { background: var(--card-bg); border-radius: 25px; padding: 30px; border: 1px solid var(--border); text-align: center; }
+    .risk-body { font-size: 13px; line-height: 2.2; color: #cbd5e1; }
 
-    /* ── PAGE 3: DOCUMENTS FULL ── */
-    .doc-outer { background: #fff; color: #1e293b; padding: 60px 80px; border-radius: 4px; border: 1px solid #ccc; font-size: 13px; line-height: 1.8; max-width: 800px; margin: 0 auto 50px; box-shadow: 0 30px 80px rgba(0,0,0,0.5); min-height: 900px; }
+    /* ── View 3: LEGAL DOCUMENTS (HIGH FIDELITY) ── */
+    .doc-outer { background: #fff; color: #1e293b; padding: 80px; border-radius: 4px; font-size: 13px; line-height: 1.8; max-width: 850px; margin: 0 auto 50px; box-shadow: 0 30px 80px rgba(0,0,0,0.5); min-height: 1050px; text-align: justify; }
     .doc-preview { display: none; }
     .doc-preview.active { display: block; }
-    .doc-headline { text-align: center; font-weight: 900; font-size: 19px; margin-bottom: 40px; border-bottom: 2px solid #333; padding-bottom: 15px; width: 100%; }
+    .doc-header-legal { display: flex; justify-content: space-between; margin-bottom: 50px; }
+    .doc-title-legal { text-align: center; font-weight: 900; font-size: 21px; margin-bottom: 50px; border-bottom: 2px solid #333; padding-bottom: 15px; width: 100%; letter-spacing: 0.2em; }
+    .doc-clause-title { font-weight: 900; margin-top: 35px; border-left: 5px solid #333; padding-left: 15px; margin-bottom: 12px; font-size: 14px; }
+    .doc-clause-body { padding-left: 20px; margin-bottom: 20px; }
 
     h2 { font-weight: 900; font-size: 32px; background: linear-gradient(90deg, #fff, var(--primary)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin: 0; }
-    .subtitle { color: #64748b; font-size: 14px; margin: 5px 0 20px; }
+    .subtitle { color: #64748b; font-size: 14px; margin-bottom: 20px; }
     #side-panel { width: 380px; background: rgba(8, 13, 26, 0.98); border-left: 1px solid var(--border); padding: 50px 40px; display: none; flex-direction: column; overflow-y: auto; z-index: 3000; }
   </style>
 </head>
@@ -73,25 +74,23 @@
 
   <div id="main-view">
     
-    <!-- PAGE 0: THE COMPLETE REFORM ROADMAP -->
+    <!-- PAGE 0: REFORM ROADMAP -->
     <div id="view-0" class="view-content active">
       <h2>ENTERPRISE TRANSFORMATION</h2>
-      <p class="subtitle">10億円規模からの「組織大改造」：飛躍への道しるべ</p>
-      
+      <p class="subtitle">売上10億円規模からの組織改革タイムライン</p>
       <div class="compare-grid">
         <div class="model-card" style="border-color:var(--secondary)">
           <div style="font-size:22px; font-weight:900;">王道の成長モデル</div>
           <div class="stat-val">50 <span style="font-size:16px">名</span></div>
-          <p style="font-size:12px; line-height:2; color:#cbd5e1;">✅ 持続可能なリーダー育成体制<br>✅ 1人が抜けても止まらない組織の安定感</p>
+          <p style="font-size:12px; line-height:2.2; color:#cbd5e1;">✅ 持続可能なリーダー育成体制<br>✅ 組織の安定性と教育制度の確立</p>
         </div>
         <div class="model-card" style="border-color:var(--primary)">
           <div style="font-size:22px; font-weight:900;">究極の少数精鋭</div>
           <div class="stat-val" style="color:var(--primary)">33 <span style="font-size:16px">名</span></div>
-          <p style="font-size:12px; line-height:2; color:#cbd5e1;">✅ AI活用による事務・配車コストゼロ<br>✅ 1人あたり生産性3,030万の利益還元</p>
+          <p style="font-size:12px; line-height:2.2; color:#cbd5e1;">✅ AI活用による事務・配車コストゼロ<br>✅ 1人あたりの利益を爆発的に改善</p>
           <div class="booster-badge">🎁 IT導入補助金で加速</div>
         </div>
       </div>
-
       <div class="timeline-container">
         <h3 style="color:#fff; font-weight:900; margin-top:0;">🚀 REFORM TIMELINE</h3>
         <div class="timeline-flex">
@@ -100,19 +99,15 @@
           <div class="step"><div class="step-dot"></div><b>6ヶ月目：少数精鋭の完成</b><p style="font-size:10px;color:#94a3b8;margin-top:10px;">浮いた工数を法人営業へ。<br>全員の昇給と生産性向上。</p></div>
         </div>
       </div>
-
-      <div style="text-align:center;">
-        <h3 style="font-weight:900;">🛡️ THE 4 WALLS OF SECURITY</h3>
-        <div style="display:grid; grid-template-columns:repeat(4,1fr); gap:15px; margin-top:15px;">
-          <div style="background:rgba(255,255,255,0.05); padding:15px; border-radius:15px; border-top:3px solid var(--accent)"><b>組織的</b><br><small>責任者と報告ルート</small></div>
-          <div style="background:rgba(255,255,255,0.05); padding:15px; border-radius:15px; border-top:3px solid var(--accent)"><b>人的</b><br><small>誓約書と継続教育</small></div>
-          <div style="background:rgba(255,255,255,0.05); padding:15px; border-radius:15px; border-top:3px solid var(--accent)"><b>物理的</b><br><small>施錠と1分ロック</small></div>
-          <div style="background:rgba(255,255,255,0.05); padding:15px; border-radius:15px; border-top:3px solid var(--accent)"><b>技術的</b><br><small>暗号化と記録ログ</small></div>
-        </div>
+      <div style="display:grid; grid-template-columns:repeat(4,1fr); gap:15px; text-align:center;">
+        <div style="background:rgba(255,255,255,0.05); padding:15px; border-radius:15px; border-top:3px solid var(--accent)"><b>組織的壁</b></div>
+        <div style="background:rgba(255,255,255,0.05); padding:15px; border-radius:15px; border-top:3px solid var(--accent)"><b>人的壁</b></div>
+        <div style="background:rgba(255,255,255,0.05); padding:15px; border-radius:15px; border-top:3px solid var(--accent)"><b>物理的壁</b></div>
+        <div style="background:rgba(255,255,255,0.05); padding:15px; border-radius:15px; border-top:3px solid var(--accent)"><b>技術的壁</b></div>
       </div>
     </div>
 
-    <!-- PAGE 1: ORGANIZATION HUB (RE-FIXED) -->
+    <!-- PAGE 1: ORGANIZATION HUB -->
     <div id="view-1" class="view-content">
       <h2>ORGANIZATION HUB</h2>
       <p class="subtitle">全部門が連動するハブ・ネットワーク。クリックで詳細表示。</p>
@@ -122,53 +117,85 @@
       </div>
     </div>
 
-    <!-- PAGE 2: RISK DEFINITION FULL -->
+    <!-- PAGE 2: RISK DEFINITION -->
     <div id="view-2" class="view-content">
       <h2>WHAT IS RISK MANAGEMENT?</h2>
       <p class="subtitle">攻め抜くために必要な、最高性能の「ブレーキ」と「マスターキー」</p>
       <div class="risk-matrix">
         <div class="risk-card">
-          <div style="font-size:36px">💡</div><div class="risk-title">1. 想像 (Predict)</div>
+          <div style="font-size:40px">💡</div><div style="font-weight:900;font-size:20px;color:var(--accent);margin:15px 0;">1. 想像 (Predict)</div>
           <div class="risk-body">落とし穴を先に見つける力。「もし◯◯が起きたら？」と予見することで、不測の事態でのパニックを防ぎます。</div>
         </div>
         <div class="risk-card">
-          <div style="font-size:36px">🛡️</div><div class="risk-title">2. 予防 (Prevent)</div>
+          <div style="font-size:40px">🛡️</div><div style="font-weight:900;font-size:20px;color:var(--accent);margin:15px 0;">2. 予防 (Prevent)</div>
           <div class="risk-body">穴を塞ぐ「カギ」や「鎧」を用意すること。日々の業務をルール化することこそが最大の防御となります。</div>
         </div>
         <div class="risk-card">
-          <div style="font-size:36px">🧯</div><div class="risk-title">3. 対処 (Perform)</div>
+          <div style="font-size:40px">🧯</div><div style="font-weight:900;font-size:20px;color:var(--accent);margin:15px 0;">3. 対処 (Perform)</div>
           <div class="risk-body">不慮の事態でも、消火器（書類・手順）を使って被害を最小化すること。立ち直りの速さこそ経営の底力です。</div>
         </div>
       </div>
     </div>
 
-    <!-- PAGE 3: DOCUMENTS ABSOLUTE FULL -->
+    <!-- PAGE 3: LEGAL DOCUMENTS (RE-FIDELITY) -->
     <div id="view-3" class="view-content">
       <h2>DOCUMENT TOOLKIT</h2>
-      <div style="display:flex; gap:10px; margin-bottom:20px; justify-content:center;">
-        <button onclick="switchDoc(0)" style="padding:10px 20px; border-radius:50px; cursor:pointer;">1. 同意書 全文</button>
-        <button onclick="switchDoc(1)" style="padding:10px 20px; border-radius:50px; cursor:pointer;">2. 削除通知 全文</button>
+      <div style="display:flex; gap:10px; margin-bottom:30px; justify-content:center;">
+        <button onclick="switchDoc(0)" style="padding:10px 25px; border-radius:50px; cursor:pointer; font-weight:900;">1. 同意書 (法務監修版)</button>
+        <button onclick="switchDoc(1)" style="padding:10px 25px; border-radius:50px; cursor:pointer; font-weight:900;">2. 削除通知 (法務監修版)</button>
       </div>
+
       <div class="doc-outer">
+        <!-- DOC 0: CONSENT FORM -->
         <div id="doc-0" class="doc-preview active">
-          <div class="doc-headline">個人情報の取扱いに関する同意書</div>
-          <p>当社は、採用選考においてお預かりする個人情報を以下の通り適切に管理いたします。</p>
-          <p><b>1. 利用目的: </b>提出いただいた個人情報は、採用選考（面接調整、合否連絡、入社手続き等）にのみ利用いたします。目的外利用は一切行いません。</p>
-          <p><b>2. 安全管理措置: </b>漏洩、紛失、改ざん防止のため、適切なセキュリティ対策を実施し、厳重に管理いたします。スタッフ教育も徹底いたします。</p>
-          <p><b>3. 第三者提供: </b>法令に基づく場合を除き、ご本人の同意なく第三者に提供することはありません。</p>
-          <p><b>4. 権利行使: </b>本人からの開示・訂正・削除依頼には、速やかに対応いたします。下記窓口までご連絡ください。</p>
-          <br><br><div style="border:1px solid #333; height:150px; padding:30px;">署名：__________________________</div>
+          <div class="doc-header-legal"><div>令和　　年　　月　　日</div><div>カーロックホームズ株式会社<br>代表取締役 上野原 政司 殿</div></div>
+          <div class="doc-title-legal">個人情報の取扱いに関する同意書</div>
+          <p>私は、貴社（以下、カーロックホームズ株式会社）への採用応募にあたり、貴社が私の個人情報を以下の条項に基づき取り扱うことについて、十分に内容を理解し、同意いたします。</p>
+          
+          <div class="doc-clause-title">第1条（個人情報の利用目的）</div>
+          <div class="doc-clause-body">貴社は、提供された氏名、住所、連絡先、職務経歴等の個人情報を、採用選考手続き（書類選考、面接、合否連絡、および入社後の雇用管理等）の目的にのみ利用し、本人の同意なく目的外利用を行わないものとします。</div>
+
+          <div class="doc-clause-title">第2条（安全管理措置）</div>
+          <div class="doc-clause-body">貴社は、個人情報の漏洩、紛失、破壊、改ざん等を防止するため、JIS Q 15001等の基準に準拠した組織的・人的・物理的・技術的な安全管理措置を講じ、厳重に管理するものとします。</div>
+
+          <div class="doc-clause-title">第3条（第三者提供の制限）</div>
+          <div class="doc-clause-body">法令に基づく場合、または生命・財産の保護に緊急を要する場合を除き、貴社は私の承諾なく個人情報を第三者に提供・開示いたしません。</div>
+
+          <div class="doc-clause-title">第4条（情報の開示・訂正・削除）</div>
+          <div class="doc-clause-body">私は、貴社に対して自己の個人情報の開示、訂正、および利用停止・削除を求める権利を有します。請求があった場合、貴社は本人確認の上、合理的な期間内にこれに対応するものとします。</div>
+
+          <div style="margin-top:80px; padding:40px; border:1px solid #1e293b; min-height:180px;">
+            上記の条項に同意し、個人情報を提供いたします。<br><br>
+            <u>署名日：令和　　年　　月　　日　</u><br><br>
+            <u>氏名（自署）：____________________________________</u>
+          </div>
         </div>
+
+        <!-- DOC 1: DELETION NOTICE -->
         <div id="doc-1" class="doc-preview">
-          <div class="doc-headline">個人情報削除完了のご通知</div>
-          <p>拝啓 時下ますますご清栄のこととお慶び申し上げます。先般ご依頼のあった個人情報の削除が完了しましたのでご報告いたします。</p>
-          <p><b>1. 削除対象: </b>履歴書、職務経歴書、および採用システム上の全デジタルデータ。</p>
-          <p><b>2. 完了日: </b>令和○年○月○日</p>
-          <p><b>3. 削除方法: </b>サーバー上の物理削除、および紙媒体の秘密保持シュレッダー裁断を完了しております。バックアップデータも含め消去済みです。</p>
-          <br><p style="text-align:right;">カーロックホームズ株式会社 代表取締役 上野原 政司</p>
+          <div class="doc-header-legal"><div>令和　　年　　月　　日</div><div>[請求者氏名] 様 宛</div></div>
+          <div class="doc-title-legal">個人情報削除完了のご通知</div>
+          <p>拝啓　時下ますますご清栄のこととお慶び申し上げます。先般、貴殿より賜りました個人情報の削除請求に基づき、当社にて厳正に対応いたしました結果、以下の通り全ての対応が完了いたしましたので、謹んでご報告申し上げます。　敬具</p>
+          
+          <div class="doc-clause-title">1. 削除を完了した個人情報の範囲</div>
+          <div class="doc-clause-body">・当社採用選考過程においてご提供いただいた履歴書、職務経歴書、および関連する一切の個人識別データ。</div>
+
+          <div class="doc-clause-title">2. 消去・廃棄の方法</div>
+          <div class="doc-clause-body">・デジタルデータ：当社管理サーバーおよびバックアップアーカイブからの恒久的かつ復元不可能な消去を実行。<br>・物理媒体（紙）：機密保持基準（ISO27001準拠）に基づくシュレッダー裁断を完了。</div>
+
+          <div class="doc-clause-title">3. 法令に基づく例外措置</div>
+          <div class="doc-clause-body">・法人税法、労働基準法等、個別の法令により保存が義務付けられている帳簿書類等がある場合、当該保存期間が満了するまで適切に保管し、満了後に直ちに廃棄いたします。</div>
+
+          <div style="margin-top:60px; text-align:right;">
+            カーロックホームズ株式会社<br>東京都杉並区西荻北2-37-12<br>代表取締役 上野原 政司
+          </div>
+          <div style="margin-top:40px; border-top:1px dashed #999; padding-top:20px; font-size:11px;">
+            【本件に関するお問い合わせ窓口】<br>総務部・個人情報保護相談窓口（電話：03-5311-0556）
+          </div>
         </div>
       </div>
     </div>
+
   </div>
 
   <div id="side-panel">
@@ -182,8 +209,8 @@
       hub: { t:'経営・CSハブ', n:'10', i:'🍊', d:'情報の「心臓」です。社長の経営判断と、CSによる現場統制がここで一体化されます。' },
       sales: { t:'営業部', n:'5', a:-90, i:'🚀', d:'法人提携のエンジン。大手不動産・管理会社へのアプローチを担当。' },
       service: { t:'サービス部', n:'30', a:-25, i:'🔧', d:'収益の源泉。30名のスペシャリストが現場の安全を守ります。' },
-      dx: { t:'DX室', n:'2', a:35, i:'⚡', d:'システムの守護神。AIの管理、RPAによる業務の自動化を担います。' },
-      admin: { t:'管理部', n:'3', a:110, i:'🏢', d:'会社を支える土台。給与、経理、労務管理、法務を統括します。' }
+      dx: { t:'DX室', n:'2', a:35, i:'⚡', d:'システムの守護神。AIの管理、自動化を担います。' },
+      admin: { t:'管理部', n:'3', a:110, i:'🏢', d:'会社を支える土台。給与、経理、労務、法務を統括。' }
     };
     function switchView(id) {
        document.querySelectorAll('.view-content').forEach(v => { v.classList.remove('active'); v.style.display = 'none'; });
