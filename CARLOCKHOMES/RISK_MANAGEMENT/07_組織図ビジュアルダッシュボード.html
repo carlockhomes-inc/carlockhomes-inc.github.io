@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>CLH Master Strategy Portal v2.0</title>
+  <title>CLH Master Strategy Portal vFinal</title>
   <link href="https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@400;700;900&family=Outfit:wght@900&display=swap" rel="stylesheet">
   <style>
     :root {
@@ -11,11 +11,11 @@
       --secondary: #4D96FF;
       --accent: #FFD93D;
       --bg: #0f172a;
-      --glass-dark: rgba(15, 23, 42, 0.9);
-      --glass-light: rgba(255, 255, 255, 0.03);
+      --glass: rgba(255, 255, 255, 0.05);
       --border: rgba(255, 255, 255, 0.1);
+      --card-bg: rgba(30, 41, 59, 0.9);
     }
-    * { box-sizing: border-box; -webkit-font-smoothing: antialiased; }
+    * { box-sizing: border-box; }
     body {
       margin: 0; padding: 0;
       background: var(--bg);
@@ -27,220 +27,154 @@
 
     /* ── Sidebar ── */
     #sidebar {
-      width: 70px; background: #080d1a;
-      border-right: 1px solid var(--border);
-      display: flex; flex-direction: column; align-items: center; padding: 25px 0;
-      gap: 20px; z-index: 1000;
+      width: 70px; background: #080d1a; border-right: 1px solid var(--border);
+      display: flex; flex-direction: column; align-items: center; padding: 25px 0; gap: 20px; z-index: 2000;
     }
     .nav-btn {
       width: 46px; height: 46px; border-radius: 12px;
       display: flex; align-items: center; justify-content: center;
-      cursor: pointer; transition: 0.25s cubic-bezier(0.4, 0, 0.2, 1);
-      font-size: 20px; background: var(--glass-light); border: 1px solid var(--border);
+      cursor: pointer; transition: 0.3s; font-size: 20px;
+      background: var(--glass); border: 1px solid var(--border);
     }
-    .nav-btn.active { background: var(--primary); color: #fff; border-color: transparent; box-shadow: 0 0 15px rgba(255,127,80,0.4); }
-    .nav-btn:hover:not(.active) { background: rgba(255,127,80,0.15); border-color: var(--primary); }
+    .nav-btn.active { background: var(--primary); color: #fff; box-shadow: 0 0 15px var(--primary); border: none; }
 
-    /* ── Main Canvas ── */
-    #view-container { flex: 1; position: relative; background: #0f172a; overflow: hidden; }
-    .view-content {
-      position: absolute; inset: 0; padding: 40px;
-      display: none; opacity: 0;
-      transform: translateY(10px);
-      transition: opacity 0.3s ease, transform 0.3s ease;
-      background: #0f172a; /* 背景をしっかり塗ることで残像防止 */
-    }
-    .view-content.active { display: block; opacity: 1; transform: translateY(0); z-index: 10; }
+    /* ── Main View ── */
+    #main-view { flex: 1; position: relative; overflow-y: auto; background: #0f172a; }
+    .view-content { display: none; padding: 40px; opacity: 0; transform: translateY(10px); transition: 0.4s; }
+    .view-content.active { display: block; opacity: 1; transform: translateY(0); }
 
-    /* ── View 0: Hub Graph ── */
-    #hub-canvas { width: 100%; height: 100%; position: relative; }
-    .node { 
-      position: absolute; border-radius: 50%; display: flex; flex-direction: column; align-items: center; justify-content: center; 
-      text-align: center; cursor: pointer; transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
-      border: 1px solid var(--border); background: var(--glass-light); backdrop-filter: blur(8px);
-      will-change: transform; /* アニメーション安定化 */
-    }
-    .c-node { width: 150px; height: 150px; background: radial-gradient(circle at 30% 30%, var(--primary), #c0392b); z-index: 50; font-weight: 900; animation: pulse 4s infinite; }
-    .s-node { width: 96px; height: 96px; font-size: 10px; font-weight: 700; }
-    .node:hover { transform: scale(1.12); border-color: var(--primary); z-index: 60; }
-    .node-num { font-family: 'Outfit'; font-size: 13px; color: var(--accent); margin-top: 4px; }
+    /* ── View 0: PRESENTATION COMPARISON ── */
+    .compare-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 30px; margin-top: 20px; }
+    .model-card { background: var(--card-bg); border-radius: 30px; padding: 40px; border: 2px solid var(--border); position: relative; }
+    .model-card.ideal { border-color: var(--secondary); }
+    .model-card.elite { border-color: var(--primary); }
+    .badge { position: absolute; top: 20px; right: 20px; padding: 5px 15px; border-radius: 50px; font-size: 10px; font-weight: 900; background: rgba(255,255,255,0.1); }
     
+    .stat-row { display: flex; align-items: center; justify-content: space-between; margin-bottom: 20px; border-bottom: 1px solid var(--border); padding-bottom: 15px; }
+    .stat-val { font-family: 'Outfit'; font-size: 32px; font-weight: 900; color: var(--accent); }
+
+    /* ── View 1: HUB GRAPH ── */
+    #hub-canvas { width: 100%; height: 550px; position: relative; }
+    .node { position: absolute; border-radius: 50%; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; cursor: pointer; transition: 0.3s; border: 1px solid var(--border); background: var(--glass); backdrop-filter: blur(5px); }
+    .c-node { width: 150px; height: 150px; background: radial-gradient(circle, var(--primary), #c0392b); z-index: 100; font-weight: 900; }
+    .s-node { width: 96px; height: 96px; font-size: 10px; font-weight: 700; }
+    .node-num { font-family: 'Outfit'; font-size: 13px; color: var(--accent); margin-top: 3px; }
     svg { position: absolute; inset: 0; width: 100%; height: 100%; z-index: 5; pointer-events: none; }
-    .link-line { stroke: var(--primary); stroke-width: 1.5; opacity: 0.15; stroke-dasharray: 4; animation: dash 40s linear infinite; }
 
-    /* ── View 1: Personnel ── */
-    .stat-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; }
-    .stat-card { background: rgba(255,255,255,0.03); border: 1px solid var(--border); padding: 25px; border-radius: 20px; text-align: center; }
-    .stat-num { font-family: 'Outfit'; font-size: 42px; color: var(--primary); margin: 5px 0; }
-
-    /* ── View 3: Document Toolkit ── */
-    .doc-container { display: flex; flex-direction: column; gap: 20px; align-items: center; }
+    /* ── View 3: DOCUMENTS ── */
     .doc-preview {
-      background: #fff; color: #1e293b; padding: 40px 60px; border-radius: 4px;
-      font-size: 11px; line-height: 1.7; max-width: 650px; width: 100%;
-      border: 1px solid #ddd; box-shadow: 0 20px 40px rgba(0,0,0,0.5); display: none;
+      background: #fff; color: #1e293b; padding: 40px 60px; border-radius: 4px; border: 1px solid #ccc;
+      font-size: 11px; line-height: 1.7; max-width: 700px; margin: 0 auto; box-shadow: 0 20px 50px rgba(0,0,0,0.5); display: none;
     }
     .doc-preview.active { display: block; }
 
-    /* ── Side Panel ── */
-    #side-panel {
-      width: 320px; background: #080d1a; border-left: 1px solid var(--border);
-      padding: 40px; display: flex; flex-direction: column; z-index: 1000;
-    }
-    .panel-title { font-size: 22px; font-weight: 900; color: var(--primary); margin-bottom: 5px; }
-    .panel-count { font-family: 'Outfit'; font-size: 32px; margin-bottom: 20px; border-bottom: 2px solid var(--primary); display: inline-block; width: fit-content; }
-    .panel-role { font-size: 14px; line-height: 2; color: #94a3b8; }
-
-    @keyframes pulse { 0%,100% { box-shadow: 0 0 15px var(--primary); } 50% { box-shadow: 0 0 40px var(--primary); } }
-    @keyframes dash { to { stroke-dashoffset: -1000; } }
-
-    h2 { font-weight: 900; font-size: 28px; background: linear-gradient(90deg, #fff, var(--primary)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin: 0; }
-    .subtitle { color: #64748b; font-size: 13px; margin: 10px 0 25px; }
+    /* ── Layout Utils ── */
+    h2 { font-weight: 900; font-size: 30px; margin: 0; background: linear-gradient(90deg, #fff, var(--primary)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+    .subtitle { color: #64748b; font-size: 13px; margin: 8px 0 25px; }
   </style>
 </head>
 <body>
 
   <nav id="sidebar">
-    <div id="btn-0" class="nav-btn active" onclick="switchView(0)">🌐</div>
-    <div id="btn-1" class="nav-btn" onclick="switchView(1)">👥</div>
+    <div id="btn-0" class="nav-btn active" onclick="switchView(0)">📊</div>
+    <div id="btn-1" class="nav-btn" onclick="switchView(1)">🌐</div>
     <div id="btn-2" class="nav-btn" onclick="switchView(2)">🛡️</div>
     <div id="btn-3" class="nav-btn" onclick="switchView(3)">📄</div>
   </nav>
 
-  <div id="view-container">
+  <div id="main-view">
     
-    <!-- HUB -->
+    <!-- VIEW 0: PRESENTATION -->
     <div id="view-0" class="view-content active">
+      <h2>STRATEGIC ROADMAP</h2>
+      <p class="subtitle">売上10億円への二つの選択肢：安定の50名か、究極の33名か</p>
+      <div class="compare-grid">
+        <div class="model-card ideal">
+          <div class="badge">STANDARD</div>
+          <div style="font-size:24px; font-weight:900;">王道の成長モデル</div>
+          <p style="font-size:12px; margin-bottom:30px; opacity:0.7;">教育と安定を重視した50名体制</p>
+          <div class="stat-row"><span>目標人員</span><span class="stat-val">50 <span style="font-size:14px">名</span></span></div>
+          <div class="stat-row"><span>生産性目標</span><span class="stat-val">2,000 <span style="font-size:14px">万</span></span></div>
+          <p style="font-size:12px; line-height:2; color:#cbd5e1;">✅ 次世代リーダーを育成する余りがある<br>✅ 1人の欠員の影響が少ない（安定経営）<br>✅ 人間味あふれる接客サービスが強み</p>
+        </div>
+        <div class="model-card elite">
+          <div class="badge">ULTRA ELITE</div>
+          <div style="font-size:24px; font-weight:900;">究極の少数精鋭</div>
+          <p style="font-size:12px; margin-bottom:30px; opacity:0.7;">AIとDXを限界まで使った33名体制</p>
+          <div class="stat-row"><span>目標人員</span><span class="stat-val">33 <span style="font-size:14px">名</span></span></div>
+          <div class="stat-row"><span>生産性目標</span><span class="stat-val">3,030 <span style="font-size:14px">万</span></span></div>
+          <p style="font-size:12px; line-height:2; color:#cbd5e1;">✅ AI活用による事務・配車コストゼロ<br>✅ 浮いた人件費を現メンバーに最大限還元<br>✅ 無駄が一切ないF1マシンのような組織</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- VIEW 1: HUB -->
+    <div id="view-1" class="view-content">
       <h2>ORGANIZATION HUB</h2>
-      <p class="subtitle">会社全体の機能と人員規模を俯瞰するハブ・ネットワーク</p>
+      <p class="subtitle">部門間の繋がりと人員配置を一望する</p>
       <div id="hub-canvas">
         <svg id="svg-lines"></svg>
-        <div id="n-hub" class="node c-node" onclick="updatePanel('hub')">
-          <div style="font-size:32px">🍊</div>ハブ<div class="node-num">10名</div>
+        <div id="n-hub" class="node c-node" style="left:calc(50% - 75px); top:calc(50% - 75px);">
+          <div style="font-size:32px">🍊</div>ハブ
         </div>
       </div>
     </div>
 
-    <!-- PERSONNEL -->
-    <div id="view-1" class="view-content">
-      <h2>PERSONNEL SIMULATION</h2>
-      <p class="subtitle">売上10億円・合計50名体制の最適バランス</p>
-      <div class="stat-grid">
-        <div class="stat-card"><div>現場サービス</div><div class="stat-num">30</div><div>人 (60%)</div></div>
-        <div class="stat-card"><div>CS・受発注</div><div class="stat-num">10</div><div>人 (20%)</div></div>
-        <div class="stat-card"><div>法人営業</div><div class="stat-num">5</div><div>人 (10%)</div></div>
-        <div class="stat-card"><div>経営・管理</div><div class="stat-num">5</div><div>人 (10%)</div></div>
-      </div>
-    </div>
-
-    <!-- RISK -->
-    <div id="view-2" class="view-content">
-      <h2>RISK & POLICY</h2>
-      <p class="subtitle">情報の守りと、最新の法律知識ガイド</p>
-      <div style="background:rgba(255,255,255,0.02); padding:30px; border-radius:20px; border:1px solid var(--border);">
-        <h4 style="color:var(--primary)">🔑 秘密基地のお約束</h4>
-        <p style="font-size:14px; line-height:2;">・clh2026を絶対に漏らさない<br>・Ctrl+F5で常に最新状態を確認</p>
-      </div>
-    </div>
-
-    <!-- DOCS -->
+    <!-- VIEW 3: DOCUMENTS -->
     <div id="view-3" class="view-content">
-      <h2>DOCUMENT TOOLKIT</h2>
-      <div class="doc-container">
-        <div style="display:flex;gap:10px;margin-bottom:20px;">
-          <button style="padding:10px 20px;border-radius:50px;cursor:pointer;" onclick="switchDoc(0)">同意書</button>
-          <button style="padding:10px 20px;border-radius:50px;cursor:pointer;" onclick="switchDoc(1)">通知書</button>
-        </div>
-        <div id="d-0" class="doc-preview active">
-          <center><b>個人情報の取扱いに関する同意書</b></center><br>
-          当社は、お預かりする個人情報を以下の通り適切に管理・保護いたします...
-        </div>
-        <div id="d-1" class="doc-preview">
-          <center><b>個人情報削除完了のご通知</b></center><br>
-          先般ご依頼のありました個人情報の削除請求につきまして、対応が完了しました...
-        </div>
+      <h2>DOCUMENTS</h2>
+      <div style="display:flex; gap:10px; margin-bottom:20px;">
+        <button onclick="switchDoc(0)">同意書</button><button onclick="switchDoc(1)">削除通知</button>
+      </div>
+      <div id="d-0" class="doc-preview active">
+        <center><b>個人情報の取扱いに関する同意書</b></center><br>
+        当社は、お預かりする個人情報を以下の通り、適切に管理・保護いたします...
+      </div>
+      <div id="d-1" class="doc-preview">
+        <center><b>個人情報削除完了のご通知</b></center><br>
+        1. 削除対象：氏名、住所、連絡先等の一切のデータ...
       </div>
     </div>
-  </div>
 
-  <div id="side-panel">
-    <div id="p-title" class="panel-title">HUB DATA</div>
-    <div id="p-count" class="panel-count">0名</div>
-    <div id="p-text" class="panel-role">詳細を表示するには、丸をクリックしてください。</div>
   </div>
 
   <script>
+    function switchView(id) {
+      document.querySelectorAll('.view-content').forEach(v => { v.classList.remove('active'); v.style.display = 'none'; });
+      document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+      const t = document.getElementById('view-'+id);
+      t.style.display = 'block';
+      setTimeout(() => { t.classList.add('active'); document.getElementById('btn-'+id).classList.add('active'); }, 10);
+      if(id === 1) initHub();
+    }
+
     const hubData = {
-      hub: { t:'経営・CSハブ', n:'10', d:'情報の中心地。社長の経営判断とCSの現場管理が合体した、会社を動かす心臓部です。' },
-      sales: { t:'法人営業部', n:'5', d:'大手提携先を開拓するエンジン。提携によって安定した仕事の流れを確保します。' },
-      service: { t:'現場サービス部', n:'30', d:'収益の源泉。30名の隊員が現場で最高技術を提供し、顧客満足を生み出します。' },
-      dx: { t:'DX・広報室', n:'2', d:'自動化と集客の魔法使い。1人2,000万の生産性を支えるためのITシステムを管理。' },
-      admin: { t:'管理部', n:'3', d:'不滅の土台。給与、採用、経理を完璧に回すことで全員の生活を守ります。' }
+      sales: { t:'営業', n:'5', a:-90, i:'🚀' }, service: { t:'サービス', n:'30', a:-30, i:'🔧' },
+      dx: { t:'DX', n:'2', a:30, i:'⚡' }, admin: { t:'管理', n:'3', a:110, i:'🏢' }
     };
 
-    const container = document.getElementById('view-0');
-    const svg = document.getElementById('svg-lines');
-    const cNode = document.getElementById('n-hub');
-    const r = 200;
-    const targets = [
-      { id:'sales', a:-90, i:'🚀' }, { id:'service', a:-30, i:'🔧' },
-      { id:'dx', a:30, i:'⚡' }, { id:'admin', a:110, i:'🏢' }
-    ];
-
     function initHub() {
-      const centerX = container.clientWidth / 2;
-      const centerY = container.clientHeight / 2;
-      cNode.style.left = (centerX - 75) + 'px';
-      cNode.style.top = (centerY - 75) + 'px';
-      
-      svg.innerHTML = ''; // Clear previous lines
-      targets.forEach(t => {
-        const rad = t.a * Math.PI / 180;
-        const x = centerX + r * Math.cos(rad) - 48;
-        const y = centerY + r * Math.sin(rad) - 48;
-
-        const n = document.createElement('div');
-        n.className = 'node s-node';
-        n.style.left = x + 'px'; n.style.top = y + 'px';
-        n.innerHTML = `<div style="font-size:30px">${t.i}</div>${hubData[t.id].t}<div class="node-num">${hubData[t.id].n}名</div>`;
-        n.onclick = () => updatePanel(t.id);
-        container.appendChild(n);
-
+      const canvas = document.getElementById('view-1');
+      const svg = document.getElementById('svg-lines');
+      const cx = canvas.clientWidth / 2; const cy = canvas.clientHeight / 2;
+      svg.innerHTML = '';
+      Object.keys(hubData).forEach(k => {
+        const d = hubData[k]; const rad = d.a * Math.PI / 180;
+        const x = cx + 200 * Math.cos(rad) - 48; const y = cy + 200 * Math.sin(rad) - 48;
+        const n = document.createElement('div'); n.className = 'node s-node';
+        n.style.left = x+'px'; n.style.top = y+'px';
+        n.innerHTML = `<div style="font-size:30px">${d.i}</div>${d.t}<div class="node-num">${d.n}名</div>`;
+        canvas.appendChild(n);
         const l = document.createElementNS("http://www.w3.org/2000/svg", "line");
-        l.setAttribute("x1", centerX); l.setAttribute("y1", centerY);
-        l.setAttribute("x2", x + 48); l.setAttribute("y2", y + 48);
-        l.setAttribute("class", "link-line");
+        l.setAttribute("x1", cx); l.setAttribute("y1", cy); l.setAttribute("x2", x+48); l.setAttribute("y2", y+48);
+        l.setAttribute("stroke", "rgba(255,127,80,0.3)"); l.setAttribute("stroke-width", "2");
         svg.appendChild(l);
       });
     }
-
-    function updatePanel(id) {
-      const info = hubData[id];
-      document.getElementById('p-title').innerText = info.t;
-      document.getElementById('p-count').innerText = info.n + '名';
-      document.getElementById('p-text').innerText = info.d;
-    }
-
-    function switchView(id) {
-      document.querySelectorAll('.view-content').forEach(v => { v.classList.remove('active'); });
-      document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
-      
-      const target = document.getElementById('view-'+id);
-      target.style.display = 'block';
-      setTimeout(() => { 
-        target.classList.add('active'); 
-        document.getElementById('btn-'+id).classList.add('active');
-        if(id === 0) updatePanel('hub');
-      }, 10);
-    }
-
     function switchDoc(id) {
       document.querySelectorAll('.doc-preview').forEach(d => d.classList.remove('active'));
       document.getElementById('d-'+id).classList.add('active');
     }
-
-    window.onload = () => { initHub(); updatePanel('hub'); };
-    window.onresize = () => location.reload();
   </script>
 </body>
 </html>
