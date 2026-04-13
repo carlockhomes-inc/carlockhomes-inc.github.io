@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>CLH Master Strategy Portal v2</title>
+  <title>CLH Master Strategy Portal v3</title>
   <link href="https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@400;700;900&family=Outfit:wght@900&display=swap" rel="stylesheet">
   <style>
     :root {
@@ -45,41 +45,61 @@
     #main-view { flex: 1; position: relative; overflow: hidden; }
     .view-content {
       position: absolute; inset: 0; padding: 40px;
-      display: none; opacity: 0; transition: 0.5s;
+      display: none; opacity: 0; transition: 0.4s; overflow-y: auto;
     }
     .view-content.active { display: block; opacity: 1; }
 
     /* ── View 0: Hub Graph ── */
-    #hub-canvas { width: 100%; height: 100%; position: relative; }
+    #hub-canvas { width: 100%; height: 600px; position: relative; margin-top:20px; }
     .node { position: absolute; border-radius: 50%; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; cursor: pointer; transition: 0.4s; border: 1px solid var(--border); }
-    .c-node { width: 170px; height: 170px; background: radial-gradient(circle, var(--primary) 0%, #c0392b 100%); z-index: 100; font-weight: 900; animation: pulse 4s infinite; }
+    .c-node { width: 160px; height: 160px; background: radial-gradient(circle, var(--primary) 0%, #c0392b 100%); z-index: 100; font-weight: 900; animation: pulse 4s infinite; }
     .s-node { width: 100px; height: 100px; background: var(--glass); font-size: 10px; font-weight: 700; backdrop-filter: blur(10px); }
-    .node-num { font-family: 'Outfit'; font-size: 14px; background: rgba(0,0,0,0.3); padding: 2px 8px; border-radius: 50px; margin-top: 5px; color: var(--accent); }
+    .node-num { font-family: 'Outfit'; font-size: 13px; background: rgba(0,0,0,0.3); padding: 2px 8px; border-radius: 50px; margin-top: 5px; color: var(--accent); }
     svg { position: absolute; inset: 0; width: 100%; height: 100%; z-index: 1; pointer-events: none; }
 
     /* ── View 1: Personnel Stats ── */
-    .stat-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; margin-top: 40px; }
-    .stat-card { background: var(--card-bg); border-radius: 24px; padding: 30px; border: 1px solid var(--border); text-align: center; }
-    .stat-num { font-family: 'Outfit'; font-size: 48px; color: var(--primary); margin: 10px 0; }
-    .chart-bar { height: 10px; background: var(--primary); border-radius: 50px; transition: 1s; }
+    .stat-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 20px; margin-top: 20px; }
+    .stat-card { background: var(--card-bg); border-radius: 20px; padding: 25px; border: 1px solid var(--border); text-align: center; }
+    .stat-num { font-family: 'Outfit'; font-size: 40px; color: var(--primary); margin: 5px 0; }
+    .chart-bar-bg { background: rgba(255,255,255,0.05); height: 8px; border-radius: 10px; margin-top: 15px; overflow: hidden; }
+    .chart-bar { height: 100%; transition: 1s cubic-bezier(0.19, 1, 0.22, 1); }
+
+    /* ── View 2: Risk & Policy (DETAILED) ── */
+    .risk-section { margin-top:30px; }
+    .risk-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+    .risk-card { background: var(--card-bg); border-radius: 20px; border: 1px solid var(--border); overflow: hidden; }
+    .risk-head { padding: 15px 20px; background: rgba(255,255,255,0.05); font-weight: 900; color: var(--accent); }
+    .risk-body { padding: 20px; font-size: 13px; line-height: 1.8; color: #cbd5e1; }
+    .risk-body strong { color: #fff; border-bottom: 2px solid var(--primary); }
+
+    /* ── View 3: Template (FULL TEXT) ── */
+    .doc-preview {
+      background: #fafafa; color: #1e293b; padding: 60px; border-radius: 10px;
+      font-size: 13px; line-height: 1.8; max-width: 700px; margin: 20px auto;
+      box-shadow: 0 20px 50px rgba(0,0,0,0.6); position: relative;
+    }
+    .doc-preview:before { content: "DRAFT TEMPLATE"; position: absolute; top: 20px; left: 20px; font-size: 10px; color: #ccc; letter-spacing: 2px; }
 
     /* ── Side Panel ── */
     #side-panel {
-      width: 350px; background: rgba(15, 23, 42, 0.8); backdrop-filter: blur(20px);
-      border-left: 1px solid var(--border); padding: 40px;
-      display: flex; flex-direction: column; justify-content: center; z-index: 3000;
+      width: 400px; background: rgba(15, 23, 42, 0.85); backdrop-filter: blur(20px);
+      border-left: 1px solid var(--border); padding: 50px 40px;
+      display: flex; flex-direction: column; overflow-y: auto; z-index: 3000;
     }
-    .panel-title { font-size: 24px; font-weight: 900; color: var(--primary); margin-bottom: 5px; }
-    .panel-count { font-family: 'Outfit'; font-size: 32px; color: #fff; margin-bottom: 20px; border-bottom: 1px solid var(--border); padding-bottom: 10px; }
-    .panel-text { font-size: 15px; line-height: 2; color: #cbd5e1; }
+    .panel-title { font-size: 26px; font-weight: 900; color: var(--primary); margin-bottom: 5px; }
+    .panel-count { font-family: 'Outfit'; font-size: 36px; color: #fff; margin-bottom: 15px; border-bottom: 2px solid var(--primary); padding-bottom: 10px; width: fit-content; }
+    .panel-role-desc { font-size: 14px; line-height: 2.2; color: #cbd5e1; }
+    .p-head { color: #fff; font-weight: 900; margin-top: 25px; border-left: 4px solid var(--primary); padding-left: 12px; }
 
-    @keyframes pulse { 0%,100% { box-shadow: 0 0 20px var(--primary); } 50% { box-shadow: 0 0 50px var(--primary); } }
+    /* Animations */
+    @keyframes pulse { 0%,100% { box-shadow: 0 0 20px var(--primary); } 50% { box-shadow: 0 0 60px var(--primary); } }
     @keyframes dash { to { stroke-dashoffset: -1000; } }
 
-    /* Layout Utils */
-    h2 { font-weight: 900; font-size: 28px; margin: 0 0 10px; }
-    .subtitle { color: #64748b; font-size: 14px; margin-bottom: 30px; }
-    .view-card { background: var(--card-bg); padding: 40px; border-radius: 30px; border: 1px solid var(--border); }
+    h2 { font-weight: 900; font-size: 32px; margin: 0; background: linear-gradient(to right, #fff, var(--primary)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+    .subtitle { color: #64748b; font-size: 14px; margin: 8px 0 20px; }
+    .view-card { background: var(--card-bg); padding: 30px; border-radius: 24px; border: 1px solid var(--border); }
+    ul { padding-left: 20px; margin: 10px 0; }
+    li { margin-bottom: 8px; }
   </style>
 </head>
 <body>
@@ -96,11 +116,11 @@
     <!-- VIEW 0: HUB -->
     <div id="view-hub" class="view-content active">
       <h2>ORGANIZATION HUB</h2>
-      <p class="subtitle">各部門をクリックすると、具体的な役割と配置人数が表示されます</p>
+      <p class="subtitle">全部門が「ハブ」を中心に結合し、10億円企業としての機能を果たします</p>
       <div id="hub-canvas">
         <svg id="svg-lines"></svg>
-        <div class="node c-node" style="top:calc(50% - 85px); left:calc(50% - 85px);" onclick="updatePanel('hub')">
-          <div style="font-size:32px">🍊</div>ハブ
+        <div class="node c-node" style="top:calc(50% - 80px); left:calc(50% - 80px);" onclick="updatePanel('hub')">
+          <div style="font-size:36px">🍊</div>ハブ
           <div class="node-num">10名</div>
         </div>
       </div>
@@ -109,41 +129,58 @@
     <!-- VIEW 1: PERSONNEL -->
     <div id="view-staff" class="view-content">
       <h2>PERSONNEL SIMULATION</h2>
-      <p class="subtitle">合計50名体制の最適バランス</p>
+      <p class="subtitle">合計50名体制：1人あたり年間生産性2,000万円という「勝利の設計図」</p>
       <div class="stat-grid">
-        <div class="stat-card"><div>現場サービス</div><div class="stat-num">30</div><div>人 (60%)</div><div style="background:rgba(255,255,255,0.05);height:10px;margin-top:20px;border-radius:10px"><div class="chart-bar" style="width:60%;background:#6BCB77"></div></div></div>
-        <div class="stat-card"><div>CS・受発注</div><div class="stat-num">10</div><div>人 (20%)</div><div style="background:rgba(255,255,255,0.05);height:10px;margin-top:20px;border-radius:10px"><div class="chart-bar" style="width:20%;background:#4D96FF"></div></div></div>
-        <div class="stat-card"><div>営業・開拓</div><div class="stat-num">5</div><div>人 (10%)</div><div style="background:rgba(255,255,255,0.05);height:10px;margin-top:20px;border-radius:10px"><div class="chart-bar" style="width:10%;background:#FFD93D"></div></div></div>
-        <div class="stat-card"><div>経営・DX等</div><div class="stat-num">5</div><div>人 (10%)</div><div style="background:rgba(255,255,255,0.05);height:10px;margin-top:20px;border-radius:10px"><div class="chart-bar" style="width:10%;background:#FF6B6B"></div></div></div>
+        <div class="stat-card"><div>現場サービス</div><div class="stat-num">30</div><div>名 (60%)</div><div class="chart-bar-bg"><div class="chart-bar" style="width:60%;background:#6BCB77"></div></div></div>
+        <div class="stat-card"><div>CS・受発注</div><div class="stat-num">10</div><div>名 (20%)</div><div class="chart-bar-bg"><div class="chart-bar" style="width:100%;background:#4D96FF"></div></div></div>
+        <div class="stat-card"><div>法人営業</div><div class="stat-num">5</div><div>名 (10%)</div><div class="chart-bar-bg"><div class="chart-bar" style="width:10%;background:#FFD93D"></div></div></div>
+        <div class="stat-card"><div>経営・DX等</div><div class="stat-num">5</div><div>名 (10%)</div><div class="chart-bar-bg"><div class="chart-bar" style="width:10%;background:#FF6B6B"></div></div></div>
       </div>
-      <div class="view-card" style="margin-top:40px;">
-         <h3 style="margin-top:0">🚀 生産性のゴール</h3>
-         <div style="font-size:20px; line-height:2;">1人あたりの年間生産性：<strong>2,000万円</strong></div>
-         <div style="font-size:14px; color:#94a3b8; margin-top:10px;">売上10億円 ÷ 50名 ＝ 2,000万円。DX化により事務負坦を激減させ、現場稼働率を最大化します。</div>
+      <div class="view-card" style="margin-top:30px;">
+         <h3 style="color:var(--primary);margin-top:0">🎯 なぜ「2,000万円」なのか？</h3>
+         <p style="font-size:14px; line-height:2;">日本の中小企業の平均（1,200〜1,500万）を大きく上回るこの数字は、<strong>「DXによる時間の創出」</strong>を意味します。現場スタッフが移動や事務に費やす1日1時間を、あと1件の現場作業に充てることができれば、この数字は現実のものとなります。社員への高還元と、次なる投資を生むための黄金の基準です。</p>
       </div>
     </div>
 
-    <!-- VIEW 2: RISK & POLICY (Condensed) -->
+    <!-- VIEW 2: RISK & POLICY (FULL CONTENT) -->
     <div id="view-risk" class="view-content">
       <h2>RISK & POLICY</h2>
-      <div class="view-card" style="margin-top:20px; display:grid; grid-template-columns:1fr 1fr; gap:30px;">
-        <div>
-          <h4 style="color:var(--primary)">🔑 情報の守り (Security)</h4>
-          <p style="font-size:14px;line-height:2">・合言葉(clh2026)の徹底管理<br>・Google設定の閲覧制限<br>・スマホ/PCの画面ロック習慣</p>
+      <p class="subtitle">「合言葉」から「法律」まで、会社を守るための知識全集</p>
+      
+      <div class="risk-section">
+        <h3 style="border-left:5px solid var(--primary);padding-left:15px">🎒 小学生版：基本の「お約束」</h3>
+        <div class="risk-grid">
+          <div class="risk-card"><div class="risk-head">🔑 秘密基地の合言葉</div><div class="risk-body"><strong>clh2026</strong>を絶対に教えないこと。「URLを知っているだけの人」を弾くための大切な鍵です。</div></div>
+          <div class="risk-card"><div class="risk-head">🗺️ キャッシュの魔法</div><div class="risk-body">修正したのに直ってない！？それはスマホが「古い脳」を見ているからです。<strong>Ctrl+F5</strong>で脳をリフレッシュしましょう。</div></div>
         </div>
-        <div>
-          <h4 style="color:var(--secondary)">⚖️ 法律の盾 (APPI)</h4>
-          <p style="font-size:14px;line-height:2">・利用目的（採用/発注）の明示<br>・削除依頼への迅速対応<br>・目的外利用の厳禁</p>
+      </div>
+
+      <div class="risk-section" style="margin-top:40px">
+        <h3 style="border-left:5px solid var(--secondary);padding-left:15px">⚖️ 中学生版：法律の「ウラ側」</h3>
+        <div class="risk-grid">
+          <div class="risk-card"><div class="risk-head">🎯 利用目的の特定</div><div class="risk-body">採用のために集めた情報は、営業には使えません。法的に「使い道」をカチッと決めているからです。</div></div>
+          <div class="risk-card"><div class="risk-head">🛡️ 安全管理措置</div><div class="risk-body">物理的には「鍵をかける」、技術的には「暗号化する」。この両輪で、お客様の信頼をガードします。</div></div>
         </div>
       </div>
     </div>
 
-    <!-- VIEW 3: TEMPLATE -->
+    <!-- VIEW 3: TEMPLATE (FULL CONTENT) -->
     <div id="view-tool" class="view-content">
       <h2>CRISIS TOOLKIT</h2>
-      <div style="background:#fff; color:#333; padding:40px; border-radius:15px; font-size:11px; line-height:1.6; max-width:500px; margin:20px auto; box-shadow:0 10px 40px rgba(0,0,0,0.5);">
-         <center><strong>個人情報削除完了通知書</strong></center><br>
-         ご依頼のあったデータの削除が完了しました...
+      <p class="subtitle">万が一の際、即座に発行できる公式ドキュメント（文案すべて）</p>
+      <div class="doc-preview">
+        <div style="text-align:right">令和○年○月○日</div>
+        <div>[お名前様] 宛</div><br>
+        <div style="text-align:right">東京都杉並区西荻北2-37-12<br><b>カーロックホームズ株式会社</b><br>代表取締役 上野原 政司</div><br>
+        <div style="text-align:center; font-weight:900; font-size:18px; margin:30px 0; border-bottom:2px solid #333; display:inline-block; width:100%;">個人情報削除完了のご通知</div>
+        <p>拝啓　時下ますますご清栄のこととお慶び申し上げます。先般ご依頼のありました個人情報の削除請求につきまして、以下の通り対応が完了いたしましたので、謹んでご報告申し上げます。　敬具</p>
+        <div style="margin:20px 0; font-weight:700;">1. 削除対象とした個人情報</div>
+        <ul style="list-style:none;">・当社採用サイトへの応募時にご提供いただいた氏名、住所、連絡先等の一切のデータ</ul>
+        <div style="margin:20px 0; font-weight:700;">2. 削除完了日</div>
+        <ul style="list-style:none;">・令和○年○月○日</ul>
+        <div style="margin:20px 0; font-weight:700;">3. 削除の方法</div>
+        <ul style="list-style:none;">・当社管理サーバー上およびバックアップデータからの恒久的な消去。</ul>
+        <p style="margin-top:40px; font-size:11px; color:#666;">お問い合わせ：個人情報相談担当係（03-5311-0556）</p>
       </div>
     </div>
 
@@ -152,22 +189,23 @@
   <div id="side-panel">
     <div id="p-title" class="panel-title">HUB DATA</div>
     <div id="p-count" class="panel-count">0名</div>
-    <div id="p-text" class="panel-text">丸をクリックすると詳細が表示されます。</div>
+    <div id="p-text" class="panel-role-desc">丸をクリックすると、詳細な解説が表示されます。</div>
+    <div id="p-extra"></div>
   </div>
 
   <script>
     const hubData = {
-      hub: { t:'経営・CSハブ', n:'10', d:'司令塔と管制塔が合体した「ハブ」です。経営判断を行う社長と、現場への配車・受付を行うCS（カスタマーサポート）が密に連携し、会社全体の動きをコントロールします。' },
-      sales: { t:'法人営業部', n:'5', d:'大手管理会社やハウスメーカーとの提携を担う部隊。ひとつの提携が「100件の仕事」を生む、成長のエンジンです。' },
-      service: { t:'現場サービス部', n:'30', d:'売上の6割を叩き出す最強の現場部隊。高い技術力と誠実さでCarlockHomesのブランドを構築します。' },
-      dx: { t:'DX・広報室', n:'2', d:'デジタルの力で「1人あたり2,000万」の生産性を支える魔法使い。アプリやHP、集客とセキュリティの守護神です。' },
-      admin: { t:'管理部', n:'3', d:'経理・人事を支える少数精鋭の土台。正確な数字管理で会社の健康状態を保ちます。' },
-      legal: { t:'顧問弁護士', n:'1', d:'外部の専門家。法的なリスクを排除し、挑戦を支えてくれる頼れるパートナーです。' }
+      hub: { t:'経営・CSハブ', n:'10', d:'情報の「心臓」と「神経」です。社長の経営判断と、CSによる配車・在庫管理がここで行われます。全部門を血管のように繋ぎ、血液（情報）を循環させる最重要拠点です。', extra:'★ 5〜8名のリーダーを介して、30名の現場を統率します。' },
+      sales: { t:'法人営業部', n:'5', d:'攻めの「エンジン」です。大手管理会社やハウスメーカーなど、安定した仕事量を確保するための交渉を担います。ここが動くことで、会社の売上の土台が作られます。', extra:'★ 主な提携：不動産、警備、ハウスメーカー。' },
+      service: { t:'現場サービス部', n:'30', d:'収益の「源泉」です。30名のスペシャリストが現場を回り、CarlockHomesの技術と誇りを届けます。1人1人が生産性2,000万円を目指す精鋭集団です。', extra:'★ 5チーム（各6名）によるエリア分担制。' },
+      dx: { t:'DX・広報室', n:'2', d:'魔法の「杖」です。採用サイトの運営、受発注アプリの改善、情報のガードマンを担います。2名だけで50人を支える強力なシステムを構築・維持します。', extra:'★ 防御（セキュリティ）と攻撃（WEB集客）の両輪。' },
+      admin: { t:'管理部', n:'3', d:'不滅の「土台」です。50人の生活を守るための正確な給与計算、財務管理、そして人事採用を担います。ここが強いからこそ、他の部署が安心して暴れられます。', extra:'★ 経理、労務、採用。' },
+      legal: { t:'顧問弁護士', n:'1', d:'外部の「盾」です。法律のプロとして、契約書の穴を塞ぎ、万一のトラブルを水際で食い止めます。経営者が夜ぐっすり眠るために不可欠なパートナーです。', extra:'★ 企業法務、契約チェック、紛争解決。' }
     };
 
     const canvas = document.getElementById('hub-canvas');
     const svg = document.getElementById('svg-lines');
-    const r = 210;
+    const r = 200;
     const items = [
       { id: 'sales', angle: -90, icon: '🚀' },
       { id: 'service', angle: -25, icon: '🔧' },
@@ -185,13 +223,12 @@
       const el = document.createElement('div');
       el.className = 'node s-node';
       el.style.left = x + 'px'; el.style.top = y + 'px';
-      el.innerHTML = `<div style="font-size:28px">${item.icon}</div>${info.t}<div class="node-num">${info.n}名</div>`;
+      el.innerHTML = `<div style="font-size:32px">${item.icon}</div>${info.t}<div class="node-num">${info.n}名</div>`;
       el.onclick = () => updatePanel(item.id);
       canvas.appendChild(el);
 
       const line = document.createElementNS("http://www.w3.org/2000/svg", "line");
-      line.setAttribute("x1", canvas.clientWidth / 2);
-      line.setAttribute("y1", canvas.clientHeight / 2);
+      line.setAttribute("x1", canvas.clientWidth / 2); line.setAttribute("y1", canvas.clientHeight / 2);
       line.setAttribute("x2", x + 50); line.setAttribute("y2", y + 50);
       line.setAttribute("class", "link-line");
       svg.appendChild(line);
@@ -202,6 +239,7 @@
        document.getElementById('p-title').innerText = info.t;
        document.getElementById('p-count').innerText = info.n + '名';
        document.getElementById('p-text').innerText = info.d;
+       document.getElementById('p-extra').innerHTML = `<p class="p-head">Key Activity</p><p style="font-size:13px;color:#94a3b8">${info.extra}</p>`;
     }
 
     function switchView(i, btn) {
