@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CarlockHomes Safety Hub Visualizer</title>
+  <style>
+    :root {
+      --primary: #FF7F50;
+      --secondary: #4D96FF;
+      --accent: #FFD93D;
+      --bg: #0f172a;
+      --glass: rgba(255, 255, 255, 0.03);
+      --border: rgba(255, 255, 255, 0.1);
+    }
+    body {
+      margin: 0; padding: 0;
+      background: var(--bg);
+      color: #fff;
+      font-family: 'Zen Maru Gothic', 'Outfit', sans-serif;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+    }
+
+    /* ── Header ── */
+    header {
+      position: absolute; top: 40px; text-align: center; z-index: 10;
+    }
+    h1 {
+      font-size: 32px; font-weight: 900; margin: 0; letter-spacing: 2px;
+      background: linear-gradient(135deg, #fff 0%, var(--primary) 100%);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    }
+    p { color: rgba(255,255,255,0.5); font-size: 14px; margin-top: 10px; }
+
+    /* ── The Hub Container ── */
+    #visual-net {
+      width: 100%; height: 100%; position: relative;
+    }
+
+    /* ── Nodes ── */
+    .node {
+      position: absolute; border-radius: 50%;
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      text-align: center; cursor: pointer;
+      transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      border: 1px solid var(--border);
+      backdrop-filter: blur(10px);
+      box-shadow: 0 0 50px rgba(0,0,0,0.5);
+    }
+    .node:hover { transform: scale(1.1); box-shadow: 0 0 80px rgba(255,127,80,0.3); }
+
+    .center-node {
+      width: 180px; height: 180px; background: radial-gradient(circle, var(--primary) 0%, #c0392b 100%);
+      z-index: 100; font-weight: 900; font-size: 20px;
+      animation: pulse 4s infinite;
+    }
+    .sub-node {
+      width: 120px; height: 120px; background: var(--glass);
+      font-size: 12px; font-weight: 700;
+    }
+
+    .node i { font-style: normal; font-size: 30px; margin-bottom: 5px; }
+
+    /* ── SVG Lines ── */
+    svg {
+      position: absolute; inset: 0; width: 100%; height: 100%; z-index: 1; pointer-events: none;
+    }
+    .link-line {
+      stroke: var(--primary); stroke-width: 2; opacity: 0.2;
+      stroke-dasharray: 5; animation: dash 20s linear infinite;
+    }
+
+    /* ── Security Wall ── */
+    #outer-wall {
+      position: absolute; border: 2px dashed rgba(255,127,80,0.2);
+      border-radius: 50%; width: 650px; height: 650px;
+      animation: rotate 60s linear infinite;
+    }
+
+    @keyframes pulse { 0%,100% { transform: scale(1); box-shadow: 0 0 40px var(--primary); } 50% { transform: scale(1.05); box-shadow: 0 0 70px var(--primary); } }
+    @keyframes rotate { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+    @keyframes dash { to { stroke-dashoffset: -1000; } }
+
+    /* ── Legend ── */
+    .legend {
+      position: absolute; bottom: 40px; right: 40px; text-align: right; font-size: 12px; color: #999;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1>CLH SAFETY-HUB VISUALIZER</h1>
+    <p>売上10億円規模：循環型組織ネットワーク</p>
+  </header>
+
+  <div id="visual-net">
+    <div id="outer-wall" style="top: calc(50% - 325px); left: calc(50% - 325px);"></div>
+    
+    <!-- Lines -->
+    <svg id="svg-lines"></svg>
+
+    <!-- Center -->
+    <div id="c-node" class="node center-node" style="top: calc(50% - 90px); left: calc(50% - 90px);">
+      <i>🍊</i>
+      経営・CSハブ
+    </div>
+
+    <!-- Satellite Nodes -->
+    <div class="node sub-node" data-angle="-90" data-label="攻め：営業部" data-emoji="🚀"></div>
+    <div class="node sub-node" data-angle="-30" data-label="現場：サービス部" data-emoji="🔧"></div>
+    <div class="node sub-node" data-angle="30" data-label="加速：DX・広報室" data-emoji="⚡"></div>
+    <div class="node sub-node" data-angle="90" data-label="土台：管理部" data-emoji="🏢"></div>
+    <div class="node sub-node" data-angle="150" data-label="盾：顧問弁護士" data-emoji="🛡️"></div>
+    <div class="node sub-node" data-angle="210" data-label="教育・安全管理" data-emoji="🔰"></div>
+  </div>
+
+  <div class="legend">
+    CarlockHomes Inc.<br>Corporate Architecture 2026
+  </div>
+
+  <script>
+    const container = document.getElementById('visual-net');
+    const svg = document.getElementById('svg-lines');
+    const cNode = document.getElementById('c-node');
+    const nodes = document.querySelectorAll('.sub-node');
+    const r = 240; // Radius
+
+    nodes.forEach(node => {
+      const angle = parseFloat(node.dataset.angle);
+      const rad = angle * Math.PI / 180;
+      const x = (container.clientWidth / 2) + r * Math.cos(rad) - 60;
+      const y = (container.clientHeight / 2) + r * Math.sin(rad) - 60;
+
+      node.style.left = x + 'px';
+      node.style.top = y + 'px';
+      node.innerHTML = `<i>${node.dataset.emoji}</i><div>${node.dataset.label}</div>`;
+
+      // Create SVG line
+      const line = document.createElementNS("http://www.w3.org/2000/svg", "line");
+      line.setAttribute("x1", container.clientWidth / 2);
+      line.setAttribute("y1", container.clientHeight / 2);
+      line.setAttribute("x2", x + 60);
+      line.setAttribute("y2", y + 60);
+      line.setAttribute("class", "link-line");
+      svg.appendChild(line);
+    });
+
+    window.onresize = () => location.reload();
+  </script>
+</body>
+</html>
