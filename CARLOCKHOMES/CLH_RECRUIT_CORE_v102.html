@@ -88,18 +88,19 @@
     #pw-gate { position:fixed; inset:0; z-index:999999; background:#fff; display:flex; align-items:center; justify-content:center; }
     .pw-box { text-align:center; max-width:400px; width:90%; padding:40px; border:1px solid #eee; border-radius:30px; box-shadow:0 30px 100px rgba(0,0,0,0.05); color:#111; }
     .pw-input { width:100%; padding:18px; margin:20px 0; border:2px solid #eee; border-radius:15px; font-size:18px; text-align:center; outline:none; font-family:sans-serif; }
-    .pw-btn-gate { width:100%; padding:18px; background:linear-gradient(135deg,#FF4444,#FF6B2B); color:#fff; border:none; border-radius:15px; font-weight:900; cursor:pointer; font-family:'Zen Maru Gothic'; }
   </style>
 </head>
-<body style="opacity:0; transition: 0.5s;">
+<body style="background:#111;">
   <div id="pw-gate">
     <div class="pw-box">
       <div style="font-size:50px; margin-bottom:20px;">🔒</div>
-      <h2 style="font-weight:900; font-family:'Zen Maru Gothic';">合言葉が必要です</h2>
+      <h2 style="font-weight:900; font-family:'Zen Maru Gothic'; text-align:center;">合言葉が必要です</h2>
       <input type="password" id="pw-input" class="pw-input" placeholder="合言葉を入力">
       <button onclick="checkPW()" class="pw-btn-gate">アクセス</button>
     </div>
   </div>
+
+  <div id="main-content-wrapper" style="opacity:0; transition: 0.5s;">
   
   <div class="tab-bar">
     <div class="tab-item">1. 泥臭エネルギー</div>
@@ -191,14 +192,14 @@
       if(document.getElementById('pw-input').value === 'clh2026'){ 
         sessionStorage.setItem('clh_in', '1'); 
         document.getElementById('pw-gate').style.display='none'; 
-        document.body.style.opacity='1'; 
+        document.getElementById('main-content-wrapper').style.opacity='1'; 
       } else {
         alert('合言葉が違います');
       }
     }
     if(sessionStorage.getItem('clh_in')) { 
       document.getElementById('pw-gate').style.display='none'; 
-      document.body.style.opacity='1'; 
+      document.getElementById('main-content-wrapper').style.opacity='1'; 
     }
   </script>
 </body>

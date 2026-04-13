@@ -70,7 +70,7 @@
     .pw-btn { width:100%; padding:18px; background:linear-gradient(135deg,#FF4444,#FF6B2B); color:#fff; border:none; border-radius:15px; font-weight:900; cursor:pointer; }
   </style>
 </head>
-<body style="opacity:0; transition: 0.5s;">
+<body style="background:#fff;">
 
   <div id="pw-gate">
     <div class="pw-box">
@@ -80,6 +80,8 @@
       <button onclick="checkPW()" class="pw-btn">アクセス</button>
     </div>
   </div>
+
+  <div id="main-content-wrapper" style="opacity:0; transition: 0.5s;">
 
   <div id="selector">
     <button class="sel-btn active" onclick="switchDesign(0,this)">1. 会社案内パンフ</button>
@@ -269,10 +271,13 @@
       if(document.getElementById('pw-input').value === 'clh2026'){ 
         sessionStorage.setItem('clh_in', '1'); 
         document.getElementById('pw-gate').style.display='none'; 
-        document.body.style.opacity='1'; 
+        document.getElementById('main-content-wrapper').style.opacity='1'; 
       } 
     }
-    if(sessionStorage.getItem('clh_in')) { document.getElementById('pw-gate').style.display='none'; document.body.style.opacity='1'; }
+    if(sessionStorage.getItem('clh_in')) { 
+      document.getElementById('pw-gate').style.display='none'; 
+      document.getElementById('main-content-wrapper').style.opacity='1'; 
+    }
     
     function openFusion(){ document.getElementById('official-fusion-overlay').style.display='block'; }
     function closeFusion(){ document.getElementById('official-fusion-overlay').style.display='none'; }
