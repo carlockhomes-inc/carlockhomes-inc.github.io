@@ -42,10 +42,10 @@
     .design-section { display: none; min-height: 100vh; }
     .design-section.active { display: block; }
 
-    /* Shared Animations */
+    /* Animations (Exactly as Midnight Version) */
     @keyframes flicker { 0%,100% { opacity: 1; } 50% { opacity: 0.85; } }
     @keyframes dust { 0% { transform: translateY(0); opacity: .6; } 100% { transform: translateY(-60px); opacity: 0; } }
-    @keyframes slam { 0% { transform: scale(.3); opacity: 0; } 100% { transform: scale(1); opacity: 1; } }
+    @keyframes slamming { 0% { transform: scale(.3); opacity: 0; } 100% { transform: scale(1); opacity: 1; } }
     @keyframes riseUp { from { transform: translateY(60px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
     @keyframes gentlePulse { 0%,100% { transform: scale(1); } 50% { transform: scale(1.04); } }
     @keyframes drawLine { from { stroke-dashoffset: 200; } to { stroke-dashoffset: 0; } }
@@ -60,7 +60,7 @@
     #pw-gate { position:fixed; inset:0; z-index:999999; background:#fff; display:flex; align-items:center; justify-content:center; }
     .pw-box { text-align:center; max-width:400px; width:90%; padding:40px; border:1px solid #eee; border-radius:30px; box-shadow:0 30px 100px rgba(0,0,0,0.05); }
     .pw-input { width:100%; padding:18px; margin:20px 0; border:2px solid #eee; border-radius:15px; font-size:18px; text-align:center; outline:none; }
-    #full-wrapper { opacity: 0; transition: 0.5s; }
+    #wrapper { opacity: 0; transition: 0.5s; }
 
     /* Overlay */
     #official-fusion-overlay { position:fixed; inset:0; z-index:5000; background:#fff; display:none; overflow-y:auto; }
@@ -71,23 +71,23 @@
 
   <div id="pw-gate">
     <div class="pw-box">
-      <div style="font-size:50px; margin-bottom:20px;">🔒</div>
+      <div style="font-size:50px; margin-bottom:20px;">🔓</div>
       <h2 style="font-weight:900;">合言葉を確認中</h2>
       <input type="password" id="pw-input" class="pw-input" placeholder="入力してください">
       <button onclick="checkPW()" style="width:100%;padding:18px;background:#FF4444;color:#fff;border:none;border-radius:10px;font-weight:900;cursor:pointer;">ロック解除</button>
     </div>
   </div>
 
-  <div id="full-wrapper">
+  <div id="wrapper">
 
-    <!-- 🌐 TABS (Pamphlet first, Muddy last) -->
+    <!-- 🌐 TABS (REORDERED INTERNALLY) -->
     <div id="selector">
       <button class="sel-btn active" onclick="switchDesign(0,this)">1. 会社案内パンフ</button>
       <button class="sel-btn" onclick="switchDesign(1,this)">2. 街のハブ</button>
       <button class="sel-btn" onclick="switchDesign(2,this)">3. 泥臭エネルギー</button>
     </div>
 
-    <!-- ───── Tab 1 : Pamphlet (ORIGINAL D4) ───── -->
+    <!-- ───── DESIGN 4 : 会社案内パンフ (PHYSICALLY MOVED HERE) ───── -->
     <section id="d4" class="design-section active">
       <div style="background:#fff;padding-bottom:100px;">
         <div style="display:flex;height:8px;">
@@ -99,7 +99,7 @@
             <div style="width:45px;height:45px;border-radius:12px;background:#FF4444;display:flex;align-items:center;justify-content:center;color:#fff;font-size:24px;box-shadow:0 6px 15px rgba(255,68,68,0.2);">🔑</div>
             <div style="font-weight:900;"><div style="font-size:18px;">カーロックホームズ</div><div style="font-size:10px;color:#999;font-family:'Outfit';">CARLOCK HOMES</div></div>
           </div>
-          <button onclick="openFusion()" style="background:#4D96FF;color:#fff;border:none;padding:12px 30px;border-radius:100px;font-weight:900;font-size:13px;">企業情報</button>
+          <button onclick="openFusion('company')" style="background:#4D96FF;color:#fff;border:none;padding:12px 30px;border-radius:100px;font-weight:900;font-size:13px;">企業情報</button>
         </nav>
         <div style="padding:40px;max-width:1150px;margin:0 auto;">
           <div style="display:grid;grid-template-columns:repeat(auto-fit, minmax(350px, 1fr));gap:30px;margin-bottom:30px;">
@@ -123,7 +123,7 @@
             </div>
             <div style="background:#fff;padding:50px;border-radius:35px;border:4px solid #FF4444;box-shadow:0 30px 60px rgba(255,68,68,0.1);">
               <div style="font-size:28px;font-weight:900;margin-bottom:25px;">月給 23万〜45万円以上</div>
-              <button onclick="alert('募集は終了しました')" style="width:100%;padding:20px;background:#FF4444;color:#fff;border:none;border-radius:15px;font-weight:900;font-size:18px;">エントリーへ</button>
+              <button onclick="openEntry('パンフ')" style="width:100%;padding:20px;background:#FF4444;color:#fff;border:none;border-radius:15px;font-weight:900;font-size:18px;">エントリーへ</button>
             </div>
           </div>
           <div style="margin-top:50px;border:3px dashed #FFB800;border-radius:25px;padding:30px;background:#FFFDF0;display:flex;align-items:center;justify-content:center;gap:20px;">
@@ -134,12 +134,12 @@
       </div>
     </section>
 
-    <!-- ───── Tab 2 : City Hub (ORIGINAL D2) ───── -->
+    <!-- ───── DESIGN 2 : 街のハブ (PHYSICALLY MOVED HERE) ───── -->
     <section id="d2" class="design-section">
       <div style="background:#FAF6EE;padding-bottom:100px;min-height:100vh;">
         <nav style="padding:25px 50px;display:flex;justify-content:space-between;align-items:center;">
           <div style="font-weight:900;font-size:22px;color:#4A3D2E;">カーロックホームズ</div>
-          <button style="background:#fff;color:#FF5C35;border:2px solid #FF5C35;padding:10px 25px;border-radius:50px;font-weight:900;">採用エントリー</button>
+          <button onclick="openEntry('街のハブ')" style="background:#fff;color:#FF5C35;border:2px solid #FF5C35;padding:10px 25px;border-radius:50px;font-weight:900;">採用エントリー</button>
         </nav>
         <div style="padding:60px 25px;text-align:center;max-width:1000px;margin:0 auto;">
           <h1 style="font-size:48px;font-weight:900;color:#4A3D2E;line-height:1.4;margin:0 0 40px;">私たちは鍵を直すのではない。<br><span style="background:linear-gradient(transparent 70%, #FFE135 70%);">街のつながりを、直している。</span></h1>
@@ -147,7 +147,7 @@
             <div style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:120px;height:120px;border-radius:50%;background:#fff;display:flex;align-items:center;justify-content:center;z-index:10;box-shadow:0 15px 40px rgba(0,0,0,0.08);animation:gentlePulse 4s infinite;">
               <div style="font-size:45px;">🔑</div>
             </div>
-            <div id="nodes-canvas" style="position:absolute;inset:0;"></div>
+            <div id="d2-nodes" style="position:absolute;inset:0;"></div>
           </div>
           <div style="display:flex;flex-direction:column;gap:35px;max-width:850px;margin:0 auto;">
             <div style="background:#fff;padding:45px;border-radius:40px;box-shadow:0 15px 45px rgba(0,0,0,0.04);border-left:12px solid #FF6B6B;text-align:left;">
@@ -163,11 +163,11 @@
       </div>
     </section>
 
-    <!-- ───── Tab 3 : Muddy Energy (ORIGINAL D1) ───── -->
+    <!-- ───── DESIGN 1 : 泥臭エネルギー (PHYSICALLY MOVED HERE) ───── -->
     <section id="d1" class="design-section">
       <div style="background:#1A0F05;color:#fff;padding-bottom:100px;min-height:100vh;position:relative;overflow:hidden;">
         <div style="position:absolute;inset:0;background:radial-gradient(ellipse at 50% 120%,#FF6B2B 0%,#C0392B 30%,#1A0F05 70%);opacity:.9;"></div>
-        <div id="d1-dust-canvas" style="position:absolute;inset:0;pointer-events:none;"></div>
+        <div id="d1-dust" style="position:absolute;inset:0;pointer-events:none;"></div>
         <div style="position:relative;z-index:10;padding:60px 20px;text-align:center;">
           <h1 style="font-family:'Reggae One';font-size:clamp(40px, 8vw, 65px);color:#FFE8CC;text-shadow:4px 4px 0 #5C1A00;line-height:1.2;margin-bottom:25px;">45歳、<br>ここからが本番。</h1>
           <p style="font-size:20px;color:#FFBB80;line-height:2.4;max-width:550px;margin:25px auto 45px;">若さのスピードには勝てなくても、泥臭い根性なら、誰にも負けない。さあ、もう一度飛んでみませんか。</p>
@@ -191,13 +191,13 @@
           <div style="background:rgba(255,107,43,0.1);border:4px solid #FF6B2B;padding:45px;border-radius:35px;text-align:left;max-width:650px;margin:0 auto;box-shadow:0 30px 60px rgba(0,0,0,0.4);">
             <h3 style="color:#FFB800;margin-bottom:20px;font-family:'Reggae One';font-size:26px;">【募集内容】</h3>
             <p style="font-size:18px;line-height:2.4;margin-bottom:30px;">・職種：カギの緊急対応スタッフ<br>・給与：23万〜45万円以上＋歩合</p>
-            <button style="width:100%;padding:25px;background:#FF6B2B;color:#fff;border:none;font-family:'Reggae One';font-size:24px;border-radius:20px;cursor:pointer;">🔥 今すぐ挑戦する</button>
+            <button onclick="openEntry('泥臭')" style="width:100%;padding:25px;background:#FF6B2B;color:#fff;border:none;font-family:'Reggae One';font-size:24px;border-radius:20px;cursor:pointer;">🔥 今すぐ挑戦する</button>
           </div>
         </div>
       </div>
     </section>
 
-    <!-- ── SHARED FOOTER & MAP ── -->
+    <!-- ───── SHARED FOOTER & MAP ───── -->
     <div style="background:#fff;padding-bottom:100px;">
       <div style="padding:80px 20px;text-align:center;">
         <h2 style="font-weight:900;font-size:24px;margin-bottom:40px;">アクセスマップ</h2>
@@ -205,13 +205,15 @@
           <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d1730.0419150492035!2d139.60129778650392!3d35.70804628141828!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x6018ee0c327e87bd%3A0x3a843081cd4d7b6d!2z44Kr44O844Ot44OD44Kv44Ob44O844Og44K65qCq5byP5Lya56S-IOadieS4puWMuiDpjbXmpa3ogIU!5e0!3m2!1sja!2sjp!4v1776010539256!5m2!1sja!2sjp" width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
         </div>
       </div>
-      <div style="padding:100px 20px;text-align:center;background:#0a0a0a;color:#fff;">
-        <div style="opacity:0.4;font-size:12px;font-weight:900;letter-spacing:4px;margin-bottom:40px;">PRODUCED BY CLH CREATIVE TEAM</div>
-        <p style="font-size:11px;opacity:0.2;">&copy; 2026 CarlockHomes Inc. All rights reserved.</p>
-      </div>
+      <footer style="background:#0a0a0a; color:rgba(255,255,255,0.6); padding:60px 20px; text-align:center; font-size:13px; letter-spacing:2px; border-top:1px solid rgba(255,255,255,0.1); font-family:'Outfit',sans-serif;">
+        <div style="max-width:600px; margin:0 auto;">
+          <p style="margin-bottom:12px; font-weight:700; color:rgba(255,255,255,0.8);">PRODUCED BY CLH CREATIVE TEAM</p>
+          <p style="font-size:12px; color:rgba(255,255,255,0.4);">&copy; 2026 CarlockHomes Inc. All rights reserved.</p>
+        </div>
+      </footer>
     </div>
 
-  </div> <!-- /full-wrapper -->
+  </div> <!-- /wrapper -->
 
   <div id="official-fusion-overlay">
     <button onclick="closeFusion()" class="overlay-close">← 前に戻る</button>
@@ -236,35 +238,47 @@
       if(document.getElementById('pw-input').value === 'clh2026'){ 
         sessionStorage.setItem('clh_in', '1'); 
         document.getElementById('pw-gate').style.display='none'; 
-        document.getElementById('full-wrapper').style.opacity='1'; 
+        document.getElementById('wrapper').style.opacity='1'; 
       } 
     }
     if(sessionStorage.getItem('clh_in')) { 
       document.getElementById('pw-gate').style.display='none'; 
-      document.getElementById('full-wrapper').style.opacity='1'; 
+      document.getElementById('wrapper').style.opacity='1'; 
     }
-    function openFusion(){ document.getElementById('official-fusion-overlay').style.display='block'; window.scrollTo(0,0);}
+    function openFusion(type){ document.getElementById('official-fusion-overlay').style.display='block'; window.scrollTo(0,0);}
     function closeFusion(){ document.getElementById('official-fusion-overlay').style.display='none'; }
+    function openEntry(src){ alert('Entry: '+src); }
 
-    // D2 Nodes
+    // Init Nodes D2
     (function(){
-      const hub = document.getElementById('nodes-canvas');
-      if(!hub) return;
-      const nodes = [{e:'🏠',t:'0%',l:'50%'},{e:'🏢',t:'20%',l:'90%'},{e:'🚗',t:'70%',l:'90%'},{e:'🏢',t:'95%',l:'50%'},{e:'🏪',t:'70%',l:'5%'},{e:'🏫',t:'20%',l:'5%'}];
-      nodes.forEach(n => {
-        const d = document.createElement('div'); d.className = 'node-item';
-        d.style.top = n.t; d.style.left = n.l; d.innerHTML = `<span>${n.e}</span>`; hub.appendChild(d);
+      const nodes = [
+        { angle:-90,  emoji:'👧', label:'シングル親', color:'#FF6B6B' },
+        { angle:-30,  emoji:'👴', label:'独居高齢者', color:'#FFC93C' },
+        { angle: 30,  emoji:'👶', label:'子育て世帯', color:'#6BCB77' },
+        { angle: 90,  emoji:'🏢', label:'管理会社',   color:'#4D96FF' },
+        { angle:150,  emoji:'🏠', label:'空家対策',   color:'#9B59B6' },
+        { angle:210,  emoji:'🎮', label:'趣味人たち', color:'#FF8C42' },
+      ];
+      const wrap = document.getElementById('d2-nodes');
+      if(!wrap) return;
+      nodes.forEach((n,i)=>{
+        const r = 150;
+        const x = 200 + r*Math.cos(n.angle*Math.PI/180) - 35;
+        const y = 200 + r*Math.sin(n.angle*Math.PI/180) - 35;
+        const el = document.createElement('div');
+        el.style.cssText = `position:absolute;left:${x}px;top:${y}px;width:70px;height:70px;border-radius:50%;background:#fff;border:3px solid ${n.color};display:flex;align-items:center;justify-content:center;flex-direction:column;box-shadow:0 6px 15px rgba(0,0,0,.08);animation:fadeSlide .6s ease-out ${.5+i*.1}s both;`;
+        el.innerHTML = `<div style="font-size:24px;">${n.emoji}</div><div style="font-size:9px;font-weight:900;color:${n.color};margin-top:2px;">${n.label}</div>`;
+        wrap.appendChild(el);
       });
     })();
 
-    // D1 Dust
+    // Init Dust D1
     (function(){
-      const dustC = document.getElementById('d1-dust-canvas');
-      if(!dustC) return;
-      for(let i=0; i<20; i++){
+      const c = document.getElementById('d1-dust');
+      for(let i=0;i<15;i++){
         const d = document.createElement('div');
-        d.style.cssText = `position:absolute;bottom:0;left:${Math.random()*100}%;width:4px;height:4px;background:#FFBB80;opacity:.5;animation:dust ${3+Math.random()*4}s linear infinite;`;
-        dustC.appendChild(d);
+        d.style.cssText = `position:absolute;bottom:10%;left:${5+i*6}%;width:4px;height:4px;border-radius:50%;background:#FFD4A0;animation:dust ${3+Math.random()*2}s ease-out infinite;opacity:.4;`;
+        c.appendChild(d);
       }
     })();
   </script>
