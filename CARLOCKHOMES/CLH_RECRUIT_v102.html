@@ -278,6 +278,16 @@
       document.getElementById('pw-gate').style.display='none'; 
       document.getElementById('main-content-wrapper').style.opacity='1'; 
     }
+
+    // Deep-linking logic
+    const urlParams = new URLSearchParams(window.location.search);
+    const tabParam = urlParams.get('tab');
+    if (tabParam !== null) {
+      const idx = parseInt(tabParam);
+      if (idx >= 0 && idx < ids.length) {
+        switchDesign(idx, document.querySelectorAll('.sel-btn')[idx]);
+      }
+    }
     
     function openFusion(){ document.getElementById('official-fusion-overlay').style.display='block'; }
     function closeFusion(){ document.getElementById('official-fusion-overlay').style.display='none'; }
