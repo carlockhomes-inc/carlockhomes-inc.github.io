@@ -101,29 +101,22 @@
       <div id="hub-view-box"><svg id="hub-lines"></svg><div id="nodes-layer"></div></div>
     </div>
 
-    <!-- PAGE 2: SECURITY WALLS (FULL CHECKLIST RECOVERY) -->
+    <!-- PAGE 2: SECURITY WALLS (CRISIS COMMAND INTEGRATION) -->
     <div id="v-2" class="view-content">
       <h2>SECURITY PHILOSOPHY</h2>
       <div class="wall-deck">
-         <div class="wall-item">
-            <div style="font-weight:900; color:var(--primary); margin-bottom:20px; font-size:16px;">組織的・人的安全管理 (5+5)</div>
-            <ul class="wall-list-li">
-               <li>個人情報保護ガイドラインの策定および全従事者への周知徹底</li>
-               <li>CPO（個人情報最高責任者）による月次アクセスログ監査の実施</li>
-               <li>委託先との「個人情報保護に関する合意書」の締結および定期実態調査</li>
-               <li>全従事者との法的拘束力を持つ秘密保持契約（NDA）の締結</li>
-               <li>コンプライアンス研修およびITリテラシーテストの定例実施</li>
+         <div class="wall-item" style="border-color: #ef4444; background: rgba(239, 68, 68, 0.05);">
+            <div style="font-weight:900; color:#ef4444; margin-bottom:20px; font-size:16px;">🚨 クライシス・コマンド：初動60分プロトコル</div>
+            <ul class="wall-list-li" style="color: #f87171;">
+               <li><strong>[0-15m] 緊急遮断・隔離</strong>: 異常を検知した全システムのアカウントを停止、ネットワークから物理切断。</li>
+               <li><strong>[15-30m] トリアージ</strong>: 漏洩対象の特定と、二次被害（決済・鍵データ等）の有無をCEOへ緊急報告。</li>
+               <li><strong>[30-45m] ステークホルダー通知</strong>: Relo Create、Prestige等への状況第一報と、警察・専門弁護士への相談開始。</li>
+               <li><strong>[45-60m] CEO意思決定</strong>: サービスの全面停止、または継続の最終判断。および社会的公表文の案文確定。</li>
             </ul>
          </div>
          <div class="wall-item">
-            <div style="font-weight:900; color:var(--primary); margin-bottom:20px; font-size:16px;">物理的・技術的な安全管理 (5+5)</div>
-            <ul class="wall-list-li">
-               <li>多要素認証（MFA）を全ハブシステムおよび社用端末に強制適用</li>
-               <li>データベースのストレージレベルでの AES-256 暗号化防護</li>
-               <li>外部からの不審アクセスに対するIDS/IPSによる24時間監視</li>
-               <li>生体認証ゲートによる主要サーバエリアへの物理的アクセス制限</li>
-               <li>物理媒体（USB、外付ハードディスク等）の接続検知および遮断</li>
-            </ul>
+            <div style="font-weight:900; color:var(--primary); margin-bottom:20px; font-size:16px;">組織的・人的・技術的安全管理措置</div>
+            <p style="font-size:11px; line-height:2.2; color:#94a3b8;">・CPOによる月次監査、全デバイスMFA、および AES-256 暗号化を常時執行中。<br>・定期的な事故対応訓練を全拠点にて実施。</p>
          </div>
       </div>
     </div>
@@ -132,15 +125,37 @@
     <div id="v-3" class="view-content">
       <h2>GOVERNANCE TOOLKIT</h2>
       <div class="doc-tabs-final">
-        <button id="bt-f-0" class="active" onclick="showClinic(0)">0. 保護方針 (Panasonic全文)</button>
+        <button id="bt-f-ceo" class="active" onclick="showClinic('ceo')">CEO 宣言</button>
+        <button id="bt-f-0" onclick="showClinic(0)">0. 保護方針 (Panasonic全文)</button>
         <button id="bt-f-1" onclick="showClinic(1)">1. 法律に基づく公表事項 (全文)</button>
         <button id="bt-f-2" onclick="showClinic(2)">2. 請求フローマニュアル (全文)</button>
         <button id="bt-f-3" onclick="showClinic(3)">3. リーガル実務提型 (正本全文)</button>
       </div>
 
       <div class="doc-scroller">
+        <!-- CEO PLEDGE -->
+        <div id="dn-f-ceo" class="doc-unit active">
+          <div class="doc-h1-legal">情報セキュリティ・ソブリン宣言</div>
+          <p style="font-size:16px; font-weight:900; line-height:2.4; border-bottom:2px solid #333; padding-bottom:30px; margin-bottom:40px;">
+            「私は、カーロックホームズの守護者として、お客様の信頼と情報の安全を死守する全責任を負うことを、ここに宣言する。」
+          </p>
+          <div class="doc-p-legal">
+            当社は、全国300拠点規模のFC網および社会的就労支援ハブを運営するにあたり、扱う情報の重みが「人の人生」そのものであることを深く認識しています。<br><br>
+            私が「腹をくくり、責任を持つ」ということは、以下の3点を組織の憲法として徹底することを意味します：<br><br>
+            1. **不退転の防護体制**: 何かが起きる前に、予見し、防ぎ、無効化することに全経営資源を投下します。<br>
+            2. **透明性の徹底**: 万が一の事故時、隠蔽を一切許さず、即座に開示し、被害最小化に全力を尽くします。<br>
+            3. **社会的責任の完遂**: 情報の安全こそが、障がい者雇用やシングル支援を支える「信用の土台」であることを忘れず、未来を構築します。<br><br>
+            この誓いは、単なる言葉ではなく、当社の全業務プロセスに組み込まれる絶対的な規律である。
+          </div>
+          <div style="margin-top:80px; text-align:right; font-size:18px; font-weight:900;">
+            令和8年4月14日<br>
+            カーロックホームズ株式会社<br>
+            代表取締役　上野原 政司
+          </div>
+        </div>
+
         <!-- 0. POLICY FULL TEXT (PANASONIC GRADE) -->
-        <div id="dn-f-0" class="doc-unit active">
+        <div id="dn-f-0" class="doc-unit">
           <div class="doc-h1-legal">個人情報保護方針</div>
           <p>カーロックホームズ株式会社（以下、「当社」）は、グループ経営基本方針に従い、当社の製品やサービスについてのお客様の満足と信頼を確保するためには、お客様・取引先様などステークホルダーの個人情報を適切に保護し、取扱うことが重要であると考え、下記の方針に基づき、個人情報の保護に努めています。</p>
           <div class="doc-h2-legal">第1条（個人情報の保護体制）</div><div class="doc-p-legal">当社は、役員及び従業員等に個人情報保護の重要性を継続的に認識させるとともに、個人情報保護に係る管理体制を確立し、維持します。また、当社は個人情報取扱いの社内ルールを制定し、継続的な改善に努めます。</div>
