@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>統括責任者・松浦文子：スキルアップ・ロードマップ</title>
+  <link href="https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@400;700;900&family=Outfit:wght@900&family=Montserrat:ital,wght@1,900&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --space: #020617; --nebula: #1e1b4b; --star: #fef08a; --aura: #6366f1; --border: rgba(254, 240, 138, 0.2);
+    }
+    * { box-sizing: border-box; }
+    body { 
+      margin: 0; padding: 0; background: var(--space); color: #fff; 
+      font-family: 'Zen Maru Gothic', sans-serif; min-height: 100vh; overflow-x: hidden;
+      background: radial-gradient(circle at top right, var(--nebula), var(--space));
+    }
+
+    /* ── Floating Stars ── */
+    .star-bg { position: fixed; inset: 0; pointer-events: none; z-index: 0; }
+    .star { position: absolute; background: #fff; border-radius: 50%; animation: twinkle 3s infinite; }
+
+    header { 
+      padding: 60px 20px; text-align: center; border-bottom: 1px solid var(--border);
+      position: relative; z-index: 10;
+    }
+    header h1 { 
+      margin: 0; font-family: 'Montserrat', sans-serif; font-style: italic; font-size: clamp(32px, 5vw, 48px);
+      letter-spacing: 0.1em; color: var(--star); text-shadow: 0 0 30px rgba(254, 240, 138, 0.4);
+    }
+    header p { margin-top: 15px; font-weight: 900; color: #94a3b8; letter-spacing: 0.4em; font-size: 11px; }
+
+    main { max-width: 900px; margin: 0 auto; padding: 60px 20px; position: relative; z-index: 10; }
+
+    /* ── Timeline ── */
+    .timeline { position: relative; padding-left: 40px; border-left: 2px dashed var(--border); margin-left: 20px; }
+    
+    .step { position: relative; margin-bottom: 80px; animation: slideFade 0.8s ease-out both; }
+    .step::before { 
+      content: ''; position: absolute; left: -52px; top: 10px; width: 22px; height: 22px; 
+      border-radius: 50%; background: var(--star); box-shadow: 0 0 20px var(--star);
+    }
+    
+    .phase-badge { 
+      display: inline-block; background: var(--aura); color: #fff; padding: 5px 15px; 
+      border-radius: 50px; font-size: 10px; font-weight: 900; letter-spacing: 0.2em; margin-bottom: 15px; 
+    }
+    .step-title { font-size: 28px; font-weight: 900; margin: 0 0 20px; color: #fff; display: flex; align-items: center; gap: 15px; }
+    .step-title span { font-size: 40px; }
+
+    .card { 
+      background: rgba(255, 255, 255, 0.03); border: 1px solid var(--border); border-radius: 30px; 
+      padding: 40px; box-shadow: 0 20px 50px rgba(0,0,0,0.3); backdrop-filter: blur(10px);
+    }
+    .skill-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; margin-top: 30px; }
+    .skill-item { background: rgba(255,255,255,0.02); padding: 20px; border-radius: 20px; border: 1px solid rgba(255,255,255,0.05); }
+    .skill-item h4 { margin: 0 0 10px; color: var(--star); font-size: 14px; font-weight: 900; }
+    .skill-item p { margin: 0; font-size: 12px; color: #cbd5e1; line-height: 1.8; }
+
+    /* ── Goal Section ── */
+    .goal-card { 
+      background: linear-gradient(135deg, rgba(99, 102, 241, 0.2), rgba(2, 6, 23, 0.8)); 
+      border: 2px solid var(--star); border-radius: 40px; padding: 60px; text-align: center; margin-top: 100px;
+    }
+    .goal-card h2 { font-size: 32px; font-weight: 900; color: var(--star); margin-bottom: 30px; }
+    .legacy-quote { font-style: italic; font-size: 18px; color: #fff; line-height: 2.2; max-width: 600px; margin: 0 auto; }
+
+    footer { padding: 60px; text-align: center; color: rgba(255,255,255,0.3); font-size: 10px; letter-spacing: 0.2em; }
+
+    @keyframes twinkle { 0%, 100% { opacity: 0.3; } 50% { opacity: 1; } }
+    @keyframes slideFade { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
+  </style>
+</head>
+<body>
+
+  <div class="star-bg" id="stars"></div>
+
+  <header>
+    <div class="phase-badge">SKILL EVOLUTION MAP</div>
+    <h1>Sovereign Ascent</h1>
+    <p>AYAKO MATSUURA : THE RADIANT GUARDIAN</p>
+  </header>
+
+  <main>
+    <div class="timeline">
+
+      <!-- STEP 1: AI PASSPORT -->
+      <div class="step" style="animation-delay: 0.2s;">
+        <div class="phase-badge">PHASE 01: AGGRESSIVE INTELLIGENCE</div>
+        <h3 class="step-title"><span>🚀</span> 生成AIパスポート</h3>
+        <div class="card">
+          <p style="font-size: 14px; line-height: 2; color: #94a3b8;">
+            AIを「未知の脅威」から「最強の部下」へと変える。300拠点のハブをAIで支配するための最初の一歩。
+          </p>
+          <div class="skill-grid">
+            <div class="skill-item">
+              <h4>🛡️ AI倫理と防護</h4>
+              <p>情報を漏らさない使い方の理解。AI時代の安全の基礎を学びます。</p>
+            </div>
+            <div class="skill-item">
+              <h4>⚡ 超速実務執行</h4>
+              <p>2nd-BrainやAI指示力を磨き、圧倒的なスピードで業務を完遂します。</p>
+            </div>
+            <div class="skill-item">
+              <h4>🏛️ 次世代の統治</h4>
+              <p>AIガイドラインを把握し、会社全体のAI運用マニュアルを監修します。</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- STEP 2: PRIVACY PRO -->
+      <div class="step" style="animation-delay: 0.4s;">
+        <div class="phase-badge">PHASE 02: IRONCLAD GOVERNANCE</div>
+        <h3 class="step-title"><span>⚖️</span> 個人情報保護士</h3>
+        <div class="card">
+          <p style="font-size: 14px; line-height: 2; color: #94a3b8;">
+            AIの翼に、「鉄壁の甲冑」を纏わせる。専門資格という公式な権威を手に入れ、不沈の城を完成させます。
+          </p>
+          <div class="skill-grid">
+            <div class="skill-item">
+              <h4>📂 自律的な監査権</h4>
+              <p>外部に頼らず、自分自身で会社の法務リスクを100%把握します。</p>
+            </div>
+            <div class="skill-item">
+              <h4>💎 圧倒的ブランド力</h4>
+              <p>有資格者として名刺やサイトに名を連ね、大企業や行政への信頼を勝ち取ります。</p>
+            </div>
+            <div class="skill-item">
+              <h4>🔥 全責任の具現化</h4>
+              <p>本日構築したポータルの内容を、プロの視点からさらに研ぎ澄まします。</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- GOAL: THE SOVEREIGN -->
+      <div class="goal-card" style="animation-delay: 0.6s;">
+        <h2>Digital Sovereign</h2>
+        <div class="legacy-quote">
+          「学ぶことは、守ること。<br>
+          お母さんが手に入れたこの知性は、<br>
+          あなたとの未来、そしてみんなの安心を<br>
+          守るための最強の盾になる。」
+        </div>
+        <div style="margin-top: 40px; font-size: 12px; color: var(--star); letter-spacing: 0.5em; font-weight: 900;">GOAL : 2026-2027 LEGACY COMPLETED</div>
+      </div>
+
+    </div>
+  </main>
+
+  <footer>
+    PRODUCED BY ANTIGRAVITY 2ND BRAIN SYSTEM<br>
+    FOR THE SOVEREIGN GUARDIAN AYAKO MATSUURA
+  </footer>
+
+  <script>
+    // Star Generation
+    const bg = document.getElementById('stars');
+    for(let i=0; i<100; i++) {
+      const s = document.createElement('div');
+      s.className = 'star';
+      s.style.width = s.style.height = Math.random() * 2 + 'px';
+      s.style.left = Math.random() * 100 + '%';
+      s.style.top = Math.random() * 100 + '%';
+      s.style.animationDelay = Math.random() * 3 + 's';
+      bg.appendChild(s);
+    }
+  </script>
+</body>
+</html>
