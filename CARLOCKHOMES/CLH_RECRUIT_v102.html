@@ -166,20 +166,20 @@
 <!-- ── Selector ── -->
 <div id="selector">
   <button class="sel-btn active" onclick="switchDesign(0,this)">
-    1. 泥臭エネルギー
+    1. 会社案内パンフ
   </button>
   <button class="sel-btn" onclick="switchDesign(1,this)">
     2. 街のハブ
   </button>
   <button class="sel-btn" onclick="switchDesign(2,this)">
-    3. 会社案内パンフ
+    3. 泥臭エネルギー
   </button>
 </div>
 
 <!-- ══════════════════════════════════════════
      DESIGN 1 : 泥臭エネルギー
 ═══════════════════════════════════════════ -->
-<section id="d1" class="design-section active">
+<section id="d1" class="design-section">
   <div style="background:#1A0F05;padding-bottom:100px;font-family:'Zen Maru Gothic',sans-serif;overflow:hidden;position:relative;min-height:100vh;">
     <div style="position:absolute;inset:0;background:radial-gradient(ellipse at 50% 120%,#FF6B2B 0%,#C0392B 30%,#1A0F05 70%);opacity:.9;pointer-events:none;"></div>
     <div id="d1-dust" style="position:absolute;inset:0;pointer-events:none;"></div>
@@ -342,7 +342,7 @@
 <!-- ══════════════════════════════════════════
      DESIGN 4 : 会社案内パンフ (UTILITY PANEL)
 ═══════════════════════════════════════════ -->
-<section id="d4" class="design-section">
+<section id="d4" class="design-section active">
   <div style="background:#fff;padding-bottom:100px;font-family:'Zen Maru Gothic',sans-serif;min-height:100vh;">
     <div style="display:flex;height:8px;">
       <div style="flex:1;background:#FF4444;"></div><div style="flex:1;background:#FFB800;"></div><div style="flex:1;background:#4D96FF;"></div>
@@ -765,7 +765,7 @@
 
 <!-- ── SCRIPTS ── -->
 <script>
-  const ids = ['d1','d2','d4'];
+  const ids = ['d4','d2','d1'];
   const GAS_URL = 'https://script.google.com/macros/s/AKfycbz6i_kzRqqNucjkWGLiD1S-V4sA7xnuNMKiGWEZ4E56ZPpwy5qntivgRu3iyQ4XD0l5/exec';
 
   function switchDesign(i, btn) {
