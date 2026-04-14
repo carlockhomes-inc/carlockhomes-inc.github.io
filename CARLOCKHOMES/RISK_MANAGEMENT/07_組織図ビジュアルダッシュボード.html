@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>CLH 3-Year Sovereign Ecosystem vSocial-Hub</title>
+  <title>CLH 30-Billion Ultimate Sovereign Portal vAbsolute-Integrity</title>
   <link href="https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@400;700;900&family=Outfit:wght@900&display=swap" rel="stylesheet">
   <style>
     :root {
@@ -14,29 +14,59 @@
     * { box-sizing: border-box; }
     body { margin: 0; padding: 0; background: var(--bg); color: #f1f5f9; font-family: 'Zen Maru Gothic', sans-serif; overflow: hidden; display: flex; height: 100vh; }
 
-    /*Sidebar - kept same*/
+    /* ── Sidebar ── */
     #sidebar { width: 75px; background: #080d1a; border-right: 1px solid var(--border); display: flex; flex-direction: column; align-items: center; padding: 30px 0; gap: 25px; z-index: 2000; }
     .nav-btn { width: 50px; height: 50px; border-radius: 14px; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: 0.3s; font-size: 22px; background: var(--glass); border: 1px solid var(--border); }
     .nav-btn.active { background: var(--primary); color: #fff; box-shadow: 0 0 20px var(--primary); border: none; }
 
-    /*Main- kept same*/
+    /* ── Main View ── */
     #main-view { flex: 1; position: relative; overflow-y: auto; background: #0f172a; }
     .view-content { position: absolute; inset: 0; padding: 60px; display: none; opacity: 0; transform: translateY(10px); transition: 0.4s; overflow-y: auto; }
     .view-content.active { display: block; opacity: 1; transform: translateY(0); }
 
-    /* Ecosystem Grid */
-    .eco-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 25px; margin-top: 15px; }
-    .eco-card { background: var(--card-bg); border-radius: 30px; padding: 35px; border: 1px solid var(--border); position: relative; overflow: hidden; }
-    .eco-card::before { content: ""; position: absolute; top:0; left:0; width:100%; height:4px; background: linear-gradient(90deg, var(--secondary), var(--primary)); }
+    /* 📊 View 0: DIVINE STRATEGY (SOVEREIGN) */
+    .god-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin: 25px 0; }
+    .god-card { background: var(--card-bg); border-top: 5px solid var(--primary); border-radius: 20px; padding: 25px; border-left: 1px solid var(--border); border-right: 1px solid var(--border); border-bottom: 1px solid var(--border); }
+    .god-title { font-weight: 900; font-size: 16px; color: var(--accent); margin-bottom: 10px; }
+    .god-desc { font-size: 11px; line-height: 1.8; color: #94a3b8; }
     
-    .eco-title { font-weight: 900; font-size: 20px; color: var(--accent); margin-bottom: 15px; display: flex; align-items: center; gap: 10px; }
-    .eco-list { padding: 0; list-style: none; font-size: 13px; line-height: 2.2; color: #cbd5e1; }
-    .eco-list li::before { content: "✔ "; color: var(--accent); font-weight: 900; }
+    .eco-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-top: 20px; }
+    .eco-card { background: rgba(255,255,255,0.03); border-radius: 20px; padding: 25px; border: 1px solid var(--border); }
 
-    .target-box { background: rgba(0,0,0,0.3); padding: 20px; border-radius: 20px; text-align: center; margin-top: 20px; border: 1px solid var(--border); }
-    
+    /* 🌐 View 1: HUB & NETWORK (DENSE) */
+    #hub-wrap { width: 100%; height: 500px; position: relative; border-radius: 30px; background: rgba(0,0,0,0.3); overflow: hidden; margin-top: 20px; }
+    svg#svg-lines { position: absolute; inset: 0; width: 100%; height: 100%; z-index: 5; pointer-events: none; }
+    .node { position: absolute; border-radius: 50%; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; cursor: pointer; transition: 0.4s; border: 1px solid var(--border); background: var(--glass); backdrop-filter: blur(8px); transform: translate(-50%, -50%); z-index: 10; font-size: 11px; font-weight: 900; }
+    .c-node { width: 150px; height: 150px; background: radial-gradient(circle, var(--primary), #c0392b); font-size: 13px; box-shadow: 0 0 30px rgba(255,127,80,0.3); }
+    .s-node { width: 110px; height: 110px; }
+    .node-num { font-family: Outfit; font-size: 18px; color: var(--accent); }
+
+    /* 🛡️ View 2: RISK PHILOSOPHY (FULL DENSITY) */
+    .risk-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+    .risk-card { background: var(--card-bg); border-radius: 20px; padding: 30px; border: 1px solid var(--border); text-align: center; }
+    .risk-title { font-weight: 900; font-size: 18px; color: var(--accent); margin: 15px 0; }
+    .risk-text { font-size: 12px; line-height: 2.2; color: #cbd5e1; text-align: left; }
+
+    .wall-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; margin-top: 30px; }
+    .wall-card { background: rgba(255,127,80,0.05); border-radius: 20px; padding: 25px; border: 1px solid var(--primary); }
+    .wall-title { font-weight: 900; color: var(--primary); margin-bottom: 12px; font-size: 15px; }
+    .wall-list { font-size: 11px; line-height: 2; color: #94a3b8; padding-left: 15px; }
+
+    /* 📄 View 3: DOCUMENT TEMPLE (FULL LEGAL DENSITY) */
+    .doc-tabs-legal { display: flex; gap: 8px; margin-bottom: 30px; flex-wrap: wrap; justify-content: center; }
+    .doc-tabs-legal button { padding: 9px 15px; border-radius: 50px; cursor: pointer; font-weight: 900; font-size: 11px; transition: 0.3s; background: var(--glass); border: 1px solid var(--border); color: #fff; }
+    .doc-tabs-legal button.active { background: var(--primary); border-color: var(--primary); box-shadow: 0 0 15px var(--primary); }
+
+    .doc-outer { background: #fff; color: #1e293b; padding: 75px 60px; border-radius: 4px; font-size: 13px; line-height: 1.8; max-width: 800px; margin: 0 auto 50px; box-shadow: 0 40px 100px rgba(0,0,0,0.5); border: 1px solid #ccc; text-align: justify; }
+    .doc-preview { display: none; }
+    .doc-preview.active { display: block; }
+    .doc-title-legal { text-align: center; font-weight: 900; font-size: 20px; margin-bottom: 40px; border-bottom: 3px double #333; padding-bottom: 15px; width: 100%; letter-spacing: 0.1em; }
+    .doc-clause-title { font-weight: 900; margin-top: 30px; border-left: 6px solid #111; padding-left: 15px; margin-bottom: 10px; font-size: 14px; }
+    .doc-clause-body { padding-left: 20px; margin-bottom: 20px; }
+
     h2 { font-weight: 900; font-size: 32px; background: linear-gradient(90deg, #fff, var(--primary)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin: 0; }
-    .subtitle { color: #64748b; font-size: 14px; margin-bottom: 25px; }
+    .subtitle { color: #64748b; font-size: 14px; margin-bottom: 15px; }
+    #side-panel { width: 380px; background: rgba(8, 13, 26, 0.98); border-left: 1px solid var(--border); padding: 50px 40px; display: none; flex-direction: column; overflow-y: auto; z-index: 3000; }
   </style>
 </head>
 <body>
@@ -50,68 +80,150 @@
 
   <div id="main-view">
     
-    <!-- PAGE 0: 3-YEAR ECOSYSTEM (FC & SOCIAL) -->
+    <!-- PAGE 0: DIVINE STRATEGY & ECOSYSTEM -->
     <div id="view-0" class="view-content active">
-      <h2>SOVEREIGN ECOSYSTEM 2028</h2>
-      <p class="subtitle">社会的ハブ×FC展開：鍵屋を超えた次世代「共生インフラ」の構築</p>
-
-      <div class="eco-grid">
-        <!-- Social Hub -->
-        <div class="eco-card">
-          <div class="eco-title">🤝 社会的ハブ（多角化支援）</div>
-          <ul class="eco-list">
-            <li><b>障がい者雇用</b>: AI配車ログの管理・鍵部品の再生事業</li>
-            <li><b>シングル支援</b>: CS/ハブ業務のフレキシブル雇用拠点</li>
-            <li><b>価値</b>: ESG経営による低利融資と圧倒的採用優位性</li>
-          </ul>
-          <div class="target-box">
-             <div style="font-size:10px; color:#94a3b8;">EMPLOYMENT TARGET</div>
-             <div style="font-family:Outfit; font-size:24px; color:var(--accent);">Diversity 20% +</div>
-          </div>
+      <h2>DIVINE STRATEGIC CHOICE</h2>
+      <p class="subtitle">30億円を超え、日本を差配する企業へ</p>
+      
+      <div class="god-grid">
+        <div class="god-card" style="border-top-color:var(--accent);">
+          <div class="god-title">🏰 真の君主 (Sovereign)</div>
+          <div class="god-desc">資産家・法人への「防衛サブスク」。高単価・高利益による支配モデル。</div>
         </div>
-        <!-- Franchise System -->
-        <div class="eco-card">
-          <div class="eco-title">📡 フランチャイズ OS</div>
-          <ul class="eco-list">
-            <li><b>フランチャイズ2.0</b>: 「職人」ではなく「AI配車OS」を売る</li>
-            <li><b>協力会社支配</b>: 自社クオリティを維持したまま全国展開</li>
-            <li><b>収益モデル</b>: 現場ロイヤリティ＋システム利用料</li>
-          </ul>
-          <div class="target-box">
-             <div style="font-size:10px; color:#94a3b8;">REGIONAL CAPACITY</div>
-             <div style="font-family:Outfit; font-size:24px; color:var(--secondary);">National Scale</div>
-          </div>
+        <div class="god-card" style="border-top-color:var(--secondary);">
+          <div class="god-title">📡 プラットフォーマー</div>
+          <div class="god-desc">自社AI配車OSを全国の協力会社へ貸し出し。全国の鍵・緊急対応を支配。</div>
+        </div>
+        <div class="god-card" style="border-top-color:var(--primary);">
+          <div class="god-title">🧠 知能の預言者</div>
+          <div class="god-desc">現場データから「事件を未然に防ぐ」IT・AI企業への業態転換。</div>
         </div>
       </div>
 
-      <div style="margin-top:30px; background:var(--glass); padding:30px; border-radius:25px; border:1px solid var(--border);">
-         <div style="font-weight:900; margin-bottom:15px; color:var(--primary);">🛡️ 3ヵ年「覇道」へのマイルストーン</div>
-         <div style="display:flex; justify-content:space-between; gap:20px; font-size:12px; line-height:2; color:#cbd5e1;">
-            <div style="flex:1;"><b>1年目：基盤</b><br>自社ハブでの社会支援パイロット。AI配車OSの完成。</div>
-            <div style="flex:1;"><b>2年目：拡大</b><br>FCモデルのベータ展開。障がい者雇用による「再生工房」始動。</div>
-            <div style="flex:1;"><b>3年目：支配</b><br>全国FC網×社会支援ハブの完成。売上30億超の「共創モデル」。</div>
-         </div>
+      <div class="eco-grid">
+        <div class="eco-card">
+          <div style="font-weight:900; font-size:18px; color:var(--primary); margin-bottom:15px;">🤝 社会支援ハブ</div>
+          <ul style="font-size:11px; line-height:2.2; color:#cbd5e1;">
+            <li><b>障がい者雇用</b>: AI配車管理。鍵リユース事業（多角化）。</li>
+            <li><b>シングル支援</b>: 自立支援プログラムと柔軟なCS雇用。</li>
+            <li><b>ESG価値</b>: 実績が呼び込む巨額融資と公的な提携。</li>
+          </ul>
+        </div>
+        <div class="eco-card">
+          <div style="font-weight:900; font-size:18px; color:var(--secondary); margin-bottom:15px;">📡 3ヵ年財務目標</div>
+          <div style="display:flex; justify-content:space-between; align-items:flex-end; height:80px;">
+            <div style="text-align:center;"><div style="font-size:18px; color:var(--accent);">10億</div><div style="font-size:9px;">2026</div></div>
+            <div style="text-align:center;"><div style="font-size:24px; color:var(--accent);">20億</div><div style="font-size:9px;">2027</div></div>
+            <div style="text-align:center;"><div style="font-size:32px; color:var(--accent);">30億</div><div style="font-size:9px;">2028</div></div>
+          </div>
+        </div>
       </div>
     </div>
 
-    <!-- Other Pages kept with high integrity -->
-    <div id="view-1" class="view-content"><h2>ORGANIZATION HUB</h2><div id="hub-wrap"><svg id="svg-lines"></svg><div id="nodes-layer"></div></div></div>
-    <div id="view-2" class="view-content"><h2>RISK & GOVERNANCE</h2><p>想像・予防・対処。4枚の防衛壁詳細マニュアル。</p></div>
-    <div id="view-3" class="view-content"><h2>GOVERNANCE TOOLKIT</h2><p>Panasonic級ポリシー、請求フロー、三種の神器。</p></div>
+    <!-- PAGE 1: HUB & NETWORK AUTHORITY -->
+    <div id="view-1" class="view-content">
+      <h2>SOVEREIGN NETWORK AUTHORITY</h2>
+      <p class="subtitle">中央CSハブによる、全フランチャイズ・多角事業の統制</p>
+      
+      <div id="hub-wrap"><svg id="svg-lines"></svg><div id="nodes-layer"></div></div>
+      
+      <div style="margin-top:25px; background:rgba(255,255,255,0.03); padding:25px; border-radius:20px; border:1px solid var(--border);">
+         <div style="font-weight:900; font-size:16px; margin-bottom:12px;">ハブ型フランチャイズ支配ロジック</div>
+         <p style="font-size:12px; line-height:2.2; color:#cbd5e1;">加盟店は「手」となり、ハブとなる CarlockHomes が「脳（AI dispatch）」となる。全トランザクションをハブで決済・管理することで、クオリティの均一化と社会的収益の最大化を両立させます。</p>
+      </div>
+    </div>
+
+    <!-- PAGE 2: RISK & SECURITY WALLS (RESTORED DENSITY) -->
+    <div id="view-2" class="view-content">
+      <h2>SECURITY PHILOSOPHY</h2>
+      <p class="subtitle">攻めを最大化するための、最高レベルのガバナンス武装</p>
+
+      <div class="risk-grid">
+        <div class="risk-card"><div style="font-size:40px">💡</div><div class="risk-title">想像 (Predict)</div><div class="risk-text">落とし穴を先に見つける力。全ての不測の事態をリストアップし「もしも」の時のシナリオが準備されている状態を目指します。</div></div>
+        <div class="risk-card"><div style="font-size:40px">🛡️</div><div class="risk-title">予防 (Prevent)</div><div class="risk-text">穴を塞ぐカギを用意すること。日々の業務手順の形式知化、及びデジタル認証の導入により、ヒューマンエラーを物理的に排除します。</div></div>
+        <div class="risk-card"><div style="font-size:40px">🧯</div><div class="risk-title">対処 (Perform)</div><div class="risk-text">火種が上がった瞬間に、訓練された消火器（法的書類・広報対応）を一斉掃射すること。収束の速さが企業の回復力を決めます。</div></div>
+      </div>
+
+      <div class="wall-grid">
+        <div class="wall-card">
+          <div class="wall-title">1. 組織的・人的安全管理</div>
+          <ul class="wall-list">
+            <li>全従事者との厳格なNDA（秘密保持）締結の完遂</li>
+            <li>採用時の多角的バックグラウンドチェック実施</li>
+            <li>CPO(個人情報保護責任者)による専任管理体制</li>
+          </ul>
+        </div>
+        <div class="wall-card">
+          <div class="wall-title">2. 物理的・技術的安全管理</div>
+          <ul class="wall-list">
+            <li>MFA(多要素認証)による、ハブシステムへのアクセス制限</li>
+            <li>AES-256規格による、全顧客データの通信・保存暗号化</li>
+            <li>重要エリアの生体認証アクセス記録および24時間監視</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- PAGE 3: GOVERNANCE TOOLKIT (COMPLETE DENSITY) -->
+    <div id="view-3" class="view-content">
+      <h2>GOVERNANCE TOOLKIT</h2>
+      <div class="doc-tabs-legal">
+        <button id="tab-0" class="active" onclick="switchDoc(0)">0. 保護方針 (Policy)</button>
+        <button id="tab-1" onclick="switchDoc(1)">1. 公表事項 (Disclosure)</button>
+        <button id="tab-2" onclick="switchDoc(2)">2. 請求フロー (Flow)</button>
+        <button id="tab-3" onclick="switchDoc(3)">3. 提型 (Forms)</button>
+      </div>
+
+      <div class="doc-outer">
+        <!-- DOC: POLICY -->
+        <div id="doc-0" class="doc-preview active">
+          <div class="doc-title-legal">個人情報保護方針</div>
+          <p>カーロックホームズ株式会社（以下、「当社」）は、ステークホルダー全ての情報を保護することが社会的使命であると考え、以下の方針を定めます。</p>
+          <div class="doc-clause-title">保護体制の確立</div><p class="doc-clause-body">全役員・従業員に対し継続的な教育を実施し、ISMS基準に準拠した管理体制を維持・向上し続けます。</p>
+          <div class="doc-clause-title">安全管理措置</div><p class="doc-clause-body">不正アクセス、漏洩、滅失を防ぐため、物理的・技術的な最新のセキュリティ技術を導入し対応します。</p>
+          <div style="margin-top:60px; text-align:right;">代表取締役 上野原 政司</div>
+        </div>
+        <!-- DOC: DISCLOSURE -->
+        <div id="doc-1" class="doc-preview">
+          <div class="doc-title-legal">個人情報保護法に基づく公表事項</div>
+          <div class="doc-clause-title">保有個人データの利用目的</div><p class="doc-clause-body">採用選考、顧客への緊急駆けつけ、業務委託・FC管理、及び緊急時の本人確認に限定します。</p>
+          <div class="doc-clause-title">第三者提供の制限</div><p class="doc-clause-body">法令に基づき認められた場合、または緊急の人命保護に必要な場合を除き、事前の同意なく提供しません。</p>
+        </div>
+        <!-- DOC: FLOW -->
+        <div id="doc-2" class="doc-preview">
+          <div class="doc-title-legal">個人情報に関する開示・削除請求フロー</div>
+          <div style="padding:20px 0;">
+            <p><b>1. 申し込み</b>: 当社指定のWebフォームまたはお電話にて受付。</p>
+            <p><b>2. 本人確認</b>: 公的書類（免許証等）のアップロードによる突合。</p>
+            <p><b>3. ワイプ執行</b>: DBからの物理抹消（ワイプ処理）の実施、およびログ記録。</p>
+            <p><b>4. 完了通知</b>: 完了通知書を発行し、請求者に電磁的記録にて送付。</p>
+          </div>
+        </div>
+        <!-- DOC: FORMS -->
+        <div id="doc-3" class="doc-preview">
+          <div class="doc-title-legal">実務提型（三種の神器）マスター</div>
+          <div class="doc-clause-title">📄 個人情報の取扱いに関する同意書</div><p class="doc-clause-body">「私は、本人の承諾なく目的外利用を行わない条項に同意し...」</p>
+          <hr>
+          <div class="doc-clause-title">📄 個人情報削除完了のご通知</div><p class="doc-clause-body">「復元不可能なワイプ処理（永久抹消）を完了したことを証明します。」</p>
+        </div>
+      </div>
+    </div>
 
   </div>
 
   <div id="side-panel">
-    <div id="p-title" style="font-weight:900; font-size:26px; color:var(--primary); margin-bottom:10px;">TITLE</div>
-    <div id="p-count" style="font-family:Outfit; font-size:36px; color:#fff; border-bottom:2px solid var(--primary); margin-bottom:20px; width:fit-content;">0名</div>
-    <div id="p-text" style="font-size:15px; line-height:2.4; color:#cbd5e1;"></div>
+    <div id="p-title" style="font-weight:900; font-size:24px; color:var(--primary); margin-bottom:10px;">TITLE</div>
+    <div id="p-count" style="font-family:Outfit; font-size:32px; color:#fff; border-bottom:2px solid var(--primary); margin-bottom:20px; width:fit-content;">0名</div>
+    <div id="p-text" style="font-size:14px; line-height:2.2; color:#cbd5e1;"></div>
   </div>
 
   <script>
     const hubData = {
-      hub: { t:'経営・CSハブ', n:'10', i:'🍊', d:'情報の「心臓」です。社長の経営判断と、CSによる現場統制がここで一体化されます。' },
-      sales: { t:'営業部', n:'5', a:-90, i:'🚀', d:'法人提携のエンジン。' }, service: { t:'サービス部', n:'30', a:-25, i:'🔧', d:'現場の安全を守る職人。' },
-      dx: { t:'DX室', n:'2', a:35, i:'⚡', d:'システムの守護神。' }, admin: { t:'管理部', n:'3', a:110, i:'🏢', d:'給与、経理、労務、法務を統括。' }
+      hub: { t:'Carlock Hub', n:'10', i:'🍊', d:'全FC・多角事業の脳。AI配車、決済、社会的支援の統制を一手に担い、情報を最高度な安全管理で保護します。' },
+      sales: { t:'営業・提携部', n:'5', a:-90, i:'🚀', d:'法人FC加盟、大手不動産への全国窓口。10倍成長の矛となります。' },
+      service: { t:'FC協力店網', n:'30', a:-25, i:'🔧', d:'全国30拠点以上の協力会社。ハブのOSに直結し、Carlock品質を現場で体現します。' },
+      dx: { t:'DX・Social室', n:'2', a:35, i:'⚡', d:'障がい者雇用・シングル支援の現場運用とAIシステムの保守。社会的価値の源泉。' },
+      admin: { t:'管理・法務部', n:'3', a:110, i:'🏢', d:'Panasonic級のガバナンス維持。給与、経理、コンプライアンスを完遂。' }
     };
     function switchView(id) {
        document.querySelectorAll('.view-content').forEach(v => { v.classList.remove('active'); v.style.display = 'none'; });
@@ -126,16 +238,22 @@
       if(!l || !s || !c) return; l.innerHTML = ''; s.innerHTML = ''; const cx = c.clientWidth/2; const cy = c.clientHeight/2;
       Object.keys(hubData).forEach(k => {
         const d = hubData[k]; let x = cx, y = cy;
-        if(k !== 'hub') { const r = d.a * Math.PI/180; x = cx + 220*Math.cos(r); y = cy + 220*Math.sin(r);
+        if(k !== 'hub') { const r = d.a * Math.PI/180; x = cx + 200*Math.cos(r); y = cy + 200*Math.sin(r);
           const line = document.createElementNS("http://www.w3.org/2000/svg", "line");
           line.setAttribute("x1", cx); line.setAttribute("y1", cy); line.setAttribute("x2", x); line.setAttribute("y2", y);
           line.setAttribute("stroke", "rgba(255,127,80,0.3)"); line.setAttribute("stroke-width", "2"); line.setAttribute("stroke-dasharray", "4"); s.appendChild(line);
         }
         const n = document.createElement('div'); n.className = 'node '+(k==='hub'?'c-node':'s-node'); n.style.left = x+'px'; n.style.top = y+'px';
-        n.innerHTML = `<div style="font-size:32px">${d.i}</div>${d.t}<div class="node-num">${d.n}名</div>`;
+        n.innerHTML = `<div style="font-size:30px">${d.i}</div>${d.t}<div class="node-num">${d.n}名</div>`;
         n.onclick = () => { document.getElementById('p-title').innerText = d.t; document.getElementById('p-count').innerText = d.n+'名'; document.getElementById('p-text').innerText = d.d; };
         l.appendChild(n);
       });
+    }
+    function switchDoc(id) { 
+      document.querySelectorAll('.doc-preview').forEach(d => d.classList.remove('active'));
+      document.getElementById('doc-'+id).classList.add('active');
+      document.querySelectorAll('.doc-tabs-legal button').forEach(b => b.classList.remove('active'));
+      document.getElementById('tab-'+id).classList.add('active');
     }
     window.onload = () => { if(document.getElementById('view-1').classList.contains('active')) initHub(); };
   </script>
