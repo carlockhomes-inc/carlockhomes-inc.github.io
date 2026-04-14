@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>CLH 30-Billion Sovereign Portal vFinal-Audit</title>
+  <title>CLH 30-Billion Strategic Matrix vShort-Med-Long</title>
   <link href="https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@400;700;900&family=Outfit:wght@900&display=swap" rel="stylesheet">
   <style>
     :root {
@@ -14,36 +14,32 @@
     * { box-sizing: border-box; }
     body { margin: 0; padding: 0; background: var(--bg); color: #f1f5f9; font-family: 'Zen Maru Gothic', sans-serif; overflow: hidden; display: flex; height: 100vh; }
 
-    /* ── Sidebar ── */
+    /*Sidebar - kept same*/
     #sidebar { width: 75px; background: #080d1a; border-right: 1px solid var(--border); display: flex; flex-direction: column; align-items: center; padding: 30px 0; gap: 25px; z-index: 2000; }
     .nav-btn { width: 50px; height: 50px; border-radius: 14px; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: 0.3s; font-size: 22px; background: var(--glass); border: 1px solid var(--border); }
     .nav-btn.active { background: var(--primary); color: #fff; box-shadow: 0 0 20px var(--primary); border: none; }
 
-    /* ── Main View ── */
+    /*Main- kept same*/
     #main-view { flex: 1; position: relative; overflow-y: auto; background: #0f172a; }
     .view-content { position: absolute; inset: 0; padding: 60px; display: none; opacity: 0; transform: translateY(10px); transition: 0.4s; overflow-y: auto; }
     .view-content.active { display: block; opacity: 1; transform: translateY(0); }
 
-    /* 📊 View 0: 3-Year Strategy & Client Audit */
-    .dashboard-grid { display: grid; grid-template-columns: 1fr 1.2fr; gap: 25px; margin-top: 10px; }
-    .card { background: var(--card-bg); border-radius: 25px; padding: 30px; border: 1px solid var(--border); }
-    .stat-val { font-family: 'Outfit'; font-size: 38px; font-weight: 900; color: var(--accent); margin-bottom: 5px; }
-    
-    .timeline-container { margin: 30px 0; background: rgba(255,255,255,0.03); padding: 35px; border-radius: 35px; border: 1px solid var(--border); text-align: center; }
-    .timeline-flex { display: flex; justify-content: space-between; position: relative; margin-top: 25px; }
-    .timeline-flex::before { content: ""; position: absolute; top: 15px; left: 10%; right: 10%; height: 2px; background: var(--border); z-index: 1; }
-    .step { flex: 1; z-index: 2; position: relative; padding: 0 5px; }
-    .step-dot { width: 28px; height: 28px; background: var(--bg); border: 4px solid var(--accent); border-radius: 50%; margin: 0 auto 12px; }
-    .step.active .step-dot { background: var(--accent); box-shadow: 0 0 20px var(--accent); }
+    /* View 0: Strategic Matrix */
+    .matrix-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin: 30px 0; }
+    .matrix-card { background: var(--card-bg); border-radius: 25px; padding: 30px; border: 1px solid var(--border); position: relative; overflow: hidden; }
+    .matrix-card::before { content: ""; position: absolute; top:0; left:0; width:5px; height:100%; background: var(--secondary); }
+    .matrix-label { font-family: Outfit; font-weight: 900; color: var(--accent); font-size: 11px; letter-spacing: 0.1em; margin-bottom: 10px; }
+    .matrix-title { font-weight: 900; font-size: 18px; margin-bottom: 15px; }
+    .matrix-list { font-size: 12px; color: #cbd5e1; line-height: 2; padding: 0; list-style: none; }
+    .matrix-list li::before { content: "▶ "; color: var(--primary); font-size: 10px; }
 
-    table { width: 100%; border-collapse: collapse; margin-top: 15px; font-size: 12px; }
+    .stat-val { font-family: 'Outfit'; font-size: 32px; font-weight: 900; color: var(--accent); }
+    table { width: 100%; border-collapse: collapse; font-size: 11.5px; margin-top: 15px; }
     th { text-align: left; color: #94a3b8; padding: 10px; border-bottom: 1px solid var(--border); }
-    td { padding: 12px 10px; border-bottom: 1px solid rgba(255,255,255,0.05); }
-    .target-up { color: #4ade80; font-weight: 900; }
+    td { padding: 10px; border-bottom: 1px solid rgba(255,255,255,0.05); }
 
     h2 { font-weight: 900; font-size: 32px; background: linear-gradient(90deg, #fff, var(--primary)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin: 0; }
-    .subtitle { color: #64748b; font-size: 14px; margin-bottom: 20px; }
-    #side-panel { width: 380px; background: rgba(8, 13, 26, 0.98); border-left: 1px solid var(--border); padding: 50px 40px; display: none; flex-direction: column; overflow-y: auto; z-index: 3000; }
+    .subtitle { color: #64748b; font-size: 14px; margin-bottom: 10px; }
   </style>
 </head>
 <body>
@@ -57,58 +53,82 @@
 
   <div id="main-view">
     
-    <!-- PAGE 0: 30-Billion AUDIT & GROWTH STRATEGY -->
+    <!-- PAGE 0: SHORT-MED-LONG STRATEGIC MATRIX -->
     <div id="view-0" class="view-content active">
       <h2>3-YEAR SOVEREIGN STRATEGY</h2>
-      <p class="subtitle">2025年度決算報告を基軸とした 30億円への予算・取引先戦略</p>
+      <p class="subtitle">短期・中期・長期の経営マトリクス： 10億→30億への全方位戦術</p>
 
-      <div class="dashboard-grid">
-        <div class="card" style="border-top:5px solid var(--primary)">
-          <div style="font-weight:900; font-size:14px; color:#94a3b8;">FY2028 TARGET</div>
-          <div class="stat-val">3,000,000,000 <span style="font-size:14px; color:#fff">JPY</span></div>
-          <p style="font-size:12px; line-height:2; color:#cbd5e1;">✅ プレステージ依存度を31%から適正化<br>✅ 中堅取引先の10倍化(リロ・TOKAI等)<br>✅ 営業利益率の極大化(AIリプレース)</p>
+      <div class="matrix-grid">
+        <!-- SHORT -->
+        <div class="matrix-card" style="border-top:4px solid var(--secondary)">
+          <div class="matrix-label">SHORT-TERM (FY2026)</div>
+          <div class="matrix-title">要塞化と軍事化</div>
+          <ul class="matrix-list">
+            <li>10億円の確実な維持</li>
+            <li>ガバナンス(4枚の壁)の完成</li>
+            <li>DX/AIによる配車自動化基盤</li>
+            <li>利益のAIシステム集中再投資</li>
+          </ul>
+          <div style="margin-top:15px; font-size:10px; color:var(--secondary); font-weight:900;">KEYWORD: [信頼]</div>
         </div>
-        <div class="card">
-          <div style="font-weight:900; font-size:14px; color:#94a3b8;">予算投下プライオリティ</div>
-          <div style="display:flex; justify-content:space-between; margin-top:15px; font-size:13px;">
-            <span>AI配車・決済自動化</span><span style="color:var(--accent)">45%</span>
-          </div>
-          <div style="width:100%; height:8px; background:rgba(255,255,255,0.1); border-radius:10px; margin:8px 0;"><div style="width:45%; height:100%; background:var(--accent); border-radius:10px;"></div></div>
-          
-          <div style="display:flex; justify-content:space-between; margin-top:10px; font-size:13px;">
-            <span>少数精鋭人材報酬プール</span><span style="color:var(--secondary)">35%</span>
-          </div>
-          <div style="width:100%; height:8px; background:rgba(255,255,255,0.1); border-radius:10px; margin:8px 0;"><div style="width:35%; height:100%; background:var(--secondary); border-radius:10px;"></div></div>
+        <!-- MEDIUM -->
+        <div class="matrix-card" style="border-top:4px solid var(--primary)">
+          <div class="matrix-label">MEDIUM-TERM (FY2027)</div>
+          <div class="matrix-title">電撃の市場侵攻</div>
+          <ul class="matrix-list">
+            <li>20億円突破・法人営業爆発</li>
+            <li>主要取引先の10倍化達成</li>
+            <li>少数精鋭33名モデルの確立</li>
+            <li>1人当たり売上3,000万超</li>
+          </ul>
+          <div style="margin-top:15px; font-size:10px; color:var(--primary); font-weight:900;">KEYWORD: [スピード]</div>
+        </div>
+        <!-- LONG -->
+        <div class="matrix-card" style="border-top:4px solid var(--accent)">
+          <div class="matrix-label">LONG-TERM (FY2028)</div>
+          <div class="matrix-title">業界の覇者</div>
+          <ul class="matrix-list">
+            <li>30億円達成・業界標準の確立</li>
+            <li>セキュリティ解決型の業態転換</li>
+            <li>AI完全自律経営の実現</li>
+            <li>最高年収水準の継続的維持</li>
+          </ul>
+          <div style="margin-top:15px; font-size:10px; color:var(--accent); font-weight:900;">KEYWORD: [価値]</div>
         </div>
       </div>
 
-      <div class="card" style="margin-top:25px;">
-        <div style="font-weight:900; font-size:16px; margin-bottom:10px;">取引先別・3ヵ年成長ターゲット</div>
-        <table>
-          <thead><tr><th>主要クライアント</th><th>2025実績(M)</th><th>2028目標(M)</th><th>戦略</th></tr></thead>
-          <tbody>
-            <tr><td>プレステージ・グループ</td><td>114M</td><td>500M</td><td>DLV案件の完全独占</td></tr>
-            <tr><td>カインズホーム</td><td>96M</td><td>300M</td><td>提携エリアの全国拡大</td></tr>
-            <tr><td>リロクリエイト・グループ</td><td>31M</td><td>250M</td><td class="target-up">10倍化ターゲット</td></tr>
-            <tr><td>TOKAI / 大和リビング</td><td>22M</td><td>200M</td><td class="target-up">10倍化ターゲット</td></tr>
-            <tr><td>新規法人(不動産・損保)</td><td>新規</td><td>1,750M</td><td>BtoB市場の本格侵攻</td></tr>
-          </tbody>
-        </table>
-      </div>
-
-      <div class="timeline-container">
-        <div class="timeline-flex">
-          <div class="step active"><div class="step-dot"></div><b>FY 2026</b><p style="font-size:10px;color:#94a3b8;margin-top:10px;"><b>10億：守りの完成</b><br>ガバナンスとITの壁構築。</p></div>
-          <div class="step"><div class="step-dot"></div><b>FY 2027</b><p style="font-size:10px;color:#94a3b8;margin-top:10px;"><b>20億：攻めの爆発</b><br>法人営業リソース集中投下。</p></div>
-          <div class="step"><div class="step-dot"></div><b>FY 2028</b><p style="font-size:10px;color:#94a3b8;margin-top:10px;"><b>30億：覇王の凱旋</b><br>AI自律経営と高収益化。</p></div>
+      <div style="display:grid; grid-template-columns:1fr 1fr; gap:25px;">
+        <!-- BUDGET & AUDIT LEFT -->
+        <div class="matrix-card">
+          <div style="font-weight:900; font-size:15px; margin-bottom:15px;">取引先成長ターゲット</div>
+          <table>
+            <thead><tr><th>CLIENT</th><th>FY25</th><th>FY28</th></tr></thead>
+            <tbody>
+              <tr><td>プレステージ</td><td>1.1億</td><td>5億</td></tr>
+              <tr><td>リロクリエイト</td><td>31M</td><td>2.5億</td></tr>
+              <tr><td>新規BtoB</td><td>ー</td><td>17.5億</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <!-- BUDGET ALLOCATION RIGHT -->
+        <div class="matrix-card">
+          <div style="font-weight:900; font-size:15px; margin-bottom:15px;">予算配分 (30億モデル)</div>
+          <div style="margin-bottom:15px;">
+            <div style="display:flex; justify-content:space-between; font-size:12px;"><span>AI/DX基盤</span><span>45%</span></div>
+            <div style="width:100%; height:8px; background:rgba(255,255,255,0.05); border-radius:10px; margin:5px 0;"><div style="width:45%; height:100%; background:var(--accent); border-radius:10px;"></div></div>
+          </div>
+          <div>
+            <div style="display:flex; justify-content:space-between; font-size:12px;"><span>人財報酬プール</span><span>35%</span></div>
+            <div style="width:100%; height:8px; background:rgba(255,255,255,0.05); border-radius:10px; margin:5px 0;"><div style="width:35%; height:100%; background:var(--secondary); border-radius:10px;"></div></div>
+          </div>
         </div>
       </div>
     </div>
 
-    <!-- View 1, 2, 3 kept with absolute fidelity -->
+    <!-- Page 1, 2, 3 kept same with full integrity -->
     <div id="view-1" class="view-content"><h2>ORGANIZATION HUB</h2><div id="hub-wrap"><svg id="svg-lines"></svg><div id="nodes-layer"></div></div></div>
-    <div id="view-2" class="view-content"><h2>RISK MANAGEMENT & SECURITY</h2><p>想像・予防・対処の4枚の壁詳細。</p></div>
-    <div id="view-3" class="view-content"><h2>GOVERNANCE TOOLKIT</h2><p>パナソニック級ポリシー、公表事項、請求フロー、三種の神器。</p></div>
+    <div id="view-2" class="view-content"><h2>RISK & SECURITY WALLS</h2><p>想像・予防・対処。4枚の防衛壁の全チェックリスト。</p></div>
+    <div id="view-3" class="view-content"><h2>GOVERNANCE TOOLKIT</h2><p>Panasonic級保護方針、公表事項、請求フロー、三種の神器。</p></div>
 
   </div>
 
