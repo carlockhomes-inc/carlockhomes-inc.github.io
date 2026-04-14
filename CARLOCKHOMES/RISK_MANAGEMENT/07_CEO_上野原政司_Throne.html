@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>代表取締役 CEO：上野原 政司 - THE THRONE</title>
+  <link href="https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@400;700;900&family=Outfit:wght@900&family=Cinzel+Decorative:wght@900&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --emperor: #800000; --gold: #D4AF37; --onyx: #050505; --accent: #FFD700;
+      --glass: rgba(255, 255, 255, 0.05); --border: rgba(214, 175, 55, 0.3);
+    }
+    * { box-sizing: border-box; }
+    body { 
+      margin: 0; padding: 0; background: var(--onyx); color: #fff; 
+      font-family: 'Zen Maru Gothic', sans-serif; height: 100vh; overflow: hidden;
+      background: radial-gradient(circle at top, #2a0000, #050505);
+    }
+
+    header { 
+      padding: 50px 100px; display: flex; justify-content: space-between; align-items: flex-end;
+      border-bottom: 2px solid var(--border); background: rgba(0,0,0,0.9);
+    }
+    .title-area h2 { 
+      margin: 0; font-family: 'Cinzel Decorative', cursive; font-size: 50px; 
+      letter-spacing: 0.2em; color: var(--gold); text-shadow: 0 0 30px var(--emperor);
+    }
+    .executive-name { text-align: right; }
+    .executive-name .role { font-size: 14px; font-weight: 900; color: var(--gold); letter-spacing: 0.4em; border-bottom: 3px solid var(--emperor); padding-bottom: 5px; display: inline-block; }
+    .executive-name .name { font-size: 40px; font-weight: 900; color: #fff; margin-top: 15px; }
+
+    main { display: grid; grid-template-columns: 1fr 500px; height: calc(100vh - 180px); padding: 50px 100px; gap: 60px; }
+    
+    #vision-hub { background: var(--glass); border-radius: 50px; border: 1px solid var(--border); padding: 60px; display: flex; flex-direction: column; justify-content: space-between; position: relative; overflow: hidden; }
+    #vision-hub::before { content: ''; position: absolute; inset: 0; background: url('https://www.transparenttextures.com/patterns/carbon-fibre.png'); opacity: 0.1; }
+
+    .target-box { background: rgba(128, 0, 0, 0.15); border: 2px solid var(--border); border-radius: 30px; padding: 40px; text-align: center; }
+    .target-label { font-size: 12px; font-weight: 900; color: var(--gold); letter-spacing: 0.5em; margin-bottom: 20px; }
+    .target-val { font-family: Outfit; font-size: 72px; font-weight: 900; color: #fff; text-shadow: 0 0 40px var(--emperor); }
+    .target-val span { font-size: 24px; color: var(--gold); }
+
+    .strategy-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 30px; margin-top: 40px; }
+    .strat-item { padding: 30px; background: rgba(255,255,255,0.02); border-radius: 25px; border-left: 5px solid var(--emperor); font-size: 13px; line-height: 2; }
+    .strat-title { color: var(--gold); font-weight: 900; font-size: 16px; margin-bottom: 15px; }
+
+    #pledge-card { background: linear-gradient(135deg, rgba(128,0,0,0.2), rgba(0,0,0,0.8)); border-radius: 50px; padding: 60px; border: 2px solid var(--border); display: flex; flex-direction: column; overflow-y: auto; }
+    .ceo-declaration { font-size: 22px; font-weight: 900; line-height: 2.2; color: #fff; margin-bottom: 50px; text-align: justify; border-bottom: 1px solid var(--border); padding-bottom: 40px; }
+    .ceo-signature { margin-top: auto; text-align: right; }
+    .ceo-seal { width: 80px; height: 80px; border: 4px solid var(--emperor); display: inline-flex; align-items: center; justify-content: center; color: var(--emperor); font-size: 24px; font-weight: 900; border-radius: 50%; transform: rotate(-10deg); margin-left: 30px; box-shadow: 0 0 20px rgba(128,0,0,0.3); }
+
+    .command-btn { width: 100%; height: 120px; border-radius: 40px; background: var(--emperor); border: 1px solid var(--gold); color: #fff; font-size: 24px; font-weight: 900; cursor: pointer; transition: 0.4s; letter-spacing: 0.2em; display: flex; align-items: center; justify-content: center; gap: 20px; margin-top: 40px; }
+    .command-btn:hover { background: #b00; box-shadow: 0 0 50px var(--emperor); transform: scale(1.02); }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="title-area">
+      <h2>The Throne</h2>
+      <p style="letter-spacing: 0.6em; font-weight: 900; color: #94a3b8; font-size: 12px;">SUPREME COMMANDER'S ARCHIVE</p>
+    </div>
+    <div class="executive-name">
+      <div class="role">REPRESENTATIVE DIRECTOR / CEO</div><br>
+      <div class="name">上野原 政司</div>
+    </div>
+  </header>
+
+  <main>
+    
+    <section id="vision-hub">
+      <div class="target-box">
+        <div class="target-label">2030 ENTERPRISE VALUE</div>
+        <div class="target-val">10.0<span> Billion JPY</span></div>
+      </div>
+
+      <div class="strategy-grid">
+        <div class="strat-item">
+          <div class="strat-title">🏛️ ガバナンスの絶対性</div>
+          情報は企業の魂であり、その流出は死を意味する。パナソニック級の防衛網を CarlockHomes の標準装備とし、社会的信用を永久に担保せよ。
+        </div>
+        <div class="strat-item">
+          <div class="strat-title">⚡ 技術による支配</div>
+          AI配車OSとハブ・ネットワークにより、職人技をシステム化せよ。属人性を排除し、全国300拠点の品質を私（CEO）の基準で均一化する。
+        </div>
+        <div class="strat-item">
+          <div class="strat-title">🤝 社会的包摂の使命</div>
+          障がい者雇用、シングル支援。利益はこの「人助け」という大義のためにある。高い生産性こそが、弱者を救う最強の武器となる。
+        </div>
+        <div class="strat-item">
+          <div class="strat-title">📈 圧倒的な一人当たり利益</div>
+          3,030万円の生産性は通過点に過ぎない。従業員の人生を豊かにし、家族が誇れる企業であるために、高収益体質を死守せよ。
+        </div>
+      </div>
+    </section>
+
+    <section id="pledge-card">
+      <div style="font-size: 11px; font-weight: 900; color: var(--gold); letter-spacing: 0.5em; margin-bottom: 20px;">CEO SOVEREIGN DECLARATION</div>
+      <div class="ceo-declaration">
+        「私は、カーロックホームズの守護者として、お客様の信頼と情報の安全を死守する全責任を負うことを、ここに宣言する。」<br><br>
+        この誓いは、単なる言葉ではなく、当社の全業務プロセスに組み込まれる絶対的な規律である。道を踏み外す者は、この旗印の下に集う資格はない。
+      </div>
+      
+      <div class="ceo-signature">
+        <div style="font-size: 12px; color: #94a3b8; margin-bottom: 15px;">令和8年4月14日 代表取締役</div>
+        <span style="font-size: 42px; font-weight: 900; font-family: 'Zen Maru Gothic';">上野原 政司</span>
+        <div class="ceo-seal">上野原</div>
+      </div>
+
+      <button class="command-btn">
+        🛡️ TOTAL GOVERNANCE CONTROL
+      </button>
+    </section>
+
+  </main>
+
+</body>
+</html>
