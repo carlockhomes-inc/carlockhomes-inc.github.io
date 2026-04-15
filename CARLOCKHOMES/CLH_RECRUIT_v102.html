@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>CLH 採用コンセプト プレビュー (v1.0.2)</title>
+  <title>CLH 採用コンセプト (v1.0.3) - Security Enhanced</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@400;500;700;900&family=Shippori+Antique+B1&family=Reggae+One&family=Dela+Gothic+One&family=Yomogi&family=Outfit:wght@900&display=swap" rel="stylesheet">
@@ -455,6 +455,10 @@
         <label style="display:block;font-weight:900;font-size:13px;color:#555;margin-bottom:8px;">電話番号 または メールアドレス <span style="color:#FF4444;">*</span></label>
         <input id="entry-contact" type="text" required placeholder="090-xxxx-xxxx / example@mail.com" style="width:100%;padding:14px 18px;border:2px solid #E8E8E8;border-radius:12px;font-size:16px;outline:none;">
       </div>
+      <!-- Honeypot (Bot protection) -->
+      <div style="display:none !important;" aria-hidden="true">
+        <input type="text" id="entry-hp-field" tabindex="-1" autocomplete="off">
+      </div>
       <div style="margin-bottom:25px;">
         <label style="display:block;font-weight:900;font-size:13px;color:#555;margin-bottom:12px;">希望の働き方</label>
         <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
@@ -487,6 +491,9 @@
       <button type="submit" id="entry-submit-btn" style="width:100%;background:linear-gradient(135deg,#FF6B2B,#FF4444);color:#fff;border:none;padding:18px;border-radius:15px;font-size:18px;font-weight:900;cursor:pointer;box-shadow:0 10px 30px rgba(255,107,43,0.4);transition:0.2s;">
         🔥 エントリーを送信する
       </button>
+      <div style="text-align:center; margin-top:15px; font-size:12px; color:#999; display:flex; align-items:center; justify-content:center; gap:5px;">
+        <span style="font-size:16px;">🔐</span> SSL/TLS暗号化により情報は保護されます
+      </div>
       <p style="text-align:center;font-size:15px;color:#999;margin-top:20px;font-weight:700;">※5営業日以内に、担当者よりご連絡いたします。</p>
     </form>
     <div id="entry-success" style="display:none;padding:60px 40px;text-align:center;">
@@ -534,6 +541,10 @@
         <label style="display:block;font-weight:900;font-size:13px;color:#555;margin-bottom:8px;">電話番号</label>
         <input id="contact-tel" type="tel" placeholder="03-xxxx-xxxx" autocomplete="tel" style="width:100%;padding:14px 18px;border:2px solid #E8E8E8;border-radius:12px;font-size:16px;outline:none;">
       </div>
+      <!-- Honeypot (Bot protection) -->
+      <div style="display:none !important;" aria-hidden="true">
+        <input type="text" id="contact-hp-field" tabindex="-1" autocomplete="off">
+      </div>
       <div style="margin-bottom:25px;">
         <label style="display:block;font-weight:900;font-size:13px;color:#555;margin-bottom:8px;">お問い合わせ内容 <span style="color:#FF4444;">*</span></label>
         <textarea id="contact-body" rows="4" required placeholder="具体的なご質問・ご相談内容をご記入ください。" style="width:100%;padding:14px 18px;border:2px solid #E8E8E8;border-radius:12px;font-size:15px;outline:none;resize:vertical;"></textarea>
@@ -554,6 +565,9 @@
       <button type="submit" id="contact-submit-btn" style="width:100%;background:linear-gradient(135deg,#4D96FF,#6BCB77);color:#fff;border:none;padding:18px;border-radius:15px;font-size:18px;font-weight:900;cursor:pointer;box-shadow:0 10px 30px rgba(77,150,255,0.3);transition:0.2s;">
         💬 メッセージを送信する
       </button>
+      <div style="text-align:center; margin-top:15px; font-size:12px; color:#999; display:flex; align-items:center; justify-content:center; gap:5px;">
+        <span style="font-size:16px;">🔐</span> SSL/TLS通信により送受信が保護されています
+      </div>
     </form>
     <div id="contact-success" style="display:none;padding:60px 40px;text-align:center;">
       <div style="font-size:70px;margin-bottom:20px;">✅</div>
@@ -838,6 +852,19 @@
   function submitEntry(e) {
     if(e) e.preventDefault();
     
+    // Security 1: Honeypot Check (Bot prevention)
+    if(document.getElementById('entry-hp-field').value !== '') {
+        console.warn('Bot detected');
+        return false;
+    }
+
+    // Security 2: Simple Validation
+    const contactVal = document.getElementById('entry-contact').value;
+    if(contactVal.trim().length < 5) {
+        alert('連絡先を正しく入力してください');
+        return false;
+    }
+    
     // 1. Get elements
     const formEl = document.getElementById('entry-form');
     const successEl = document.getElementById('entry-success');
@@ -857,11 +884,11 @@
           type: 'entry',
           name: document.getElementById('entry-name').value || '不明',
           age: document.getElementById('entry-age').value || '',
-          contact: document.getElementById('entry-contact').value || '',
+          contact: contactVal,
           workStyle: (document.querySelector('input[name="work-style"]:checked') || {}).value || 'まずは相談',
           pr: document.getElementById('entry-pr').value || '',
           source: currentEntrySource || '不明',
-          traffic: 'Web Preview (ULTRA-FAST)'
+          traffic: 'Public Safe (v1.0.3)'
         };
         fetch(GAS_URL, { method: 'POST', mode: 'no-cors', body: JSON.stringify(payload) });
     } catch(err) {}
@@ -869,6 +896,18 @@
 
   function submitContact(e) {
     if(e) e.preventDefault();
+    
+    // Security 1: Honeypot Check
+    if(document.getElementById('contact-hp-field').value !== '') {
+        return false;
+    }
+
+    // Security 2: Email Validation
+    const emailVal = document.getElementById('contact-email').value;
+    if(!emailVal.includes('@')) {
+        alert('有効なメールアドレスを入力してください');
+        return false;
+    }
     
     const formEl = document.getElementById('contact-form');
     const successEl = document.getElementById('contact-success');
@@ -883,11 +922,11 @@
           type: 'contact',
           contactType: (document.querySelector('input[name="contact-type"]:checked') || {}).value || '不明',
           name: document.getElementById('contact-name').value || '',
-          email: document.getElementById('contact-email').value || '',
+          email: emailVal,
           tel: document.getElementById('contact-tel') ? document.getElementById('contact-tel').value : '',
           body: document.getElementById('contact-body').value || '',
           source: 'Direct Contact', 
-          traffic: 'Web Preview (ULTRA-FAST)'
+          traffic: 'Public Safe (v1.0.3)'
         };
         fetch(GAS_URL, { method: 'POST', mode: 'no-cors', body: JSON.stringify(payload) });
     } catch(err) {}
