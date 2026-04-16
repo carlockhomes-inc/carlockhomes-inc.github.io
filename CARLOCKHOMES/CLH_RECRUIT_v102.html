@@ -455,9 +455,9 @@
         <label style="display:block;font-weight:900;font-size:13px;color:#555;margin-bottom:8px;">電話番号 または メールアドレス <span style="color:#FF4444;">*</span></label>
         <input id="entry-contact" type="text" required placeholder="090-xxxx-xxxx / example@mail.com" style="width:100%;padding:14px 18px;border:2px solid #E8E8E8;border-radius:12px;font-size:16px;outline:none;">
       </div>
-      <!-- Honeypot (Bot protection) -->
-      <div style="display:none !important;" aria-hidden="true">
-        <input type="text" id="entry-hp-field" tabindex="-1" autocomplete="off">
+      <!-- Advanced Stealth Honeypot (World Standard) -->
+      <div style="position: absolute; left: -9999px; top: -9999px; height: 1px; width: 1px; overflow: hidden;" aria-hidden="true">
+        <input type="text" id="entry-company-verify" tabindex="-1" autocomplete="off" name="company_verify">
       </div>
       <div style="margin-bottom:25px;">
         <label style="display:block;font-weight:900;font-size:13px;color:#555;margin-bottom:12px;">希望の働き方</label>
@@ -541,9 +541,9 @@
         <label style="display:block;font-weight:900;font-size:13px;color:#555;margin-bottom:8px;">電話番号</label>
         <input id="contact-tel" type="tel" placeholder="03-xxxx-xxxx" autocomplete="tel" style="width:100%;padding:14px 18px;border:2px solid #E8E8E8;border-radius:12px;font-size:16px;outline:none;">
       </div>
-      <!-- Honeypot (Bot protection) -->
-      <div style="display:none !important;" aria-hidden="true">
-        <input type="text" id="contact-hp-field" tabindex="-1" autocomplete="off">
+      <!-- Advanced Stealth Honeypot (World Standard) -->
+      <div style="position: absolute; left: -9999px; top: -9999px; height: 1px; width: 1px; overflow: hidden;" aria-hidden="true">
+        <input type="text" id="contact-office-confirm" tabindex="-1" autocomplete="off" name="office_confirm">
       </div>
       <div style="margin-bottom:25px;">
         <label style="display:block;font-weight:900;font-size:13px;color:#555;margin-bottom:8px;">お問い合わせ内容 <span style="color:#FF4444;">*</span></label>
@@ -852,9 +852,9 @@
   function submitEntry(e) {
     if(e) e.preventDefault();
     
-    // Security 1: Honeypot Check (Bot prevention)
-    if(document.getElementById('entry-hp-field').value !== '') {
-        console.warn('Bot detected');
+    // Security 1: Advanced Stealth Honeypot Check
+    if(document.getElementById('entry-company-verify').value !== '') {
+        console.warn('Stealth honeypot triggered - Bot likely');
         return false;
     }
 
@@ -897,8 +897,8 @@
   function submitContact(e) {
     if(e) e.preventDefault();
     
-    // Security 1: Honeypot Check
-    if(document.getElementById('contact-hp-field').value !== '') {
+    // Security 1: Advanced Stealth Honeypot Check
+    if(document.getElementById('contact-office-confirm').value !== '') {
         return false;
     }
 
