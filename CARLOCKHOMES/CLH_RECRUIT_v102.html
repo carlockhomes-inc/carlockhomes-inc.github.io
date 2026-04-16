@@ -794,6 +794,24 @@
     }
   })();
 
+  // Analytics: Capture Source from URL (?src=...) or Referrer
+  const urlParams = new URLSearchParams(window.location.search);
+  const urlSrc = urlParams.get('src');
+  let finalSource = '直接アクセス';
+
+  if (urlSrc === 'ig') {
+    finalSource = 'Instagram';
+  } else if (urlSrc === 'fb') {
+    finalSource = 'Facebook';
+  } else if (document.referrer.includes('instagram.com')) {
+    finalSource = 'Instagram (Referrer)';
+  } else if (document.referrer.includes('facebook.com')) {
+    finalSource = 'Facebook (Referrer)';
+  } else if (document.referrer) {
+    const refHost = new URL(document.referrer).hostname;
+    finalSource = refHost || '外部サイトリンク';
+  }
+
   // D2 Nodes
   (function(){
     const nodes = [
@@ -905,8 +923,8 @@
           contact: contactVal,
           workStyle: (document.querySelector('input[name="work-style"]:checked') || {}).value || 'まずは相談',
           pr: document.getElementById('entry-pr').value || '',
-          source: currentEntrySource || '不明',
-          traffic: 'Public Safe (v1.0.3)'
+          source: finalSource,
+          traffic: 'Public Safe (v1.0.5)'
         };
         fetch(GAS_URL, { method: 'POST', mode: 'no-cors', body: JSON.stringify(payload) });
     } catch(err) {}
@@ -943,8 +961,8 @@
           email: emailVal,
           tel: document.getElementById('contact-tel') ? document.getElementById('contact-tel').value : '',
           body: document.getElementById('contact-body').value || '',
-          source: 'Direct Contact', 
-          traffic: 'Public Safe (v1.0.3)'
+          source: finalSource, 
+          traffic: 'Public Safe (v1.0.5)'
         };
         fetch(GAS_URL, { method: 'POST', mode: 'no-cors', body: JSON.stringify(payload) });
     } catch(err) {}
