@@ -1351,7 +1351,7 @@
     <!-- ── SCRIPTS ── -->
     <script>
       const ids = ['d4', 'd2', 'd1'];
-      const GAS_URL = 'https://script.google.com/macros/s/AKfycbxmaJcHLUzlesHwhdnoBWpTgnKZuSkpOZD7C9VzWmxpIpl4VWA57cZ7X5JTpOgmup08/exec';
+      const GAS_URL = 'https://script.google.com/macros/s/AKfycbwjSLZMR4aU4uYgYv7ijBpv3BOWufZwYZZGrogX-tP-L4WCCNUcMYa_6bbRA9QUfPZL/exec';
 
       function switchDesign(i, btn) {
         ids.forEach(id => document.getElementById(id).classList.remove('active'));
@@ -1496,7 +1496,8 @@
         // 4. Send data in the background (Silent)
         try {
           const payload = {
-            access_token: 'CLH_SECURE_2026_GATE',
+            access_token: 'CLH-2026-XK9mP4wR7vTqN2sZ',
+            request_origin: window.location.hostname,
             type: 'entry',
             name: document.getElementById('entry-name').value || '不明',
             age: document.getElementById('entry-age').value || '',
@@ -1505,7 +1506,7 @@
             pr: document.getElementById('entry-pr').value || '',
             company_verify: document.getElementById('entry-company-verify').value || '',
             source: finalSource,
-            traffic: 'Secure-V14'
+            traffic: 'Secure-V16'
           };
           fetch(GAS_URL, { method: 'POST', mode: 'no-cors', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) });
         } catch (err) { }
@@ -1536,7 +1537,8 @@
 
         try {
           const payload = {
-            access_token: 'CLH_SECURE_2026_GATE',
+            access_token: 'CLH-2026-XK9mP4wR7vTqN2sZ',
+            request_origin: window.location.hostname,
             type: 'contact',
             contactType: (document.querySelector('input[name="contact-type"]:checked') || {}).value || '不明',
             name: document.getElementById('contact-name').value || '',
@@ -1545,7 +1547,7 @@
             body: document.getElementById('contact-body').value || '',
             office_confirm: document.getElementById('contact-office-confirm').value || '',
             source: finalSource,
-            traffic: 'Secure-V14'
+            traffic: 'Secure-V16'
           };
           fetch(GAS_URL, { method: 'POST', mode: 'no-cors', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) });
         } catch (err) { }
