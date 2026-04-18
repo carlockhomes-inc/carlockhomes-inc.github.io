@@ -123,6 +123,7 @@
       .modal-form { padding: 30px 20px 100px !important; }
     }
   </style>
+  <script src="https://www.google.com/recaptcha/api.js?render=6Lcq8rOsAAAAAIIExpwag0FOOlyhL-kQRLWggT9B"></script>
 </head>
 <body style="opacity:0; transition: opacity 0.5s;">
 
@@ -919,19 +920,24 @@
 
     // 4. Send data in the background (Silent)
     try {
-        const payload = {
-          access_token: 'CLH_SECURE_2026_GATE',
-          type: 'entry',
-          name: document.getElementById('entry-name').value || '不明',
-          age: document.getElementById('entry-age').value || '',
-          contact: contactVal,
-          workStyle: (document.querySelector('input[name="work-style"]:checked') || {}).value || 'まずは相談',
-          pr: document.getElementById('entry-pr').value || '',
-          company_verify: document.getElementById('entry-company-verify').value || '',
-          source: finalSource,
-          traffic: 'Public Secure (v2.0.1)'
-        };
-        fetch(GAS_URL, { method: 'POST', mode: 'no-cors', body: JSON.stringify(payload) });
+        grecaptcha.ready(function() {
+            grecaptcha.execute('6Lcq8rOsAAAAAIIExpwag0FOOlyhL-kQRLWggT9B', {action: 'submit'}).then(function(token) {
+                const payload = {
+                  access_token: 'CLH_SECURE_2026_GATE',
+                  recaptcha_token: token,
+                  type: 'entry',
+                  name: document.getElementById('entry-name').value || '不明',
+                  age: document.getElementById('entry-age').value || '',
+                  contact: contactVal,
+                  workStyle: (document.querySelector('input[name="work-style"]:checked') || {}).value || 'まずは相談',
+                  pr: document.getElementById('entry-pr').value || '',
+                  company_verify: document.getElementById('entry-company-verify').value || '',
+                  source: finalSource,
+                  traffic: 'Public AI Guard (v3.0.0)'
+                };
+                fetch(GAS_URL, { method: 'POST', mode: 'no-cors', body: JSON.stringify(payload) });
+            });
+        });
     } catch(err) {}
   }
 
@@ -959,19 +965,24 @@
     if(scrollWrap) scrollWrap.scrollTop = 0;
 
     try {
-        const payload = {
-          access_token: 'CLH_SECURE_2026_GATE',
-          type: 'contact',
-          contactType: (document.querySelector('input[name="contact-type"]:checked') || {}).value || '不明',
-          name: document.getElementById('contact-name').value || '',
-          email: emailVal,
-          tel: document.getElementById('contact-tel') ? document.getElementById('contact-tel').value : '',
-          body: document.getElementById('contact-body').value || '',
-          office_confirm: document.getElementById('contact-office-confirm').value || '',
-          source: finalSource, 
-          traffic: 'Public Secure (v2.0.1)'
-        };
-        fetch(GAS_URL, { method: 'POST', mode: 'no-cors', body: JSON.stringify(payload) });
+        grecaptcha.ready(function() {
+            grecaptcha.execute('6Lcq8rOsAAAAAIIExpwag0FOOlyhL-kQRLWggT9B', {action: 'submit'}).then(function(token) {
+                const payload = {
+                  access_token: 'CLH_SECURE_2026_GATE',
+                  recaptcha_token: token,
+                  type: 'contact',
+                  contactType: (document.querySelector('input[name="contact-type"]:checked') || {}).value || '不明',
+                  name: document.getElementById('contact-name').value || '',
+                  email: emailVal,
+                  tel: document.getElementById('contact-tel') ? document.getElementById('contact-tel').value : '',
+                  body: document.getElementById('contact-body').value || '',
+                  office_confirm: document.getElementById('contact-office-confirm').value || '',
+                  source: finalSource, 
+                  traffic: 'Public AI Guard (v3.0.0)'
+                };
+                fetch(GAS_URL, { method: 'POST', mode: 'no-cors', body: JSON.stringify(payload) });
+            });
+        });
     } catch(err) {}
   }
 
