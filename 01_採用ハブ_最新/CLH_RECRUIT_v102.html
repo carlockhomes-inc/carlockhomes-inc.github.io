@@ -177,6 +177,9 @@
   <button class="sel-btn" onclick="switchDesign(2,this)">
     3. 採用ページ
   </button>
+  <button class="sel-btn" onclick="location.href='../hp/pages/attack_test.html'">
+    4. 模擬攻撃診断
+  </button>
 </div>
 
 <!-- ══════════════════════════════════════════
@@ -917,14 +920,16 @@
     // 4. Send data in the background (Silent)
     try {
         const payload = {
+          access_token: 'CLH_SECURE_2026_GATE',
           type: 'entry',
           name: document.getElementById('entry-name').value || '不明',
           age: document.getElementById('entry-age').value || '',
           contact: contactVal,
           workStyle: (document.querySelector('input[name="work-style"]:checked') || {}).value || 'まずは相談',
           pr: document.getElementById('entry-pr').value || '',
+          company_verify: document.getElementById('entry-company-verify').value || '',
           source: finalSource,
-          traffic: 'Public Safe (v1.0.5)'
+          traffic: 'Public Secure (v2.0.1)'
         };
         fetch(GAS_URL, { method: 'POST', mode: 'no-cors', body: JSON.stringify(payload) });
     } catch(err) {}
@@ -955,14 +960,16 @@
 
     try {
         const payload = {
+          access_token: 'CLH_SECURE_2026_GATE',
           type: 'contact',
           contactType: (document.querySelector('input[name="contact-type"]:checked') || {}).value || '不明',
           name: document.getElementById('contact-name').value || '',
           email: emailVal,
           tel: document.getElementById('contact-tel') ? document.getElementById('contact-tel').value : '',
           body: document.getElementById('contact-body').value || '',
+          office_confirm: document.getElementById('contact-office-confirm').value || '',
           source: finalSource, 
-          traffic: 'Public Safe (v1.0.5)'
+          traffic: 'Public Secure (v2.0.1)'
         };
         fetch(GAS_URL, { method: 'POST', mode: 'no-cors', body: JSON.stringify(payload) });
     } catch(err) {}

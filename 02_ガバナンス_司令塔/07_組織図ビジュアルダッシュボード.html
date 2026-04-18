@@ -47,9 +47,39 @@
     .wall-list-li { font-size: 11px; line-height: 2.2; color: #94a3b8; padding-left: 15px; margin: 0; list-style: square; flex: 1; }
 
     /* Governance Clinic */
-    .doc-tabs-final { display: flex; gap: 8px; margin-bottom: 30px; justify-content: center; flex-wrap: wrap; }
-    .doc-tabs-final button { padding: 12px 18px; border-radius: 50px; cursor: pointer; font-weight: 900; font-size: 11px; background: var(--glass); border: 1px solid var(--border); color: #fff; transition: 0.3s; }
-    .doc-tabs-final button.active { background: var(--primary); border: none; box-shadow: 0 0 20px var(--primary); }
+    .doc-tabs-final { 
+      display: flex; 
+      gap: 12px; 
+      margin-bottom: 40px; 
+      justify-content: center; 
+      flex-wrap: wrap; 
+      padding: 0 20px;
+    }
+    .doc-tabs-final button { 
+      padding: 12px 24px; 
+      border-radius: 50px; 
+      cursor: pointer; 
+      font-weight: 900; 
+      font-size: 11px; 
+      background: var(--glass); 
+      border: 1px solid var(--border); 
+      color: #94a3b8; 
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      white-space: nowrap;
+      min-width: 120px;
+    }
+    .doc-tabs-final button:hover {
+      background: rgba(255,255,255,0.1);
+      color: #fff;
+      border-color: var(--primary);
+      transform: translateY(-2px);
+    }
+    .doc-tabs-final button.active { 
+      background: var(--primary); 
+      color: #fff;
+      border: none; 
+      box-shadow: 0 10px 20px rgba(255,127,80,0.4); 
+    }
 
     .doc-scroller { background: #fff; color: #1e293b; padding: 100px 100px; border-radius: 4px; font-size: 13.5px; line-height: 2.15; max-width: 950px; margin: 0 auto 100px; box-shadow: 0 25px 120px rgba(0,0,0,0.5); border: 1px solid #ddd; }
     .doc-unit { display: none; }
@@ -152,6 +182,8 @@
         <button id="bt-f-2" onclick="showClinic(2)">2. 請求マニュアル</button>
         <button id="bt-f-3" onclick="showClinic(3)">3. リーガル実務提型</button>
         <button id="bt-f-4" onclick="showClinic(4)">4. スプレッドシート防衛</button>
+        <button id="bt-f-5" onclick="showClinic(5)">5. リテラシー方針</button>
+        <button id="bt-f-6" onclick="showClinic(6)">6. AI & Future</button>
       </div>
 
       <div class="doc-scroller">
@@ -185,7 +217,7 @@
           </div>
         </div>
 
-        <!-- 1. PUBLIC DISCLOSURE (REPAIRED) -->
+        <!-- 1. PUBLIC DISCLOSURE (COMPLETE) -->
         <div id="dn-f-1" class="doc-unit">
           <div class="doc-h1-legal">個人情報保護法に基づく公表事項</div>
           <div class="doc-h2-legal">1. 個人情報取扱事業者の名称および所在地</div>
@@ -201,6 +233,68 @@
             ・提携先企業（プレステージ・リロクリエイト等）への業務完了報告。<br>
             ・当社の採用選考における応募者への連絡、合否判定、人事管理。
           </div>
+          <div class="doc-h2-legal">3. 個人データの安全管理措置（情報の4つの防壁）</div>
+          <div class="doc-p-legal">
+            <strong>・組織的対策</strong>: 責任者の明確化と、異常発生時の緊急報告ルートを整備。<br>
+            <strong>・人的対策</strong>: 入職・退職時の守秘義務誓約の徹底と、定期的なリテラシー教育。<br>
+            <strong>・物理的対策</strong>: 重要機器の施錠管理、覗き見防止フィルター、自動画面ロックの徹底。<br>
+            <strong>・技術的対策</strong>: 権限に応じたアクセス制限、アクセスログの常時監視、全データのAES-256暗号化。
+          </div>
+          <div class="doc-h2-legal">4. 開示等の求めに応じる手続および苦情の申出先</div>
+          <div class="doc-p-legal">
+            当社保有の個人データの開示・訂正・利用停止等のご請求は、下記の窓口にてお受けいたします。<br>
+            【窓口】カーロックホームズ 統括責任者（03-5311-0556）
+          </div>
+        </div>
+
+        <!-- 2. INVOICING MANUAL -->
+        <div id="dn-f-2" class="doc-unit">
+          <div class="doc-h1-legal">💸 請求業務マニュアル</div>
+          <div class="doc-h2-legal">1. 月次請求スケジュール</div>
+          <div class="doc-p-legal">
+            毎月 1日：前月分の各作業報告書の回収・不備チェック。 <br>
+            毎月 5日：請求金額の確定、業務システムへのデータ入力。<br>
+            毎月10日：請求書のPDF発行・メール送付、および原本発送。
+          </div>
+          <div class="doc-h2-legal">2. クライアント別 締め日・送付方法リスト</div>
+          <div class="doc-p-legal">
+            <strong>・マルイ様</strong>: 月末締め / 翌月3営業日必着 / PDF送付 (田中様宛)<br>
+            <strong>・B社様</strong>: 20日締め / 25日必着 / 郵送（原本発送必須）<br>
+            <strong>・C社様</strong>: 月末締め / 翌月5日必着 / 専用Webサイト入力
+          </div>
+          <div class="doc-h2-legal">3. 作成時重要チェックリスト</div>
+          <div class="doc-p-legal">
+            □ 工事番号・件名に相違はないか。<br>
+            □ 金額（税抜・税込）計算は正しいか。<br>
+            □ 振込先口座および支払期日は明記されているか。
+          </div>
+        </div>
+
+        <!-- 3. LEGAL PRACTICE TEMPLATES -->
+        <div id="dn-f-3" class="doc-unit">
+          <div class="doc-h1-legal">⚖️ リーガル実務（組織・危機管理・ひな型）</div>
+          <div class="doc-h2-legal">1. 外部顧問弁護士との連携体制</div>
+          <div class="doc-p-legal">
+            当社は、法律の専門家である「顧問弁護士」を、契約審査やトラブル発生時の交渉窓口として配置。経営陣（CEO/CISO）が直接、法的助言を受ける体制を整えています。
+          </div>
+          <div class="doc-h2-legal">2. 異常事態（情報漏洩/紛失）発生時のフロー</div>
+          <div class="doc-p-legal">
+            1. <strong>発見・初動</strong>: 異常発見者は即座にCEOおよび統括責任者に報告。<br>
+            2. <strong>被害抑制</strong>: セキュリティ担当による即時のネットワーク遮断・アクセス制限。<br>
+            3. <strong>法的対応</strong>: 法務担当および弁護士による、影響範囲の精査と謝罪公表の準備。<br>
+            4. <strong>再発防止</strong>: 監査役による事後検証と、再発防止策の全社適用。
+          </div>
+          <div class="doc-h2-legal">3. 実務用ひな型：個人情報削除完了通知書</div>
+          <div style="background:#f1f5f9; padding:30px; border-radius:8px; border:1px solid #cbd5e1; font-family:serif; line-height:2.0;">
+            <strong>個人情報削除完了のご通知</strong><br><br>
+            拝啓、時下ますますご清栄のこととお慶び申し上げます。<br>
+            貴殿よりご依頼を賜りました個人情報の削除請求につきまして、以下の通り対応が完了いたしました。<br><br>
+            1. 削除対象: 当社採用サイト等への応募時に提供された一切のデータ<br>
+            2. 削除方法: サーバー・バックアップデータからの恒久的な消去<br>
+            3. 完了日: 令和○年○月○日<br><br>
+            以上、ご回答申し上げます。<br>
+            カーロックホームズ株式会社 代表取締役 上野原 政司
+          </div>
         </div>
 
         <!-- 4. GOOGLE SHEETS DEFENSE -->
@@ -208,6 +302,19 @@
           <div class="doc-h1-legal">Googleスプレッドシート 4つの鉄壁設定マニュアル</div>
           <p>社内での「情報持ち出し」や「誤操作」を物理的・技術的に防ぐための、CarlockHomes標準の鉄壁設定手順です。</p>
           
+          <div style="display:grid; grid-template-columns:1fr 1fr; gap:15px; margin:20px 0;">
+            <a href="SECURITY_PHILOSOPHY.html" style="text-decoration:none; background:#1e293b; padding:25px; border-radius:12px; border:1px solid #334155; transition:0.2s; display:block;">
+              <div style="color:var(--primary); font-family:Outfit; font-weight:800; font-size:12px; margin-bottom:10px;">MISSION</div>
+              <div style="color:#fff; font-size:18px; font-weight:700;">SECURITY PHILOSOPHY</div>
+              <p style="color:#94a3b8; font-size:12px; margin-top:10px; line-height:1.6;">AIアクセル全開のための「経営哲学」を読む。</p>
+            </a>
+            <a href="GOVERNANCE_TOOLKIT.html" style="text-decoration:none; background:#2563eb; padding:25px; border-radius:12px; transition:0.2s; display:block;">
+              <div style="color:#fff; font-family:Outfit; font-weight:800; font-size:12px; margin-bottom:10px; opacity:0.8;">ACTION</div>
+              <div style="color:#fff; font-size:18px; font-weight:700;">GOVERNANCE TOOLKIT</div>
+              <p style="color:rgba(255,255,255,0.7); font-size:12px; margin-top:10px; line-height:1.6;">全ての診断ツール、マニュアル、誓約書へアクセスする。</p>
+            </a>
+          </div>
+
           <div class="doc-h2-legal">1. 「コピー・ダウンロード・印刷」の禁止</div>
           <div class="doc-p-legal">
             <strong>【方法】</strong> 右上の「共有」ボタン ＞ 設定アイコン（⚙️） ＞ 「閲覧者と閲覧者（コメント可）に、ダウンロード、印刷、コピーの項目を表示する」のチェックを外す。<br>
@@ -230,6 +337,97 @@
           <div class="doc-p-legal">
             <strong>【方法】</strong> 定期的に「アクティビティ ダッシュボード」を開き、チェック体制を全社周知。<br>
             <strong>【効果】</strong> 「誰がいつ見たか全部記録されている」という心理的抑止力（防犯カメラ効果）を発揮。
+          </div>
+        </div>
+
+        <!-- 5. LITERACY POLICY (NEW) -->
+        <div id="dn-f-5" class="doc-unit">
+          <div class="doc-h1-legal">デジタル・コミュニケーション・リテラシー方針</div>
+          <p style="color:#ef4444; font-weight:900;">重要：デジタル上の発言は「消えないタトゥー（デジタルタトゥー）」であることを認識してください。</p>
+          
+          <div class="doc-h2-legal">1. グループLINE等での「晒し行為」の厳禁</div>
+          <div class="doc-p-legal">
+            ・特定の個人に対する注意や叱責を、グループ内で行うことを一切禁止します。<br>
+            ・ミスや課題の指摘は、必ず「1対1」の非公開チャットで行い、心理的安全を確保してください。
+          </div>
+
+          <div class="doc-h2-legal">2. デジタル・パワーハラスメントの防止</div>
+          <div class="doc-p-legal">
+            ・大量の「！」や全大文字、攻撃的なトーンは相手を萎縮させ、組織を崩壊させます。<br>
+            ・常に冷静（クール）かつ建設的な「プロフェッショナルの筆致」で対話をしてください。
+          </div>
+
+          <div style="margin-top:40px; padding:20px; background:#f8fafc; border-radius:10px; border:1px solid #cbd5e1; font-size:12px; line-height:2.0;">
+            <strong>💡 なぜこれが必要か？</strong><br>
+            「怒られるから隠そう」という心理が芽生えた瞬間、会社は最大のセキュリティリスクを抱えることになります。隠蔽は情報漏洩や横領の引き金です。互いを晒すのではなく、プロとして互いを守り合うことが、CarlockHomesの強さの源泉です。
+          </div>
+          <div style="margin-top:60px; text-align:right; line-height:1.6;">
+            制定日：2026年 4月16日<br><br>
+            代表取締役 上野原 政司<br>
+            統括責任者 松浦 文子
+          </div>
+        </div>
+
+        <!-- 6. AI & FUTURE STRATEGY (MIT GRADE) -->
+        <div id="dn-f-6" class="doc-unit">
+          <div class="doc-h1-legal">次世代AIガバナンス & サイバーレジリエンス戦略</div>
+          <p style="background:#1e293b; color:var(--accent); padding:15px; border-radius:8px; font-weight:900; letter-spacing:0.1em; text-align:center;">
+            REFERENCE: MIT CSAIL / CAMS (Cybersecurity at MIT Sloan)
+          </p>
+
+          <div class="doc-h2-legal">1. 「信頼の72時間」：意思決定の設計</div>
+          <div class="doc-p-legal">
+            ・ランサムウェア等の致命的攻撃時、**最初の72時間**が企業の死生観を決定します。<br>
+            ・この「黄金時間」内における、公表・隔離・継続の経営決断プロトコルを完全自動化します。
+          </div>
+
+          <div class="doc-h2-legal">2. 三層リスク評価：CarlockHomes Standard</div>
+          <p style="font-size:12px; line-height:1.6; color:#718096; margin-left:15px;">
+            1. **技術的リスク**: セキュリティ、バイアス、ハルシネーション（嘘）の検知・修正。<br>
+            2. **社会的リスク**: プライバシー保護、不正利用の防止、社会的受容性の担保。<br>
+            3. **法的リスク**: 知的財産の侵害なき設計、説明責任（AIMS）の遂行。<br>
+            ⇒ これらを事前に検証するための **[17_AI導入アセスメントシート.md]** を標準ツールと定めます。
+          </p>
+
+          <div class="doc-h2-legal">3. 自社開発・対外接続（受発注等）の統合統治</div>
+          <div class="doc-p-legal">
+            ・**AI-Driven Core System**: 生成物の検証、判断の透明性、運用のレジリエンスを徹底。<br>
+            ・**対外インターフェース**: 取引先・顧客への発信は必ず「人間が承認」し、境界におけるデータ保護（Boundary Protection）を遂行するグローバル基準の連結統治を実践します。
+          </div>
+
+          <div class="doc-h2-legal">4. AIMS：AIマネジメントシステムの実装</div>
+          <div class="doc-p-legal">
+            ・**ISO/IEC 42001** に準拠した「説明できるAI（AIMS）」の導入を推進。<br>
+            ・当社の配車・顧客AIは、その判断ロジックが経営的に透明（Transparent）であることを保証します。
+          </div>
+
+          <div class="doc-h2-legal">5. 高性能ガバナンス：アクセルを全開にする確信</div>
+          <div class="doc-p-legal">
+            ・**AI活用**: 圧倒的な成長を生み出すエンジン。<br>
+            ・**AIガバナンス**: 超高速走行時でも車体を安定させ、制御不能を回避するための「高性能サスペンション」。<br>
+            ・世界基準の統治（AIMS）があるからこそ、我々は一切の躊躇なく、AIのアクセルを床まで踏み抜くことができます。
+          </div>
+
+          <div class="doc-h2-legal">6. PDCA：100日ロードマップ</div>
+          <div style="font-size:13px; color:#475569; margin-left:15px;">
+            1. [Day 0-30] AIインシデント事例のスキャンと、活用範囲の定義<br>
+            2. [Day 31-60] 従業員向けリテラシー診断と機械学習工学トレーニング<br>
+            3. [Day 61-90] AIによるAI監視システム（自己監査）の試験導入<br>
+            4. [Day 100] AIMS（ISO/IEC 42001）準拠状況の最終評価
+          </div>
+
+          <div class="doc-h2-legal">5. ダイナミック・ガバナンス：進化の最前線</div>
+          <p style="font-size:12px; line-height:1.6; color:#718096; margin-left:15px;">
+            技術は [生成AI] → [エージェント型] → [物理自律ロボット] と進化を止めません。当社もこれに合わせ、**「ずっと考え続けるガバナンス」**を実装します。常に思考を止めることなく、ルールを最適化し続けることが我々の最大の強みです。
+          </p>
+
+          <div style="margin-top:40px; border:2px solid #111; padding:25px; border-radius:4px; font-family:serif; line-height:2.4; font-style:italic;">
+            「情報の安全、AIの信頼、そして組織のレジリエンス。不確実な未来だからこそ、思考を止めないこと。それが CarlockHomes の真の価値である。」
+          </div>
+
+          <div style="margin-top:60px; text-align:right; line-height:1.6;">
+             2026年 4月16日 知見集約版<br><br>
+             CarlockHomes Board of Directors
           </div>
         </div>
       </div>

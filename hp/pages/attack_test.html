@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>模擬攻撃診断（アタックテスト） | CarlockHomes</title>
+    <meta name="description" content="カーロックホームズの模擬攻撃診断（アタックテスト）。物理・デジタルの両面から侵入経路を特定し、真のレジリエンスを構築します。">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;700;900&family=Zen+Kaku+Gothic+New:wght@400;700;900&family=Noto+Serif+JP:wght@700&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+    <style>
+        :root {
+            --bg: #05070a;
+            --text: #ffffff;
+            --text-dim: #a0a0a0;
+            --gold: #c5a059;
+            --red: #ff4d4d;
+            --glass: rgba(255, 255, 255, 0.03);
+            --border: rgba(255, 255, 255, 0.1);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Zen Kaku Gothic New', sans-serif;
+            background-color: var(--bg);
+            color: var(--text);
+            line-height: 1.8;
+            overflow-x: hidden;
+        }
+
+        /* --- UI Elements --- */
+        .container { max-width: 1200px; margin: 0 auto; padding: 0 5%; }
+        .section { padding: 120px 0; }
+        .reveal { opacity: 0; transform: translateY(30px); }
+
+        /* --- Header --- */
+        header {
+            position: fixed; top: 0; width: 100%; padding: 20px 5%;
+            display: flex; justify-content: space-between; align-items: center;
+            z-index: 1000; background: rgba(5, 7, 10, 0.8); backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--border);
+        }
+        .logo { font-family: 'Outfit', sans-serif; font-weight: 900; letter-spacing: 2px; color: var(--gold); text-decoration: none; font-size: 1.2rem; }
+        .nav-link { color: var(--text-dim); text-decoration: none; font-size: 0.8rem; font-weight: 700; letter-spacing: 1px; transition: 0.3s; }
+        .nav-link:hover { color: var(--gold); }
+
+        /* --- Hero --- */
+        .hero {
+            height: 90vh; display: flex; align-items: center; justify-content: center;
+            text-align: center; background: radial-gradient(circle at center, #1a1e26 0%, #05070a 100%);
+            position: relative; overflow: hidden;
+        }
+        .hero::before {
+            content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            background-image: radial-gradient(var(--border) 1px, transparent 1px);
+            background-size: 40px 40px; opacity: 0.3;
+        }
+        .hero-tag {
+            display: inline-block; color: var(--red); font-weight: 900; font-size: 0.7rem;
+            letter-spacing: 0.4em; text-transform: uppercase; margin-bottom: 20px;
+            padding: 5px 15px; border: 1px solid var(--red); border-radius: 50px;
+        }
+        .hero h1 {
+            font-size: clamp(2rem, 8vw, 4.5rem); font-weight: 900; line-height: 1.1; margin-bottom: 30px;
+            font-family: 'Zen Kaku Gothic New', sans-serif;
+        }
+        .hero p { color: var(--text-dim); max-width: 600px; margin: 0 auto; font-size: 1.1rem; }
+
+        /* --- Attack Types Grid --- */
+        .attack-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 30px; margin-top: 80px; }
+        .attack-card {
+            background: var(--glass); border: 1px solid var(--border); padding: 50px 40px;
+            border-radius: 20px; transition: 0.5s; position: relative; overflow: hidden;
+        }
+        .attack-card:hover { border-color: var(--red); background: rgba(255, 77, 77, 0.02); transform: translateY(-10px); }
+        .attack-card .num { font-family: 'Outfit', sans-serif; font-size: 5rem; font-weight: 900; color: rgba(255, 255, 255, 0.03); position: absolute; top: -10px; right: 10px; }
+        .attack-card h3 { font-size: 1.5rem; margin-bottom: 20px; color: var(--gold); }
+        .attack-card p { font-size: 0.9rem; color: var(--text-dim); }
+        .attack-card ul { list-style: none; margin-top: 20px; }
+        .attack-card li { font-size: 0.8rem; margin-bottom: 8px; padding-left: 15px; position: relative; }
+        .attack-card li::before { content: '>'; position: absolute; left: 0; color: var(--red); font-weight: 900; }
+
+        /* --- Inquiry Form --- */
+        .inquiry-box {
+            background: var(--glass); border: 2px solid var(--gold); padding: 80px 50px;
+            border-radius: 30px; max-width: 800px; margin: 80px auto;
+        }
+        .inquiry-title { text-align: center; margin-bottom: 50px; }
+        .inquiry-title h2 { font-size: 2rem; margin-bottom: 10px; }
+        .inquiry-title p { color: var(--gold); font-size: 0.8rem; letter-spacing: 2px; }
+
+        .form-group { margin-bottom: 30px; position: relative; }
+        label { display: block; font-size: 0.8rem; color: var(--text-dim); margin-bottom: 10px; font-weight: 700; }
+        input, select, textarea {
+            width: 100%; padding: 15px; background: rgba(255,255,255,0.05);
+            border: 1px solid var(--border); border-radius: 8px; color: white;
+            font-family: inherit; transition: 0.3s;
+        }
+        input:focus, textarea:focus { outline: none; border-color: var(--gold); background: rgba(255,255,255,0.1); }
+        
+        /* Honeypot Field */
+        .hp-field {
+            position: absolute;
+            left: -9999px;
+            top: -9999px;
+            opacity: 0;
+            width: 0;
+            height: 0;
+            overflow: hidden;
+            pointer-events: none;
+        }
+
+        .btn-submit {
+            width: 100%; padding: 20px; background: var(--gold); color: #000;
+            border: none; border-radius: 8px; font-weight: 900; font-size: 1rem;
+            cursor: pointer; transition: 0.3s; letter-spacing: 2px;
+        }
+        .btn-submit:hover { transform: scale(1.02); filter: brightness(1.1); box-shadow: 0 10px 30px rgba(197, 160, 89, 0.2); }
+
+        footer { padding: 80px 0; text-align: center; border-top: 1px solid var(--border); margin-top: 100px; }
+        .copyright { font-size: 0.7rem; opacity: 0.3; letter-spacing: 3px; }
+
+        @media (max-width: 768px) {
+            .section { padding: 80px 0; }
+            .inquiry-box { padding: 40px 20px; }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <a href="../index.html" class="logo">CARLOCKHOMES</a>
+        <nav>
+            <a href="../index.html" class="nav-link">BACK TO HOME</a>
+        </nav>
+    </header>
+
+    <section class="hero">
+        <div class="container hero-content">
+            <span class="hero-tag">Simulated Attack Service</span>
+            <h1>模擬攻撃により、<br>真の弱点を炙り出す。</h1>
+            <p>防御側の理論ではなく、攻撃側の視点で。物理・デジタルの両極からあなたの資産の耐性を「アタックテスト」します。</p>
+        </div>
+    </section>
+
+    <section class="section container">
+        <div class="reveal">
+            <h2 style="font-size: 2.5rem; text-align: center; margin-bottom: 80px;">Attack Menu</h2>
+        </div>
+
+        <div class="attack-grid">
+            <!-- Physical -->
+            <div class="attack-card reveal">
+                <span class="num">01</span>
+                <h3>物理侵入テスト</h3>
+                <p>カギのプロとして、物理的な境界の突破を試みます。</p>
+                <ul>
+                    <li>特殊解錠・バイパス解錠試行</li>
+                    <li>扉・枠の強度テスト</li>
+                    <li>死角を利用した侵入ルート特定</li>
+                </ul>
+            </div>
+            <!-- Cyber -->
+            <div class="attack-card reveal">
+                <span class="num">02</span>
+                <h3>サイバー侵入テスト</h3>
+                <p>スマートロックや管理ネットワークの脆さを暴きます。</p>
+                <ul>
+                    <li>認証ゲートウェイの迂回試行</li>
+                    <li>APIの脆弱性スキャン</li>
+                    <li>中間者攻撃・クローニング耐性診断</li>
+                </ul>
+            </div>
+            <!-- Social -->
+            <div class="attack-card reveal">
+                <span class="num">03</span>
+                <h3>人的脆弱性テスト</h3>
+                <p>「人」が最大のセキュリティホールではないか検証します。</p>
+                <ul>
+                    <li>擬似フィッシング・アタック</li>
+                    <li>ソーシャルエンジニアリング耐性</li>
+                    <li>秘密情報の持ち出し・破棄体制調査</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <!-- Secure Inquiry Form -->
+    <section class="section container">
+        <div class="inquiry-box reveal" id="inquiry">
+            <div class="inquiry-title">
+                <h2>Diagnostic Inquiry</h2>
+                <p>攻撃診断のご相談</p>
+            </div>
+
+            <form id="secure-form">
+                <!-- 
+                  【セキュリティ強化項目：ハニーポット】
+                  ロボット（Bot）はこの隠しフィールドを埋めてしまいますが、人間は触れません。
+                  もしこの値が入っていれば、サーバー側で即座に拒否します。
+                -->
+                <div class="hp-field">
+                    <label>If you are human, leave this empty:</label>
+                    <input type="text" name="honeypot_field" id="honeypot_field">
+                </div>
+
+                <!-- 
+                  【セキュリティ強化項目：アクセストークン】
+                  APIの直接叩き（curl等）を防ぐための、クライアント認証用トークン。
+                -->
+                <input type="hidden" name="access_token" value="CLH_SECURE_2026_GATE">
+
+                <div class="form-group">
+                    <label>診断対象のカテゴリー</label>
+                    <select name="category" required>
+                        <option value="">選択してください</option>
+                        <option value="physical">物理侵入テスト（カギ・ドア）</option>
+                        <option value="cyber">サイバー侵入テスト（デジタル）</option>
+                        <option value="social">人的・組織的レジリエンス診断</option>
+                        <option value="total">トータル・アタック診断</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label>組織名 / お名前</label>
+                    <input type="text" name="name" placeholder="例：株式会社〇〇 / 山田太郎" required>
+                </div>
+
+                <div class="form-group">
+                    <label>メールアドレス</label>
+                    <input type="email" name="email" placeholder="example@carlock.co.jp" required>
+                </div>
+
+                <div class="form-group">
+                    <label>現状の懸念事項</label>
+                    <textarea name="message" rows="5" placeholder="例：特定のドアが狙われやすい、システムへの不正アクセスが不安等" required></textarea>
+                </div>
+
+                <button type="button" class="btn-submit" onclick="submitSecureForm()">診断提案を依頼する</button>
+            </form>
+
+            <div id="success-message" style="display:none; text-align: center; padding: 40px;">
+                <h3 style="color: var(--gold); font-size: 1.5rem; margin-bottom: 20px;">Requested Successfully.</h3>
+                <p style="font-size: 0.9rem;">送信・検証が完了しました。担当者より機密保持を前提としたご連絡を差し上げます。</p>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="logo">CARLOCKHOMES</div>
+        <div class="copyright">&copy; 2026 CarlockHomes Co., Ltd. / Advanced Resilience Section.</div>
+    </footer>
+
+    <script>
+        gsap.registerPlugin(ScrollTrigger);
+        document.querySelectorAll('.reveal').forEach(el => {
+            gsap.to(el, {
+                opacity: 1, y: 0, duration: 1, ease: "power3.out",
+                scrollTrigger: { trigger: el, start: "top 85%" }
+            });
+        });
+
+        async function submitSecureForm() {
+            const form = document.getElementById('secure-form');
+            const btn = document.querySelector('.btn-submit');
+            const data = new FormData(form);
+            
+            // 簡単なフロントエンドチェック
+            if (!form.checkValidity()) {
+                alert("全ての項目を正しく入力してください。");
+                return;
+            }
+
+            btn.innerText = "VERIFYING SECURITY...";
+            btn.disabled = true;
+
+            // GAS側のURL（既存のもの、または新規のセキュアなもの）
+            const GAS_URL = "https://script.google.com/macros/s/AKfycbz5B0Kj-goWNSIJCoBt8tkP4XKdujdfaYQtV2qBC-1UpHbjBbiuVl2DL2lafyrUBpUvyA/exec";
+
+            try {
+                // セキュアにPOST送信
+                const response = await fetch(GAS_URL, {
+                    method: 'POST',
+                    body: data
+                });
+                
+                const result = await response.text();
+                
+                if (result === "Success") {
+                    form.style.display = 'none';
+                    document.getElementById('success-message').style.display = 'block';
+                } else {
+                    alert("送信に失敗しました（" + result + "）。管理者に連絡してください。");
+                    btn.innerText = "診断提案を依頼する";
+                    btn.disabled = false;
+                }
+            } catch (e) {
+                alert("通信エラーが発生しました。");
+                btn.innerText = "診断提案を依頼する";
+                btn.disabled = false;
+            }
+        }
+    </script>
+</body>
+</html>
