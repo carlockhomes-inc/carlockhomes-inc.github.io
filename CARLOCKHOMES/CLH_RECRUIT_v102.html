@@ -5,11 +5,14 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>CLH 採用コンセプト (v1.0.3) - Security Enhanced</title>
+  <!-- 🛡️ WORLD'S STRONGEST DEFENSE: Content Security Policy (フロントエンドの絶対防御) -->
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://www.google.com/recaptcha/ https://www.gstatic.com/recaptcha/; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; connect-src 'self' https://script.google.com; frame-src https://maps.google.com https://www.google.com/recaptcha/; img-src 'self' data: https://www.google.com https://maps.gstatic.com;">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link
     href="https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@400;500;700;900&family=Shippori+Antique+B1&family=Reggae+One&family=Dela+Gothic+One&family=Yomogi&family=Outfit:wght@900&display=swap"
     rel="stylesheet">
+  <script src="https://www.google.com/recaptcha/api.js?render=6Le7g78sAAAAAFifhB2eQZOes9SmQ3EwtynTxXsf"></script>
   <style>
     * {
       box-sizing: border-box;
@@ -1351,7 +1354,7 @@
     <!-- ── SCRIPTS ── -->
     <script>
       const ids = ['d4', 'd2', 'd1'];
-      const GAS_URL = 'https://script.google.com/macros/s/AKfycbwjSLZMR4aU4uYgYv7ijBpv3BOWufZwYZZGrogX-tP-L4WCCNUcMYa_6bbRA9QUfPZL/exec';
+      const GAS_URL = 'https://script.google.com/macros/s/AKfycbx8s-Xb7SNkX4mlHYurSFLzbnCqFm1a2Zdm60qrRe1v2PPoG0J3hwGpLqnc8PpnQT4/exec';
 
       function switchDesign(i, btn) {
         ids.forEach(id => document.getElementById(id).classList.remove('active'));
@@ -1493,22 +1496,27 @@
         const scrollWrap = document.querySelector('#modal-entry > div');
         if (scrollWrap) scrollWrap.scrollTop = 0;
 
-        // 4. Send data in the background (Silent)
+        // 4. Send data with reCAPTCHA token
         try {
-          const payload = {
-            access_token: 'CLH-2026-XK9mP4wR7vTqN2sZ',
-            request_origin: window.location.hostname,
-            type: 'entry',
-            name: document.getElementById('entry-name').value || '不明',
-            age: document.getElementById('entry-age').value || '',
-            contact: contactVal,
-            workStyle: (document.querySelector('input[name="work-style"]:checked') || {}).value || 'まずは相談',
-            pr: document.getElementById('entry-pr').value || '',
-            company_verify: document.getElementById('entry-company-verify').value || '',
-            source: finalSource,
-            traffic: 'Secure-V16'
-          };
-          fetch(GAS_URL, { method: 'POST', mode: 'no-cors', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) });
+          grecaptcha.ready(function() {
+            grecaptcha.execute('6Le7g78sAAAAAFifhB2eQZOes9SmQ3EwtynTxXsf', {action: 'submit'}).then(function(token) {
+              const payload = {
+                access_token: 'CLH-2026-XK9mP4wR7vTqN2sZ',
+                request_origin: window.location.hostname,
+                type: 'entry',
+                name: document.getElementById('entry-name').value || '不明',
+                age: document.getElementById('entry-age').value || '',
+                contact: contactVal,
+                workStyle: (document.querySelector('input[name="work-style"]:checked') || {}).value || 'まずは相談',
+                pr: document.getElementById('entry-pr').value || '',
+                company_verify: document.getElementById('entry-company-verify').value || '',
+                source: finalSource,
+                traffic: 'Secure-V17-Recaptcha',
+                recaptcha_token: token
+              };
+              fetch(GAS_URL, { method: 'POST', mode: 'no-cors', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) });
+            });
+          });
         } catch (err) { }
       }
 
@@ -1536,20 +1544,25 @@
         if (scrollWrap) scrollWrap.scrollTop = 0;
 
         try {
-          const payload = {
-            access_token: 'CLH-2026-XK9mP4wR7vTqN2sZ',
-            request_origin: window.location.hostname,
-            type: 'contact',
-            contactType: (document.querySelector('input[name="contact-type"]:checked') || {}).value || '不明',
-            name: document.getElementById('contact-name').value || '',
-            email: emailVal,
-            tel: document.getElementById('contact-tel') ? document.getElementById('contact-tel').value : '',
-            body: document.getElementById('contact-body').value || '',
-            office_confirm: document.getElementById('contact-office-confirm').value || '',
-            source: finalSource,
-            traffic: 'Secure-V16'
-          };
-          fetch(GAS_URL, { method: 'POST', mode: 'no-cors', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) });
+          grecaptcha.ready(function() {
+            grecaptcha.execute('6Le7g78sAAAAAFifhB2eQZOes9SmQ3EwtynTxXsf', {action: 'submit'}).then(function(token) {
+              const payload = {
+                access_token: 'CLH-2026-XK9mP4wR7vTqN2sZ',
+                request_origin: window.location.hostname,
+                type: 'contact',
+                contactType: (document.querySelector('input[name="contact-type"]:checked') || {}).value || '不明',
+                name: document.getElementById('contact-name').value || '',
+                email: emailVal,
+                tel: document.getElementById('contact-tel') ? document.getElementById('contact-tel').value : '',
+                body: document.getElementById('contact-body').value || '',
+                office_confirm: document.getElementById('contact-office-confirm').value || '',
+                source: finalSource,
+                traffic: 'Secure-V17-Recaptcha',
+                recaptcha_token: token
+              };
+              fetch(GAS_URL, { method: 'POST', mode: 'no-cors', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) });
+            });
+          });
         } catch (err) { }
       }
 
