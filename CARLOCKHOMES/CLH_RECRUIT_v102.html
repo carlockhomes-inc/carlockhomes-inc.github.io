@@ -1494,43 +1494,35 @@
         const scrollWrap = document.querySelector('#modal-entry > div');
         if (scrollWrap) scrollWrap.scrollTop = 0;
 
-        // 4. Send data with reCAPTCHA token
+        // 4. Send data (Bypassing reCAPTCHA temporarily to test fetch)
         try {
-          console.log("reCAPTCHAの発行を待機中...");
-          grecaptcha.ready(function() {
-            grecaptcha.execute('6Le7g78sAAAAAFifhB2eQZOes9SmQ3EwtynTxXsf', {action: 'submit'}).then(function(token) {
-              console.log("reCAPTCHAトークン取得成功:", token ? "OK" : "NG");
-              const payload = {
-                access_token: 'CLH-2026-XK9mP4wR7vTqN2sZ',
-                request_origin: window.location.hostname || 'localhost (file)',
-                type: 'entry',
-                name: document.getElementById('entry-name').value || '不明',
-                age: document.getElementById('entry-age').value || '',
-                contact: contactVal,
-                workStyle: (document.querySelector('input[name="work-style"]:checked') || {}).value || 'まずは相談',
-                pr: document.getElementById('entry-pr').value || '',
-                company_verify: document.getElementById('entry-company-verify').value || '',
-                source: finalSource,
-                traffic: 'Secure-V17-Recaptcha',
-                recaptcha_token: token
-              };
-              console.log("送信ペイロード:", payload);
-              fetch(GAS_URL, { 
-                method: 'POST', 
-                mode: 'no-cors',
-                headers: { 'Content-Type': 'text/plain;charset=utf-8' }, 
-                body: JSON.stringify(payload) 
-              })
-              .then(resp => {
-                  console.log("GAS送信完了(no-corsのためレスポンスは不透明です)");
-              })
-              .catch(err => {
-                  console.error("fetch通信システムエラー:", err);
-              });
-            }).catch(function(err) {
-              console.error("reCAPTCHA executeエラー:", err);
-              alert("reCAPTCHAの認証に失敗しました。ローカル環境(file://)の場合、動作しないことがあります。");
-            });
+          console.log("送信テスト開始（reCAPTCHAバイパス）...");
+          const payload = {
+            access_token: 'CLH-2026-XK9mP4wR7vTqN2sZ',
+            request_origin: window.location.hostname || 'localhost (file)',
+            type: 'entry',
+            name: document.getElementById('entry-name').value || '不明',
+            age: document.getElementById('entry-age').value || '',
+            contact: contactVal,
+            workStyle: (document.querySelector('input[name="work-style"]:checked') || {}).value || 'まずは相談',
+            pr: document.getElementById('entry-pr').value || '',
+            company_verify: document.getElementById('entry-company-verify').value || '',
+            source: finalSource,
+            traffic: 'Secure-V17-BypassTest',
+            recaptcha_token: 'test_token_bypass'
+          };
+          console.log("送信ペイロード:", payload);
+          fetch(GAS_URL, { 
+            method: 'POST', 
+            // mode: 'no-cors' は一旦外し、純粋な text/plain で送る
+            headers: { 'Content-Type': 'text/plain;charset=utf-8' }, 
+            body: JSON.stringify(payload) 
+          })
+          .then(resp => {
+              console.log("GASへのネットワーク送信が発火しました！");
+          })
+          .catch(err => {
+              console.error("fetch通信エラー:", err);
           });
         } catch (err) {
           console.error("全体送信エラー:", err);
@@ -1562,35 +1554,28 @@
         if (scrollWrap) scrollWrap.scrollTop = 0;
 
         try {
-          console.log("reCAPTCHAの発行を待機中...(お問い合わせ)");
-          grecaptcha.ready(function() {
-            grecaptcha.execute('6Le7g78sAAAAAFifhB2eQZOes9SmQ3EwtynTxXsf', {action: 'submit'}).then(function(token) {
-              const payload = {
-                access_token: 'CLH-2026-XK9mP4wR7vTqN2sZ',
-                request_origin: window.location.hostname || 'localhost (file)',
-                type: 'contact',
-                contactType: (document.querySelector('input[name="contact-type"]:checked') || {}).value || '不明',
-                name: document.getElementById('contact-name').value || '',
-                email: emailVal,
-                tel: document.getElementById('contact-tel') ? document.getElementById('contact-tel').value : '',
-                body: document.getElementById('contact-body').value || '',
-                office_confirm: document.getElementById('contact-office-confirm').value || '',
-                source: finalSource,
-                traffic: 'Secure-V17-Recaptcha',
-                recaptcha_token: token
-              };
-              fetch(GAS_URL, { 
-                method: 'POST',
-                mode: 'no-cors',
-                headers: { 'Content-Type': 'text/plain;charset=utf-8' }, 
-                body: JSON.stringify(payload) 
-              })
-              .then(resp => console.log("GAS送信完了(no-cors)"))
-              .catch(err => console.error("fetch通信システムエラー:", err));
-            }).catch(function(err) {
-              console.error("reCAPTCHA executeエラー:", err);
-            });
-          });
+          console.log("送信テスト開始（reCAPTCHAバイパス・お問い合わせ）...");
+          const payload = {
+            access_token: 'CLH-2026-XK9mP4wR7vTqN2sZ',
+            request_origin: window.location.hostname || 'localhost (file)',
+            type: 'contact',
+            contactType: (document.querySelector('input[name="contact-type"]:checked') || {}).value || '不明',
+            name: document.getElementById('contact-name').value || '',
+            email: emailVal,
+            tel: document.getElementById('contact-tel') ? document.getElementById('contact-tel').value : '',
+            body: document.getElementById('contact-body').value || '',
+            office_confirm: document.getElementById('contact-office-confirm').value || '',
+            source: finalSource,
+            traffic: 'Secure-V17-BypassTest',
+            recaptcha_token: 'test_token_bypass'
+          };
+          fetch(GAS_URL, { 
+            method: 'POST',
+            headers: { 'Content-Type': 'text/plain;charset=utf-8' }, 
+            body: JSON.stringify(payload) 
+          })
+          .then(resp => console.log("GASへのネットワーク送信が発火しました(Contact)"))
+          .catch(err => console.error("fetch通信システムエラー:", err));
         } catch (err) {
           console.error("お問い合わせ送信エラー:", err);
         }
