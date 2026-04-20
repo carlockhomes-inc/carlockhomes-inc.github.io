@@ -1510,6 +1510,12 @@
 
         const contactVal = `${telVal} / ${emailVal}`;
 
+        const nameVal = document.getElementById('entry-name').value || '不明';
+        const ageVal = document.getElementById('entry-age').value || '';
+        const workStyleVal = (document.querySelector('input[name="work-style"]:checked') || {}).value || 'まずは相談';
+        const prVal = document.getElementById('entry-pr').value || '';
+        const companyVerifyVal = document.getElementById('entry-company-verify').value || '';
+
         // 1. Get elements
         const formEl = document.getElementById('entry-form');
         const successEl = document.getElementById('entry-success');
@@ -1530,12 +1536,12 @@
               access_token: 'CLH-2026-XK9mP4wR7vTqN2sZ',
               request_origin: window.location.hostname || 'localhost (file)',
               type: 'entry',
-              name: document.getElementById('entry-name').value || '不明',
-              age: document.getElementById('entry-age').value || '',
+              name: nameVal,
+              age: ageVal,
               contact: contactVal,
-              workStyle: (document.querySelector('input[name="work-style"]:checked') || {}).value || 'まずは相談',
-              pr: document.getElementById('entry-pr').value || '',
-              company_verify: document.getElementById('entry-company-verify').value || '',
+              workStyle: workStyleVal,
+              pr: prVal,
+              company_verify: companyVerifyVal,
               source: finalSource,
               traffic: 'Secure-V17-Failsafe',
               recaptcha_token: safeToken
@@ -1570,6 +1576,12 @@
           return false;
         }
 
+        const contactTypeVal = (document.querySelector('input[name="contact-type"]:checked') || {}).value || '不明';
+        const nameVal = document.getElementById('contact-name').value || '';
+        const telVal = document.getElementById('contact-tel') ? document.getElementById('contact-tel').value : '';
+        const bodyVal = document.getElementById('contact-body').value || '';
+        const officeConfirmVal = document.getElementById('contact-office-confirm').value || '';
+
         const formEl = document.getElementById('contact-form');
         const successEl = document.getElementById('contact-success');
 
@@ -1584,12 +1596,12 @@
               access_token: 'CLH-2026-XK9mP4wR7vTqN2sZ',
               request_origin: window.location.hostname || 'localhost (file)',
               type: 'contact',
-              contactType: (document.querySelector('input[name="contact-type"]:checked') || {}).value || '不明',
-              name: document.getElementById('contact-name').value || '',
+              contactType: contactTypeVal,
+              name: nameVal,
               email: emailVal,
-              tel: document.getElementById('contact-tel') ? document.getElementById('contact-tel').value : '',
-              body: document.getElementById('contact-body').value || '',
-              office_confirm: document.getElementById('contact-office-confirm').value || '',
+              tel: telVal,
+              body: bodyVal,
+              office_confirm: officeConfirmVal,
               source: finalSource,
               traffic: 'Secure-V17-Failsafe',
               recaptcha_token: safeToken
