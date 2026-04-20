@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CLH 次のアクション・決定事項一覧</title>
+    <style>
+        :root {
+            --color-background-primary: #ffffff;
+            --color-background-secondary: #f8f9fa;
+            --color-text-primary: #1a1a1a;
+            --color-text-secondary: #666666;
+            --color-border-primary: #333333;
+            --color-border-secondary: #dddddd;
+            --color-border-tertiary: #eeeeee;
+            --font-sans: 'Zen Maru Gothic', 'Outfit', sans-serif;
+        }
+
+        body {
+            font-family: var(--font-sans);
+            background-color: #f3f4f6;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+        }
+
+        .container {
+            max-width: 650px;
+            width: 100%;
+            background: white;
+            padding: 35px;
+            border-radius: 24px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.06);
+        }
+
+        h1 {
+            font-size: 22px;
+            margin-bottom: 8px;
+            color: #000;
+            font-weight: 900;
+        }
+
+        .subtitle {
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 30px;
+        }
+
+        /* --- 持ち込みコードのスタイル調整 --- */
+        .wrap { padding: 8px 0 24px; }
+        h2 { font-size: 16px; font-weight: 800; color: var(--color-text-primary); margin: 35px 0 12px; padding-left: 12px; border-left: 5px solid; display: flex; align-items: center; }
+        h2.decide { border-color: #E24B4A; }
+        h2.do { border-color: #1D9E75; }
+        h2.make { border-color: #EF9F27; }
+        
+        .section-note { font-size: 12px; color: var(--color-text-secondary); margin: 0 0 15px 5px; font-weight: 500; }
+        
+        .card { 
+            background: #fff; 
+            border: 1px solid var(--color-border-tertiary); 
+            border-radius: 14px; 
+            margin-bottom: 10px; 
+            padding: 15px 18px; 
+            display: flex; 
+            gap: 15px; 
+            align-items: flex-start; 
+            transition: all 0.2s;
+        }
+        .card:hover { border-color: #ccc; transform: translateX(3px); }
+        
+        .tag { font-size: 11px; font-weight: 800; border-radius: 6px; padding: 3px 10px; white-space: nowrap; margin-top: 2px; min-width: 45px; text-align: center; }
+        .tag.r { background: #FCEBEB; color: #791F1F; }
+        .tag.g { background: #E1F5EE; color: #085041; }
+        .tag.y { background: #FAEEDA; color: #633806; }
+        
+        .label { font-size: 14px; font-weight: 700; color: var(--color-text-primary); line-height: 1.5; }
+        .sub { font-size: 12px; color: var(--color-text-secondary); margin-top: 4px; line-height: 1.6; }
+        .priority { font-size: 10px; font-weight: 800; color: #A32D2D; background: #FCEBEB; border-radius: 4px; padding: 2px 8px; margin-left: 8px; vertical-align: middle; border: 1px solid rgba(163, 45, 45, 0.2); }
+    </style>
+    <link href="https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@400;500;700;900&family=Outfit:wght@400;700;900&display=swap" rel="stylesheet">
+</head>
+<body>
+
+<div class="container">
+    <h1>CLH 決定・タスク一覧</h1>
+    <p class="subtitle">採用プログラムを本格始動させるためのアクションプランです。</p>
+
+    <div class="wrap">
+
+      <h2 class="decide">🔴 決めること（社内方針）</h2>
+      <p class="section-note">ハートフルに公式回答する前に、社内で確定が必要な事項です</p>
+    
+      <div class="card"><span class="tag r">報酬</span><div>
+        <div class="label">コースA（雇用）の給与・待遇モデル <span class="priority">重要</span></div>
+        <div class="sub">月収目安、雇用形態（正社員 or 契約社員）、昇給の仕組みなど</div>
+      </div></div>
+    
+      <div class="card"><span class="tag r">報酬</span><div>
+        <div class="label">コースB（即独立）の報酬モデル <span class="priority">重要</span></div>
+        <div class="sub">1案件あたりの報酬、月収目安、単価の変動条件など</div>
+      </div></div>
+    
+      <div class="card"><span class="tag r">研修</span><div>
+        <div class="label">研修期間の目安と報酬の有無 <span class="priority">重要</span></div>
+        <div class="sub">一人前になるまでの期間と、その間の生活費（報酬）について</div>
+      </div></div>
+    
+      <div class="card"><span class="tag r">エリア</span><div>
+        <div class="label">対応可能な活動エリアの範囲 <span class="priority">回答要</span></div>
+        <div class="sub">現実的に受け入れ可能な地域制限の明確化</div>
+      </div></div>
+    
+      <div class="card"><span class="tag r">受入</span><div>
+        <div class="label">紹介人数・開始タイミングの上限</div>
+        <div class="sub">一度に何名まで対応可能か。募集開始のデッドライン</div>
+      </div></div>
+    
+      <div class="card"><span class="tag r">兼業</span><div>
+        <div class="label">副業・掛け持ちの可否ルール</div>
+        <div class="sub">他の仕事と並行して受注できるかどうかの運用指針</div>
+      </div></div>
+    
+      <div class="card"><span class="tag r">稼働</span><div>
+        <div class="label">案件数の目安・繁閑期の明示</div>
+        <div class="sub">生活設計ができるレベルの具体的な案件ボリューム提示</div>
+      </div></div>
+    
+      <div class="card"><span class="tag r">制度</span><div>
+        <div class="label">ベビーシッター割引券の導入要否</div>
+        <div class="sub">こども家庭庁の承認申請。雇用者（コースA）への支援策</div>
+      </div></div>
+    
+      <h2 class="do">🟢 やること（連携・対応）</h2>
+      <p class="section-note">方針が決まり次第、順次実施する実務です</p>
+    
+      <div class="card"><span class="tag g">回答</span><div>
+        <div class="label">公式ヒアリングシートへの回答</div>
+        <div class="sub">決定事項を言語化し、募集チラシ・サイトの素材とする</div>
+      </div></div>
+    
+      <div class="card"><span class="tag g">面談</span><div>
+        <div class="label">紹介候補者への柔軟な受入れ・面談</div>
+        <div class="sub">育児等の事情を考慮した柔軟なタイムスケジュールの設定</div>
+      </div></div>
+    
+      <div class="card"><span class="tag g">研修</span><div>
+        <div class="label">研修・OJTサポート体制の運用</div>
+        <div class="sub">未経験者が最速でスキル習得できる現場環境の提供</div>
+      </div></div>
+    
+      <div class="card"><span class="tag g">開業</span><div>
+        <div class="label">独立開業までの実務・費用サポート</div>
+        <div class="sub">道具の用意、手続きなど、独立に必要な具体的な支援</div>
+      </div></div>
+    
+      <div class="card"><span class="tag g">共有</span><div>
+        <div class="label">進捗状況の定期報告（連携強化）</div>
+        <div class="sub">参加者の状況をハートフルへ定期共有し、定着率を高める</div>
+      </div></div>
+    
+      <h2 class="make">🟡 作るもの・用意するもの</h2>
+      <p class="section-note">募集の魅力を裏付けるために必要な資料やエビデンスです</p>
+    
+      <div class="card"><span class="tag y">資料</span><div>
+        <div class="label">独立シミュレーション資料の作成</div>
+        <div class="sub">稼働目安と収入を数字で見える化したもの</div>
+      </div></div>
+    
+      <div class="card"><span class="tag y">事例</span><div>
+        <div class="label">未経験からの独立実績ストーリー</div>
+        <div class="sub">「自分にもできる」と思わせる実際のストーリー（匿名可）</div>
+      </div></div>
+    
+      <div class="card"><span class="tag y">事例</span><div>
+        <div class="label">兼業・掛け持ちメンバーのリアルな事例</div>
+        <div class="sub">多様な働き方を許容している証拠としての実例紹介</div>
+      </div></div>
+    
+      <div class="card"><span class="tag y">手続</span><div>
+        <div class="label">ベビーシッター割引券の承認申請手続き</div>
+        <div class="sub">こども家庭庁への企業申請（導入決定時）</div>
+      </div></div>
+    
+    </div>
+
+</div>
+
+</body>
+</html>
