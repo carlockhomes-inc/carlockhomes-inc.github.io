@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CLH 採用条件・ヒアリングシート</title>
+    <style>
+        :root {
+            --color-background-primary: #ffffff;
+            --color-background-secondary: #f8f9fa;
+            --color-text-primary: #1a1a1a;
+            --color-text-secondary: #666666;
+            --color-border-primary: #333333;
+            --color-border-secondary: #dddddd;
+            --color-border-tertiary: #eeeeee;
+            --font-sans: 'Zen Maru Gothic', 'Outfit', sans-serif;
+        }
+
+        body {
+            font-family: var(--font-sans);
+            background-color: #f0f2f5;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+        }
+
+        .container {
+            max-width: 600px;
+            width: 100%;
+            background: white;
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+        }
+
+        h1 {
+            font-size: 20px;
+            margin-bottom: 5px;
+            color: #1a1a1a;
+        }
+
+        .subtitle {
+            font-size: 13px;
+            color: #666;
+            margin-bottom: 25px;
+        }
+
+        /* --- 持ち込みコードのスタイル --- */
+        .elicit-wrap { padding: 16px 0 24px; }
+        .section-label { font-size: 11px; font-weight: 700; color: #1a1a1a; letter-spacing: 0.1em; text-transform: uppercase; margin: 30px 0 12px; padding-left: 2px; border-bottom: 1px solid #eee; padding-bottom: 5px; }
+        .section-label:first-child { margin-top: 0; }
+        .q-card { background: var(--color-background-primary); border: 1px solid var(--color-border-tertiary); border-radius: 12px; padding: 18px; margin-bottom: 15px; transition: transform 0.2s; }
+        .q-card:hover { transform: translateY(-2px); border-color: #ccc; }
+        .q-title { font-size: 14px; font-weight: 700; color: var(--color-text-primary); margin-bottom: 6px; }
+        .q-hint { font-size: 12px; color: var(--color-text-secondary); margin-bottom: 12px; line-height: 1.6; }
+        textarea.q-input { width: 100%; box-sizing: border-box; min-height: 80px; font-size: 14px; border: 1px solid var(--color-border-secondary); border-radius: 8px; padding: 10px; resize: vertical; background: var(--color-background-secondary); color: var(--color-text-primary); font-family: var(--font-sans); }
+        textarea.q-input:focus { outline: none; border-color: #1a1a1a; background: #fff; }
+        input.q-short { width: 100%; box-sizing: border-box; font-size: 14px; border: 1px solid var(--color-border-secondary); border-radius: 8px; padding: 10px; background: var(--color-background-secondary); color: var(--color-text-primary); font-family: var(--font-sans); }
+        input.q-short:focus { outline: none; border-color: #1a1a1a; background: #fff; }
+        .pills { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 8px; }
+        .pill { font-size: 13px; padding: 6px 14px; border-radius: 99px; border: 1px solid var(--color-border-secondary); background: var(--color-background-secondary); color: var(--color-text-primary); cursor: pointer; user-select: none; transition: all 0.2s; }
+        .pill:hover { background: #eee; }
+        .pill.active { background: #000; border-color: #000; color: #fff; }
+        .footer { margin-top: 40px; display: flex; justify-content: flex-end; gap: 12px; }
+        .btn-skip { font-size: 14px; padding: 10px 20px; border-radius: 10px; border: 1px solid var(--color-border-secondary); background: transparent; color: var(--color-text-secondary); cursor: pointer; }
+        .btn-submit { font-size: 14px; padding: 10px 24px; border-radius: 10px; border: none; background: #1a1a1a; color: #fff; cursor: pointer; font-weight: 700; box-shadow: 0 4px 12px rgba(0,0,0,0.1); transition: all 0.2s; }
+        .btn-submit:hover { background: #333; transform: translateY(-1px); box-shadow: 0 6px 15px rgba(0,0,0,0.15); }
+        .status { font-size: 12px; color: #e74c3c; margin-top: 15px; text-align: right; font-weight: 700; }
+    </style>
+    <link href="https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@400;500;700;900&family=Outfit:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+<div class="container">
+    <h1>CLH ヒアリングシート</h1>
+    <p class="subtitle">採用募集の精度を高めるため、各コースの詳細を教えてください。</p>
+
+    <div class="elicit-wrap">
+
+        <div class="section-label">報酬・収入</div>
+        
+        <div class="q-card">
+          <div class="q-title">01 コースA（雇用）の給与・待遇</div>
+          <div class="q-hint">月収目安、雇用形態（正社員 / 契約社員）、昇給の仕組みがあれば</div>
+          <textarea class="q-input" id="q01" placeholder="例：月給25万〜、正社員採用、半年ごとに評価あり"></textarea>
+        </div>
+        
+        <div class="q-card">
+          <div class="q-title">02 コースB（即独立）の報酬モデル</div>
+          <div class="q-hint">1案件あたりの単価目安、月収シミュレーションなど</div>
+          <textarea class="q-input" id="q02" placeholder="例：1案件5,000〜15,000円、月20件で月収20万程度など"></textarea>
+        </div>
+        
+        <div class="section-label">研修・スキル習得</div>
+        
+        <div class="q-card">
+          <div class="q-title">03 一人前になるまでの研修期間の目安</div>
+          <div class="q-hint">未経験からスタートした場合、独立・独り立ちまでにどれくらいかかりますか</div>
+          <input class="q-short" id="q03" placeholder="例：3〜6ヶ月、個人差あり">
+        </div>
+        
+        <div class="q-card">
+          <div class="q-title">04 研修期間中に収入・手当はありますか？</div>
+          <div class="q-hint">研修中の生活費をどうまかなうかは、参加者が一番気にするポイントです</div>
+          <div class="pills" id="q04-pills">
+            <span class="pill" data-val="あり（給与支給）">あり（給与支給）</span>
+            <span class="pill" data-val="あり（手当のみ）">あり（手当のみ）</span>
+            <span class="pill" data-val="なし">なし</span>
+            <span class="pill" data-val="応相談">応相談</span>
+          </div>
+          <input class="q-short" id="q04" style="margin-top:12px" placeholder="金額や条件の補足があれば">
+        </div>
+        
+        <div class="q-card">
+          <div class="q-title">05 研修・活動のエリアに制限はありますか？</div>
+          <div class="q-hint">具体的な対応エリアを確認させてください</div>
+          <div class="pills" id="q05-pills">
+            <span class="pill" data-val="制限なし（全国対応）">制限なし（全国対応）</span>
+            <span class="pill" data-val="首都圏中心">首都圏中心</span>
+            <span class="pill" data-val="エリア限定">エリア限定</span>
+          </div>
+          <input class="q-short" id="q05" style="margin-top:12px" placeholder="具体的なエリアや条件があれば">
+        </div>
+        
+        <div class="section-label">仕事量・働き方</div>
+        
+        <div class="q-card">
+          <div class="q-title">06 月に受けられる案件数・仕事量の目安</div>
+          <div class="q-hint">繁忙期・閑散期の差があれば、それも教えてもらえると生活設計に役立ちます</div>
+          <textarea class="q-input" id="q06" placeholder="例：通常月10〜20件、年末は30件超、夏は少なめ"></textarea>
+        </div>
+        
+        <div class="q-card">
+          <div class="q-title">07 研修後、副業・他の仕事との掛け持ちはできますか？</div>
+          <div class="q-hint">掛け持ち可否は重要な判断材料です</div>
+          <div class="pills" id="q07-pills">
+            <span class="pill" data-val="可（自由）">可（自由）</span>
+            <span class="pill" data-val="可（条件あり）">可（条件あり）</span>
+            <span class="pill" data-val="不可">不可</span>
+            <span class="pill" data-val="応相談">応相談</span>
+          </div>
+          <input class="q-short" id="q07" style="margin-top:12px" placeholder="条件や事例があれば">
+        </div>
+        
+        <div class="section-label">受入・連携</div>
+        
+        <div class="q-card">
+          <div class="q-title">08 紹介人数・開始タイミング</div>
+          <div class="q-hint">一度に受け入れられる人数と、開始時期の目安を教えてください</div>
+          <textarea class="q-input" id="q08" placeholder="例：まず1〜2名から、来月からでも受け入れ可能など"></textarea>
+        </div>
+        
+        <div class="q-card">
+          <div class="q-title">09 ベビーシッター割引券（こども家庭庁）</div>
+          <div class="q-hint">企業側の負担は1枚70〜180円のみ。保育支援への協力可否</div>
+          <div class="pills" id="q09-pills">
+            <span class="pill" data-val="対応できる">対応できる</span>
+            <span class="pill" data-val="検討したい">検討したい</span>
+            <span class="pill" data-val="詳細を確認してから">詳細を確認してから</span>
+            <span class="pill" data-val="難しい">難しい</span>
+          </div>
+        </div>
+        
+        <div class="section-label">実績・ストーリー</div>
+        
+        <div class="q-card">
+          <div class="q-title">10 未経験から独立した方の事例</div>
+          <div class="q-hint">「自分でもできる」と感じてもらえる実例があれば</div>
+          <textarea class="q-input" id="q10" placeholder="例：30代未経験で入社、6ヶ月後に独立。現在月収35万など"></textarea>
+        </div>
+        
+        <div class="q-card">
+          <div class="q-title">11 兼業しながら働いているメンバーの例</div>
+          <div class="q-hint">「週3でも稼げるか」といったリアルな事例</div>
+          <textarea class="q-input" id="q10" placeholder="例：週4稼働・別のアルバイトと並行して月15万など"></textarea>
+        </div>
+        
+        <div class="footer">
+          <button type="button" class="btn-skip" onclick="skipAll()">スキップ</button>
+          <button type="button" class="btn-submit" onclick="submitAll()">回答を保存（擬似送信） ↗</button>
+        </div>
+        <div class="status" id="status"></div>
+        
+    </div>
+</div>
+
+<script>
+document.querySelectorAll('.pills').forEach(function(group) {
+  group.querySelectorAll('.pill').forEach(function(pill) {
+    pill.addEventListener('click', function() {
+      group.querySelectorAll('.pill').forEach(function(p) { p.classList.remove('active'); });
+      pill.classList.add('active');
+    });
+  });
+});
+
+function getVal(id) {
+  var el = document.getElementById(id);
+  return el ? el.value.trim() : '';
+}
+
+function getPill(groupId) {
+  var group = document.getElementById(groupId);
+  if (!group) return '';
+  var active = group.querySelector('.pill.active');
+  return active ? active.dataset.val : '';
+}
+
+function submitAll() {
+  var lines = [];
+  var qs = [
+    ['01 コースA報酬', getVal('q01')],
+    ['02 コースB報酬', getVal('q02')],
+    ['03 研修期間', getVal('q03')],
+    ['04 研修中の報酬', (getPill('q04-pills') + ' ' + getVal('q04')).trim()],
+    ['05 研修エリア', (getPill('q05-pills') + ' ' + getVal('q05')).trim()],
+    ['06 仕事量の目安', getVal('q06')],
+    ['07 副業・掛け持ち', (getPill('q07-pills') + ' ' + getVal('q07')).trim()],
+    ['08 受入人数・時期', getVal('q08')],
+    ['09 ベビーシッター割引券', getPill('q09-pills')],
+    ['10 独立事例', getVal('q10')],
+    ['11 兼業事例', getVal('q11')],
+  ];
+  qs.forEach(function(q) {
+    if (q[1]) lines.push(q[0] + '：' + q[1]);
+  });
+  
+  if (lines.length === 0) {
+    document.getElementById('status').textContent = '回答が入力されていません。';
+    return;
+  }
+  
+  alert('回答が作成されました（現在はデモ用のため、実際には送信されません）\n\n' + lines.join('\n'));
+  document.getElementById('status').style.color = '#27ae60';
+  document.getElementById('status').textContent = '保存されました（デモ）';
+}
+
+function skipAll() {
+  alert('スキップしました。');
+}
+</script>
+
+</body>
+</html>
