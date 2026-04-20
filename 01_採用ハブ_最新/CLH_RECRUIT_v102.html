@@ -10,7 +10,7 @@
   <link
     href="https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@400;500;700;900&family=Shippori+Antique+B1&family=Reggae+One&family=Dela+Gothic+One&family=Yomogi&family=Outfit:wght@900&display=swap"
     rel="stylesheet">
-  <script src="https://www.google.com/recaptcha/api.js?render=6Le7g78sAAAAAFifhB2eQZOes9SmQ3EwtynTxXsf"></script>
+  <script src="https://www.google.com/recaptcha/api.js?render=6Lcq8rOsAAAAAIIEXpwagOFOOlyhL-kQRLWggT9B"></script>
   <style>
     * {
       box-sizing: border-box;
@@ -1470,7 +1470,7 @@
         try {
           if (typeof grecaptcha !== 'undefined' && grecaptcha.ready) {
             grecaptcha.ready(function() {
-              grecaptcha.execute('6Le7g78sAAAAAFifhB2eQZOes9SmQ3EwtynTxXsf', { action: actionName })
+              grecaptcha.execute('6Lcq8rOsAAAAAIIEXpwagOFOOlyhL-kQRLWggT9B', { action: actionName })
                 .then(function(token) {
                   if (!isDone) { isDone = true; clearTimeout(fallbackTimer); callback(token); }
                 }).catch(function(err) {
