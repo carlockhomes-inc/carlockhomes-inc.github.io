@@ -230,8 +230,8 @@
 
     /* TOPICS Key Animation (FLOAT ONLY - NO SCALE ON MOBILE) */
     @keyframes keyFloat {
-      0%, 100% { transform: translate(0, 0) rotate(0deg); opacity: 0.15; }
-      50% { transform: translate(-10px, -8px) rotate(-5deg); opacity: 0.3; }
+      0%, 100% { transform: scale(1) translate(0, 0) rotate(0deg); opacity: 0.15; }
+      50% { transform: scale(1) translate(-10px, -8px) rotate(-5deg); opacity: 0.3; }
     }
 
     .topic-box .topic-key-bg {
@@ -239,7 +239,7 @@
       transition: all 0.4s ease-out;
       transform-origin: center;
       pointer-events: none;
-      transform: scale(1) !important; /* Force natural size on mobile */
+      transform: scale(1); /* Allow animation to override transform on mobile */
     }
 
     /* ONLY PC: Keep floating, no scale on hover */
