@@ -242,17 +242,16 @@
       transform: scale(1) !important; /* Force natural size on mobile */
     }
 
-    /* ONLY PC: Apply the intense POP-OUT on hover */
+    /* ONLY PC: Keep floating, no scale on hover */
     @media (hover: hover) and (pointer: fine) {
       .topic-box:hover .topic-key-bg {
-        animation-play-state: paused;
-        opacity: 0.8 !important;
-        transform: scale(1.4) rotate(-15deg) translate(-25px, 25px) !important;
-        filter: drop-shadow(0 0 35px rgba(255, 255, 255, 1));
+        /* animation-play-state stays running */
+        opacity: 0.6 !important; /* Slight opacity increase is fine for feedback */
+        filter: drop-shadow(0 0 20px rgba(255, 255, 255, 0.5));
       }
       .topic-box:hover {
-        transform: translateY(-8px) scale(1.01);
-        box-shadow: 0 30px 70px rgba(255, 68, 68, 0.4) !important;
+        transform: translateY(-5px); /* Only slight lift, no scale */
+        box-shadow: 0 20px 50px rgba(255, 68, 68, 0.3) !important;
       }
     }
 
