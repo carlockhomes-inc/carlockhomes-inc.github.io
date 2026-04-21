@@ -228,32 +228,35 @@
       box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
     }
 
-    /* TOPICS Key Animation (BREATHING & SMOOTH) */
-    @keyframes keyBreathe {
-      0%, 100% { transform: scale(1) rotate(0deg); opacity: 0.1; }
-      50% { transform: scale(1.1) rotate(-5deg); opacity: 0.25; filter: drop-shadow(0 0 10px rgba(255,255,255,0.3)); }
+    /* TOPICS Key Animation (FLOAT & FLUFFY) */
+    @keyframes keyFloat {
+      0%, 100% { transform: translate(0, 0) scale(1) rotate(0deg); opacity: 0.15; }
+      50% { transform: translate(-15px, -10px) scale(1.2) rotate(-8deg); opacity: 0.4; filter: drop-shadow(0 0 15px rgba(255,255,255,0.4)); }
     }
 
     .topic-box .topic-key-bg {
-      animation: keyBreathe 5s ease-in-out infinite;
-      transition: all 0.8s cubic-bezier(0.34, 1.56, 0.64, 1); /* Bouncy & Smooth return */
+      animation: keyFloat 6s ease-in-out infinite;
+      transition: all 0.8s cubic-bezier(0.34, 1.56, 0.64, 1);
       transform-origin: center;
       pointer-events: none;
     }
 
-    .topic-box:hover .topic-key-bg {
-      animation: none; /* Stop breathing on hover to take direct control */
-      opacity: 0.8 !important;
-      transform: scale(1.4) rotate(-15deg) translate(-15px, 15px) !important;
-      filter: drop-shadow(0 0 30px rgba(255, 255, 255, 0.9));
+    /* Only apply the heavy "POP" on devices that support real hover (PC) */
+    @media (hover: hover) {
+      .topic-box:hover .topic-key-bg {
+        animation-play-state: paused; /* Pause floating when focused/hovered */
+        opacity: 0.8 !important;
+        transform: scale(1.5) rotate(-15deg) translate(-20px, 20px) !important;
+        filter: drop-shadow(0 0 35px rgba(255, 255, 255, 1));
+      }
+      .topic-box:hover {
+        transform: translateY(-8px) scale(1.01);
+        box-shadow: 0 30px 70px rgba(255, 68, 68, 0.45) !important;
+      }
     }
 
     .topic-box {
       transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-    }
-    .topic-box:hover {
-      transform: translateY(-8px) scale(1.01);
-      box-shadow: 0 30px 70px rgba(255, 68, 68, 0.35) !important;
     }
   </style>
   <style>
