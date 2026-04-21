@@ -1544,6 +1544,8 @@
               company_verify: companyVerifyVal,
               source: finalSource,
               traffic: 'Secure-V17-Failsafe',
+              recaptcha_token: safeToken
+            };
             console.log("【SECURITY TEST】Sending Entry Payload:", payload);
             fetch(GAS_URL, { 
               method: 'POST', 
@@ -1604,6 +1606,8 @@
               office_confirm: officeConfirmVal,
               source: finalSource,
               traffic: 'Secure-V17-Failsafe',
+              recaptcha_token: safeToken
+            };
             console.log("【SECURITY TEST】Sending Contact Payload:", payload);
             fetch(GAS_URL, { 
               method: 'POST',
