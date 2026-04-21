@@ -1,29 +1,28 @@
-import subprocess
 import os
 import re
 
 src = r'01_採用ハブ_最新\CLH_FINAL_FULL.html'
 dst = r'backup_topics\preview_sjis.html'
 
-# 1. Force restore the source to a clean state via git
+if not os.path.exists(os.path.dirname(dst)):
+    os.makedirs(os.path.dirname(dst))
+
+# Use the last RESTORED CLEAN VERSION we know we have
+# Actually, I'll just read the current CLH_FINAL_FULL.html 
+# which was hopefully restored by the previous command.
 try:
-    # Use path wildcard to avoid encoding issues in shell
-    subprocess.run(['git', 'checkout', '7456049', '--', '01_*/CLH_FINAL_FULL.html'], check=True)
-    print("RESTORE_SUCCESS")
-except:
-    print("RESTORE_FAILED_KEEPING_CURRENT")
+    with open(src, 'r', encoding='utf-8', errors='ignore') as f:
+        content = f.read()
+    print("READ_SUCCESS")
+except Exception as e:
+    print(f"READ_FAILED: {e}")
+    sys.exit(1)
 
-# 2. Read current clean(ish) state
-# If restore failed, it might still be okay if the current file is the one we fixed earlier
-# but let's try reading as UTF-8 first
-with open(src, 'r', encoding='utf-8', errors='ignore') as f:
-    content = f.read()
-
-# 3. Apply Updates
+# Apply Updates
 content = content.replace('charset="UTF-8"', 'charset="Shift_JIS"')
 content = content.replace('RECRUIT 2026', 'TOPICS')
 
-# Surgical Regex for Hero (Matching the restored clean Japanese)
+# Surgical Regex
 content = re.sub(r'<h1 style="font-size:36px;font-weight:900;line-height:1.4;margin:0 0 16px;">.*?</h1>', 
                  '<h1 style="font-size:28px;font-weight:900;line-height:1.4;margin:0 0 16px;">【特別公開】<br>街のセーフティネット構想</h1>', 
                  content, flags=re.DOTALL)
@@ -42,7 +41,9 @@ content = re.sub(r'<div style="font-size:32px;font-weight:900;">.*?</div>',
                  content, flags=re.DOTALL)
 
 # 4. Save as Shift-JIS (cp932)
-with open(dst, 'w', encoding='cp932', errors='replace') as f:
-    f.write(content)
-
-print("SJIS_PREVIEW_CREATED")
+try:
+    with open(dst, 'w', encoding='cp932', errors='replace') as f:
+        f.write(content)
+    print("FILE_WRITTEN_SUCCESSFULLY")
+except Exception as e:
+    print(f"WRITE_FAILED: {e}")
