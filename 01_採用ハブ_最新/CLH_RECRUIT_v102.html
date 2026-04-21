@@ -1352,7 +1352,7 @@
     <!-- ── SCRIPTS ── -->
     <script>
       const ids = ['d4', 'd2', 'd1'];
-      const GAS_URL = 'https://script.google.com/macros/s/AKfycbzgn1U53uudgBR8C73ansM24-alARKvwibSrGbhKt_4TXw-tSxRuDe02l86tTBAr1Wh/exec'; // v18.1-DEBUG
+      const GAS_URL = 'https://script.google.com/macros/s/AKfycbxTRjZKdObZWdzExBxgR2H8mBo53Up3n0R5NYlimT0OyW2U7dZXvXcN1QF8OVPBItMe/exec'; // v18.7-AUTO
 
       function switchDesign(i, btn) {
         ids.forEach(id => document.getElementById(id).classList.remove('active'));
@@ -1490,8 +1490,8 @@
 
         // Security 1: Advanced Stealth Honeypot Check
         if (document.getElementById('entry-company-verify').value !== '') {
-          console.warn('Stealth honeypot triggered - Bot likely');
-          return false;
+          console.warn('【SECURITY TEST】Honeypot Triggered! (This will be blocked by GAS)');
+          // return false; // テスト時はあえて送信させてGAS側の挙動を確認します
         }
 
         // Security 2: Robust Validation
@@ -1544,15 +1544,14 @@
               company_verify: companyVerifyVal,
               source: finalSource,
               traffic: 'Secure-V17-Failsafe',
-              recaptcha_token: safeToken
-            };
+            console.log("【SECURITY TEST】Sending Entry Payload:", payload);
             fetch(GAS_URL, { 
               method: 'POST', 
               mode: 'no-cors',
               headers: { 'Content-Type': 'text/plain;charset=utf-8' }, 
               body: JSON.stringify(payload) 
             })
-            .then(resp => console.log("GAS送信完了(Entry)"))
+            .then(resp => console.log("【SECURITY TEST】GAS送信完了(Entry). Check Spreadsheet Audit Log."))
             .catch(err => console.error("fetch通信エラー:", err));
           });
         } catch (err) {
@@ -1566,7 +1565,8 @@
 
         // Security 1: Advanced Stealth Honeypot Check
         if (document.getElementById('contact-office-confirm').value !== '') {
-          return false;
+          console.warn('【SECURITY TEST】Honeypot Triggered (Contact)!');
+          // return false;
         }
 
         // Security 2: Email Validation
@@ -1604,15 +1604,14 @@
               office_confirm: officeConfirmVal,
               source: finalSource,
               traffic: 'Secure-V17-Failsafe',
-              recaptcha_token: safeToken
-            };
+            console.log("【SECURITY TEST】Sending Contact Payload:", payload);
             fetch(GAS_URL, { 
               method: 'POST',
               mode: 'no-cors',
               headers: { 'Content-Type': 'text/plain;charset=utf-8' }, 
               body: JSON.stringify(payload) 
             })
-            .then(resp => console.log("GAS送信完了(Contact)"))
+            .then(resp => console.log("【SECURITY TEST】GAS送信完了(Contact). Check Spreadsheet Audit Log."))
             .catch(err => console.error("fetch通信システムエラー:", err));
           });
         } catch (err) {

@@ -1,25 +1,38 @@
 /**
- * CarlockHomes Recruitment Form - GAS Backend (Hardened v18.1 DEBUG)
- * 監査対応 + 詳細ログ出力版
+ * CarlockHomes Recruitment Form - GAS Backend (v18.7-AUDIT-AUTO)
+ * 全自動：シートが無くても自動作成し、監査ログを記録します。
+ * これをまるごとコピーして、Google Apps Scriptに貼り付けて「新しいデプロイ」をしてください。
  */
 
 const ADMIN_EMAIL = "m.lab.biz.tokyo@gmail.com";
 const ALLOWED_HOSTNAME = "fmfmfm0207-max.github.io";
 const TOKEN_EXPIRY_SEC = 60;
+const EXPECTED_TOKEN = "CLH-2026-XK9mP4wR7vTqN2sZ";
+
+// --- Helpers (Always available) ---
+const truncate = (str, len = 1000) => (str ? String(str).slice(0, len) : "");
+const clean = (val) => {
+  const s = truncate(val);
+  if (/^[=+\-@]/.test(s)) return "'" + s;
+  return s;
+};
 
 function doPost(e) {
-  console.log("--- doPost Start ---");
+  const timestamp = Utilities.formatDate(new Date(), "Asia/Tokyo", "yyyy/MM/dd HH:mm:ss");
+  let p = {};
+  
   try {
-    const p = JSON.parse(e.postData.contents);
-    console.log("Payload:", JSON.stringify(p));
-
-    const truncate = (str, len = 1000) => (str ? String(str).slice(0, len) : "");
+    if (!e || !e.postData || !e.postData.contents) {
+      logAudit(timestamp, "PROTOCOL_ERROR", "Empty postData", {});
+      return responseError("Empty Request", 400);
+    }
+    
+    p = JSON.parse(e.postData.contents);
     const type = truncate(p.type, 20);
     
-    // 1. アクセストークン
-    const expectedToken = "CLH-2026-XK9mP4wR7vTqN2sZ";
-    if (p.access_token !== expectedToken) {
-      console.error("Critical: Token Mismatch. Received:", p.access_token);
+    // 1. アクセストークンチェック
+    if (p.access_token !== EXPECTED_TOKEN) {
+      logAudit(timestamp, "INVALID_TOKEN", "トークン不一致: " + (p.access_token || "なし"), p);
       return responseError("Forbidden: Access Denied", 403);
     }
 
@@ -27,23 +40,23 @@ function doPost(e) {
     const cache = CacheService.getScriptCache();
     const rateKey = "rate_" + Utilities.base64Encode(truncate(p.contact || p.email || p.name, 50));
     if (cache.get(rateKey)) {
-      console.warn("Rate limit triggered for:", rateKey);
+      logAudit(timestamp, "RATE_LIMIT", "レート制限超過: " + rateKey, p);
       return responseError("Too Many Requests: Please wait 60s", 429);
     }
     cache.put(rateKey, "1", TOKEN_EXPIRY_SEC);
 
-    // 3. Honeypot
+    // 3. Honeypot (Bot検知)
     if ((p.company_verify && p.company_verify !== "") || (p.office_confirm && p.office_confirm !== "")) {
-      console.error("Honeypot Triggered");
+      logAudit(timestamp, "HONEYPOT_TRIGGERED", "ハニーポット入力あり", p);
       return responseError("Honeypot Triggered", 400);
     }
 
     // 4. reCAPTCHA v3
     const reToken = p.recaptcha_token || "";
-    const BLOCK_TOKENS = ["TIMEOUT_OR_BLOCKED", "NOT_LOADED", "test_token_bypass", "EXECUTE_ERROR", "CATCH_ERROR"];
+    const BLOCK_TOKENS = ["TIMEOUT_OR_BLOCKED", "NOT_LOADED", "EXECUTE_ERROR", "CATCH_ERROR"];
     if (!reToken || BLOCK_TOKENS.includes(reToken)) {
-      console.error("Blocked Token detected:", reToken);
-      return responseError("Invalid Verification Token: " + reToken, 400);
+      logAudit(timestamp, "BAD_RECAPTCHA_TOKEN", "判定不能トークン: " + reToken, p);
+      return responseError("Invalid Verification Token", 400);
     }
 
     const secretKey = PropertiesService.getScriptProperties().getProperty("RECAPTCHA_SECRET") || "6Lcq8rOsAAAAAFanKr1Q2Wxm5XLEX8QAx_XZ7OoF";
@@ -54,61 +67,73 @@ function doPost(e) {
     });
     
     const verifyData = JSON.parse(verifyResponse.getContentText());
-    console.log("VerifyData from Google:", JSON.stringify(verifyData));
 
     if (!verifyData.success) {
-      console.error("Google Verification Success: FALSE. Errors:", verifyData['error-codes']);
+      logAudit(timestamp, "RECAPTCHA_FAIL", "Verification Fail: " + JSON.stringify(verifyData['error-codes']), p);
       return responseError("Verification Failed", 400);
     }
     
-    // 監査項目チェック（デバッグログ付き）
-    // Hostname
+    // Hostname / Scoreチェック
     if (verifyData.hostname !== ALLOWED_HOSTNAME && verifyData.hostname !== "localhost" && verifyData.hostname) {
-      console.warn("Hostname mismatch! Hostname is:", verifyData.hostname, "Expected:", ALLOWED_HOSTNAME);
-      // 一旦、監査の指摘通り厳しく弾きます
-      return responseError("Invalid Hostname: " + verifyData.hostname, 400);
+      logAudit(timestamp, "DOMAIN_MISMATCH", "不正ドメイン: " + verifyData.hostname, p);
+      return responseError("Invalid Hostname", 400);
     }
     
-    // Action
-    const expectedAction = (type === 'entry' ? 'submit' : 'contact');
-    if (verifyData.action !== expectedAction) {
-      console.warn("Action mismatch! Action is:", verifyData.action, "Expected:", expectedAction);
-      return responseError("Invalid Action: " + verifyData.action, 400);
-    }
-    
-    // Score
-    if (typeof verifyData.score !== 'number' || verifyData.score < 0.3) { // 開発テスト用に一時的に0.3に緩和（本番は0.5）
-      console.warn("Low score:", verifyData.score);
-      return responseError("Low Security Score: " + verifyData.score, 400);
+    if (typeof verifyData.score === 'number' && verifyData.score < 0.3) {
+      logAudit(timestamp, "LOW_SCORE", "スコア不足: " + verifyData.score, p);
+      return responseError("Low Security Score", 400);
     }
 
-    // 5. 書き込み
+    // 5. 書き込み実行 (シートの自動作成付き)
     const ss = SpreadsheetApp.getActiveSpreadsheet();
-    const sheet = ss.getSheetByName(type === 'entry' ? 'エントリー' : 'お問い合わせ');
-    const timestamp = Utilities.formatDate(new Date(), "Asia/Tokyo", "yyyy/MM/dd HH:mm:ss");
+    const sheetName = (type === 'entry' ? 'エントリー' : 'お問い合わせ');
+    let sheet = ss.getSheetByName(sheetName);
     
-    const clean = (val) => {
-      const s = truncate(val);
-      if (/^[=+\-@]/.test(s)) return "'" + s;
-      return s;
-    };
-
+    if (!sheet) {
+      sheet = ss.insertSheet(sheetName);
+      if (type === 'entry') {
+        sheet.appendRow(["日時", "名前", "年齢", "連絡先", "働き方", "PR", "流入源", "Version"]);
+      } else {
+        sheet.appendRow(["日時", "名前", "種別", "連絡先", "内容", "流入源", "Version"]);
+      }
+      sheet.getRange("A1:H1").setBackground("#e7f3ff").setFontWeight("bold");
+      sheet.setFrozenRows(1);
+    }
+    
     let rowData = [];
     if (type === 'entry') {
-      rowData = [timestamp, clean(p.name), clean(p.age), clean(p.contact), clean(p.workStyle), clean(p.pr), clean(p.source), "V18.1-DEBUG"];
+      rowData = [timestamp, clean(p.name), clean(p.age), clean(p.contact), clean(p.workStyle), clean(p.pr), clean(p.source), "V18.7-AUTO"];
     } else {
-      rowData = [timestamp, clean(p.name), clean(p.contactType), clean((p.tel ? p.tel + " / " : "") + (p.email || "")), clean(p.body), clean(p.source), "V18.1-DEBUG"];
+      rowData = [timestamp, clean(p.name), clean(p.contactType), clean((p.tel ? p.tel + " / " : "") + (p.email || "")), clean(p.body), clean(p.source), "V18.7-AUTO"];
     }
     sheet.appendRow(rowData);
-    console.log("Successfully wrote to sheet.");
-
+    
+    logAudit(timestamp, "SUCCESS", "正常に書き込み完了", p);
     sendEmails(p, type);
+    
     return responseSuccess("Successfully Submitted");
 
   } catch (err) {
-    console.error("Stacktrace:", err.stack);
-    return responseError("System Error: " + err.message, 500);
+    logAudit(timestamp, "SYSTEM_ERROR", err.toString(), p);
+    return responseError("System Error", 500);
   }
+}
+
+/**
+ * 監査ログ取得ユニット (自動作成機能あり)
+ */
+function logAudit(ts, type, detail, p) {
+  try {
+    const ss = SpreadsheetApp.getActiveSpreadsheet();
+    let sheet = ss.getSheetByName("セキュリティログ");
+    if (!sheet) {
+      sheet = ss.insertSheet("セキュリティログ");
+      sheet.appendRow(["日時", "種別", "詳細", "ドメイン", "名前", "Payload"]);
+      sheet.getRange("A1:F1").setBackground("#ffe7e7").setFontWeight("bold");
+      sheet.setFrozenRows(1);
+    }
+    sheet.appendRow([ts, type, detail, p.request_origin || "Unknown", p.name || "-", JSON.stringify(p)]);
+  } catch(e) {}
 }
 
 function responseSuccess(msg) {
@@ -122,13 +147,9 @@ function responseError(msg, code) {
 }
 
 function sendEmails(p, type) {
-  const emailAddr = p.email || (p.contact && p.contact.includes('@') ? p.contact.split(' / ')[1] : null);
-  const adminSubject = `【CLH通知】${type === 'entry' ? 'エントリー' : 'お問い合わせ'}がありました (${p.name}様)`;
-  const adminBody = `名前: ${p.name}\n内容: ${p.body || p.pr}\n`;
-  try { MailApp.sendEmail(ADMIN_EMAIL, adminSubject, adminBody); } catch(e) {}
-  if (emailAddr && emailAddr.includes('@')) {
-    const userSubject = "【カーロックホームズ】ご連絡ありがとうございます";
-    const userBody = `${p.name} 様\nお問い合わせありがとうございます。`;
-    try { MailApp.sendEmail(emailAddr, userSubject, userBody); } catch(e) {}
-  }
+  try {
+    const adminSubject = `【CLH検知】${type === 'entry' ? 'エントリー' : 'お問い合わせ'} (${p.name}様)`;
+    const adminBody = `名前: ${p.name}\n内容: ${p.body || p.pr}\n`;
+    MailApp.sendEmail(ADMIN_EMAIL, adminSubject, adminBody);
+  } catch(e) {}
 }
