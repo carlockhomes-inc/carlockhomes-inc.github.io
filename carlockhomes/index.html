@@ -227,6 +227,17 @@
       font-family: 'Zen Maru Gothic';
       box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
     }
+
+    /* TOPICS Key Animation */
+    .topic-box:hover .topic-key-bg {
+      opacity: 0.4 !important;
+      transform: scale(1.2) rotate(-10deg) translate(-10px, 10px);
+      filter: drop-shadow(0 0 15px rgba(255, 255, 255, 0.5));
+    }
+    .topic-key-bg {
+      transition: all 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      pointer-events: none;
+    }
   </style>
   <style>
     /* PASSWORD GATE STYLES */
@@ -678,9 +689,9 @@
       <div class="mobile-padding" style="padding:40px;max-width:1080px;margin:0 auto;">
         <div class="mobile-stack"
           style="display:grid;grid-template-columns:repeat(auto-fit, minmax(300px, 1fr));gap:24px;margin-bottom:24px;">
-          <div
-            style="background:linear-gradient(135deg, #FF4444, #FF6B6B);border-radius:24px;padding:50px 40px;color:#fff;box-shadow:0 15px 40px rgba(255,68,68,0.2);position:relative;overflow:hidden;">
-            <div style="position:absolute;top:-20px;right:-20px;font-size:150px;opacity:0.1;">🔑</div>
+          <div class="topic-box"
+            style="background:linear-gradient(135deg, #FF4444, #FF6B6B);border-radius:24px;padding:50px 40px;color:#fff;box-shadow:0 15px 40px rgba(255,68,68,0.2);position:relative;overflow:hidden;cursor:default;">
+            <div class="topic-key-bg" style="position:absolute;top:-20px;right:-20px;font-size:150px;opacity:0.1;">🔑</div>
             <div
               style="display:inline-block;background:#fff;color:#FF4444;padding:6px 20px;border-radius:100px;font-size:12px;font-weight:900;margin-bottom:20px;">
               TOPICS</div>
