@@ -228,17 +228,18 @@
       box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
     }
 
-    /* TOPICS Key Animation (FLOAT & FLUFFY) */
+    /* TOPICS Key Animation (FLOAT ONLY - NO SCALE ON MOBILE) */
     @keyframes keyFloat {
-      0%, 100% { transform: translate(0, 0) scale(1) rotate(0deg); opacity: 0.15; }
-      50% { transform: translate(-15px, -10px) scale(1.15) rotate(-8deg); opacity: 0.35; filter: drop-shadow(0 0 15px rgba(255,255,255,0.3)); }
+      0%, 100% { transform: translate(0, 0) rotate(0deg); opacity: 0.15; }
+      50% { transform: translate(-10px, -8px) rotate(-5deg); opacity: 0.3; }
     }
 
     .topic-box .topic-key-bg {
       animation: keyFloat 6s ease-in-out infinite;
-      transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1); /* Faster return for mobile */
+      transition: all 0.4s ease-out;
       transform-origin: center;
       pointer-events: none;
+      transform: scale(1) !important; /* Force natural size on mobile */
     }
 
     /* ONLY PC: Apply the intense POP-OUT on hover */
