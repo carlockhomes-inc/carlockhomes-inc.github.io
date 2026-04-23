@@ -50,7 +50,7 @@
       background: #f0f0f0;
       color: #666;
       font-weight: 900;
-      font-size: 18px;
+      font-size: 16px;
       cursor: pointer;
       white-space: nowrap;
       font-family: 'Zen Maru Gothic', sans-serif;
@@ -227,38 +227,6 @@
       font-family: 'Zen Maru Gothic';
       box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
     }
-
-    /* TOPICS Key Animation (FLOAT ONLY - NO SCALE ON MOBILE) */
-    @keyframes keyFloat {
-      0%, 100% { transform: scale(1) translate(0, 0) rotate(0deg); opacity: 0.15; }
-      50% { transform: scale(1) translate(-10px, -8px) rotate(-5deg); opacity: 0.3; }
-    }
-
-    .topic-box .topic-key-bg {
-      animation: keyFloat 6s ease-in-out infinite;
-      transition: all 0.4s ease-out;
-      transform-origin: center;
-      pointer-events: none;
-      transform: scale(1); /* Allow animation to override transform on mobile */
-    }
-
-    /* ONLY PC: Keep floating, no scale on hover */
-    @media (hover: hover) and (pointer: fine) {
-      .topic-box:hover .topic-key-bg {
-        /* animation-play-state stays running */
-        opacity: 0.6 !important; /* Slight opacity increase is fine for feedback */
-        filter: drop-shadow(0 0 20px rgba(255, 255, 255, 0.5));
-      }
-      .topic-box:hover {
-        transform: translateY(-5px); /* Only slight lift, no scale */
-        box-shadow: 0 20px 50px rgba(255, 68, 68, 0.3) !important;
-      }
-    }
-
-    .topic-box {
-      transition: all 0.5s ease;
-      cursor: default;
-    }
   </style>
   <style>
     /* PASSWORD GATE STYLES */
@@ -410,6 +378,9 @@
   </div>
 
   <script>
+    // --- AUTOMATIC LAUNCH CONTROL ---
+    const LAUNCH_DATE = new Date('2026-04-24T00:00:00+09:00'); // 4月24日 0時 (JST)
+    
     // PW CHECK (Session based)
     function checkPW() {
       const input = document.getElementById('pw-input').value;
@@ -422,19 +393,25 @@
       }
     }
     function unlock() {
-      document.getElementById('pw-gate').style.display = 'none';
+      const gate = document.getElementById('pw-gate');
+      if (gate) gate.style.display = 'none';
       document.body.style.opacity = '1';
     }
     window.onload = () => {
-      if (sessionStorage.getItem('clh_auth') === 'ok') {
+      const isPastLaunch = new Date() >= LAUNCH_DATE;
+      
+      if (isPastLaunch || sessionStorage.getItem('clh_auth') === 'ok') {
         unlock();
       } else {
         document.body.style.opacity = '1'; // Show gate
       }
       // Enter key support
-      document.getElementById('pw-input').addEventListener('keypress', (e) => {
-        if (e.key === 'Enter') checkPW();
-      });
+      const pwInput = document.getElementById('pw-input');
+      if (pwInput) {
+        pwInput.addEventListener('keypress', (e) => {
+          if (e.key === 'Enter') checkPW();
+        });
+      }
     };
   </script>
 
@@ -584,7 +561,7 @@
 
       <div class="mobile-padding" style="padding:40px 40px 0;max-width:900px;margin:0 auto;text-align:center;">
         <div
-          style="display:inline-block;background:#FF6B6B;color:#fff;padding:12px 32px;border-radius:100px;font-size:18px;font-weight:900;margin-bottom:25px;box-shadow:0 8px 20px rgba(255,107,107,0.3);">
+          style="display:inline-block;background:#FF6B6B;color:#fff;padding:8px 24px;border-radius:100px;font-size:12px;font-weight:900;margin-bottom:25px;box-shadow:0 8px 15px rgba(255,107,107,0.25);">
           🌈 共に歩む仲間を募集中</div>
         <h1
           style="font-size:clamp(28px, 6vw, 42px);font-weight:900;color:#4A3D2E;line-height:1.4;margin:0 0 20px;animation:fadeSlide .8s ease-out;">
@@ -689,44 +666,44 @@
       </div>
 
       <nav
-        style="display:flex;justify-content:space-between;align-items:center;padding:25px 40px;border-bottom:2px solid #F0F0F0;">
-        <div style="display:flex;align-items:center;gap:15px;">
+        style="display:flex;justify-content:space-between;align-items:center;padding:20px 40px;border-bottom:2px solid #F0F0F0;">
+        <div style="display:flex;align-items:center;gap:12px;">
           <div
-            style="width:55px;height:55px;border-radius:14px;background:#FF4444;display:flex;align-items:center;justify-content:center;color:#fff;font-size:28px;box-shadow:0 6px 15px rgba(255,68,68,0.2);">
+            style="width:45px;height:45px;border-radius:12px;background:#FF4444;display:flex;align-items:center;justify-content:center;color:#fff;font-size:24px;box-shadow:0 6px 15px rgba(255,68,68,0.2);">
             🔑</div>
           <div>
-            <div style="font-weight:900;font-size:24px;color:#111;line-height:1.2;">カーロックホームズ</div>
-            <div style="font-size:13px;color:#999;letter-spacing:1.5px;font-family:'Outfit',sans-serif;font-weight:900;">CARLOCK HOMES
+            <div style="font-weight:900;font-size:18px;color:#111;">カーロックホームズ</div>
+            <div style="font-size:10px;color:#999;letter-spacing:1.5px;font-family:'Outfit',sans-serif;">CARLOCK HOMES
             </div>
           </div>
         </div>
-        <div style="display:flex;gap:40px;font-size:21px;font-weight:900;">
+        <div style="display:flex;gap:25px;font-size:14px;font-weight:900;">
           <span onclick="openFusion('company')"
-            style="cursor:pointer; color:#4D96FF; border-bottom:4px solid #4D96FF; padding-bottom:2px;">企業情報</span>
-          <span onclick="openContact('会社案内パネル')" style="cursor:pointer; color:#555;">お問い合わせ</span>
+            style="cursor:pointer; color:#4D96FF; border-bottom:2px solid #4D96FF;">企業情報</span>
+          <span onclick="openContact('会社案内パネル')" style="cursor:pointer; color:#777;">お問い合わせ</span>
         </div>
       </nav>
 
       <div class="mobile-padding" style="padding:40px;max-width:1080px;margin:0 auto;">
         <div class="mobile-stack"
           style="display:grid;grid-template-columns:repeat(auto-fit, minmax(300px, 1fr));gap:24px;margin-bottom:24px;">
-          <div class="topic-box"
-            style="background:linear-gradient(135deg, #FF4444, #FF6B6B);border-radius:24px;padding:50px 40px;color:#fff;box-shadow:0 15px 40px rgba(255,68,68,0.2);position:relative;overflow:hidden;cursor:default;">
-            <div class="topic-key-bg" style="position:absolute;top:-20px;right:-20px;font-size:150px;opacity:0.1;">🔑</div>
+          <div
+            style="background:linear-gradient(135deg, #FF4444, #FF6B6B);border-radius:24px;padding:50px 40px;color:#fff;box-shadow:0 15px 40px rgba(255,68,68,0.2);position:relative;overflow:hidden;">
+            <div style="position:absolute;top:-20px;right:-20px;font-size:150px;opacity:0.1;">🔑</div>
             <div
               style="display:inline-block;background:#fff;color:#FF4444;padding:6px 20px;border-radius:100px;font-size:12px;font-weight:900;margin-bottom:20px;">
               TOPICS</div>
-            <h1 id="cms-topics-title" style="font-size:44px;font-weight:900;line-height:1.4;margin:0 0 16px;">【特別公開】<br>街のセーフティネット構想</h1>
-            <p id="cms-topics-desc" style="font-size:15px;opacity:.95;line-height:2;">
+            <h1 style="font-size:36px;font-weight:900;line-height:1.4;margin:0 0 16px;">【特別公開】<br>街のセーフティネット構想</h1>
+            <p style="font-size:15px;opacity:.95;line-height:2;">
               45・55代中心に活躍中。経験は問いません。多様な働き方をご提案します。 </p>
           </div>
           <div style="display:grid;grid-template-rows:1fr 1fr;gap:20px;">
-            <div id="cms-news-box"
+            <div
               style="background:#FFB800;border-radius:24px;padding:25px 32px;color:#664400;display:flex;align-items:center;gap:20px;box-shadow:0 10px 30px rgba(255,184,0,0.15);">
-              <div id="cms-news-emoji" style="font-size:45px;">📜</div>
+              <div style="font-size:45px;">📜</div>
               <div>
                 <div style="font-size:13px;font-weight:900;opacity:.8;">NEWS</div>
-                <div id="cms-news-title" style="font-size:17px;font-weight:900;line-height:1.3;text-decoration:underline;cursor:pointer;" onclick="window.open('https://shachomeikan.jp/industry_article/5444', '_blank')">弊社代表 上野原が<br>『社長名鑑』に登場！</div>
+                <div style="font-size:17px;font-weight:900;line-height:1.3;text-decoration:underline;cursor:pointer;" onclick="window.open('https://shachomeikan.jp/industry_article/5444', '_blank')">弊社代表 上野原が<br>『社長名鑑』に登場！</div>
               </div>
             </div>
             <div
@@ -1407,7 +1384,7 @@
                 <!-- ── SCRIPTS ── -->
                 <script>
                   const ids = ['d4', 'd2', 'd1'];
-                  const GAS_URL = 'https://script.google.com/macros/s/AKfycbzZjiLB_W0x7BtMrTFmgispwFggfuUGq8F4UcUMcGJz_USAY3M3E_NqPPf42CMHns2Y/exec'; // v26.0-CMS-READY
+                  const GAS_URL = 'https://script.google.com/macros/s/AKfycbww7m7xD5Pg1DCT5Prb5-MIWGVNzxS7GTVIEHsQqzzpKIiV2dn57YM98qpAa-2PB-mK/exec'; // v26.0-FINAL
 
                   function switchDesign(i, btn) {
                     ids.forEach(id => document.getElementById(id).classList.remove('active'));
@@ -1673,30 +1650,6 @@
                       alert("送信処理中に予期せぬエラーが発生しました: " + err.message);
                     }
                   }
-                  // CMS Integration (Google Sheets Sync)
-                  async function loadCMSContent() {
-                    try {
-                      // Add random param to avoid cache
-                      const response = await fetch(GAS_URL + '?type=cms&v=' + new Date().getTime());
-                      const data = await response.json();
-                      if (data.topics) {
-                        if (data.topics.title) document.getElementById('cms-topics-title').innerHTML = data.topics.title;
-                        if (data.topics.description) document.getElementById('cms-topics-desc').innerHTML = data.topics.description;
-                      }
-                      if (data.news) {
-                        if (data.news.title) document.getElementById('cms-news-title').innerHTML = data.news.title;
-                        if (data.news.emoji) document.getElementById('cms-news-emoji').innerHTML = data.news.emoji;
-                        const newsBox = document.getElementById('cms-news-box');
-                        if (data.news.url) {
-                          newsBox.onclick = () => window.open(data.news.url, '_blank');
-                          newsBox.style.cursor = 'pointer';
-                        }
-                      }
-                    } catch (e) {
-                      console.warn("CMS Sync: Spreadsheet data not yet available or GAS not updated.");
-                    }
-                  }
-                  window.addEventListener('load', loadCMSContent);
                 </script>
 </body>
 
