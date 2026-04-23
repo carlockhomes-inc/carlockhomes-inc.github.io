@@ -378,6 +378,9 @@
   </div>
 
   <script>
+    // --- AUTOMATIC LAUNCH CONTROL ---
+    const LAUNCH_DATE = new Date('2026-04-24T00:00:00+09:00'); // 4月24日 0時 (JST)
+    
     // PW CHECK (Session based)
     function checkPW() {
       const input = document.getElementById('pw-input').value;
@@ -390,19 +393,25 @@
       }
     }
     function unlock() {
-      document.getElementById('pw-gate').style.display = 'none';
+      const gate = document.getElementById('pw-gate');
+      if (gate) gate.style.display = 'none';
       document.body.style.opacity = '1';
     }
     window.onload = () => {
-      if (sessionStorage.getItem('clh_auth') === 'ok') {
+      const isPastLaunch = new Date() >= LAUNCH_DATE;
+      
+      if (isPastLaunch || sessionStorage.getItem('clh_auth') === 'ok') {
         unlock();
       } else {
         document.body.style.opacity = '1'; // Show gate
       }
       // Enter key support
-      document.getElementById('pw-input').addEventListener('keypress', (e) => {
-        if (e.key === 'Enter') checkPW();
-      });
+      const pwInput = document.getElementById('pw-input');
+      if (pwInput) {
+        pwInput.addEventListener('keypress', (e) => {
+          if (e.key === 'Enter') checkPW();
+        });
+      }
     };
   </script>
 
