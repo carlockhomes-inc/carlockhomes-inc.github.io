@@ -43,12 +43,14 @@ jobs:
           fi
 
       # -------------------------------------------------
-      # 3️⃣ Send Slack alert if a message was generated
+      # 3️⃣ Send Slack alert if a webhook is configured
       # -------------------------------------------------
       - name: Send Slack alert
-        if: ${{ env.SLACK_WEBHOOK_URL && (exists('msg.txt')) }}
+        if: ${{ env.SLACK_WEBHOOK_URL }}
         env:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
         run: |
-          payload=$(jq -Rs '{text: .}' < msg.txt)
-          curl -X POST -H 'Content-type: application/json' --data "$payload" $SLACK_WEBHOOK_URL
+          if [ -f msg.txt ]; then
+            payload=$(jq -Rs '{text: .}' < msg.txt)
+            curl -X POST -H 'Content-type: application/json' --data "$payload" $SLACK_WEBHOOK_URL
+          fi
