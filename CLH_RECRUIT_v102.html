@@ -4,11 +4,11 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>CLH 採用コンセプト (v1.0.3) - Public Edition</title>
+  <title>CLH 採用コンセプト (v1.0.3) - Security Enhanced</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link
-    href="https://fonts.googleapis.com/css2?family=Zen+Maru Gothic:wght@400;500;700;900&family=Shippori+Antique+B1&family=Reggae+One&family=Dela+Gothic+One&family=Yomogi&family=Outfit:wght@900&display=swap"
+    href="https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@400;500;700;900&family=Shippori+Antique+B1&family=Reggae+One&family=Dela+Gothic+One&family=Yomogi&family=Outfit:wght@900&display=swap"
     rel="stylesheet">
   <script src="https://www.google.com/recaptcha/api.js?render=6Lcq8rOsAAAAAIIEXpwagOFOOlyhL-kQRLWggT9B"></script>
   <style>
@@ -232,6 +232,61 @@
       font-family: 'Zen Maru Gothic';
       box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
     }
+  </style>
+  <style>
+    /* PASSWORD GATE STYLES */
+    #pw-gate {
+      position: fixed;
+      inset: 0;
+      z-index: 999999;
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(15px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .pw-box {
+      background: #fff;
+      padding: 60px 40px;
+      border-radius: 40px;
+      box-shadow: 0 30px 100px rgba(0, 0, 0, 0.1);
+      text-align: center;
+      max-width: 400px;
+      width: 90%;
+      border: 1px solid #EEE;
+    }
+
+    .pw-input {
+      width: 100%;
+      padding: 18px;
+      border: 2px solid #E8E8E8;
+      border-radius: 15px;
+      font-size: 18px;
+      text-align: center;
+      margin-bottom: 20px;
+      outline: none;
+      transition: 0.3s;
+      font-family: 'Outfit', sans-serif;
+    }
+
+    .pw-input:focus {
+      border-color: #FF6B2B;
+      box-shadow: 0 0 0 5px rgba(255, 107, 43, 0.1);
+    }
+
+    .pw-btn {
+      width: 100%;
+      background: linear-gradient(135deg, #FF6B2B, #FF4444);
+      color: #fff;
+      border: none;
+      padding: 18px;
+      border-radius: 15px;
+      font-size: 18px;
+      font-weight: 900;
+      cursor: pointer;
+      box-shadow: 0 10px 30px rgba(255, 107, 43, 0.3);
+    }
 
     /* ── Mobile Optimization Rules ── */
     @media (max-width: 768px) {
@@ -312,7 +367,49 @@
   </style>
 </head>
 
-<body>
+<body style="opacity:0; transition: opacity 0.5s;">
+
+  <!-- PASSWORD GATE -->
+  <div id="pw-gate">
+    <div class="pw-box">
+      <div style="font-size:50px; margin-bottom:20px;">🔒</div>
+      <h2 style="font-family:'Zen Maru Gothic',sans-serif; font-weight:900; margin-bottom:30px; color:#111;">
+        CarlockHomes<br>採用ハブ（公式）</h2>
+      <input type="password" id="pw-input" class="pw-input" placeholder="合言葉を入力してください">
+      <button onclick="checkPW()" class="pw-btn">アクセスする</button>
+      <p id="pw-error" style="color:#FF4444; font-size:13px; font-weight:700; margin-top:15px; display:none;">合言葉が違います
+      </p>
+    </div>
+  </div>
+
+  <script>
+    // PW CHECK (Session based)
+    function checkPW() {
+      const input = document.getElementById('pw-input').value;
+      if (input === 'clh2026') {
+        sessionStorage.setItem('clh_auth', 'ok');
+        unlock();
+      } else {
+        document.getElementById('pw-error').style.display = 'block';
+        document.getElementById('pw-input').value = '';
+      }
+    }
+    function unlock() {
+      document.getElementById('pw-gate').style.display = 'none';
+      document.body.style.opacity = '1';
+    }
+    window.onload = () => {
+      if (sessionStorage.getItem('clh_auth') === 'ok') {
+        unlock();
+      } else {
+        document.body.style.opacity = '1'; // Show gate
+      }
+      // Enter key support
+      document.getElementById('pw-input').addEventListener('keypress', (e) => {
+        if (e.key === 'Enter') checkPW();
+      });
+    };
+  </script>
 
   <!-- ── Selector ── -->
   <div id="selector">
@@ -591,7 +688,7 @@
               style="display:inline-block;background:#fff;color:#FF4444;padding:6px 20px;border-radius:100px;font-size:12px;font-weight:900;margin-bottom:20px;">
               TOPICS</div>
             <h1 style="font-size:36px;font-weight:900;line-height:1.4;margin:0 0 16px;">【特別公開】<br>街のセーフティネット構想</h1>
-            <p style="font-size:15px;opacity:.95;line-height:2;">45・55代中心に活躍中。経験は問いません。多様な働き方をご提案します。</p>
+            <p style="font-size:15px;opacity:.95;line-height:2;">45・55代中心に活躍中. 経験は問いません. 多様な働き方をご提案します.</p>
           </div>
           <div style="display:grid;grid-template-rows:1fr 1fr;gap:20px;">
             <div
