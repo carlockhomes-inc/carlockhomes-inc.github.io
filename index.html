@@ -4,13 +4,12 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>CarlockHomes 採用コンセプト - LIFE HUB</title>
+  <title>CarlockHomes 採用コンセプト - LIFE HUB (v26.0-PRO-DESIGN)</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link
-    href="https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@400;500;700;900&family=Shippori+Antique+B1&family=Reggae+One&family=Dela+Gothic+One&family=Yomogi&family=Outfit:wght@900&display=swap"
+    href="https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@400;500;700;900&family=Outfit:wght@900&display=swap"
     rel="stylesheet">
-  <script src="https://www.google.com/recaptcha/api.js?render=6Lfi6MEsAAAAAOPxXuUB-ZVSfBoEQzh4ajfyYX6q"></script>
   <style>
     * {
       box-sizing: border-box;
@@ -21,10 +20,10 @@
     body {
       font-family: 'Zen Maru Gothic', sans-serif;
       overflow-x: hidden;
-      background: #f8fafc;
+      background: #FAF6EE;
     }
 
-    /* ── Selector (App component) ── */
+    /* ── Selector ── */
     #selector {
       position: sticky;
       top: 0;
@@ -39,10 +38,6 @@
       scrollbar-width: none;
     }
 
-    #selector::-webkit-scrollbar {
-      display: none;
-    }
-
     .sel-btn {
       padding: 15px 35px;
       border-radius: 100px;
@@ -53,29 +48,14 @@
       font-size: 16px;
       cursor: pointer;
       white-space: nowrap;
-      font-family: 'Zen Maru Gothic', sans-serif;
-      transition: all .2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-      box-shadow: 0 4px 0 #ddd, 0 8px 15px rgba(0, 0, 0, 0.05);
-      position: relative;
-      top: 0;
-    }
-
-    .sel-btn:hover {
-      top: -2px;
-      background: #e8e8e8;
-      box-shadow: 0 6px 0 #ccc, 0 10px 20px rgba(0, 0, 0, 0.08);
-    }
-
-    .sel-btn:active {
-      top: 4px;
-      box-shadow: 0 0 0 #ccc;
+      transition: all .2s;
     }
 
     .sel-btn.active {
       background: linear-gradient(135deg, #FF4444, #FF6B2B);
       color: #fff;
       transform: scale(1.05);
-      box-shadow: 0 6px 0 #b32d2d, 0 12px 25px rgba(255, 68, 68, 0.3);
+      box-shadow: 0 6px 15px rgba(255, 68, 68, 0.3);
     }
 
     .design-section {
@@ -86,20 +66,6 @@
       display: block;
     }
 
-    /* ── Animations ── */
-    @keyframes dust {
-      0% { transform: translateY(0) rotate(0deg); opacity: .6; }
-      100% { transform: translateY(-60px) rotate(180deg); opacity: 0; }
-    }
-    @keyframes slam {
-      0% { transform: scale(.3) rotate(-8deg); opacity: 0; }
-      60% { transform: scale(1.08) rotate(1deg); }
-      100% { transform: scale(1) rotate(0deg); opacity: 1; }
-    }
-    @keyframes riseUp {
-      from { transform: translateY(60px); opacity: 0; }
-      to { transform: translateY(0); opacity: 1; }
-    }
     @keyframes gentlePulse {
       0%, 100% { transform: scale(1); }
       50% { transform: scale(1.04); }
@@ -108,51 +74,44 @@
       from { opacity: 0; transform: translateY(30px); }
       to { opacity: 1; transform: translateY(0); }
     }
-    @keyframes floating {
-      0%, 100% { transform: translateY(0) rotate(0deg); }
-      50% { transform: translateY(-20px) rotate(3deg); }
-    }
 
-    /* Overlay Styles */
-    #official-fusion-overlay {
-      display: none;
-      position: fixed;
-      inset: 0;
-      z-index: 99999;
-      background: rgba(253, 247, 247, 0.98);
-      backdrop-filter: blur(12px);
-      overflow-y: auto;
-    }
-    .overlay-close {
-      position: fixed;
-      top: 30px;
-      right: 30px;
-      z-index: 100000;
-      background: #111;
-      color: #fff;
-      border: none;
-      padding: 12px 30px;
-      border-radius: 50px;
-      font-weight: 900;
-      cursor: pointer;
-    }
-
-    /* Modal Global */
-    .modal-box {
-      background: #fff;
-      border-radius: 32px;
-      max-width: 560px;
-      width: 100%;
-      max-height: 90vh;
-      overflow-y: auto;
+    /* SVG Node Container */
+    .node-wrap {
       position: relative;
-      box-shadow: 0 40px 120px rgba(0, 0, 0, 0.6);
-      border: 1px solid #ddd;
+      width: min(350px, 90vw);
+      height: min(350px, 90vw);
+      margin: 40px auto 100px;
     }
-    @media (max-width: 768px) {
-      .mobile-stack { flex-direction: column !important; }
-      .mobile-padding { padding: 30px 20px !important; }
-      h1 { font-size: 32px !important; }
+
+    .hub-center {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 170px;
+      height: 170px;
+      z-index: 10;
+      animation: gentlePulse 4s ease-in-out infinite;
+    }
+
+    .node-item {
+      position: absolute;
+      width: 75px;
+      height: 75px;
+      border-radius: 50%;
+      background: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+      z-index: 5;
+    }
+
+    .node-label {
+      font-size: 10px;
+      font-weight: 900;
+      margin-top: 2px;
     }
   </style>
 </head>
@@ -160,213 +119,115 @@
 <body>
   <!-- ── Selector ── -->
   <div id="selector">
-    <button class="sel-btn" onclick="switchDesign(0,this)">1. 会社案内</button>
-    <button class="sel-btn" onclick="switchDesign(1,this)">2. 私たちの想い</button>
-    <button class="sel-btn active" onclick="switchDesign(2,this)">3. 採用ページ</button>
+    <button class="sel-btn active" onclick="switchDesign(1,this)">私たちの想い</button>
   </div>
 
-  <!-- DESIGN 1 : 泥臭エネルギー -->
-  <section id="d1" class="design-section">
-    <div style="background:#1A0F05;padding-bottom:20px;font-family:'Zen Maru Gothic',sans-serif;overflow:hidden;position:relative;color:#FFD4A0;">
-      <div style="position:absolute;inset:0;background:radial-gradient(ellipse at 50% 120%,#FF6B2B 0%,#C0392B 30%,#1A0F05 70%);opacity:.9;"></div>
-      <div id="d1-dust" style="position:absolute;inset:0;"></div>
-      <div style="position:relative;z-index:10;max-width:1000px;margin:0 auto;padding:40px;">
-        <h1 style="font-family:'Reggae One',cursive;font-size:clamp(40px, 8vw, 60px);text-align:center;margin-bottom:20px;">45歳、<br>ここからが本番。</h1>
-        <p style="text-align:center;line-height:2.2;margin-bottom:40px;">泥臭い根性なら、誰にも負けない。<br>さあ、もう一度飛んでみませんか。</p>
-        <div style="text-align:center;">
-          <button onclick="openEntry('泥臭エネルギー')" style="background:#FF6B2B;color:#fff;padding:20px 50px;border-radius:15px;font-weight:900;border:none;cursor:pointer;font-size:20px;">🔥 今すぐ挑戦する</button>
-        </div>
-      </div>
-    </div>
-  </section>
+  <section id="d2" class="design-section active">
+    <div style="padding:60px 20px; text-align:center;">
+      <h1 style="font-size:clamp(28px, 6vw, 42px);font-weight:900;color:#4A3D2E;margin-bottom:40px;">
+        私たちは鍵を直すのではない。<br>
+        <span style="background:linear-gradient(transparent 60%,rgba(255,224,128,.5) 60%);">街のつながりを、直している。</span>
+      </h1>
 
-  <!-- DESIGN 2 : 街のハブ -->
-  <section id="d2" class="design-section">
-    <div style="background:#FAF6EE;padding-bottom:60px;font-family:'Zen Maru Gothic',sans-serif;text-align:center;">
-      <div class="mobile-padding" style="padding:60px 40px;">
-        <h1 style="font-size:clamp(28px, 6vw, 42px);font-weight:900;color:#4A3D2E;margin-bottom:40px;">
-          私たちは鍵を直すのではない。<br>
-          <span style="background:linear-gradient(transparent 60%,rgba(255,224,128,.5) 60%);">街のつながりを、直している。</span>
-        </h1>
-
-        <!-- CENTRAL HUB ANIMATION -->
-        <div style="position:relative;width:min(350px, 90vw);height:min(350px, 90vw);margin:0 auto 80px;">
-          <!-- SVG #7: LIFE HUB CENTRAL -->
-          <div style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:160px;height:160px;z-index:10;animation:gentlePulse 4s ease-in-out infinite;">
-            <svg viewBox="0 0 240 240" xmlns="http://www.w3.org/2000/svg">
-              <defs><mask id="ringMask"><rect width="240" height="240" fill="black"/><circle cx="120" cy="120" r="115" fill="white"/><circle cx="120" cy="120" r="103" fill="black"/></mask></defs>
-              <foreignObject x="0" y="0" width="240" height="240" mask="url(#ringMask)"><div xmlns="http://www.w3.org/1999/xhtml" style="width:100%;height:100%;background:conic-gradient(from -90deg, #FF7C8A 0%, #F2C48C 16.66%, #7BC47F 33.33%, #7AA7F2 50%, #B99AD6 66.66%, #FF8C42 83.33%, #FF7C8A 100%);"></div></foreignObject>
-              <circle cx="120" cy="120" r="103" fill="#FFFFFF"/>
-              <g transform="rotate(30 120 90)">
-                <path d="M 113 76 L 127 76 L 127 130 L 141 130 L 141 138 L 127 138 L 127 144 L 135 144 L 135 152 L 127 152 L 127 162 L 113 162 Z" fill="#F4848C"/>
-                <path d="M 113 76 L 119 76 L 119 162 L 113 162 Z" fill="#FAB4B8"/>
-                <circle cx="120" cy="62" r="32" fill="#F4848C"/><circle cx="120" cy="62" r="20" fill="#FFFFFF"/>
-                <g transform="rotate(-30 120 62)"><circle cx="113" cy="58" r="2.6" fill="#3E2D24"/><circle cx="127" cy="58" r="2.6" fill="#3E2D24"/><path d="M 112 65 Q 120 73 128 65" fill="none" stroke="#3E2D24" stroke-width="2.4" stroke-linecap="round"/></g>
+      <div class="node-wrap">
+        <!-- CENTRAL HUB : SVG #7 (Rainbow + Key Character) -->
+        <div class="hub-center">
+          <svg viewBox="0 0 240 240" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+              <mask id="ringMask">
+                <rect width="240" height="240" fill="black"/>
+                <circle cx="120" cy="120" r="115" fill="white"/>
+                <circle cx="120" cy="120" r="103" fill="black"/>
+              </mask>
+            </defs>
+            <foreignObject x="0" y="0" width="240" height="240" mask="url(#ringMask)">
+              <div xmlns="http://www.w3.org/1999/xhtml" style="width:100%;height:100%;background:conic-gradient(from -90deg, #FF7C8A 0%, #F2C48C 16.66%, #7BC47F 33.33%, #7AA7F2 50%, #B99AD6 66.66%, #FF8C42 83.33%, #FF7C8A 100%);"></div>
+            </foreignObject>
+            <circle cx="120" cy="120" r="103" fill="#FFFFFF"/>
+            <g transform="rotate(30 120 90)">
+              <path d="M 113 76 L 127 76 L 127 130 L 141 130 L 141 138 L 127 138 L 127 144 L 135 144 L 135 152 L 127 152 L 127 162 L 113 162 Z" fill="#F4848C"/>
+              <path d="M 113 76 L 119 76 L 119 162 L 113 162 Z" fill="#FAB4B8"/>
+              <circle cx="120" cy="62" r="32" fill="#F4848C"/>
+              <circle cx="120" cy="62" r="20" fill="#FFFFFF"/>
+              <g transform="rotate(-30 120 62)">
+                <circle cx="113" cy="58" r="2.6" fill="#3E2D24"/>
+                <circle cx="127" cy="58" r="2.6" fill="#3E2D24"/>
+                <path d="M 112 65 Q 120 73 128 65" fill="none" stroke="#3E2D24" stroke-width="2.4" stroke-linecap="round"/>
               </g>
-              <text x="120" y="200" text-anchor="middle" font-family="'Outfit', sans-serif" font-size="22" font-weight="900" fill="#3E2D24" letter-spacing="2.5">LIFE HUB</text>
-            </svg>
-          </div>
-          <div id="d2-nodes" style="position:absolute;inset:0;z-index:5;"></div>
+            </g>
+            <text x="120" y="200" text-anchor="middle" font-family="'Outfit', sans-serif" font-size="22" font-weight="900" fill="#3E2D24" letter-spacing="2.5">LIFE HUB</text>
+          </svg>
         </div>
+
+        <div id="nodes-container"></div>
       </div>
     </div>
   </section>
 
-  <!-- DESIGN 4 : 会社案内 (CURRENT DEFAULT) -->
-  <section id="d4" class="design-section active">
-    <div style="background:#fff;padding-bottom:40px;font-family:'Zen Maru Gothic',sans-serif;">
-      <nav style="display:flex;justify-content:space-between;align-items:center;padding:20px 40px;border-bottom:2px solid #F0F0F0;">
-        <div style="font-weight:900;font-size:20px;color:#FF4444;">🔑 カーロックホームズ</div>
-        <div style="display:flex;gap:20px;font-size:14px;font-weight:900;">
-          <span onclick="openFusion('company')" style="cursor:pointer;color:#4D96FF;">会社情報</span>
-          <span onclick="openEntry('会社案内')" style="cursor:pointer;background:#FF4444;color:#fff;padding:8px 20px;border-radius:50px;">採用へ</span>
-        </div>
-      </nav>
-      <div class="mobile-padding" style="padding:60px 40px;max-width:1000px;margin:0 auto;">
-        <div style="background:linear-gradient(135deg,#FF4444,#FF8C42);border-radius:32px;padding:60px;color:#fff;text-align:center;box-shadow:0 20px 50px rgba(255,68,68,0.2);">
-          <h1 style="font-size:42px;margin-bottom:20px;">街のセーフティネットを<br>共につくる仲間へ。</h1>
-          <p style="font-size:18px;opacity:0.9;">45・55代が主役。あなたの「根性」を技術に変えよう。</p>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- FOOTER -->
   <footer style="background:#111;color:#fff;padding:60px 20px;text-align:center;">
     <p style="font-weight:900;letter-spacing:2px;margin-bottom:10px;">CARLOCK HOMES Inc.</p>
     <p style="font-size:12px;opacity:0.5;">&copy; 2026 CarlockHomes. All Rights Reserved.</p>
   </footer>
 
-  <!-- MODALS -->
-  <div id="modal-entry" style="display:none;position:fixed;inset:0;z-index:9999;background:rgba(0,0,0,0.8);backdrop-filter:blur(8px);align-items:center;justify-content:center;">
-    <div class="modal-box" style="padding:40px;">
-      <h2 style="font-weight:900;margin-bottom:20px;">採用エントリー</h2>
-      <form id="entry-form" onsubmit="submitEntry(event)">
-        <input id="entry-name" type="text" placeholder="お名前" required style="width:100%;padding:15px;margin-bottom:15px;border:1px solid #ddd;border-radius:10px;">
-        <input id="entry-tel" type="tel" placeholder="電話番号" required style="width:100%;padding:15px;margin-bottom:15px;border:1px solid #ddd;border-radius:10px;">
-        <input id="entry-email" type="email" placeholder="メールアドレス" required style="width:100%;padding:15px;margin-bottom:15px;border:1px solid #ddd;border-radius:10px;">
-        <textarea id="entry-pr" placeholder="自己PRなど" style="width:100%;padding:15px;margin-bottom:15px;border:1px solid #ddd;border-radius:10px;height:100px;"></textarea>
-        <!-- Stealth Honeypot -->
-        <input type="text" id="entry-company-verify" style="display:none;">
-        <button type="submit" style="width:100%;padding:20px;background:#FF4444;color:#fff;border:none;border-radius:10px;font-weight:900;cursor:pointer;">送信する</button>
-      </form>
-      <div id="entry-success" style="display:none;text-align:center;">
-        <h3 style="font-size:24px;margin-bottom:15px;">送信完了！</h3>
-        <p>確認後、担当者よりご連絡いたします。</p>
-        <button onclick="closeEntry()" style="margin-top:20px;padding:10px 30px;cursor:pointer;">閉じる</button>
-      </div>
-      <button onclick="closeEntry()" style="position:absolute;top:20px;right:20px;border:none;background:none;font-size:24px;cursor:pointer;">✕</button>
-    </div>
-  </div>
-
-  <div id="official-fusion-overlay">
-    <button onclick="closeFusion()" class="overlay-close">← 戻る</button>
-    <div style="padding:100px 40px;max-width:800px;margin:0 auto;font-family:sans-serif;">
-      <h2 style="font-size:32px;font-weight:900;margin-bottom:30px;color:#111;">会社情報</h2>
-      <p>社名: カーロックホームズ株式会社</p>
-      <p>所在地: 東京都杉並区西荻北2-37-12</p>
-      <p>代表: 上野原 政司</p>
-    </div>
-  </div>
-
-  <!-- SCRIPTS -->
   <script>
-    const ids = ['d4', 'd2', 'd1'];
-    const GAS_URL = 'https://script.google.com/macros/s/AKfycbww7m7xD5Pg1DCT5Prb5-MIWGVNzxS7GTVIEHsQqzzpKIiV2dn57YM98qpAa-2PB-mK/exec';
-
-    function switchDesign(i, btn) {
-      ids.forEach(id => document.getElementById(id).classList.remove('active'));
-      document.querySelectorAll('.sel-btn').forEach(b => b.classList.remove('active'));
-      document.getElementById(ids[i]).classList.add('active');
-      btn.classList.add('active');
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-    }
-
-    // SVG Icons
-    const svgIcons = [
+    // Exact SVG strings from 00_all_icons_combined (2).md
+    const svgs = [
       // 1. シングル親
-      `<svg viewBox="0 0 203 262" style="width:100%;height:100%;"><defs><style>.s-w{fill:#fff;}.s-p{fill:#f8b8b4;}.s-b{fill:#211715;}</style></defs><path class="s-w" d="M42 52c8-24 31-34 56-35 13 1 28 4 38 12 10 8 17 16 19 29 2 9 1 14 0 21l-2 8c1-1 3-1 4-1 3 0 5 2 6 3 1 1 1 3 1 4 1 5 1 10-2 15-1 2-3 4-5 6-2 1-5 2-8 3-3 12-15 26-35 31-10 3-25 3-35 1-19-5-31-20-33-32l-1 0c-2 0-6-2-8-3-2-2-4-3-5-6-3-4-3-9-2-14 0-2 0-3 1-4 1-2 3-3 5-3s5 0 6 1l-1-9c-3-6-3-16-1-23 0-2 1-3 1-4z"/><path class="s-p" d="M31 224c4-3 7-7 12-8 3-3 7-6 10-11-1-2-5-11-5-13 0-5 0-12 2-16 3-9 8-19 17-27 5-4 9-7 15-9 5 4 11 7 17 8 11 3 26 3 35-1 7-2 14-5 19-9 7 1 12 5 18 10 9 7 14 17 17 26 1 5 2 12 2 17 0 5-3 10-4 12-3 4-6 7-10 10 3 1 13 8 17 14 1-2 2-4 4-5 3-3 7-4 11-3 4 0 8 3 10 7 1 2 1 4 2 6 0 5-2 9-4 13-3 5-10 12-21 12-3 0-6-2-8-4-9 2-15 2-24 0 0 0-25-4-38-6-12-1-21 2-21 2-21 8-32 9-54 7-1 0-2 1-3 1-11 0-18-8-21-12-2-4-4-9-4-13 0-2 1-4 2-6 2-4 5-6 9-7 4-1 9 1 12 3 1 1 2 2 3 4 1-1 2-2 3-3z"/></svg>`,
-      // 2. 独居高齢者
-      `<svg viewBox="0 0 288 297" style="width:100%;height:100%;"><path fill="#fff" d="M212 115c2-2 5-3 8-2 3 0 6 2 7 5 1 1 1 3 1 5 1 8-1 15-4 22-2 3-4 6-7 9-2 2-5 3-8 4-1 0-1 0-2 0l-2 6c-2 6-14 26-29 35 0 3 1 6 1 8 1 5 1 9 7 11l15 7s-4 23-58 23-54-25-54-25c6-2 13-6 13-6 6-2 6-6 7-11 0-3 1-6 1-9-6-3-11-8-16-14-7-8-11-18-13-26-4 0-7-2-10-4-3-2-5-6-7-9-3-7-5-14-4-22 0-2 0-4 1-5 1-3 4-5 7-5 3 0 6 1 8 2 0 0-13-71 65-71s71 71 71 71z"/><path fill="#89705d" d="M3 294c6-12 16-33 28-44 7-6 13-10 22-14 10-5 32-13 42-17l44 10h8l45-10c10 4 32 12 42 17 9 4 15 8 22 14 13 11 22 32 28 44H3z"/></svg>`,
+      `<svg id="s27354-b" xmlns="http://www.w3.org/2000/svg" width="203.032" height="261.689" viewBox="0 0 203.032 261.689" style="width:38px;height:48px;"><defs><style>.s27354-d {fill:#ffffff;}.s27354-e {fill:#f8b8b4;}.s27354-f {fill:#211715;}</style></defs><g id="s27354-c"><path class="s27354-d" d="M42.023,51.564c8.239-24.078,31.153-34.232,56.467-34.631,13.444.489,27.657,4.333,37.673,11.966,10.398,7.924,16.867,16.025,19.393,28.681,1.788,8.959,1.304,14.178.326,21.022l-1.802,8.326c1.378-.553,2.971-.764,4.494-.566,2.29.298,4.376,1.5,5.424,3.138.741,1.149.98,2.457,1.117,3.733.501,5.031.406,10.044-2.215,14.628-1.276,2.234-2.716,4.1-5.029,5.727-1.777,1.233-5.22,2.533-7.532,2.842l-.529.071c-2.983,11.652-14.672,25.668-35.031,31.302-9.692,2.893-24.787,3.276-35.445.567-18.91-5.198-31.155-19.775-33.399-31.882l-.712-.058c-2.312-.309-5.755-1.608-7.532-2.842-2.313-1.627-3.752-3.494-5.029-5.727-2.621-4.584-2.716-9.597-2.215-14.628.137-1.276.376-2.585,1.117-3.733,1.048-1.638,3.134-2.84,5.424-3.138,2.29-.298,4.74.33,6.393,1.627l-1.574-8.98c-2.689-6.356-2.924-15.966-.978-23.467.355-1.367.753-2.693,1.193-3.979Z"/><path class="s27354-e" d="M31.262,224.085c3.575-3.294,7.449-6.749,11.535-8.258,0,0,.315-.101.817-.259-3.459-2.594-7.072-6.147-10.333-10.898-1.254-1.826-4.95-10.626-4.576-12.804-.473-4.851.187-11.737,1.639-16.423,2.805-9.02,7.546-19.041,16.995-26.785,4.63-3.783,9.237-6.994,14.653-8.738,4.855,3.634,10.678,6.623,17.323,8.451,10.676,2.708,25.772,2.325,35.482-.567,7.278-2.016,13.448-5.105,18.509-8.774,6.954,1.36,12.496,5.066,18.071,9.629,9.449,7.744,14.19,17.765,16.995,26.785,1.463,4.686,2.123,11.572,1.65,16.423-.099,5.17-2.981,10.274-4.279,12.056-2.834,3.897-6.134,7.316-9.358,10.099,2.957.682,12.432,8.278,17.106,13.682l1.044.823c.875-1.861,2.009-3.565,3.611-4.999,2.952-2.641,7.251-3.869,11.255-3.214,4.004.655,7.618,3.176,9.462,6.601,1.065,1.978,1.552,4.197,1.719,6.411.357,4.723-1.353,9.263-3.88,13.391-2.586,4.224-9.594,11.72-20.849,11.918-2.952.052-5.803-1.607-7.49-3.899-8.8,1.956-15.433,1.783-24.599.391,0,0-24.455-3.731-37.155-5.54-12.711-1.819-21.867,1.964-21.867,1.964-20.37,8.003-31.794,9.137-53.588,6.56l-.757-.09c-1.027.409-2.125.633-3.238.613-11.256-.198-18.263-7.694-20.849-11.918-2.528-4.128-4.237-8.668-3.88-13.391.167-2.214.654-4.433,1.719-6.411,1.844-3.425,5.458-5.946,9.462-6.601,4.004-.655,8.303.573,11.255,3.214,1.222,1.093,2.172,2.344,2.942,3.702,1.116-.979,2.268-2.053,3.453-3.145Z"/></g></svg>`,
+      // 2. 高齢者
+      `<svg id="s10830-b" xmlns="http://www.w3.org/2000/svg" width="287.927" height="297.272" viewBox="0 0 287.927 297.272" style="width:48px;height:48px;"><defs><style>.s10830-e {fill:#bdbdbd;}.s10830-f {fill:#ffffff;}.s10830-g {fill:#89705d;}.s10830-h {fill:#211715;}</style></defs><path class="s10830-f" d="M211.726,115.043c2.119-1.913,5.262-2.838,8.199-2.399,2.938.439,5.612,2.211,6.957,4.625.95,1.693,1.257,3.622,1.432,5.503.643,7.416-.818,14.974-4.18,21.731-1.637,3.293-3.771,6.444-6.738,8.843-2.279,1.818-5.068,3.166-8.034,3.621,0,0-.61.094-1.661.261-.641,2.446-1.357,4.505-1.71,5.601-2.169,6.029-13.806,26.143-28.751,35.02.205,2.804.593,5.599,1.078,8.361.8,4.59.55,8.67,6.89,10.96.31.1,10.03,4.72,15.46,7.29,0,0-4.077,23.317-58.003,23.317s-54.487-24.627-54.487-24.627c5.96-2.72,12.76-5.9,13-5.98,6.35-2.29,6.09-6.37,6.91-10.96.539-3.075.928-5.879,1.165-8.963-5.638-3.419-10.883-8.131-15.674-13.942-6.985-8.471-10.883-17.904-13.181-26.178-3.64-.084-7.126-1.592-9.87-3.781-2.967-2.399-5.101-5.55-6.738-8.843-3.362-6.758-4.823-14.315-4.18-21.731.175-1.881.482-3.81,1.432-5.503,1.345-2.415,4.019-4.186,6.957-4.625,2.938-.439,6.08.486,8.199,2.399,0,0-13.385-71.117,64.837-71.117,80,0,70.689,71.117,70.689,71.117Z"/><path class="s10830-g" d="M2.736,294.434c5.973-12.027,15.787-32.934,28.446-43.913,7.042-6.108,12.787-9.835,22.007-14.132,9.922-4.624,31.811-13.068,42.022-17.09l43.971,9.55h8.31l45.221-9.55c10.212,4.022,32.101,12.467,42.022,17.09,9.22,4.297,14.964,8.024,22.007,14.132,12.659,10.979,22.473,31.886,28.446,43.913H2.736Z"/></svg>`,
       // 3. 子育て世帯
-      `<svg viewBox="0 0 392 170" style="width:100%;height:100%;"><path fill="#b3b3b3" d="M331 10c-11-6-29-3-39 5-10 7-16 18-20 30-5 14-9 32-7 47 1 7 5 12 10 16 5 4 10 5 17 6l26 1s6 0 18-1c10-1 14-2 17-3 5-2 12-7 15-10 3-4 5-8 6-13 1-7-1-14-4-21-2-7-4-14-6-21-1-7-3-14-6-19-5-8-12-13-20-15l-8-2z"/><path fill="#fff" d="M350 56c1 2 2 4 3 6l2 6 1 0c1-1 3-1 4-1 3 0 5 1 5 2 2 3 2 8 0 12-1 2-2 6-5 8-1 1-3 2-5 2l0 0c-1 2-2 4-2 5-1 3-8 15-17 20 0 2 0 2 0 4 0 1 0 2 1 3 1 1 1 3 2 4 2 1 4 2 7 3-8 5-17 7-26 7-10 0-19-2-27-7 2-1 4-2 6-3 1-1 2-2 2-4 0-1 1-2 1-3 0-2 0-3 0-4-4-2-8-5-11-9-6-7-8-14-9-19 1-7 2-13 5-19 2-3 4-7 8-10 8-1 15-3 15-3 11-2 17-8 24-16 8 4 14 11 18 17z"/></svg>`,
+      `<svg id="s27420-b" xmlns="http://www.w3.org/2000/svg" width="391.895" height="169.419" viewBox="0 0 391.895 169.419" style="width:60px;height:26px;"><defs><style>.s27420-d {fill:#3d8dcc;}.s27420-e {fill:#ffffff;}.s27420-f {fill:#211715;}.s27420-g {fill:#ffda71;}.s27420-h {fill:#b3b3b3;}.s27420-i {fill:#645d5c;}</style></defs><path class="s27420-h" d="M330.895,9.569c-10.734-6.014-28.893-2.711-39.219,4.842-10.382,7.593-15.646,18.566-19.546,30.02-4.806,14.117-9.088,32.277-7.33,47.164.799,6.764,4.704,11.779,10.071,15.974,5.207,4.071,10.03,5.306,17.243,5.699l26.499.995s5.958,0,18.125-.482c10.292-.917,13.681-1.736,16.987-2.535,5.347-2.527,12.251-7.574,14.78-10.387,3.432-3.818,5.321-8.205,5.89-13.082.861-7.381-1.346-14.271-3.705-21.13-2.433-7.076-3.922-14.129-5.556-21.43-1.476-6.591-3.221-13.547-6.534-19.433-4.343-7.714-11.133-13.058-19.873-14.468l-7.831-1.747Z"/><path class="s27420-e" d="M350.315,56.408c1.048,1.872,1.916,3.711,2.609,5.432l2.519,6.251c.196-.187.392-.374.392-.374,1.215-1.159,2.848-1.589,4.244-1.535,3.037.119,4.323,1.767,4.876,2.734,1.649,2.886,1.558,8.192.431,11.47-.798,2.322-2.105,5.873-5.232,8.412-1.288,1.046-3.181,1.731-4.988,1.419l-.477-.082c-.581,1.892-1.297,3.746-1.733,4.646-1.261,3.381-8.115,15.101-16.801,19.914.03,1.811-.024,2.468.142,4.747.075,1.025.154,2.132.534,3.132.509,1.315,1.194,2.454,2.296,3.343,2.043,1.646,4.136,2.539,6.607,3.482-7.975,4.597-17.192,6.714-26.433,6.467-9.413.26-18.803-1.963-26.836-6.751,2.154-.848,4.029-1.72,5.864-3.198,1.102-.889,1.787-2.028,2.296-3.343.38-1,.459-2.107.534-3.132.154-2.114.118-2.832.136-4.368-4.058-1.953-7.697-5.064-11.157-9.238-5.522-6.661-8.089-13.943-9.202-19.2.659-6.58,2.128-13.086,4.869-18.757,1.727-3.573,4.431-6.885,7.496-10.117,8.726-1.071,15.687-2.709,15.687-2.709,10.657-2.627,16.477-8.316,23.671-15.858,8.194,3.784,14.011,10.702,17.655,17.214Z"/></svg>`,
       // 4. 管理会社
-      `<svg viewBox="0 0 463 285" style="width:100%;height:100%;"><path fill="#fff" d="M27 152c1-2 1-4 2-6 0-1 0-2 1-4-9 1-15 7-15 15 0 11 0 31 0 38 0 0 0 0 0 1 7-2 16-3 27-5-3-2-5-4-7-6-3-4-6-9-7-14-2-6-2-13-1-19z"/><path fill="#f8b8b4" d="M252 125c-4-12-7-22-7-22-1-4-3-8-5-11-4-4-9-7-15-10-4 6-11 10-17 10-8 1-17 0-26-6-11 7-17 12-21 23-2 6-4 21-4 30 0 8 1 21 1 30 33-6 67-13 102-19-2-7-5-16-8-25z"/></svg>`,
+      `<svg id="s16189-b" xmlns="http://www.w3.org/2000/svg" width="463.119" height="285.125" viewBox="0 0 463.119 285.125" style="width:60px;height:36px;"><defs><style>.s16189-e {fill:#ffffff;}.s16189-f {fill:#f8b8b4;}.s16189-g {fill:#211715;}.s16189-h {fill:#b3b3b3;}.s16189-i {fill:#73ca6e;}.s16189-j {fill:#88c5e9;}.s16189-k {fill:#645d5c;}</style></defs><path class="s16189-f" d="M252.038,124.517c-3.854-12.087-7.148-22.421-7.148-22.421-1.366-4.019-3.063-7.701-5.216-10.596-3.55-4.759-8.855-7.537-14.615-10.15-4.157,6.596-11.317,10.031-17.394,10.533-7.433.614-16.898-.345-26.12-6.31-11.157,7.472-17.031,11.894-20.781,22.927-2.14,6.31-3.64,21.46-3.51,30.06.12,8,.4,20.959.98,30.149,33.091-6.319,67.326-12.854,101.7-19.424-2.296-7.201-5.23-16.404-7.896-24.768Z"/><path class="s16189-e" d="M121.289,50.534c-.326,4.697-.446,9.384-.651,13.702-.356,7.489-2.207,14.356-7.155,18.945-2.516,2.333-5.148,4.051-7.994,5.18.03.265.048.414.048.414.129,1.116.695,2.158.869,2.418,1.231,1.66,2.776,2.29,4.49,2.871-4.381,6.466-10.17,9.242-18.698,9.326-8.541.084-17.741-2.776-24.549-8.095,1.577-.812,2.523-1.489,3.154-1.951,1.02-.732,1.844-1.844,2.143-2.823.941-3.197,1.327-5.14,1.697-7.911-2.287-1.972-4.106-4.028-5.804-6.234,0,0-1.472-1.99-2.114-3.14l-.289-.632c-1.826.212-3.774-.325-4.582-.746-2.727-1.429-4.102-3.623-5.014-5.21-1.293-2.245-2.049-6.109-1.16-8.444.298-.781,1.074-2.162,3.389-2.661,1.064-.23,2.375-.138,3.457.539,0,0-7.233-24.881,34.144-24.881,30.222,0,24.617,19.333,24.617,19.333Z"/></svg>`,
       // 5. 空家対策
-      `<svg viewBox="0 0 432 356" style="width:100%;height:100%;"><path fill="#fff" d="M131 310v-67s0-1 0-2c25-25 85-85 85-85s61 61 85 85c0 1 0 2 0 2v111h-171v-44z"/><rect x="224" y="269" width="40" height="36" fill="#3d8dcc"/></svg>`,
+      `<svg xmlns="http://www.w3.org/2000/svg" width="432.174" height="356.29" viewBox="0 0 432.174 356.29" style="width:50px;height:42px;"><defs><style>.s27803-cls-3 {fill:#ffffff;}.s27803-cls-2 {fill:#3d8dcc;}</style></defs><path class="s27803-cls-3" d="M130.627,310.08v-66.843s0-.744,0-2.058c24.82-24.82,85.461-85.461,85.461-85.461,0,0,60.641,60.641,85.461,85.461,0,1.314,0,2.058,0,2.058v110.627h-170.92v-43.783Z"/><rect class="s27803-cls-2" x="223.525" y="268.936" width="40.089" height="35.935"/></svg>`,
       // 6. 趣味人たち
-      `<svg viewBox="0 0 350 240" style="width:100%;height:100%;"><path fill="#a8a8a8" d="M50 90 Q 50 60, 90 55 L 175 55 L 260 55 Q 300 60, 300 90 L 305 150 Q 305 195, 265 195 Q 235 195, 220 170 L 130 170 Q 115 195, 85 195 Q 45 195, 45 150 Z"/><circle cx="240" cy="100" r="13" fill="#f2635f"/><circle cx="218" cy="120" r="13" fill="#7abee6"/><circle cx="262" cy="120" r="13" fill="#ffda71"/><circle cx="240" cy="140" r="13" fill="#73ca6e"/><circle cx="120" cy="160" r="14" fill="#3d3d3d"/><circle cx="225" cy="160" r="14" fill="#3d3d3d"/></svg>`
+      `<svg xmlns="http://www.w3.org/2000/svg" width="350" height="240" viewBox="0 0 350 240" style="width:60px;height:40px;"><defs><style>.scontroller-ol {fill:none;stroke:#211715;stroke-width:6;stroke-linejoin:round;stroke-linecap:round;}.scontroller-body {fill:#a8a8a8;}.scontroller-accent {fill:#febe69;}.scontroller-btn-r {fill:#f2635f;}.scontroller-btn-y {fill:#ffda71;}.scontroller-btn-b {fill:#7abee6;}.scontroller-btn-g {fill:#73ca6e;}.scontroller-stick {fill:#3d3d3d;}.scontroller-dpad {fill:#3d3d3d;}.scontroller-dot {fill:#211715;}</style></defs><path class="scontroller-body" d="M50 90 Q 50 60, 90 55 L 175 55 L 260 55 Q 300 60, 300 90 L 305 150 Q 305 195, 265 195 Q 235 195, 220 170 L 130 170 Q 115 195, 85 195 Q 45 195, 45 150 Z"/><circle class="scontroller-btn-r" cx="240" cy="100" r="13"/><circle class="scontroller-btn-b" cx="218" cy="120" r="13"/><circle class="scontroller-btn-y" cx="262" cy="120" r="13"/><circle class="scontroller-btn-g" cx="240" cy="140" r="13"/><circle class="scontroller-stick" cx="120" cy="160" r="14"/><circle class="scontroller-stick" cx="225" cy="160" r="14"/></svg>`
     ];
 
-    (function () {
-      const nodes = [
-        { angle: -90, label: 'シングル親', color: '#22C55E' },
-        { angle: -30, label: '独居高齢者', color: '#3B82F6' },
-        { angle: 30, label: '子育て世帯', color: '#A855F7' },
-        { angle: 90, label: '管理会社', color: '#EF4444' },
-        { angle: 150, label: '空家対策', color: '#F97316' },
-        { angle: 210, label: '趣味人たち', color: '#EAB308' },
-      ];
-      const wrap = document.getElementById('d2-nodes');
-      if (!wrap) return;
-      nodes.forEach((n, i) => {
-        const r = 135;
-        const x = 175 + r * Math.cos(n.angle * Math.PI / 180) - 35;
-        const y = 175 + r * Math.sin(n.angle * Math.PI / 180) - 35;
-        const el = document.createElement('div');
-        el.style.cssText = `position:absolute;left:${x}px;top:${y}px;width:70px;height:70px;border-radius:50%;background:#fff;border:3px solid ${n.color};display:flex;align-items:center;justify-content:center;flex-direction:column;box-shadow:0 6px 15px rgba(0,0,0,.08);animation:fadeSlide .6s ease-out ${.5 + i * .1}s both;`;
-        el.innerHTML = `<div style="width:36px;height:36px;">${svgIcons[i]}</div><div style="font-size:9px;font-weight:900;color:${n.color};margin-top:2px;">${n.label}</div>`;
-        wrap.appendChild(el);
+    const labels = [
+      { label: 'シングル親', color: '#22C55E', angle: -90 },
+      { label: '独居高齢者', color: '#3B82F6', angle: -30 },
+      { label: '子育て世帯', color: '#A855F7', angle: 30 },
+      { label: '管理会社', color: '#EF4444', angle: 90 },
+      { label: '空家対策', color: '#F97316', angle: 150 },
+      { label: '趣味人たち', color: '#EAB308', angle: 210 },
+    ];
+
+    function initNodes() {
+      const container = document.getElementById('nodes-container');
+      const centerX = 175; 
+      const centerY = 175;
+      const radius = 135;
+
+      labels.forEach((item, i) => {
+        const x = centerX + radius * Math.cos(item.angle * Math.PI / 180) - 37.5;
+        const y = centerY + radius * Math.sin(item.angle * Math.PI / 180) - 37.5;
+        
+        const div = document.createElement('div');
+        div.className = 'node-item';
+        div.style.left = x + 'px';
+        div.style.top = y + 'px';
+        div.style.border = `3px solid ${item.color}`;
+        div.style.animation = `fadeSlide .6s ease-out ${0.5 + i * 0.1}s both`;
+        
+        div.innerHTML = `
+          <div style="display:flex;align-items:center;justify-content:center;height:48px;">
+            ${svgs[i]}
+          </div>
+          <div class="node-label" style="color:${item.color}">${item.label}</div>
+        `;
+        container.appendChild(div);
       });
-    })();
-
-    // D1 Dust
-    (function () {
-      const c = document.getElementById('d1-dust');
-      if (!c) return;
-      for (let i = 0; i < 15; i++) {
-        const d = document.createElement('div');
-        d.style.cssText = `position:absolute;bottom:10%;left:${5 + i * 6}%;width:4px;height:4px;border-radius:50%;background:#FFD4A0;animation:dust 4s ease-out ${Math.random()*3}s infinite;opacity:.4;`;
-        c.appendChild(d);
-      }
-    })();
-
-    function openEntry(src) {
-      document.getElementById('modal-entry').style.display = 'flex';
-    }
-    function closeEntry() {
-      document.getElementById('modal-entry').style.display = 'none';
-    }
-    function openFusion() {
-      document.getElementById('official-fusion-overlay').style.display = 'block';
-    }
-    function closeFusion() {
-      document.getElementById('official-fusion-overlay').style.display = 'none';
     }
 
-    function submitEntry(e) {
-      if (e) e.preventDefault();
-      if (document.getElementById('entry-company-verify').value !== '') return;
-      
-      const formEl = document.getElementById('entry-form');
-      const successEl = document.getElementById('entry-success');
-      formEl.style.display = 'none';
-      successEl.style.display = 'block';
-
-      const payload = {
-        name: document.getElementById('entry-name').value,
-        tel: document.getElementById('entry-tel').value,
-        email: document.getElementById('entry-email').value,
-        pr: document.getElementById('entry-pr').value,
-        source: 'Web_Direct'
-      };
-
-      fetch(GAS_URL, { 
-        method: 'POST', 
-        mode: 'no-cors',
-        body: JSON.stringify(payload) 
-      }).then(() => console.log("Sent"));
+    function switchDesign(i, btn) {
+      // Current only 1 active design shown for simplicity in this visual fix
     }
+
+    window.onload = initNodes;
   </script>
 </body>
+
 </html>
