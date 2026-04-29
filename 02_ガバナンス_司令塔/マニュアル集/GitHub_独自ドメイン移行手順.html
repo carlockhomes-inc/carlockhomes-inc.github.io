@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GitHub Pages 独自ドメイン移行手順（法人アカウント版）</title>
+    <style>
+        :root {
+            --primary-color: #24292e;
+            --accent-color: #0366d6;
+            --text-main: #24292e;
+            --text-light: #586069;
+            --bg-color: #f6f8fa;
+            --container-bg: #ffffff;
+            --border-color: #e1e4e8;
+            --code-bg: #f6f8fa;
+            --glossary-bg: #fdfdfd;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
+            color: var(--text-main);
+            background-color: var(--bg-color);
+            line-height: 1.6;
+            margin: 0;
+            padding: 40px 20px;
+        }
+
+        .container {
+            max-width: 850px;
+            margin: 0 auto;
+            background-color: var(--container-bg);
+            padding: 50px;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+            border: 1px solid var(--border-color);
+        }
+
+        h1 {
+            color: var(--primary-color);
+            border-bottom: 2px solid #ea4a5a;
+            padding-bottom: 12px;
+            font-size: 28px;
+            margin-top: 0;
+        }
+
+        .description {
+            color: var(--text-light);
+            margin-bottom: 30px;
+            font-size: 16px;
+            background: #e8f4fd;
+            padding: 15px;
+            border-left: 4px solid #0366d6;
+            border-radius: 4px;
+        }
+
+        h2 {
+            color: var(--primary-color);
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 8px;
+            margin-top: 45px;
+            font-size: 22px;
+        }
+
+        ul, ol {
+            padding-left: 25px;
+        }
+
+        li {
+            margin-bottom: 10px;
+        }
+
+        .step-block {
+            background: #ffffff;
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            padding: 20px;
+            margin-bottom: 25px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+        }
+
+        .step-block h3 {
+            margin-top: 0;
+            color: var(--accent-color);
+            font-size: 18px;
+        }
+
+        code {
+            font-family: ui-monospace, SFMono-Regular, SF Mono, Menlo, Consolas, Liberation Mono, monospace;
+            background-color: rgba(27,31,35,0.05);
+            padding: 0.2em 0.4em;
+            border-radius: 3px;
+            font-size: 85%;
+            color: #d73a49;
+        }
+
+        pre {
+            background-color: var(--code-bg);
+            padding: 16px;
+            border-radius: 6px;
+            overflow: auto;
+            border: 1px solid var(--border-color);
+        }
+
+        pre code {
+            background-color: transparent;
+            padding: 0;
+            color: var(--text-main);
+            font-size: 14px;
+        }
+
+        .alert {
+            padding: 15px;
+            margin-bottom: 20px;
+            border: 1px solid transparent;
+            border-radius: 4px;
+        }
+
+        .alert-warning {
+            color: #856404;
+            background-color: #fff3cd;
+            border-color: #ffeeba;
+            border-left: 5px solid #ffc107;
+        }
+
+        .alert-success {
+            color: #155724;
+            background-color: #d4edda;
+            border-color: #c3e6cb;
+            border-left: 5px solid #28a745;
+        }
+
+        .glossary-box {
+            background-color: var(--glossary-bg);
+            border: 1px dashed #ccc;
+            padding: 20px;
+            border-radius: 8px;
+            margin-top: 20px;
+        }
+        
+        .glossary-box h3 {
+            margin-top: 0;
+            color: #444;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .glossary-item {
+            margin-bottom: 12px;
+        }
+        
+        .glossary-term {
+            font-weight: bold;
+            color: #0366d6;
+            background: #f1f8ff;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+
+        /* 印刷用スタイル */
+        @media print {
+            @page {
+                size: A4;
+                margin: 15mm;
+            }
+            body {
+                background-color: #fff;
+                padding: 0;
+                font-size: 11pt;
+            }
+            .container {
+                box-shadow: none;
+                border: none;
+                padding: 0;
+                max-width: 100%;
+            }
+            .step-block, .glossary-box {
+                page-break-inside: avoid;
+                border: 1px solid #ccc;
+                padding: 15px;
+                margin-bottom: 15px;
+            }
+            h2, h3 {
+                page-break-after: avoid;
+            }
+            pre {
+                white-space: pre-wrap;
+                word-wrap: break-word;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🌐 GitHub Pages 独自ドメイン移行手順<br><span style="font-size: 20px; color: #586069;">（法人アカウント・完全版）</span></h1>
+        
+        <div class="description">
+            現在個人のGitHubで作成しているホームページを、<strong>会社用のGitHubアカウント</strong>へ移行し、さらに旧サーバーで使っている <code>carlockhomes.co.jp</code> を繋ぎ直すための完全版手順です。
+        </div>
+
+        <div class="step-block" style="background-color: #fcfcfc;">
+            <h3>フェーズ1：会社用GitHubアカウントの開設とデータ移行</h3>
+            <p>まずは、個人のGitHubにあるHPデータを、会社用の公式アカウントに移します。</p>
+            <ol>
+                <li><strong>会社用アカウントの作成</strong><br>
+                    GitHubのトップページから、会社用のメールアドレスを使用して新しいGitHubアカウントを開設します。</li>
+                <li><strong>リポジトリ（保管庫）の移行</strong><br>
+                    現在の個人アカウントにあるHPの保管庫を、新しく作った会社用アカウントへ移譲するか、コードをコピーして新しい保管庫としてアップロードします。</li>
+            </ol>
+        </div>
+
+        <div class="step-block">
+            <h3>フェーズ2：GitHub側の設定（カスタムドメインの登録）</h3>
+            <p>会社用アカウントにHPデータが無事に移ったら、ドメインを受け入れる準備をします。</p>
+            <ol>
+                <li>会社用アカウントにログインし、移したリポジトリを開きます。</li>
+                <li>右上の歯車マーク <strong>[Settings]</strong> をクリックします。</li>
+                <li>左側のメニューから <strong>[Pages]</strong> をクリックします。</li>
+                <li>画面を下へスクロールし、<strong>[Custom domain]</strong> の入力欄を見つけます。</li>
+                <li>枠の中に <code>carlockhomes.co.jp</code> と入力し、<strong>[Save]</strong> をクリックします。</li>
+            </ol>
+            <p>※「DNS check in progress」といった表示が出ますが、この時点ではエラーになっても気にしないでください。</p>
+        </div>
+
+        <div class="step-block">
+            <h3>フェーズ3：ドメイン側の設定（DNSレコードの変更）</h3>
+            <p>ここが一番重要な、ドメインの「案内先」を旧サーバーからGitHubへ切り替える作業です。<br>
+            ドメインを管理している会社の管理画面にログインし、「DNSレコード設定」にて以下の4つのAレコードを登録します。</p>
+            <ul>
+                <li><strong>ホスト名(サブドメイン)</strong>: 空白（または <code>@</code> ）</li>
+                <li><strong>タイプ</strong>: <code>A</code></li>
+                <li><strong>値（IPアドレス）</strong>:
+                    <ol>
+                        <li><code>185.199.108.153</code></li>
+                        <li><code>185.199.109.153</code></li>
+                        <li><code>185.199.110.153</code></li>
+                        <li><code>185.199.111.153</code></li>
+                    </ol>
+                </li>
+            </ul>
+
+            <div class="alert alert-warning">
+                <strong>⚠️ ご注意</strong><br>
+                もし、すでに旧サーバーに向けられた別のAレコードが存在している場合は、<strong>それを削除してから</strong>上記の4つを追加するか、上記のIPアドレスに<strong>上書き</strong>してください。
+            </div>
+        </div>
+
+        <div class="step-block">
+            <h3>フェーズ4：SSL（HTTPS）の有効化</h3>
+            <p>DNSレコードの設定を保存したら、インターネット全体に新しい住所が反映されるまで<strong>数時間〜最大24時間程度</strong>かかります。</p>
+            <ol>
+                <li>しばらく待ってから、再度 会社用GitHub の <strong>[Settings] > [Pages]</strong> 画面を開きます。</li>
+                <li>「DNS check successful」と緑色のチェックマークがついていることを確認します。</li>
+                <li>同じ画面にある <strong>[Enforce HTTPS]</strong> というチェックボックスにチェックを入れます。</li>
+            </ol>
+            
+            <div class="alert alert-success">
+                <strong>🎉 完了</strong><br>
+                これで、安全な <code>https://carlockhomes.co.jp</code> での表示が完了します！
+            </div>
+        </div>
+
+        <h2 style="page-break-before: always;">付録1：管理会社への設定変更依頼メール（テンプレート）</h2>
+        <p>ご自身で設定が難しく、現在の管理会社に作業を依頼する場合は、以下のテキストをコピー＆ペーストしてご利用ください。</p>
+
+<pre><code>件名：【設定変更依頼】carlockhomes.co.jp のDNSレコード変更のお願い
+
+[管理会社・ご担当者名] 様
+
+いつもお世話になっております。
+[貴社名 または お名前] でございます。
+
+現在、貴社にて管理していただいているドメイン「carlockhomes.co.jp」につきまして、
+WebサーバーをGitHub Pagesへ移行することとなりました。
+
+つきましては、大変お手数ですが、ドメインのDNSレコード（Aレコード）を
+以下の通り変更していただきますようお願いいたします。
+
+【対象ドメイン】
+carlockhomes.co.jp
+
+【ご依頼内容】
+現在、旧Webサーバーに向けられているAレコードを削除（または変更）いただき、
+代わりに以下の「4つのIPアドレス」を新たにAレコードとして登録をお願いいたします。
+
+■ 新規登録するAレコード（以下4つすべて）
+・ホスト名： 空白（または @ ）
+・レコードタイプ： A
+・値（IPアドレス）：
+　1. 185.199.108.153
+　2. 185.199.109.153
+　3. 185.199.110.153
+　4. 185.199.111.153
+
+※既存のWebサーバー宛のAレコードは、バッティングを避けるため削除をお願いいたします。
+※もし「www.carlockhomes.co.jp」用の設定（CNAME等）がある場合は、
+そのまま保持するか、上記IPに準ずる形への調整をお願いいたします。
+
+設定変更の作業が完了いたしましたら、その旨をご一報いただけますと幸いです。
+（※インターネット全体への反映に時間がかかることは承知しておりますので、
+設定作業自体が完了したタイミングでご連絡ください）
+
+お手数をおかけし大変恐縮ですが、何卒よろしくお願い申し上げます。
+
+--------------------------------------------------
+[貴社名]
+[あなたのお名前]
+[ご連絡先]
+--------------------------------------------------</code></pre>
+
+        <h2 style="page-break-before: always;">付録2：よくあるご質問（Q&A）と用語解説</h2>
+        
+        <div class="step-block">
+            <h3>Q. ドメインを移動させるためには何が必要ですか？</h3>
+            <p><strong>A.</strong> 必要なものは大きく2つだけです。「ドメインを管理しているサービス（お名前.comなど）のログイン情報」と、「その管理画面でのDNSレコードの書き換え作業」です。</p>
+        </div>
+
+        <div class="step-block">
+            <h3>Q. 個人アカウントから会社用へHPをお引っ越しさせると、IPアドレスも新しいものに変わりますか？</h3>
+            <p><strong>A.</strong> いいえ、IPアドレスは変わりません！マニュアルに記載されている4つのIPアドレスは、GitHub全体の「総合受付」のようなものです。受付から先の「どの部屋（アカウント）のデータを表示するか」は、GitHubの管理画面でドメインを登録しておくことで自動的に行われます。そのため、どのGitHubアカウントを使ってもIPアドレスは共通です。</p>
+        </div>
+
+        <div class="step-block">
+            <h3>Q. ドメインが変わってもちゃんとHPデータにたどり着けるのが不思議です。</h3>
+            <p><strong>A.</strong> インターネットの「電話帳」の仕組み（DNS）のおかげです！ドメイン管理会社が電話帳の役割をしており、「このドメインの住所はGitHub（185.199...）だよ」と案内します。そして到着したGitHub側でも「このドメインの表札が掛かっているのはここだね」と判断してくれるため、裏側でどんな引っ越しをしても迷子にならずにHPが表示されます。</p>
+        </div>
+
+        <div class="step-block">
+            <h3>Q. 依頼メールにある「wwwありの設定（CNAME等）」についての一文は、どういう意味ですか？</h3>
+            <p><strong>A.</strong> インターネットの世界では、<code>carlockhomes.co.jp</code>（wwwなし）と <code>www.carlockhomes.co.jp</code>（wwwあり）は「別の住所」として扱われます。もし「wwwなし」の引っ越しだけをして終わってしまうと、「wwwあり」でアクセスしたお客さんがエラーになってしまいます。あの一文は、管理会社のプロに対して「お客さんがどちらを入力してもちゃんと表示されるように、プロの判断でよしなに調整しておいてくださいね」と丸投げするための魔法の言葉です。</p>
+        </div>
+
+        <div class="glossary-box">
+            <h3>📚 専門用語の解説</h3>
+            
+            <div class="glossary-item">
+                <span class="glossary-term">ドメイン</span><br>
+                インターネット上の「住所」や「表札」のこと。（例：carlockhomes.co.jp）
+            </div>
+            
+            <div class="glossary-item">
+                <span class="glossary-term">IPアドレス</span><br>
+                インターネット上の「実際の住所（緯度経度のような数字の羅列）」。（例：185.199...）
+            </div>
+            
+            <div class="glossary-item">
+                <span class="glossary-term">DNS（ディーエヌエス）</span><br>
+                ドメイン名とIPアドレスを結びつける「インターネットの巨大な電話帳」の仕組み。
+            </div>
+            
+            <div class="glossary-item">
+                <span class="glossary-term">Aレコード（エーレコード）</span><br>
+                電話帳（DNS）の中で、「このドメインの実際のIPアドレスはこれですよ」と直接指定するための設定項目。
+            </div>
+            
+            <div class="glossary-item">
+                <span class="glossary-term">リポジトリ</span><br>
+                GitHub上にある「データの保管庫（フォルダ）」のこと。ここにHPのデータが入っています。
+            </div>
+            
+            <div class="glossary-item">
+                <span class="glossary-term">GitHub Pages（ギットハブ・ページ）</span><br>
+                GitHubの保管庫に置いたデータを、そのまま世界中に「ホームページ」として公開できる無料のサーバー機能のこと。
+            </div>
+        </div>
+
+    </div>
+</body>
+</html>

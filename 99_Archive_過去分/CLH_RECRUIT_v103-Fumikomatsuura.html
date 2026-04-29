@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CLH 採用ハブ (v1.0.3)</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@400;500;700;900&family=Shippori+Antique+B1&family=Reggae+One&family=Dela+Gothic+One&family=Yomogi&family=Outfit:wght@900&display=swap" rel="stylesheet">
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'Zen Maru Gothic', sans-serif; overflow-x: hidden; }
+
+    #selector {
+      position: sticky; top: 0; z-index: 2000;
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(15px);
+      border-bottom: 2px solid #eee;
+      padding: 15px 20px;
+      display: flex; gap: 10px;
+      overflow-x: auto;
+      scrollbar-width: none;
+    }
+    .sel-btn {
+      padding: 15px 35px; border-radius: 100px; border: none;
+      background: #f0f0f0; color: #666; font-weight: 900; font-size: 16px;
+      cursor: pointer; white-space: nowrap; transition: all .4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      box-shadow: 0 4px 0 #ddd;
+    }
+    .sel-btn.active { background: linear-gradient(135deg, #FF4444, #FF6B2B); color: #fff; transform: scale(1.05); box-shadow: 0 6px 0 #b32d2d; }
+
+    .design-section { display: none; min-height: 100vh; }
+    .design-section.active { display: block; }
+    
+    /* Original Animations from Golden v102 */
+    @keyframes fadeSlide { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
+    @keyframes dust { 0% { transform: translateY(0); opacity: .6; } 100% { transform: translateY(-60px); opacity: 0; } }
+    @keyframes slam { 0% { transform: scale(.3); opacity: 0; } 100% { transform: scale(1); opacity: 1; } }
+    @keyframes riseUp { from { transform: translateY(60px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+    @keyframes gentlePulse { 0%,100% { transform: scale(1); } 50% { transform: scale(1.04); } }
+    @keyframes drawLine { from { stroke-dashoffset: 200; } to { stroke-dashoffset: 0; } }
+
+    /* Node Graph Specifics */
+    .node-item { position:absolute; width:70px; height:70px; border-radius:50%; background:#fff; display:flex; flex-direction:column; align-items:center; justify-content:center; font-size:24px; box-shadow:0 8px 25px rgba(0,0,0,.08); border: 2px solid #fff; z-index:2; }
+    .node-label { font-size:9px; font-weight:900; color:#8B7D6B; margin-top:2px; }
+
+    /* PW GATE */
+    #pw-gate { position:fixed; inset:0; z-index:999999; background:#fff; display:flex; align-items:center; justify-content:center; }
+    .pw-box { text-align:center; max-width:400px; width:90%; padding:40px; border:1px solid #eee; border-radius:30px; box-shadow:0 30px 100px rgba(0,0,0,0.05); }
+    .pw-input { width:100%; padding:18px; margin:20px 0; border:2px solid #eee; border-radius:15px; font-size:18px; text-align:center; outline:none; }
+    #wrapper { opacity: 0; transition: 0.5s; }
+
+    /* Fusion Overlay */
+    #official-fusion-overlay { position:fixed; inset:0; z-index:5000; background:#fff; display:none; overflow-y:auto; }
+    .overlay-close { position:fixed; top:30px; right:30px; background:#111; color:#fff; border:none; padding:12px 25px; border-radius:50px; font-weight:900; cursor:pointer; }
+  </style>
+</head>
+<body style="background:#fff;">
+
+  <div id="pw-gate">
+    <div class="pw-box">
+      <div style="font-size:50px; margin-bottom:20px;">🔓</div>
+      <h2 style="font-weight:900;">合言葉を確認中</h2>
+      <input type="password" id="pw-input" class="pw-input" placeholder="入力してください">
+      <button onclick="checkPW()" style="width:100%;padding:18px;background:#FF4444;color:#fff;border:none;border-radius:10px;font-weight:900;cursor:pointer;">ロック解除</button>
+    </div>
+  </div>
+
+  <div id="wrapper">
+
+    <!-- 🌐 NAVIGATION TABS (Strict Order) -->
+    <div id="selector">
+      <button class="sel-btn active" onclick="switchDesign(0,this)">1. 会社案内パンフ</button>
+      <button class="sel-btn" onclick="switchDesign(1,this)">2. 街のハブ</button>
+      <button class="sel-btn" onclick="switchDesign(2,this)">3. 泥臭エネルギー</button>
+    </div>
+
+    <!-- ════ TAB 1 : 会社案内パンフ (PHYSICAL MOVE D4) ════ -->
+    <section id="sect-0" class="design-section active">
+      <div style="background:#fff;padding-bottom:100px;">
+        <div style="display:flex;height:8px;">
+          <div style="flex:1;background:#FF4444;"></div><div style="flex:1;background:#FFB800;"></div><div style="flex:1;background:#4D96FF;"></div>
+          <div style="flex:1;background:#FF4444;"></div><div style="flex:1;background:#FFB800;"></div><div style="flex:1;background:#4D96FF;"></div>
+        </div>
+        <nav style="display:flex;justify-content:space-between;align-items:center;padding:20px 40px;border-bottom:2px solid #F0F0F0;">
+          <div style="display:flex;align-items:center;gap:12px;">
+            <div style="width:45px;height:45px;border-radius:12px;background:#FF4444;display:flex;align-items:center;justify-content:center;color:#fff;font-size:24px;box-shadow:0 6px 15px rgba(255,68,68,0.2);">🔑</div>
+            <div>
+              <div style="font-weight:900;font-size:18px;color:#111;">カーロックホームズ</div>
+              <div style="font-size:10px;color:#999;font-family:'Outfit';">CARLOCK HOMES</div>
+            </div>
+          </div>
+          <button onclick="openFusion()" style="background:#4D96FF;color:#fff;border:none;padding:12px 30px;border-radius:100px;font-weight:900;font-size:14px;">企業情報</button>
+        </nav>
+        <div style="padding:40px;max-width:1150px;margin:0 auto;">
+          <div style="display:grid;grid-template-columns:repeat(auto-fit, minmax(350px, 1fr));gap:30px;margin-bottom:30px;">
+            <div style="background:linear-gradient(135deg,#FF4444,#FF6B6B);border-radius:35px;padding:65px 45px;color:#fff;box-shadow:0 20px 50px rgba(255,68,68,0.25);">
+              <h1 style="font-size:42px;font-weight:900;line-height:1.4;">あなたの人生経験、<br>活かせる場所があります。</h1>
+              <p style="font-size:17px;opacity:.95;line-height:2;margin-top:20px;">45〜55代中心に活躍中。経験は問いません。<br>多様な働き方をご提案します。</p>
+            </div>
+            <div style="display:grid;grid-template-rows:1fr 1fr;gap:25px;">
+              <div style="background:#FFB800;border-radius:35px;padding:40px;display:flex;align-items:center;gap:30px;color:#640;box-shadow:0 15px 40px rgba(255,184,0,0.15);">
+                <div style="font-size:60px;">👥</div><div><div style="font-size:13px;font-weight:900;opacity:0.7;">スタッフ平均年齢</div><div style="font-size:38px;font-weight:900;">45.0歳</div></div>
+              </div>
+              <div style="background:#4D96FF;border-radius:35px;padding:40px;display:flex;align-items:center;gap:30px;color:#fff;box-shadow:0 15px 40px rgba(77,150,255,0.15);">
+                <div style="font-size:60px;">🔑</div><div><div style="font-size:13px;font-weight:900;opacity:0.8;">月間対応件数</div><div style="font-size:38px;font-weight:900;">3,000件+</div></div>
+              </div>
+            </div>
+          </div>
+          <div style="display:grid;grid-template-columns:repeat(auto-fit, minmax(300px, 1fr));gap:30px;">
+            <div style="background:#F9F9F9;border-radius:30px;padding:40px;border:1px solid #EEE;">
+              <div style="font-size:35px;margin-bottom:15px;">🔍</div><div style="font-weight:900;font-size:20px;margin-bottom:15px;">事業内容</div>
+              <p style="font-size:15px;color:#555;line-height:2.4;">・緊急解錠・修理、スマートロック施工、管理代行など</p>
+            </div>
+            <div style="background:#fff;border-radius:30px;padding:40px;border:4px solid #FF4444;box-shadow:0 30px 60px rgba(255,68,68,0.1);">
+              <div style="font-size:26px;font-weight:900;margin-bottom:20px;">月給 23万〜45万円以上</div>
+              <button style="width:100%;padding:20px;background:#FF4444;color:#fff;border:none;border-radius:15px;font-weight:900;font-size:20px;">エントリーへ</button>
+            </div>
+          </div>
+          <div style="margin-top:50px;border:3px dashed #FFB800;border-radius:25px;padding:30px;background:#FFFDF0;display:flex;align-items:center;justify-content:center;gap:20px;">
+            <div style="font-size:40px;">📠</div>
+            <div style="font-weight:900;color:#640;font-size:15px;">このページを印刷してのご持参も大歓迎です。</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ════ TAB 2 : 街のハブ (PHYSICAL MOVE D2) ════ -->
+    <section id="sect-1" class="design-section">
+      <div style="background:#FAF6EE;padding-bottom:100px;min-height:100vh;">
+        <nav style="padding:25px 50px;display:flex;justify-content:space-between;align-items:center;">
+          <div style="font-weight:900;font-size:22px;color:#4A3D2E;">カーロックホームズ</div>
+          <button style="background:#fff;color:#FF5C35;border:2px solid #FF5C35;padding:10px 25px;border-radius:50px;font-weight:900;">採用エントリー</button>
+        </nav>
+        <div style="padding:60px 25px;text-align:center;max-width:1000px;margin:0 auto;">
+          <h1 style="font-size:48px;font-weight:900;color:#4A3D2E;line-height:1.4;margin-bottom:40px;">私たちは鍵を直すのではない。<br><span style="background:linear-gradient(transparent 70%, #FFE135 70%);">街のつながりを、直している。</span></h1>
+          <div style="position:relative;width:400px;height:400px;margin:50px auto;">
+            <div style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:120px;height:120px;background:#fff;border-radius:50%;display:flex;align-items:center;justify-content:center;z-index:10;box-shadow:0 20px 50px rgba(0,0,0,0.1);animation:gentlePulse 4s infinite;">
+              <div style="font-size:50px;">🔑</div>
+            </div>
+            <div id="d2-nodes-inner"></div>
+          </div>
+          <div style="display:flex;flex-direction:column;gap:35px;max-width:850px;margin:60px auto;">
+            <div style="background:#fff;padding:45px;border-radius:40px;box-shadow:0 15px 45px rgba(0,0,0,0.04);border-left:12px solid #FF6B6B;text-align:left;">
+              <div style="font-weight:900;font-size:18px;">Iさん（ゲームオタク）</div>
+              <p style="font-size:15px;color:#5D4E37;line-height:2.2;margin-top:12px;">「鍵は奥が深い。正解がないからこそ、工夫次第でお客様に最高に喜んでもらえる。オタク気質が最高に活きる環境です」</p>
+            </div>
+            <div style="background:#fff;padding:45px;border-radius:40px;box-shadow:0 15px 45px rgba(0,0,0,0.04);border-left:12px solid #6BCB77;text-align:left;">
+              <div style="font-weight:900;font-size:18px;">Sさん（家庭菜園）</div>
+              <p style="font-size:15px;color:#5D4E37;line-height:2.2;margin-top:12px;">「汗をかいた分だけ、『ありがとう』が返ってくる仕事です。自分のペースを大切にしながら、地域の安心を支えています」</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ════ TAB 3 : 泥臭エネルギー (PHYSICAL MOVE D1) ════ -->
+    <section id="sect-2" class="design-section">
+      <div style="background:#1A0F05;color:#fff;padding-bottom:100px;min-height:100vh;position:relative;overflow:hidden;">
+        <div style="position:absolute;inset:0;background:radial-gradient(ellipse at 50% 120%,#FF6B2B 0%,#C0392B 30%,#1A0F05 70%);opacity:.9;"></div>
+        <div id="d1-dust-inner" style="position:absolute;inset:0;pointer-events:none;"></div>
+        <div style="position:relative;z-index:10;padding:80px 25px;text-align:center;">
+          <h1 style="font-family:'Reggae One';font-size:65px;color:#FFE8CC;text-shadow:4px 4px 0 #5C1A00;line-height:1.2;margin-bottom:30px;animation:fadeSlide .8s both;">45歳、<br>ここからが本番。</h1>
+          <p style="font-size:20px;color:#FFBB80;line-height:2.4;max-width:600px;margin:30px auto 55px;animation:fadeSlide .8s .2s both;">泥臭い根性なら、誰にも負けない。<br>さあ、もう一度飛んでみませんか。</p>
+          <div style="display:flex;gap:30px;overflow-x:auto;padding:30px;margin-bottom:60px;">
+            <div style="flex:0 0 300px;background:rgba(255,180,100,.1);border:3px solid #FFBB80;padding:45px 35px;border-radius:30px;text-align:left;">
+              <div style="font-weight:900;color:#FFBB80;font-size:20px;margin-bottom:12px;">萬田さん (50歳)</div>
+              <p style="font-size:15px;line-height:2.2;">「18段は無理でも3段なら毎日跳べる！泥臭くやり続ける格好良さを、ここで見つけました」</p>
+            </div>
+            <div style="flex:0 0 300px;background:rgba(255,180,100,.1);border:4px solid #FFBB80;padding:45px 35px;border-radius:30px;text-align:left;box-shadow:0 0 40px rgba(255,107,43,0.3);">
+              <div style="font-weight:900;color:#FFBB80;font-size:20px;margin-bottom:12px;">阿部さん (45歳)</div>
+              <p style="font-size:15px;line-height:2.2;">「汗かいた分だけ、『ありがとう』が返ってくる。泥臭い仕事だけど、心はスカッと晴れています」</p>
+            </div>
+            <div style="flex:0 0 300px;background:rgba(255,180,100,.1);border:3px solid #FFBB80;padding:45px 35px;border-radius:30px;text-align:left;">
+              <div style="font-weight:900;color:#FFBB80;font-size:20px;margin-bottom:12px;">吉田さん (55歳)</div>
+              <p style="font-size:15px;line-height:2.2;">「定年なんて自分で決める。ここには、生涯現役でいられる熱い現場が待っています」</p>
+            </div>
+          </div>
+          <div style="background:rgba(255,107,43,0.1);border:4px solid #FF6B2B;padding:60px;border-radius:40px;text-align:left;max-width:700px;margin:0 auto;box-shadow:0 30px 60px rgba(0,0,0,0.4);">
+            <h3 style="color:#FFB800;margin-bottom:20px;font-family:'Reggae One';font-size:28px;">【募集内容】</h3>
+            <p style="font-size:18px;line-height:2.4;margin-bottom:35px;">・職種：カギの緊急対応スタッフ（未経験歓迎）<br>・給与：23万〜45万円以上＋歩合</p>
+            <button style="width:100%;padding:25px;background:#FF6B2B;color:#fff;border:none;font-family:'Reggae One';font-size:24px;border-radius:20px;cursor:pointer;">🔥 今すぐ挑戦する</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ════ COMMON AREA (FUSION & FOOTER) ════ -->
+    <div style="background:#fff;padding-bottom:100px;">
+      <div style="padding:80px 20px;text-align:center;">
+        <h2 style="font-weight:900;font-size:22px;color:#111;margin-bottom:40px;">アクセスマップ</h2>
+        <div style="max-width:900px;margin:0 auto;height:450px;border-radius:30px;overflow:hidden;border:1px solid #eee;box-shadow:0 10px 40px rgba(0,0,0,0.05);">
+          <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d1730.0419150492035!2d139.60129778650392!3d35.70804628141828!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x6018ee0c327e87bd%3A0x3a843081cd4d7b6d!2z44Kr44O844Ot44OD44Kv44Ob44O844Og44K65qCq5byP5Lya56S-IOadieS4puWMuiDpjbXmpa3ogIU!5e0!3m2!1sja!2sjp!4v1776010539256!5m2!1sja!2sjp" width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+        </div>
+      </div>
+      <div style="padding:100px 20px;text-align:center;background:#0a0a0a;color:#fff;">
+        <div style="opacity:0.5;font-size:12px;font-weight:900;letter-spacing:3px;margin-bottom:50px;">PRODUCED BY CLH CREATIVE TEAM</div>
+        <p style="font-size:11px;opacity:0.3;">&copy; 2026 CarlockHomes Inc. All rights reserved.</p>
+      </div>
+    </div>
+
+  </div> <!-- /wrapper -->
+
+  <div id="official-fusion-overlay">
+    <button onclick="closeFusion()" class="overlay-close">← 前に戻る</button>
+    <div style="padding:120px 20px;max-width:9000px;margin:0 auto;text-align:center;">
+      <h2 style="font-weight:900;font-size:40px;margin-bottom:50px;">CORPORATE INFO</h2>
+      <div style="background:#f9f9f9;padding:60px;border-radius:40px;text-align:left;max-width:800px;margin:0 auto;">
+        <p style="font-size:18px;line-height:2.4;">所在地：〒167-0042 東京都杉並区西荻北2-37-12<br>代表取締役：上野原 政司</p>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const ids = ['sect-0','sect-1','sect-2'];
+    function switchDesign(i, b){
+      ids.forEach(id => document.getElementById(id).classList.remove('active'));
+      document.querySelectorAll('.sel-btn').forEach(btn => btn.classList.remove('active'));
+      document.getElementById(ids[i]).classList.add('active');
+      b.classList.add('active');
+      window.scrollTo(0, 0);
+    }
+    function checkPW(){ 
+      if(document.getElementById('pw-input').value === 'clh2026'){ 
+        sessionStorage.setItem('clh_in', '1'); 
+        document.getElementById('pw-gate').style.display='none'; 
+        document.getElementById('wrapper').style.opacity='1'; 
+      } 
+    }
+    if(sessionStorage.getItem('clh_in')) { 
+      document.getElementById('pw-gate').style.display='none'; 
+      document.getElementById('wrapper').style.opacity='1'; 
+    }
+    function openFusion(){ document.getElementById('official-fusion-overlay').style.display='block'; window.scrollTo(0,0);}
+    function closeFusion(){ document.getElementById('official-fusion-overlay').style.display='none'; }
+
+    // D2 Nodes
+    const hub = document.getElementById('d2-nodes-inner');
+    const nodes = [{e:'🏠',t:'0%',l:'50%'},{e:'🏢',t:'20%',l:'90%'},{e:'🚗',t:'70%',l:'90%'},{e:'🏢',t:'90%',l:'50%'},{e:'🏪',t:'70%',l:'5%'},{e:'🏫',t:'20%',l:'5%'}];
+    nodes.forEach(n => {
+      const d = document.createElement('div'); d.className = 'node-item';
+      d.style.top = n.t; d.style.left = n.l; d.innerHTML = `<span>${n.e}</span>`; hub.appendChild(d);
+    });
+
+    // D1 Dust
+    const dustC = document.getElementById('d1-dust-inner');
+    for(let i=0; i<20; i++){
+      const d = document.createElement('div');
+      d.style.cssText = `position:absolute;bottom:0;left:${Math.random()*100}%;width:4px;height:4px;background:#FFBB80;opacity:.5;animation:dust ${3+Math.random()*4}s linear infinite;`;
+      dustC.appendChild(d);
+    }
+  </script>
+</body>
+</html>

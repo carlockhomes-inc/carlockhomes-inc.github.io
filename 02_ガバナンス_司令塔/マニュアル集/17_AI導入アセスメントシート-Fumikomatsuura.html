@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>17_AI導入・活用リスクアセスメントシート | CarlockHomes</title>
+    <style>
+        /* Functional Checklist Style */
+        body {
+            font-family: "Inter", "Segoe UI", Roboto, sans-serif;
+            line-height: 1.6;
+            color: #1e293b;
+            background-color: #f8fafc;
+            margin: 0;
+            padding: 40px 20px;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: #fff;
+            padding: 50px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            border-radius: 12px;
+        }
+
+        .header {
+            border-bottom: 2px solid #e2e8f0;
+            padding-bottom: 30px;
+            margin-bottom: 40px;
+        }
+
+        h1 {
+            font-size: 24px;
+            font-weight: 800;
+            color: #0f172a;
+            margin: 0 0 10px 0;
+        }
+
+        .purpose {
+            font-size: 14px;
+            color: #64748b;
+        }
+
+        h2 {
+            font-size: 18px;
+            font-weight: 700;
+            color: #2563eb;
+            margin-top: 40px;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+        }
+
+        h2::before {
+            content: "";
+            display: inline-block;
+            width: 4px;
+            height: 20px;
+            background: #2563eb;
+            margin-right: 12px;
+            border-radius: 2px;
+        }
+
+        /* Checklist Design */
+        .checklist {
+            list-style: none;
+            padding: 0;
+        }
+
+        .check-item {
+            display: flex;
+            align-items: flex-start;
+            padding: 15px;
+            border-radius: 8px;
+            border: 1px solid #e2e8f0;
+            margin-bottom: 12px;
+            transition: background 0.2s;
+            cursor: pointer;
+        }
+
+        .check-item:hover {
+            background-color: #f1f5f9;
+        }
+
+        .checkbox-custom {
+            width: 20px;
+            height: 20px;
+            border: 2px solid #cbd5e1;
+            border-radius: 4px;
+            margin-right: 15px;
+            flex-shrink: 0;
+            margin-top: 2px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #fff;
+        }
+
+        .check-item.checked .checkbox-custom {
+            background-color: #2563eb;
+            border-color: #2563eb;
+        }
+
+        .check-item.checked .checkbox-custom::after {
+            content: "✓";
+            color: #fff;
+            font-size: 14px;
+            font-weight: bold;
+        }
+
+        .label-text {
+            font-size: 15px;
+            font-weight: 500;
+        }
+
+        .label-sub {
+            display: block;
+            font-size: 13px;
+            color: #64748b;
+            margin-top: 4px;
+        }
+
+        /* Result Guide */
+        .guide-box {
+            margin-top: 50px;
+            padding: 30px;
+            background-color: #f8fafc;
+            border-radius: 12px;
+            border: 1px dashed #cbd5e1;
+        }
+
+        .guide-title {
+            font-weight: 800;
+            font-size: 16px;
+            margin-bottom: 15px;
+            display: block;
+        }
+
+        .guide-item {
+            font-size: 14px;
+            margin-bottom: 10px;
+            display: block;
+        }
+
+        .tag {
+            font-weight: 700;
+            padding: 2px 6px;
+            border-radius: 4px;
+            margin-right: 5px;
+        }
+
+        .tag-ok { background: #dcfce7; color: #166534; }
+        .tag-wait { background: #fef3c7; color: #92400e; }
+        .tag-ng { background: #fee2e2; color: #991b1b; }
+
+        .footer {
+            margin-top: 40px;
+            text-align: center;
+            font-size: 12px;
+            color: #94a3b8;
+        }
+
+        @media print {
+            body { padding: 0; }
+            .container { box-shadow: none; max-width: 100%; border: 1px solid #eee; }
+            .check-item:hover { background: none; }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>AI導入・活用リスクアセスメントシート</h1>
+            <p class="purpose">MIT Sloan (CAMS) 基準のリスクを検証し、安全な「アクセル全開」を可能にするためのチェックリスト。</p>
+        </div>
+
+        <h2>1. 技術的リスク (Technical Risk)</h2>
+        <div class="checklist">
+            <div class="check-item" onclick="toggleCheck(this)">
+                <div class="checkbox-custom"></div>
+                <div class="label-text">
+                    セキュリティ（Security）
+                    <span class="label-sub">データの入力・漏洩プロトコルは確立されているか？</span>
+                </div>
+            </div>
+            <div class="check-item" onclick="toggleCheck(this)">
+                <div class="checkbox-custom"></div>
+                <div class="label-text">
+                    バイアス（Bias / 偏り）
+                    <span class="label-sub">特定の属性（年齢、地域等）に対する不当な判断が混入していないか？</span>
+                </div>
+            </div>
+            <div class="check-item" onclick="toggleCheck(this)">
+                <div class="checkbox-custom"></div>
+                <div class="label-text">
+                    ハルシネーション（Hallucination / 虚偽）
+                    <span class="label-sub">AIの嘘を検知し、人間が最終確認する仕組みがあるか？</span>
+                </div>
+            </div>
+        </div>
+
+        <h2>2. 社会的リスク (Social Risk)</h2>
+        <div class="checklist">
+            <div class="check-item" onclick="toggleCheck(this)">
+                <div class="checkbox-custom"></div>
+                <div class="label-text">
+                    プライバシー（Privacy）
+                    <span class="label-sub">社員や顧客の情報が、AIの学習や外部へ流出する設計になっていないか？</span>
+                </div>
+            </div>
+            <div class="check-item" onclick="toggleCheck(this)">
+                <div class="checkbox-custom"></div>
+                <div class="label-text">
+                    不正利用の防止（Misuse）
+                    <span class="label-sub">ツールが意図しない目的（誹謗中傷、情報抜き取り等）に使われる隙はないか？</span>
+                </div>
+            </div>
+            <div class="check-item" onclick="toggleCheck(this)">
+                <div class="checkbox-custom"></div>
+                <div class="label-text">
+                    社会的受容性（Social Impact）
+                    <span class="label-sub">既存の社員の心理的な不安や、世間的な倫理観に抵触していないか？</span>
+                </div>
+            </div>
+        </div>
+
+        <h2>3. 法的リスク (Legal Risk)</h2>
+        <div class="checklist">
+            <div class="check-item" onclick="toggleCheck(this)">
+                <div class="checkbox-custom"></div>
+                <div class="label-text">
+                    知的財産（IP / 知財）
+                    <span class="label-sub">学習データや生成物の著作権侵害リスクをクリアしているか？</span>
+                </div>
+            </div>
+            <div class="check-item" onclick="toggleCheck(this)">
+                <div class="checkbox-custom"></div>
+                <div class="label-text">
+                    説明責任（Accountability / AIMS）
+                    <span class="label-sub">万が一のトラブル時、AIの判断プロセスを法的に説明できるか？</span>
+                </div>
+            </div>
+            <div class="check-item" onclick="toggleCheck(this)">
+                <div class="checkbox-custom"></div>
+                <div class="label-text">
+                    安全・品質担保（Safety）
+                    <span class="label-sub">AIの判断に起因する事故の際の、責任所在は明確か？</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="guide-box">
+            <span class="guide-title">💡 判定ガイド</span>
+            <span class="guide-item"><span class="tag tag-ok">ALL-CHECK</span> アクセルを全開に踏み込んでください。</span>
+            <span class="guide-item"><span class="tag tag-wait">1-2項目未チェック</span> 導入を保留し、該当リスクの回避策を強化してください。</span>
+            <span class="guide-item"><span class="tag tag-ng">3項目以上未チェック</span> 重大な経営リスクあり。戦略を根本から見直してください。</span>
+        </div>
+
+        <div class="footer">
+            CarlockHomes 経営戦略室（MIT基準準拠）
+        </div>
+    </div>
+
+    <script>
+        function toggleCheck(el) {
+            el.classList.toggle('checked');
+        }
+    </script>
+</body>
+
+</html>

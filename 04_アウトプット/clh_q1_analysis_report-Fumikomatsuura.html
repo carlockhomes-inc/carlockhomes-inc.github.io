@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <title>CarlockHomes Q1 売上分析レポート (2025 vs 2026)</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@400;700;900&display=swap');
+
+        body {
+            font-family: 'Zen Maru Gothic', sans-serif;
+            background-color: #f0f2f5;
+            color: #333;
+            margin: 0;
+            padding: 40px;
+        }
+
+        /* A4 Size Setup for Printing */
+        @media print {
+            body { 
+                background-color: white; 
+                padding: 0;
+            }
+            .no-print { display: none; }
+            .report-card { 
+                box-shadow: none !important;
+                border: 1px solid #ddd;
+                padding: 0 !important;
+            }
+            @page { margin: 1cm; }
+        }
+
+        .report-card {
+            max-width: 900px;
+            margin: 0 auto;
+            background: white;
+            padding: 40px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            border-radius: 12px;
+        }
+
+        header {
+            border-bottom: 3px solid #FF4444;
+            padding-bottom: 20px;
+            margin-bottom: 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+        }
+
+        h1 { margin: 0; font-size: 28px; color: #333; }
+        .date { font-size: 14px; color: #666; }
+
+        .summary-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            margin-bottom: 40px;
+        }
+
+        .stat-box {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 8px;
+            text-align: center;
+        }
+
+        .stat-box .label { font-size: 13px; color: #666; margin-bottom: 8px; }
+        .stat-box .value { font-size: 24px; font-weight: 900; color: #333; }
+        .stat-box .growth { font-size: 14px; font-weight: 700; margin-top: 5px; }
+        .up { color: #28a745; }
+
+        .chart-container {
+            margin-bottom: 50px;
+        }
+
+        .bar-chart {
+            display: flex;
+            align-items: flex-end;
+            gap: 40px;
+            height: 200px;
+            padding: 20px 0;
+            border-bottom: 2px solid #ddd;
+        }
+
+        .bar-group {
+            flex: 1;
+            display: flex;
+            gap: 5px;
+            align-items: flex-end;
+            height: 100%;
+        }
+
+        .bar {
+            flex: 1;
+            min-height: 5px;
+            position: relative;
+            transition: height 1s;
+        }
+        .bar::after {
+            content: attr(data-value);
+            position: absolute;
+            top: -25px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 11px;
+            font-weight: 700;
+            white-space: nowrap;
+        }
+
+        .bar.yr-25 { background: #ced4da; }
+        .bar.yr-26 { background: #FF4444; }
+
+        .legend {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-top: 15px;
+            font-size: 12px;
+        }
+        .legend-item { display: flex; align-items: center; gap: 5px; }
+        .color-dot { width: 12px; height: 12px; border-radius: 2px; }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        th { background: #f8f9fa; text-align: left; padding: 12px; font-size: 14px; border-bottom: 2px solid #ddd; }
+        td { padding: 12px; font-size: 14px; border-bottom: 1px solid #eee; }
+
+        .highlight { font-weight: 900; color: #FF4444; }
+        
+        .action-items {
+            margin-top: 40px;
+            background: #fff8eb;
+            padding: 25px;
+            border-left: 5px solid #ffc107;
+            border-radius: 4px;
+        }
+        
+        .print-btn {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: #333;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            font-family: inherit;
+            font-weight: 900;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+        }
+    </style>
+</head>
+<body>
+
+<button class="print-btn no-print" onclick="window.print()">🖨️ レポートを印刷する</button>
+
+<div class="report-card">
+    <header>
+        <div>
+            <h1>Q1 売上分析レポート (1月-3月)</h1>
+            <p style="margin-top: 5px; color: #666; font-size: 14px;">CarlockHomes 事業進捗報告</p>
+        </div>
+        <div class="date">分析日: 2026年4月11日</div>
+    </header>
+
+    <div class="summary-grid">
+        <div class="stat-box">
+            <div class="label">2026年 Q1 合計売上</div>
+            <div class="value">90,959,275円</div>
+            <div class="growth up">前年比 +12.6% ▲</div>
+        </div>
+        <div class="stat-box">
+            <div class="label">主要顧客(カインズ) 成長率</div>
+            <div class="value">32,694,757円</div>
+            <div class="growth up">+28.2% ▲</div>
+        </div>
+        <div class="stat-box">
+            <div class="label">新規案件(プレDLV) 寄与</div>
+            <div class="value">9,293,312円</div>
+            <div class="growth up">+176.6% 📈</div>
+        </div>
+    </div>
+
+    <div class="chart-container">
+        <h2 style="font-size: 18px; margin-bottom: 30px;">▼ 月別売上推移 (2025 vs 2026)</h2>
+        <div class="bar-chart">
+            <!-- 1月 -->
+            <div class="bar-group">
+                <div class="bar yr-25" style="height: 85%;" data-value="26.8M"></div>
+                <div class="bar yr-26" style="height: 100%;" data-value="31.5M"></div>
+                <div style="position:absolute; bottom:-25px; left:50%; transform:translateX(-50%); font-size:12px; font-weight:900;">1月</div>
+            </div>
+            <!-- 2月 -->
+            <div class="bar-group">
+                <div class="bar yr-25" style="height: 81%;" data-value="25.5M"></div>
+                <div class="bar yr-26" style="height: 92%;" data-value="29.1M"></div>
+                <div style="position:absolute; bottom:-25px; left:50%; transform:translateX(-50%); font-size:12px; font-weight:900;">2月</div>
+            </div>
+            <!-- 3月 -->
+            <div class="bar-group">
+                <div class="bar yr-25" style="height: 89%;" data-value="28.3M"></div>
+                <div class="bar yr-26" style="height: 96%;" data-value="30.3M"></div>
+                <div style="position:absolute; bottom:-25px; left:50%; transform:translateX(-50%); font-size:12px; font-weight:900;">3月</div>
+            </div>
+        </div>
+        <div class="legend">
+            <div class="legend-item"><div class="color-dot" style="background:#ced4da;"></div> 2025年度</div>
+            <div class="legend-item"><div class="color-dot" style="background:#FF4444;"></div> 2026年度</div>
+        </div>
+    </div>
+
+    <div>
+        <h2 style="font-size: 18px; margin-bottom: 15px;">▼ 取引先別実績 (Q1合計)</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>取引先名</th>
+                    <th>2025年実績</th>
+                    <th>2026年実績</th>
+                    <th>増減</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>カインズホーム</td>
+                    <td>25,506,981円</td>
+                    <td class="highlight">32,694,757円</td>
+                    <td class="up">+28.2% ▲</td>
+                </tr>
+                <tr>
+                    <td>株式会社プレサンス</td>
+                    <td>25,411,318円</td>
+                    <td>21,237,115円</td>
+                    <td style="color:#dc3545;">-16.4% ▼</td>
+                </tr>
+                <tr>
+                    <td>プレ DLV案件</td>
+                    <td>3,359,775円</td>
+                    <td class="highlight">9,293,312円</td>
+                    <td class="up">+176.6% 📈</td>
+                </tr>
+                <tr>
+                    <td>リロケーション・ジャパン</td>
+                    <td>6,784,375円</td>
+                    <td>6,884,312円</td>
+                    <td class="up">+1.5% ▲</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="action-items">
+        <h3 style="margin-top: 0; font-size: 16px;">🔍 分析結果と次の一手</h3>
+        <ul style="font-size: 13px; line-height: 1.8; margin-bottom: 0;">
+            <li><strong>全体売上の拡大:</strong> 前年比12.6%の成長は、人員増強や業務効率化の成果が現れています。</li>
+            <li><strong>カインズへの集中:</strong> 主力顧客の成長が著しい一方、依存度も高まっています。更なる多角化が課題です。</li>
+            <li><strong>プレサンス案件のフォロー:</strong> 昨年同期比で約400万円減少しています。担当者への状況確認を推奨。</li>
+            <li><strong>採用サイトでの活用:</strong> この好調なQ1データを「成長中の鍵屋」としてリクルーティングに活用する準備を進めましょう。</li>
+        </ul>
+    </div>
+
+    <footer style="margin-top: 40px; text-align: center; font-size: 11px; color: #999; border-top: 1px solid #eee; padding-top: 20px;">
+        &copy; 2026 CarlockHomes Management Strategy Office. Confidential.
+    </footer>
+</div>
+
+</body>
+</html>

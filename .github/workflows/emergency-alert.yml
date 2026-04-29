@@ -1,0 +1,54 @@
+name: "🚨 Emergency Alert"
+
+# Trigger on CI failures, manual dispatch, and periodic health checks
+on:
+  workflow_run:
+    workflows: ["CI"]
+    types:
+      - completed
+  workflow_dispatch:
+  schedule:
+    - cron: '0 */2 * * *'  # every 2 hours (UTC)
+
+jobs:
+  alert:
+    runs-on: ubuntu-latest
+    steps:
+      # -------------------------------------------------
+      # 1️⃣ Detect CI failure
+      # -------------------------------------------------
+      - name: Detect CI failure
+        if: ${{ github.event_name == 'workflow_run' && github.event.workflow_run.conclusion == 'failure' }}
+        run: |
+          echo "*⚠️ CI FAILURE*" > msg.txt
+          echo "Repository: ${{ github.repository }}" >> msg.txt
+          echo "Workflow: ${{ github.event.workflow_run.name }}" >> msg.txt
+          echo "Run ID: ${{ github.event.workflow_run.id }}" >> msg.txt
+          echo "URL: ${{ github.event.workflow_run.html_url }}" >> msg.txt
+
+      # -------------------------------------------------
+      # 2️⃣ Check 2FA status (runs only on schedule)
+      # -------------------------------------------------
+      - name: Check 2FA status
+        if: ${{ github.event_name == 'schedule' }}
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          status=$(gh api user --jq .two_factor_authentication)
+          if [ "$status" = "false" ]; then
+            echo "*⚠️ 2FA DISABLED*" > msg.txt
+            echo "Repository: ${{ github.repository }}" >> msg.txt
+          else
+            exit 0
+          fi
+
+      # -------------------------------------------------
+      # 3️⃣ Send Slack alert if a message was generated
+      # -------------------------------------------------
+      - name: Send Slack alert
+        if: ${{ env.SLACK_WEBHOOK_URL && (exists('msg.txt')) }}
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+        run: |
+          payload=$(jq -Rs '{text: .}' < msg.txt)
+          curl -X POST -H 'Content-type: application/json' --data "$payload" $SLACK_WEBHOOK_URL

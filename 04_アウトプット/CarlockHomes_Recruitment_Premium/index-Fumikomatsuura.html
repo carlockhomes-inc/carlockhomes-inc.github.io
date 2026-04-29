@@ -1,0 +1,639 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CarlockHomes | Recruitment Hub - 45歳、ここからが本番。</title>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;700;900&family=Outfit:wght@700;900&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-dark: #1a0808;
+            --bg-accent: #4b1a1a;
+            --text-white: #ffffff;
+            --brand-orange: #ff6b35;
+            --brand-yellow: #ffcf33;
+            --glass-bg: rgba(255, 255, 255, 0.05);
+            --glass-border: rgba(255, 255, 255, 0.1);
+            --card-hover-bg: rgba(255, 255, 255, 0.08);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Noto Sans JP', sans-serif;
+            background: radial-gradient(circle at center, var(--bg-accent) 0%, var(--bg-dark) 100%);
+            background-attachment: fixed;
+            color: var(--text-white);
+            min-height: 100vh;
+            overflow-x: hidden;
+            line-height: 1.6;
+        }
+
+        /* Grain Overlay */
+        body::after {
+            content: "";
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            opacity: 0.05;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3%3Ffilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/feFilter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+            z-index: 9999;
+        }
+
+        /* --- Tab Navigation --- */
+        .tab-nav-wrapper {
+            width: 100%;
+            overflow-x: auto;
+            padding: 20px 0;
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+            position: sticky;
+            top: 0;
+            z-index: 1001;
+            background: rgba(26, 8, 8, 0.85);
+            backdrop-filter: blur(15px);
+            border-bottom: 1px solid var(--glass-border);
+        }
+        .tab-nav-wrapper::-webkit-scrollbar { display: none; }
+
+        .tab-nav {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            padding: 0 20px;
+            min-width: max-content;
+        }
+
+        .tab-item {
+            padding: 12px 24px;
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: 30px;
+            font-size: 0.85rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            white-space: nowrap;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: rgba(255,255,255,0.6);
+        }
+
+        .tab-item.active {
+            background: rgba(255, 77, 77, 0.1);
+            border-color: #ff4d4d;
+            color: #ff4d4d;
+            box-shadow: 0 0 20px rgba(255, 77, 77, 0.2);
+            transform: scale(1.05);
+        }
+
+        .tab-item .tab-meta {
+            font-size: 0.65rem;
+            opacity: 0.6;
+            font-weight: 400;
+        }
+
+        /* --- Global Layout --- */
+        header {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 30px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-family: 'Outfit', sans-serif;
+            font-size: 1.8rem;
+            font-weight: 900;
+            text-decoration: none;
+            color: #fff;
+        }
+
+        nav { display: flex; gap: 30px; }
+        nav a {
+            text-decoration: none;
+            color: #fff;
+            opacity: 0.7;
+            font-size: 0.9rem;
+            font-weight: 700;
+            transition: 0.3s;
+        }
+        nav a:hover { opacity: 1; color: var(--brand-yellow); }
+
+        .content-section {
+            display: none;
+            opacity: 0;
+            padding-bottom: 100px;
+        }
+        .content-section.active {
+            display: block;
+            animation: fadeIn 0.8s ease-out forwards;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* --- Components --- */
+        .section-header {
+            text-align: center;
+            margin: 60px auto 40px;
+            max-width: 800px;
+        }
+        .section-title {
+            font-size: clamp(2rem, 5vw, 3.5rem);
+            font-weight: 900;
+            margin-bottom: 20px;
+            letter-spacing: 2px;
+        }
+        .section-subtitle {
+            font-size: 1.1rem;
+            opacity: 0.6;
+            margin-bottom: 60px;
+        }
+
+        .grid-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .glass-card {
+            background: var(--glass-bg);
+            backdrop-filter: blur(15px);
+            border: 1px solid var(--glass-border);
+            border-radius: 30px;
+            padding: 50px 40px;
+            transition: 0.4s;
+            position: relative;
+        }
+        .glass-card:hover {
+            transform: translateY(-10px);
+            border-color: rgba(255,255,255,0.3);
+            background: var(--card-hover-bg);
+            box-shadow: 0 20px 50px rgba(0,0,0,0.4);
+        }
+
+        /* --- Tab 1: Hero --- */
+        .hero {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            padding: 40px 20px;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        .hero-illustration {
+            width: 320px;
+            height: 320px;
+            margin-bottom: 20px;
+            position: relative;
+        }
+        .hero-illustration img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            animation: float 4s infinite ease-in-out;
+        }
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-15px); }
+        }
+
+        .hero h1 { font-size: clamp(2.5rem, 8vw, 4.5rem); font-weight: 900; line-height: 1.2; margin-bottom: 20px; }
+        .hero p { font-size: 1.2rem; opacity: 0.8; margin-bottom: 40px; }
+        .btn-main {
+            padding: 20px 60px;
+            background: linear-gradient(135deg, var(--brand-orange), #ff4d4d);
+            color: #fff;
+            text-decoration: none;
+            font-weight: 900;
+            font-size: 1.2rem;
+            border-radius: 50px;
+            box-shadow: 0 10px 30px rgba(255, 107, 53, 0.4);
+            transition: 0.4s;
+        }
+        .btn-main:hover { transform: scale(1.05); box-shadow: 0 15px 40px rgba(255, 107, 53, 0.6); }
+
+        /* --- Tab 2: Hub --- */
+        .hub-illustration {
+            width: 100%;
+            max-width: 500px;
+            margin: 0 auto 40px;
+            display: block;
+        }
+        .partner-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-top: 40px;
+        }
+        .partner-item {
+            background: rgba(255,255,255,0.03);
+            border: 1px solid rgba(255,255,255,0.1);
+            padding: 15px;
+            border-radius: 12px;
+            font-size: 0.85rem;
+            text-align: center;
+            transition: 0.3s;
+        }
+        .partner-item:hover { background: rgba(255,255,255,0.1); border-color: var(--brand-yellow); }
+
+        /* --- Tab 4: Scrap (SNS) --- */
+        .sns-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 30px;
+            margin-top: 40px;
+        }
+        .sns-card {
+            text-align: center;
+            background: rgba(255,255,255,0.03);
+            padding: 30px;
+            border-radius: 20px;
+            border: 1px solid rgba(255,255,255,0.1);
+            text-decoration: none;
+            color: inherit;
+            transition: 0.3s;
+        }
+        .sns-card:hover { transform: translateY(-5px); border-color: #ffcf33; background: rgba(255,255,255,0.08); }
+        .qr-img { width: 120px; height: 120px; background: #fff; padding: 10px; border-radius: 10px; margin: 20px auto; }
+
+        /* --- Tab 5: Pamphlet (Company) --- */
+        .profile-table {
+            width: 100%;
+            max-width: 800px;
+            margin: 0 auto;
+            border-collapse: collapse;
+        }
+        .profile-table td {
+            padding: 25px 20px;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+        .profile-label { color: var(--brand-yellow); font-weight: 900; width: 30%; }
+
+        .map-container {
+            width: 100%;
+            height: 400px;
+            border-radius: 30px;
+            overflow: hidden;
+            margin-top: 50px;
+            border: 1px solid var(--glass-border);
+        }
+
+        footer {
+            text-align: center;
+            padding: 50px;
+            opacity: 0.3;
+            font-size: 0.75rem;
+            letter-spacing: 2px;
+        }
+
+        @media (max-width: 768px) {
+            header { flex-direction: column; padding: 30px 20px; }
+            .hero-illustration { width: 240px; height: 240px; }
+            .glass-card { padding: 40px 20px; }
+        }
+
+        /* --- Auth Overlay --- */
+        #auth-overlay {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: #1a0808;
+            z-index: 10000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            text-align: center;
+            color: #fff;
+        }
+        .auth-container {
+            background: rgba(255,255,255,0.05);
+            padding: 50px;
+            border-radius: 30px;
+            border: 1px solid rgba(255,255,255,0.1);
+            backdrop-filter: blur(20px);
+            width: 90%;
+            max-width: 400px;
+        }
+        .auth-logo { font-family: 'Outfit', sans-serif; font-size: 2.5rem; font-weight: 900; margin-bottom: 30px; }
+        .auth-input {
+            width: 100%;
+            padding: 15px;
+            background: rgba(0,0,0,0.3);
+            border: 1px solid rgba(255,255,255,0.2);
+            border-radius: 10px;
+            color: #fff;
+            text-align: center;
+            font-size: 1.2rem;
+            margin-bottom: 20px;
+        }
+        .auth-btn {
+            width: 100%;
+            padding: 15px;
+            background: var(--brand-orange);
+            color: #fff;
+            border: none;
+            border-radius: 10px;
+            font-weight: 900;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+        .auth-btn:hover { background: #ff4d4d; transform: scale(1.02); }
+        #auth-error { color: #ff4d4d; font-size: 0.8rem; margin-top: 15px; display: none; }
+        #main-content { display: none; }
+    </style>
+</head>
+<body>
+
+    <!-- Simple Password Protection Overlay -->
+    <div id="auth-overlay">
+        <div class="auth-container">
+            <div class="auth-logo">🔑 CLH</div>
+            <div style="margin-bottom: 20px; font-size: 0.9rem; opacity: 0.6; letter-spacing: 2px;">RECRUITMENT HUB</div>
+            <input type="password" id="password-input" class="auth-input" placeholder="PASSWORD">
+            <button class="auth-btn" onclick="checkAuth()">SIGN IN</button>
+            <div id="auth-error">パスワードが正しくありません</div>
+        </div>
+    </div>
+
+    <div id="main-content">
+
+    <!-- Tabs Navigation -->
+    <div class="tab-nav-wrapper">
+        <div class="tab-nav">
+            <div class="tab-item active" data-tab="muddy">
+                1. 泥臭いエネルギー <span class="tab-meta">熱血採用コンセプト</span>
+            </div>
+            <div class="tab-item" data-tab="hub">
+                2. 街のハブ <span class="tab-meta">信頼とネットワーク</span>
+            </div>
+            <div class="tab-item" data-tab="core">
+                3. コア業務 <span class="tab-meta">事業内容・技術</span>
+            </div>
+            <div class="tab-item" data-tab="scrap">
+                4. スクラップブック <span class="tab-meta">公式SNS・リンク</span>
+            </div>
+            <div class="tab-item" data-tab="pamph">
+                5. 会社案内パンフ <span class="tab-meta">企業概要・アクセス</span>
+            </div>
+        </div>
+    </div>
+
+    <header>
+        <a href="#" class="logo">🔑 CarlockHomes</a>
+        <nav>
+            <a href="#vision">想い</a>
+            <a href="#members">仲間</a>
+            <a href="#recruitment">募集</a>
+            <a href="#contact">連絡</a>
+        </nav>
+    </header>
+
+    <!-- Tab 1: Muddy Energy -->
+    <div id="muddy" class="content-section active">
+        <section class="hero">
+            <div class="hero-illustration">
+                <img src="images/hero_muddy_energy_runner.png" alt="45歳からの挑戦">
+            </div>
+            <h1>45歳、<br>ここからが本番。</h1>
+            <p>若さのスピードには勝てなくても、泥臭い根性なら誰にも負けない。</p>
+            <a href="#apply" class="btn-main">🔥 挑戦する</a>
+        </section>
+
+        <div class="section-header">
+            <h2 class="section-title">💪 泥臭い仲間たち</h2>
+        </div>
+        <div class="grid-container">
+            <div class="glass-card">
+                <div style="font-size: 3rem; margin-bottom: 20px;">🏋️</div>
+                <h3>田中 (52)</h3>
+                <p>「18段は無理でも<br>3段なら毎日跳べる！」</p>
+            </div>
+            <div class="glass-card">
+                <div style="font-size: 3rem; margin-bottom: 20px;">🌾</div>
+                <h3>佐藤 (48)</h3>
+                <p>「汗かいた分だけ<br>『ありがとう』が返ってくる」</p>
+            </div>
+            <div class="glass-card">
+                <div style="font-size: 3rem; margin-bottom: 20px;">🔥</div>
+                <h3>山本 (55)</h3>
+                <p>「定年なんて<br>自分で決める」</p>
+            </div>
+        </div>
+
+        <div class="section-header" style="margin-top: 80px;">
+            <h2 class="section-title">✨ 選べる働き方</h2>
+            <p style="font-size: 1.2rem; margin-bottom: 20px;">雇用形態は、あなたの人生に合わせて相談しましょう。</p>
+            <div style="display: flex; justify-content: center; gap: 15px; flex-wrap: wrap;">
+                <span style="background: rgba(255,207,51,0.2); border: 1px solid var(--brand-yellow); padding: 8px 20px; border-radius: 20px; font-weight: 700;">正社員</span>
+                <span style="background: rgba(255,207,51,0.2); border: 1px solid var(--brand-yellow); padding: 8px 20px; border-radius: 20px; font-weight: 700;">外注（パートナー）</span>
+                <span style="background: rgba(255,207,51,0.2); border: 1px solid var(--brand-yellow); padding: 8px 20px; border-radius: 20px; font-weight: 700;">時短勤務</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Tab 2: Hub -->
+    <div id="hub" class="content-section">
+        <div class="section-header">
+            <h2 class="section-title">街のハブ</h2>
+            <p class="section-subtitle">全国180の強力なネットワークで繋がる、安心のHUB。</p>
+        </div>
+        <div class="grid-container" style="grid-template-columns: 1fr;">
+            <div class="glass-card" style="text-align: center;">
+                <img src="images/people_key_connection.png" alt="Network" class="hub-illustration">
+                <h3 style="color: var(--brand-yellow);">Trust & Partnership</h3>
+                <div class="partner-list">
+                    <div class="partner-item">日本ロックセキュリティ協同組合 加盟店</div>
+                    <div class="partner-item">美和ロック株式会社 代行店(SD)</div>
+                    <div class="partner-item">ゴール メンテナンスステーション</div>
+                    <div class="partner-item">Clavis サービス代行店</div>
+                    <div class="partner-item">長沢製作所 特約店</div>
+                    <div class="partner-item">綜合警備保障株式会社 取引先</div>
+                    <div class="partner-item">大和リビング株式会社 取引先</div>
+                    <div class="partner-item">カインズ 取引先</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Tab 3: Core -->
+    <div id="core" class="content-section">
+        <div class="section-header">
+            <h2 class="section-title">コア業務</h2>
+            <p class="section-subtitle">カギの先にある、お客様の「日常」を守るプロの仕事。</p>
+        </div>
+        <div class="grid-container">
+            <div class="glass-card">
+                <h3 style="color: var(--brand-yellow);">カギ・防犯セキュリティ</h3>
+                <p>● 緊急解錠・修理（住宅・金庫）</p>
+                <p>● 鍵の交換・取付（IC・電子錠）</p>
+                <p>● 防犯カメラ・インターフォン工事</p>
+                <p>● オートロック・電気錠システム構築</p>
+            </div>
+            <div class="glass-card">
+                <h3 style="color: var(--brand-yellow);">住宅設備メンテナンス</h3>
+                <p>● サッシ・戸車・網戸・ガラス修理</p>
+                <p>● 水漏れ・排水詰まり対応</p>
+                <p>● 共用部点検</p>
+                <p>● 除菌施工・リフレッシュ工事</p>
+            </div>
+            <div class="glass-card">
+                <h3 style="color: var(--brand-yellow);">管理代行アウトソーシング</h3>
+                <p>● 入居前点検</p>
+                <p>● 作業員派遣業務（保守点検等）</p>
+                <p>● 24時間365日の受付・出動体制</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Tab 4: Scrap -->
+    <div id="scrap" class="content-section">
+        <div class="section-header">
+            <h2 class="section-title">スクラップブック</h2>
+            <p class="section-subtitle">日々の活動や、私たちの「素顔」を発信中。</p>
+        </div>
+        <div class="grid-container">
+            <div class="glass-card" style="text-align: center;">
+                <h3 style="margin-bottom: 30px;">Follow Us</h3>
+                <div class="sns-grid">
+                    <a href="https://www.facebook.com/profile.php?id=61588020825959" class="sns-card" target="_blank">
+                        <div style="font-size: 1.5rem; color: #4267B2;">Facebook</div>
+                        <div class="qr-img">
+                            <img src="https://api.qrserver.com/v1/create-qr-code/?size=100x100&data=https://www.facebook.com/profile.php?id=61588020825959" style="width:100%;">
+                        </div>
+                    </a>
+                    <a href="https://www.instagram.com/carlockhomes_official" class="sns-card" target="_blank">
+                        <div style="font-size: 1.5rem; color: #E1306C;">Instagram</div>
+                        <div class="qr-img">
+                            <img src="https://api.qrserver.com/v1/create-qr-code/?size=100x100&data=https://www.instagram.com/carlockhomes_official" style="width:100%;">
+                        </div>
+                    </a>
+                    <a href="https://www.amazon.co.jp/dp/B0FHK3FPJ2" class="sns-card" target="_blank">
+                        <div style="font-size: 1.5rem; color: #FF9900;">Amazon</div>
+                        <div class="qr-img">
+                            <img src="https://api.qrserver.com/v1/create-qr-code/?size=100x100&data=https://www.amazon.co.jp/dp/B0FHK3FPJ2" style="width:100%;">
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Tab 5: Pamphlet -->
+    <div id="pamph" class="content-section">
+        <div class="section-header">
+            <h2 class="section-title">会社案内パンフ</h2>
+            <p class="section-subtitle">CarlockHomes株式会社 企業概要</p>
+        </div>
+        <div class="grid-container" style="grid-template-columns: 1fr;">
+            <div class="glass-card">
+                <table class="profile-table">
+                    <tr><td class="profile-label">商号</td><td>カーロックホームズ株式会社 (CLH)</td></tr>
+                    <tr><td class="profile-label">役員</td><td>代表取締役 上野原 政司</td></tr>
+                    <tr><td class="profile-label">所在地</td><td>〒167-0042 東京都杉並区西荻北2-37-12</td></tr>
+                    <tr><td class="profile-label">創業</td><td>平成14年8月</td></tr>
+                    <tr><td class="profile-label">連絡先</td><td>TEL: 03-5311-0556 / Mail: office@carlock.co.jp</td></tr>
+                    <tr><td class="profile-label">グループ</td><td>株式会社TENKEN GO / 株式会社One Stop Labo</td></tr>
+                </table>
+                <div class="map-container">
+                    <iframe src="https://maps.google.com/maps?q=%E3%82%AB%E3%83%BC%E3%83%AD%E3%83%83%E3%82%AF%E3%83%9B%E3%83%BC%E3%83%A0%E3%82%BA%E6%A0%AA%E5%BC%8F%E4%BC%9A%E7%A4%BE+%E8%A5%BF%E8%81%BB%E7%AA%AA&hl=ja&z=15&output=embed" width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        &copy; 2026 CarlockHomes CO., LTD. produced by CLH Creative & AI
+    </footer>
+
+    <script>
+        const tabs = document.querySelectorAll('.tab-item');
+        const sections = document.querySelectorAll('.content-section');
+
+        tabs.forEach(tab => {
+            tab.addEventListener('click', () => {
+                const target = tab.getAttribute('data-tab');
+                tabs.forEach(t => t.classList.remove('active'));
+                tab.classList.add('active');
+                sections.forEach(s => {
+                    s.classList.remove('active');
+                    if(s.id === target) s.classList.add('active');
+                });
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            });
+        });
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('reveal-active');
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, { threshold: 0.1 });
+
+        document.querySelectorAll('.glass-card').forEach(card => {
+            card.style.opacity = '0';
+            card.style.transform = 'translateY(30px)';
+            card.style.transition = '0.8s cubic-bezier(0.22, 1, 0.36, 1)';
+            observer.observe(card);
+        });
+
+        // --- Simple Auth Logic ---
+        const AUTH_KEY = 'clh_recruit_pre_auth';
+        const CORRECT_PASS = 'clh2026';
+
+        function checkAuth() {
+            const input = document.getElementById('password-input').value;
+            if (input === CORRECT_PASS) {
+                sessionStorage.setItem(AUTH_KEY, 'true');
+                unlockContent();
+            } else {
+                const error = document.getElementById('auth-error');
+                error.style.display = 'block';
+                document.getElementById('password-input').value = '';
+            }
+        }
+
+        function unlockContent() {
+            document.getElementById('auth-overlay').style.display = 'none';
+            document.getElementById('main-content').style.display = 'block';
+            document.body.style.overflow = 'auto';
+            window.dispatchEvent(new Event('scroll'));
+        }
+
+        window.addEventListener('load', () => {
+            if (sessionStorage.getItem(AUTH_KEY) === 'true') {
+                unlockContent();
+            } else {
+                document.body.style.overflow = 'hidden';
+            }
+        });
+
+        document.getElementById('password-input').addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') checkAuth();
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>電気錠・スマートロック — CarlockHomes</title>
+<meta name="description" content="カーロックホームズの電気錠・スマートロックソリューション。ハンズフリー解錠、顔認証、共用エントランス管理まで、最適なシステムをご提案します。">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Zen+Old+Mincho:wght@400;500;700&family=Noto+Sans+JP:wght@400;500;600&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<style>
+:root {
+  --bg: #FAF9F5; --bg-warm: #EAE5DC; --bg-deep: #DED8CE; --bg-accent: #2D2926;
+  --text: #2D2926; --text-sub: #524D47; --text-quiet: #857E76; --text-on-dark: #F0EDE6;
+  --accent: #8C7B6B; --accent-light: rgba(140,123,107,0.12);
+  --border: rgba(45,41,38,0.13); --border-hover: rgba(45,41,38,0.28);
+  --ff-serif-en: 'Cormorant Garamond', serif;
+  --ff-serif-jp: 'Zen Old Mincho', serif;
+  --ff-sans: 'Noto Sans JP', sans-serif;
+  --fs-hero: clamp(1.8rem, 8vw, 4rem); /* Slightly larger on very mobile */
+  --fs-h1: clamp(1.5rem, 6vw, 3rem);
+  --fs-h2: clamp(1.3rem, 5vw, 2rem);
+  --fs-h3: clamp(1.05rem, 4vw, 1.25rem);
+  --fs-body: clamp(0.9rem, 2.5vw, 0.95rem); /* Increased slightly for mobile readability */
+  --fs-small: clamp(0.75rem, 2vw, 0.82rem);
+  --fs-label: clamp(0.65rem, 1.8vw, 0.72rem);
+  --ease: cubic-bezier(0.23, 1, 0.32, 1);
+  --radius: 2px;
+}
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+html{-webkit-font-smoothing:antialiased}
+body{font-family:var(--ff-sans);font-weight:400;font-size:var(--fs-body);line-height:2.0;color:var(--text);background:var(--bg);overflow-x:hidden}
+a{color:inherit;text-decoration:none}
+button{border:none;background:none;cursor:pointer;font:inherit;color:inherit}
+::selection{background:var(--accent);color:var(--bg)}
+body::after{content:'';position:fixed;inset:0;z-index:9998;pointer-events:none;opacity:0.028;mix-blend-mode:multiply;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");background-size:512px}
+[data-anim]{opacity:0}
+
+
+/* Nav - Hidden in iframe context if needed */
+.nav{display:none;}
+
+
+/* Page Header */
+.pg-header{min-height:35vh;display:flex;align-items:flex-end;padding:clamp(40px,10vh,80px) clamp(24px,7vw,100px) 48px;border-bottom:1px solid var(--border)}
+.pg-header-inner{max-width:780px}
+.pg-eyebrow{font-family:var(--ff-serif-en);font-weight:400;font-size:var(--fs-label);letter-spacing:.4em;color:var(--text-quiet);margin-bottom:20px}
+.pg-title{font-family:var(--ff-serif-jp);font-weight:500;font-size:var(--fs-hero);line-height:1.45;letter-spacing:.05em}
+.pg-lead{margin-top:24px;color:var(--text-sub);line-height:2.1;max-width:540px}
+
+
+/* Section */
+.sec{padding:clamp(60px,12vw,140px) clamp(24px,7vw,100px)}
+.sec-inner{max-width:960px;margin:0 auto}
+.sec-label{font-family:var(--ff-serif-en);font-weight:400;font-size:var(--fs-label);letter-spacing:.35em;color:var(--text-quiet);margin-bottom:20px}
+.sec-heading{font-family:var(--ff-serif-jp);font-weight:500;font-size:var(--fs-h1);letter-spacing:.05em;margin-bottom:clamp(32px,6vw,72px)}
+
+
+/* Intro */
+.intro-text{color:var(--text-sub);line-height:2.4;max-width:580px}
+
+
+/* Solutions */
+.solutions{background:var(--bg-warm)}
+.sol{display:grid;grid-template-columns:clamp(32px,4vw,56px) 1fr;gap:0 clamp(20px,3vw,40px);max-width:860px;padding:clamp(40px,5vw,72px) 0;border-top:1px solid var(--border)}
+@media(max-width:500px){
+    .sol{grid-template-columns:1fr; gap: 12px;}
+    .sol-idx{font-size: 0.7rem; border-bottom: 1px solid var(--border); padding-bottom: 8px; width: fit-content;}
+}
+.sol:last-of-type{border-bottom:1px solid var(--border)}
+.sol:nth-of-type(even){margin-left:auto}
+.sol-idx{font-family:var(--ff-serif-en);font-weight:400;font-size:var(--fs-small);color:var(--text-quiet);letter-spacing:.1em;padding-top:6px}
+.sol-title{font-family:var(--ff-serif-jp);font-weight:500;font-size:var(--fs-h3);letter-spacing:.04em;margin-bottom:14px}
+.sol-text{color:var(--text-sub);line-height:2.2;max-width:520px;margin-bottom:20px}
+.sol-products{display:flex;flex-wrap:wrap;gap:8px;margin-top:16px}
+.sol-product{font-size:var(--fs-small);color:var(--text-quiet);padding:6px 14px;border:1px solid var(--border);border-radius:var(--radius);transition:border-color .3s,color .3s}
+.sol-product:hover{border-color:var(--accent);color:var(--text-sub)}
+.sol-note{margin-top:14px;font-size:var(--fs-small);color:var(--text-quiet);line-height:1.9;font-style:italic}
+
+
+/* Security (dark) */
+.security{background:var(--bg-accent);color:var(--text-on-dark);padding:clamp(80px,12vw,160px) clamp(24px,7vw,100px)}
+.security .sec-label{color:rgba(240,237,230,.45)}
+.security .sec-heading{color:var(--text-on-dark)}
+.security-text{color:rgba(240,237,230,.7);line-height:2.3;max-width:580px}
+.security-text p{margin-bottom:20px}
+.security-text p:last-child{margin-bottom:0}
+
+
+/* Credentials */
+.strength{background:var(--bg-deep)}
+.str-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--border);max-width:860px}
+.str-item{background:var(--bg-deep);padding:clamp(24px,3vw,40px)}
+.str-who{font-family:var(--ff-serif-en);font-weight:400;font-size:var(--fs-label);letter-spacing:.2em;color:var(--accent);margin-bottom:8px}
+.str-role{font-size:var(--fs-small);color:var(--text-sub);line-height:1.8}
+@media(max-width:640px){
+    .str-grid{grid-template-columns:1fr; gap:0;}
+    .str-item{border-bottom: 1px solid var(--border);}
+    .str-item:last-child{border-bottom:none;}
+}
+
+
+/* CTA */
+.cta{padding:clamp(100px,14vw,200px) clamp(24px,7vw,100px);text-align:center}
+.cta-heading{font-family:var(--ff-serif-jp);font-weight:500;font-size:var(--fs-h2);letter-spacing:.04em;margin-bottom:12px;line-height:1.7}
+.cta-sub{color:var(--text-sub);font-size:var(--fs-small);margin-bottom:clamp(36px,5vw,56px);line-height:2.2}
+.cta-btn{display:inline-flex;align-items:center;gap:10px;font-family:var(--ff-serif-en);font-weight:400;font-size:var(--fs-small);letter-spacing:.25em;color:var(--bg);background:var(--text);padding:15px 44px;border-radius:var(--radius);transition:background .3s,gap .3s}
+.cta-btn:hover{background:var(--accent);gap:14px}
+
+
+/* Footer */
+.footer{padding:clamp(28px,4vw,44px) clamp(24px,7vw,100px);border-top:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:16px}
+.footer-brand{font-family:var(--ff-serif-en);font-weight:400;font-size:var(--fs-label);letter-spacing:.3em;color:var(--text-quiet)}
+.footer-nav{display:flex;gap:24px}
+.footer-link{font-family:var(--ff-serif-en);font-weight:400;font-size:var(--fs-label);letter-spacing:.15em;color:var(--text-quiet);transition:color .3s}
+.footer-link:hover{color:var(--accent)}
+.footer-copy{font-size:var(--fs-label);color:var(--text-quiet);letter-spacing:.08em}
+@media(max-width:600px){
+    .footer{flex-direction:column;align-items:flex-start; gap: 24px;}
+    .footer-nav{width: 100%; justify-content: space-between;}
+}
+</style>
+</head>
+<body>
+
+
+<!-- Header -->
+<header class="pg-header">
+  <div class="pg-header-inner">
+    <p class="pg-eyebrow" data-anim>Smart Lock Solutions</p>
+    <h1 class="pg-title" data-anim>電気錠・スマートロック</h1>
+    <p class="pg-lead" data-anim>暮らしの入口を、もっと自由に、もっと安心に。国内主要メーカーの正規代行店として、建物に最適なシステムをご提案します。</p>
+  </div>
+</header>
+
+
+<!-- Intro -->
+<section class="sec">
+  <div class="sec-inner">
+    <p class="sec-label" data-anim>Our Approach</p>
+    <h2 class="sec-heading" data-anim>最適な一台を、選ぶのではなく設計する</h2>
+    <div class="intro-text" data-anim>
+      <p>CLHは美和ロック・ゴール・シブタニ（Clavis）の正規サービス代行店です。特定メーカーに縛られず、建物の構造・用途・入居者の暮らし方に合わせて、最適な電気錠システムを設計・施工・保守まで一貫してご提供します。</p>
+    </div>
+  </div>
+</section>
+
+
+<!-- Solutions -->
+<section class="sec solutions" id="solutions">
+  <div class="sec-inner">
+    <p class="sec-label" data-anim>Solutions</p>
+    <h2 class="sec-heading" data-anim>できること</h2>
+  </div>
+
+
+  <div class="sol" data-anim>
+    <span class="sol-idx">01</span>
+    <div>
+      <h3 class="sol-title">ハンズフリー解錠</h3>
+      <p class="sol-text">カギをポケットやカバンに入れたまま、ボタンを押すだけで解錠。買い物袋で手がふさがっているとき、お子さまを抱っこしているとき——日常のストレスを静かに解消します。</p>
+      <div class="sol-products">
+        <span class="sol-product">MIWA DTRS II smart</span>
+        <span class="sol-product">GOAL AtoM-EG</span>
+        <span class="sol-product">Clavis Tebra connect</span>
+      </div>
+    </div>
+  </div>
+
+
+  <div class="sol" data-anim>
+    <span class="sol-idx">02</span>
+    <div>
+      <h3 class="sol-title">共用エントランス管理</h3>
+      <p class="sol-text">マンションの共用部をクラウドで一括管理。ハンズフリー・非接触キー・カードなど複数の認証方式に対応し、遠隔からのデータ管理や障害通知まで運用をサポートします。</p>
+      <div class="sol-products">
+        <span class="sol-product">MIWA VERSA II</span>
+        <span class="sol-product">GOAL BRSシステム</span>
+      </div>
+      <p class="sol-note">VERSA II はLAN接続で最大512ゲートまで管理可能。エレベーターや宅配ロッカーとの連動にも対応します。</p>
+    </div>
+  </div>
+
+
+  <div class="sol" data-anim>
+    <span class="sol-idx">03</span>
+    <div>
+      <h3 class="sol-title">顔認証・スマートフォン連携</h3>
+      <p class="sol-text">顔認証カメラやスマートフォン・Apple Watchとの連携で、物理的なカギを持たない暮らしを実現。一時的な合鍵の発行や施解錠履歴の確認もアプリから操作できます。</p>
+      <div class="sol-products">
+        <span class="sol-product">Clavis Tebra FACE</span>
+        <span class="sol-product">MIWA Support アプリ</span>
+        <span class="sol-product">Clavis 合鍵シェア</span>
+      </div>
+      <p class="sol-note">Tebra FACEは共連れ検知アラート機能を備え、不正な侵入を未然に抑止します。</p>
+    </div>
+  </div>
+
+
+  <div class="sol" data-anim>
+    <span class="sol-idx">04</span>
+    <div>
+      <h3 class="sol-title">後付けスマートロック</h3>
+      <p class="sol-text">既存のドアに配線工事なしで取り付け可能。賃貸物件のオーナー様や、オフィスのセキュリティ強化に。カードキー・暗証番号・スマホなど、認証方式もお選びいただけます。</p>
+      <div class="sol-products">
+        <span class="sol-product">MIWA PiACK II / III smart</span>
+        <span class="sol-product">GOAL LaresIA</span>
+      </div>
+      <p class="sol-note">PiACKは賃貸管理用の空室モード・工事モードを搭載。入退去時の運用も効率化します。</p>
+    </div>
+  </div>
+
+
+  <div class="sol" data-anim>
+    <span class="sol-idx">05</span>
+    <div>
+      <h3 class="sol-title">宅配・置き配対応</h3>
+      <p class="sol-text">オートロックマンションでも、配達員が住戸前まで届けられる仕組みを構築。配送伝票番号をワンタイムキーとして利用するシステムで、再配達問題を解消し非対面での受取りを実現します。</p>
+      <div class="sol-products">
+        <span class="sol-product">MIWA ココ配</span>
+        <span class="sol-product">Clavis 宅配テンキーロック</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- Security -->
+<section class="security">
+  <div class="sec-inner">
+    <p class="sec-label" data-anim>Security</p>
+    <h2 class="sec-heading" data-anim>サイバーセキュリティへの配慮</h2>
+    <div class="security-text" data-anim>
+      <p>スマートロックの導入は、同時にサイバーセキュリティへの意識も求められます。CLHでは、パスワードの個別設定やファームウェアの更新管理など、デジタル面の安全対策もあわせてご案内しています。</p>
+      <p>共通規格「Matter」への対応やAIによる自律化など、スマートホーム化は急速に進んでいます。将来を見据えたシステム選定においても、私たちの知見をお役立てください。</p>
+    </div>
+  </div>
+</section>
+
+
+<!-- Credentials -->
+<section class="sec strength">
+  <div class="sec-inner">
+    <p class="sec-label" data-anim>Credentials</p>
+    <h2 class="sec-heading" data-anim>CLHが選ばれる理由</h2>
+    <div class="str-grid" data-anim>
+      <div class="str-item">
+        <div class="str-who">MIWA</div>
+        <div class="str-role">サービス代行店（SD店）として、錠の交換からシステム工事まで対応</div>
+      </div>
+      <div class="str-item">
+        <div class="str-who">GOAL</div>
+        <div class="str-role">メンテナンスステーション（GMS）として、全国サポート網と連携</div>
+      </div>
+      <div class="str-item">
+        <div class="str-who">Clavis</div>
+        <div class="str-role">サービス代行店として、Tebraシリーズの設計・施工・保守を担当</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- CTA -->
+<section class="cta" data-anim>
+  <h2 class="cta-heading">電気錠・スマートロックの<br>ご相談はお気軽に</h2>
+  <p class="cta-sub">新築・既存建物を問わず、最適なシステムをご提案いたします。</p>
+  <a href="https://docs.google.com/forms/d/e/1FAIpQLSfQdOJRgQ3qhmnS-wAnycbUptNVp2VWEPQPdxnI3WDpsn7fgg/viewform"
+     target="_blank" rel="noopener" class="cta-btn">Contact Us →</a>
+</section>
+
+
+<footer class="footer">
+  <span class="footer-brand">CarlockHomes</span>
+  <div class="footer-nav">
+    <a href="../index.html" class="footer-link">Top</a>
+    <a href="company.html" class="footer-link">Company</a>
+    <a href="recruitment.html" class="footer-link">Recruit</a>
+  </div>
+  <span class="footer-copy">© 2026 CLH — CarlockHomes Co., Ltd.</span>
+</footer>
+
+
+<script>
+gsap.registerPlugin(ScrollTrigger);
+document.querySelectorAll('[data-anim]').forEach(el=>{
+  gsap.fromTo(el,{opacity:0,y:30},{opacity:1,y:0,duration:.9,ease:'power3.out',
+    scrollTrigger:{trigger:el,start:'top 88%',once:true}});
+});
+</script>
+</body>
+</html>

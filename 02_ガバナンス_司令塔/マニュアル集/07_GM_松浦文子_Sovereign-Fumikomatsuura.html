@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>統括責任者：松浦 文子 - Sovereign Command Tower</title>
+  <link href="https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@400;700;900&family=Outfit:wght@900&family=Playfair+Display:ital,wght@1,900&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --gold: #D4AF37; --deep-blue: #0A192F; --royal: #1E3A8A; --accent: #FCA311;
+      --glass: rgba(255, 255, 255, 0.03); --border: rgba(212, 175, 55, 0.2);
+    }
+    * { box-sizing: border-box; }
+    body { 
+      margin: 0; padding: 0; background: var(--deep-blue); color: #e2e8f0; 
+      font-family: 'Zen Maru Gothic', sans-serif; height: 100vh; overflow: hidden;
+      background: radial-gradient(circle at top right, #112240, #0a192f);
+    }
+
+    header { 
+      padding: 40px 80px; display: flex; justify-content: space-between; align-items: flex-end;
+      border-bottom: 1px solid var(--border); background: rgba(10, 25, 47, 0.8); backdrop-filter: blur(20px);
+    }
+    .title-area h1 { 
+      margin: 0; font-family: 'Playfair Display', serif; font-style: italic; font-size: 42px; 
+      letter-spacing: 0.1em; color: var(--gold); text-shadow: 0 0 20px rgba(212, 175, 55, 0.4);
+    }
+    .title-area p { margin: 5px 0 0; font-weight: 900; color: #94a3b8; letter-spacing: 0.3em; font-size: 12px; }
+    .executive-name { text-align: right; }
+    .executive-name .role { font-size: 11px; font-weight: 900; color: var(--gold); letter-spacing: 0.2em; border-bottom: 2px solid var(--gold); display: inline-block; margin-bottom: 8px; }
+    .executive-name .name { font-size: 32px; font-weight: 900; color: #fff; }
+
+    main { display: grid; grid-template-columns: 1fr 450px; height: calc(100vh - 160px); padding: 40px 80px; gap: 40px; }
+    
+    #command-hub { position: relative; background: var(--glass); border-radius: 40px; border: 1px solid var(--border); display: flex; flex-direction: column; padding: 40px; overflow: hidden; }
+    .kpi-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin-bottom: 40px; }
+    .kpi-box { background: rgba(255,255,255,0.02); padding: 25px; border-radius: 24px; border: 1px solid rgba(255,255,255,0.05); text-align: center; }
+    .kpi-label { font-size: 10px; font-weight: 900; color: #94a3b8; letter-spacing: 0.2em; margin-bottom: 15px; }
+    .kpi-num { font-family: Outfit; font-size: 36px; font-weight: 900; color: #fff; }
+    .kpi-num span { font-size: 14px; margin-left: 5px; color: var(--gold); }
+
+    .hub-visual { flex: 1; position: relative; border-radius: 30px; background: rgba(0,0,0,0.2); display: flex; align-items: center; justify-content: center; overflow: hidden; }
+    .central-ring { width: 180px; height: 180px; border: 2px solid var(--gold); border-radius: 50%; display: flex; align-items: center; justify-content: center; box-shadow: 0 0 50px rgba(214, 175, 55, 0.2); animation: pulse 4s infinite; }
+    .central-ring span { font-size: 12px; font-weight: 900; color: var(--gold); letter-spacing: 0.5em; text-align: center; }
+
+    #legacy-panel { display: flex; flex-direction: column; gap: 30px; }
+    .legacy-card { background: linear-gradient(135deg, rgba(212,175,55,0.05), rgba(10,25,47,0.5)); border-radius: 40px; padding: 50px; border: 1px solid var(--border); position: relative; flex: 1; }
+    .legacy-quote { font-size: 18px; font-weight: 900; line-height: 2.4; color: #fff; border-left: 4px solid var(--gold); padding-left: 30px; margin-bottom: 40px; }
+    .legacy-body { font-size: 13.5px; line-height: 2.4; color: #cbd5e1; text-align: justify; }
+    .signature-area { margin-top: 50px; text-align: right; }
+    .seal { width: 60px; height: 60px; border: 2px solid var(--gold); display: inline-flex; align-items: center; justify-content: center; color: var(--gold); font-weight: 900; border-radius: 50%; font-size: 14px; margin-left: 20px; opacity: 0.8; transform: rotate(-15deg); }
+
+    .crisis-btn { width: 100%; height: 100px; border-radius: 30px; background: #991b1b; border: none; color: #fff; font-size: 20px; font-weight: 900; cursor: pointer; transition: 0.3s; display: flex; align-items: center; justify-content: center; gap: 15px; box-shadow: 0 10px 40px rgba(153, 27, 27, 0.4); }
+    .crisis-btn:hover { background: #b91c1c; transform: translateY(-5px); }
+
+    @keyframes pulse { 0% { box-shadow: 0 0 20px rgba(214, 175, 55, 0.2); } 50% { box-shadow: 0 0 60px rgba(214, 175, 55, 0.5); } 100% { box-shadow: 0 0 20px rgba(214, 175, 55, 0.2); } }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="title-area">
+      <h1>Sovereign Command</h1>
+      <p>CARLOCKHOMES EXECUTIVE PORTAL</p>
+    </div>
+    <div class="executive-name">
+      <div class="role">EXECUTIVE GENERAL MANAGER</div><br>
+      <div class="name">松浦 文子</div>
+    </div>
+  </header>
+
+  <main>
+    
+    <section id="command-hub">
+      <div class="kpi-row">
+        <div class="kpi-box">
+          <div class="kpi-label">HUMAN CAPITAL VALUE</div>
+          <div class="kpi-num">3,030<span>万円/人</span></div>
+        </div>
+        <div class="kpi-box">
+          <div class="kpi-label">AI COVERAGE</div>
+          <div class="kpi-num">98.0<span>%</span></div>
+        </div>
+        <div class="kpi-box">
+          <div class="kpi-label">GOVERNANCE LEVEL</div>
+          <div class="kpi-num">S<span>-Rank</span></div>
+        </div>
+      </div>
+
+      <div class="hub-visual">
+        <div class="central-ring">
+          <span>Fumiko<br>SOVEREIGN<br>CONTROL</span>
+        </div>
+        <div style="position: absolute; inset: 0; background: radial-gradient(circle at center, transparent 30%, var(--deep-blue) 90%); opacity: 0.5;"></div>
+      </div>
+      
+      <div style="margin-top: 30px; display: flex; gap: 15px;">
+        <div style="flex: 1; padding: 25px; background: rgba(255,255,255,0.02); border-radius: 20px; font-size: 11px; line-height: 2;">
+          <span style="color:var(--gold); font-weight:900;">[統括責任権限]</span><br>
+          全個人情報取扱業務の最終承認、AI配車OSの緊急停止権限、およびフランチャイズ網の法的監査権。
+        </div>
+        <div style="flex: 1; padding: 25px; background: rgba(10,25,47,0.5); border: 1px solid var(--gold); border-radius: 20px; font-size: 11px; line-height: 2;">
+          <span style="color:var(--gold); font-weight:900;">[経営監査]</span><br>
+          上野原CEOの経営判断に対するガバナンス監視、および売上30億円成長ロードマップの適正進捗管理。
+        </div>
+      </div>
+    </section>
+
+    <section id="legacy-panel">
+      <div class="legacy-card">
+        <div class="legacy-quote">
+          「何かあってからでは遅い。だからこそ、私は守り抜く。<br>
+          この手で築いた信義と、<br>
+          息子が誇れる、私の生き様を。」
+        </div>
+        <p class="legacy-body">
+          CarlockHomesの統括責任を負うということは、単に従業員を管理することではない。300のFC加盟店、その先にいる数万人のお客様、そして社会的支援を必要とする仲間たちの「安心」を、私の知性と決意で包み込むことである。<br><br>
+          情報の安全は、事業を支える土台そのものである。もしこの土台を蔑ろにすれば、将来、成長した息子に「私は誠実に戦った」と胸を張ることはできない。私は退かない。私の責任において、この会社を社会的品格ある最高水準の組織へと導くことを、私の身に誓う。
+        </p>
+        <div class="signature-area">
+          <div style="font-size: 11px; color: #94a3b8; margin-bottom: 20px;">令和8年4月14日 統括責任者 認証</div>
+          <span style="font-size: 28px; font-weight: 900; color: #fff;">松浦 文子</span>
+          <div class="seal">松浦</div>
+        </div>
+      </div>
+
+      <button class="crisis-btn">
+        <span>🚨</span> CRISIS COMMAND : FIRST 60 MIN
+      </button>
+    </section>
+
+  </main>
+
+</body>
+</html>

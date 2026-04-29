@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>GitHubセキュリティ設定 実施記録</title>
+  <style>
+    body {font-family: 'Helvetica Neue', Arial, 'Hiragino Kaku Gothic ProN', 'Hiragino Sans', Meiryo, sans-serif; line-height:1.6; background:#f9fafb; color:#334155; margin:0; padding:20px;}
+    .container {max-width:800px; margin:auto; background:#fff; padding:30px; box-shadow:0 4px 12px rgba(0,0,0,0.05); border-radius:8px;}
+    h1 {font-size:28px; font-weight:900; color:#0f172a; margin-bottom:20px;}
+    h2 {font-size:22px; margin-top:30px; margin-bottom:10px; color:#0f172a;}
+    ul {margin-left:20px;}
+    li {margin-bottom:8px;}
+    .confidential {position:absolute; top:20px; right:20px; border:3px solid #ef4444; color:#ef4444; padding:5px 12px; font-weight:900; font-size:18px; background:rgba(255,255,255,0.9); transform:rotate(-5deg); opacity:0.85;}
+    @media (max-width:600px){ .confidential{position:static; transform:none; margin-bottom:15px;}}
+  </style>
+</head>
+<body>
+<div class="container" style="position:relative;">
+  <div class="confidential">社外秘</div>
+  <h1>GitHubセキュリティ設定 実施記録</h1>
+  <h2>1. 実施概要</h2>
+  <ul>
+    <li><strong>実施日</strong>: 2026年4月25日</li>
+    <li><strong>実施者</strong>: カーロックホームズ社 管理者</li>
+    <li><strong>目的</strong>: CarlockHomesプロジェクトのGitHubリポジトリにおける安全性の強化、および情報漏洩リスクの低減。</li>
+  </ul>
+  <h2>2. 実施項目と判断根拠</h2>
+  <h3>① リポジトリ公開設定の確認</h3>
+  <ul>
+    <li><strong>現状</strong>: 公開（Public）</li>
+    <li><strong>判断</strong>: <strong>「公開」を維持</strong></li>
+    <li><strong>理由</strong>:
+      <ul>
+        <li>現在のGitHubプランが「Free（無料版）」であるため。</li>
+        <li>無料版でリポジトリを「非公開（Private）」に設定すると、GitHub PagesによるHP公開が停止（404エラー）するため。</li>
+        <li>ソースコード内に機密情報（APIキー、個人情報等）が含まれていないことを確認済みであり、公開状態でも実質的なセキュリティリスクは極めて低いと判断。</li>
+      </ul>
+    </li>
+  </ul>
+  <h3>② プランの確認</h3>
+  <ul>
+    <li><strong>組織アカウント</strong>: `carlockhomes-inc` → <strong>GitHub Free</strong></li>
+    <li><strong>個人アカウント</strong>: `fmfmfm0207-max` → <strong>GitHub Pro (Payment info configured)</strong></li>
+    <li><strong>備考</strong>: 今後、ソースコードを完全に隠蔽しつつHPを公開し続ける必要がある場合は、組織アカウント（carlockhomes-inc）の有料プラン（GitHub Team）へのアップグレードを検討する。</li>
+  </ul>
+  <h3>③ 2段階認証（2FA）の導入</h3>
+  <ul>
+    <li><strong>設定対象</strong>: 個人アカウント（fmfmfm0207-max）</li>
+    <li><strong>設定手法</strong>: 認証アプリ（Authenticator app）によるワンタイムパスワード</li>
+    <li><strong>実施結果</strong>: <strong>設定完了</strong></li>
+    <li><strong>効果</strong>: アカウントの乗っ取りリスクを最小化。組織（carlockhomes-inc）に対するすべての操作もこの2段階認証によって保護される。</li>
+  </ul>
+  <h2>3. 保守・管理上の注意</h2>
+  <ul>
+    <li><strong>リカバリーコードの管理</strong>: 2段階認証設定時に発行された「Recovery codes」は、デバイス紛失時の唯一の復旧手段として、安全な場所にオフライン保存・バックアップ済み。</li>
+    <li><strong>機種変更時の注意</strong>: スマホの機種変更時には、認証アプリの設定移行を忘れないこと。</li>
+    <li><strong>2FAの継続</strong>: GitHubの全ユーザーに対する2FA義務化（2026年6月8日期限）に先んじて対応を完了。</li>
+  </ul>
+  <h2>4. 承認・確認</h2>
+  <p>本記録は、2026年4月25日時点の最適解として実施されたものである。</p>
+</div>
+</body>
+</html>

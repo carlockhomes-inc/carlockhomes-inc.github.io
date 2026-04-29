@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Canva用・会社案内 | カーロックホームズ</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Crimson+Text:wght@700&family=Outfit:wght@700&family=Zen+Kaku+Gothic+New:wght@400;700&display=swap"
+        rel="stylesheet">
+    <style>
+        /* 
+           【Canva最適化設定：ダークテーマ】
+           このコードは、PDF経由でCanvaに読み込ませたときに
+           最も美しく、最も編集しやすい状態になるよう「あえてシンプルに」設計されています。
+        */
+        :root {
+            --navy: #001a33;
+            --gold: #c5a059;
+            --white: #ffffff;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Zen Kaku Gothic New', sans-serif;
+            background-color: var(--navy);
+            color: var(--white);
+        }
+
+        /* 印刷・PDF保存時のページ設定 */
+        @media print {
+            @page {
+                size: A4 landscape;
+                margin: 0;
+            }
+
+            body {
+                -webkit-print-color-adjust: exact !important;
+                print-color-adjust: exact !important;
+            }
+        }
+
+        /* 各スライドの基本枠 */
+        section {
+            width: 297mm;
+            height: 210mm;
+            padding: 20mm;
+            position: relative;
+            background: linear-gradient(135deg, #001223 0%, #002e5d 100%);
+            page-break-after: always;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            overflow: hidden;
+            border: 1px solid rgba(197, 160, 89, 0.2);
+        }
+
+        /* ロゴ周り */
+        .logo-box {
+            text-align: center;
+            margin-bottom: 20mm;
+        }
+
+        .main-logo-text {
+            font-family: 'Outfit', sans-serif;
+            font-size: 64pt;
+            color: var(--white);
+            letter-spacing: -1px;
+        }
+
+        .sub-logo-text {
+            font-family: 'Crimson Text', serif;
+            font-size: 24pt;
+            color: var(--gold);
+            letter-spacing: 5px;
+            margin-top: -10px;
+        }
+
+        /* 見出し */
+        .section-title {
+            font-size: 32pt;
+            color: var(--gold);
+            border-bottom: 3pt solid var(--gold);
+            width: fit-content;
+            margin: 0 auto 15mm;
+            padding-bottom: 5mm;
+            text-align: center;
+        }
+
+        .section-subtitle {
+            font-size: 24pt;
+            text-align: center;
+            margin-bottom: 10mm;
+            line-height: 1.5;
+        }
+
+        /* カード（サービス紹介） */
+        .card-container {
+            display: flex;
+            gap: 5mm;
+            justify-content: center;
+        }
+
+        .card {
+            flex: 1;
+            background: rgba(255, 255, 255, 0.05);
+            border: 2pt solid var(--gold);
+            border-radius: 8mm;
+            padding: 6mm 7mm;
+            text-align: left;
+        }
+
+        .card h3 {
+            font-size: 17pt;
+            color: var(--gold);
+            margin-bottom: 4mm;
+            border-bottom: 1pt solid rgba(197, 160, 89, 0.5);
+            padding-bottom: 2mm;
+        }
+
+        .card p {
+            font-size: 10.5pt;
+            line-height: 1.8;
+            word-break: keep-all;
+            overflow-wrap: anywhere;
+            padding-left: 1.2em;
+            text-indent: -1.2em;
+        }
+
+        /* 取引先グリッド */
+        .grid-container {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 3mm;
+            width: 100%;
+        }
+
+        .grid-item {
+            background: rgba(255, 255, 255, 0.1);
+            border: 0.5pt solid var(--gold);
+            padding: 3mm;
+            font-size: 8pt;
+            text-align: center;
+            border-radius: 2mm;
+        }
+
+        /* 会社情報 */
+        .profile-table {
+            width: 80%;
+            margin: 0 auto;
+            border-collapse: collapse;
+        }
+
+        .profile-table td {
+            padding: 4mm;
+            border-bottom: 1pt solid rgba(255, 255, 255, 0.1);
+            font-size: 12pt;
+        }
+
+        .label {
+            color: var(--gold);
+            font-weight: bold;
+            width: 40mm;
+        }
+
+        /* フッター */
+        .footer {
+            position: absolute;
+            bottom: 10mm;
+            width: calc(100% - 40mm);
+            display: flex;
+            justify-content: space-between;
+            font-size: 10pt;
+            color: rgba(255, 255, 255, 0.5);
+            border-top: 1pt solid rgba(197, 160, 89, 0.2);
+            padding-top: 3mm;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- ナビゲーションメニュー追加 -->
+    <header
+        style="position: fixed; width: 100%; padding: 1.2rem 5%; display: flex; justify-content: space-between; align-items: center; z-index: 1000; background: rgba(0, 26, 51, 0.9); border-bottom: 1px solid rgba(197, 160, 89, 0.2);">
+        <div
+            style="font-family: 'Outfit', sans-serif; font-size: 1.6rem; font-weight: 700; color: var(--white); letter-spacing: -1px;">
+            CarlockHomes</div>
+        <nav style="display: flex; gap: 2.5rem; align-items: center;">
+            <a href="../index.html"
+                style="text-decoration: none; color: var(--white); font-size: 0.85rem; font-weight: 700; letter-spacing: 1px; opacity: 0.8;">TOP</a>
+            <a href="company.html"
+                style="text-decoration: none; color: var(--gold); font-size: 0.85rem; font-weight: 700; letter-spacing: 1px;">COMPANY</a>
+            <a href="recruitment.html"
+                style="text-decoration: none; color: var(--white); font-size: 0.85rem; font-weight: 700; letter-spacing: 1px; opacity: 0.8;">RECRUIT</a>
+            <a href="#"
+                style="background: transparent; color: var(--gold); border: 1.5pt solid var(--gold); padding: 0.5rem 1.2rem; border-radius: 4px; font-weight: 700; text-decoration: none; font-size: 0.8rem;">お問い合わせ</a>
+        </nav>
+    </header>
+
+    <div style="height: 60px;"></div> <!-- ヘッダー分の余白 -->
+    <div class="logo-box">
+        <div class="main-logo-text">CarlockHomes</div>
+        <div class="sub-logo-text">Co., Ltd.</div>
+    </div>
+    <div style="text-align: center; font-size: 16pt; letter-spacing: 0.4em; color: var(--white);">
+        SECURITY & LIFE SUPPORT SOLUTIONS
+    </div>
+    <div class="footer">
+        <span>© CarlockHomes Co., Ltd.</span>
+        <span>01 / 05</span>
+    </div>
+    </section>
+
+    <!-- Slide 2: Business Content -->
+    <section>
+        <h2 class="section-title">Business Content</h2>
+        <h3 class="section-subtitle">24時間３６５日カギのトラブル対応<br>24時間緊急対応サービス</h3>
+        <div class="card-container">
+            <div class="card">
+                <h3>カギ・防犯<br>セキュリティ</h3>
+                <p>● 緊急解錠・修理（住宅・金庫）</p>
+                <p>● 鍵の交換・取付（IC・電子錠）</p>
+                <p>● 防犯カメラ・インターフォン工事</p>
+                <p>● オートロック・電気錠システム構築</p>
+            </div>
+            <div class="card">
+                <h3>住宅設備<br>メンテナンス</h3>
+                <p>● サッシ・戸車・網戸・ガラス修理</p>
+                <p>● 水漏れ・排水詰まり対応</p>
+                <p>● 共用部点検</p>
+                <p>● 除菌施工・リフレッシュ工事</p>
+            </div>
+            <div class="card">
+                <h3>管理代行<br>アウトソーシング</h3>
+                <p>● 入居前点検</p>
+                <p>● 作業員派遣業務（保守点検等）</p>
+                <p>● 全国180の強力なネットワーク</p>
+            </div>
+        </div>
+        <div class="footer">
+            <span>© CarlockHomes Co., Ltd.</span>
+            <span>02 / 05</span>
+        </div>
+    </section>
+
+    <!-- Slide 3: Trust -->
+    <section>
+        <h2 class="section-title" style="margin-bottom: 5mm;">Trust & Partnership</h2>
+
+        <!-- 加盟・特約店セクション追加 -->
+        <div style="text-align: center; color: var(--gold); margin-bottom: 2mm; font-size: 13pt; font-weight: bold;">【
+            加盟店・代理店・特約店 】</div>
+        <div class="grid-container" style="margin-bottom: 5mm; grid-template-columns: repeat(4, 1fr);">
+            <div class="grid-item"
+                style="border: 1pt solid var(--gold); height: 22mm; display: flex; align-items: center; justify-content: center;">
+                内閣総理大臣認可<br>日本ロックセキュリティ<br>協同組合 加盟店
+            </div>
+            <div class="grid-item"
+                style="border: 1pt solid var(--gold); height: 22mm; display: flex; align-items: center; justify-content: center;">
+                美和ロック株式会社<br>サービス代行店<br>（SD店）
+            </div>
+            <div class="grid-item"
+                style="border: 1pt solid var(--gold); height: 22mm; display: flex; align-items: center; justify-content: center;">
+                株式会社ゴール<br>メンテナンスステーション<br>（GMS）
+            </div>
+            <div class="grid-item"
+                style="border: 1pt solid var(--gold); height: 22mm; display: flex; align-items: center; justify-content: center;">
+                株式会社シブタニ<br>Clavisサービス代行店
+            </div>
+            <div class="grid-item"
+                style="border: 1pt solid var(--gold); height: 22mm; display: flex; align-items: center; justify-content: center;">
+                株式会社長沢製作所<br>特約店
+            </div>
+            <div class="grid-item"
+                style="border: 1pt solid var(--gold); height: 22mm; display: flex; align-items: center; justify-content: center;">
+                東邦金属工業株式会社<br>特約店
+            </div>
+            <div class="grid-item"
+                style="border: 1pt solid var(--gold); height: 22mm; display: flex; align-items: center; justify-content: center;">
+                全国180の<br>協力パートナー
+            </div>
+        </div>
+
+        <div style="text-align: center; color: var(--gold); margin-bottom: 2mm; font-size: 13pt; font-weight: bold;">【
+            主要取引先企業 】</div>
+        <div class="grid-container">
+            <div class="grid-item">綜合警備保障株式会社</div>
+            <div class="grid-item">株式会社カインズ</div>
+            <div class="grid-item">株式会社シブタニ</div>
+            <div class="grid-item">大和リビング株式会社</div>
+            <div class="grid-item">プレステージ・コアソリューション</div>
+            <div class="grid-item">日本ロックサービス</div>
+            <div class="grid-item">株式会社ミスタークリーン</div>
+            <div class="grid-item">東建コーポレーション</div>
+            <div class="grid-item">美和ロック株式会社</div>
+            <div class="grid-item">株式会社ゴール</div>
+            <div class="grid-item">伊藤忠アーバンコミュニティー</div>
+            <div class="grid-item">株式会社ハウスメイト</div>
+            <div class="grid-item">株式会社リロクリエイト</div>
+            <div class="grid-item">株式会社TOKAI</div>
+            <div class="grid-item">穴吹ハウジングサービス</div>
+            <div class="grid-item">三井不動産レジデンシャルリース</div>
+            <div class="grid-item">スターツアメニティー株式会社</div>
+        </div>
+        <div
+            style="text-align: center; font-size: 8pt; color: rgba(255,255,255,0.6); margin-top: 3mm; letter-spacing: 0.05em;">
+            ※掲載順は五十音・取引規模等とは関係なく、順不同で表記しています。</div>
+        <div class="footer">
+            <span>© CarlockHomes Co., Ltd.</span>
+            <span>03 / 05</span>
+        </div>
+    </section>
+
+
+
+
+    <!-- Slide 5: Access -->
+    <section>
+        <h2 class="section-title">Access</h2>
+        <div style="display: flex; gap: 10mm; align-items: center;">
+            <div style="flex: 1; font-size: 14pt; line-height: 2;">
+                <p><strong style="color:var(--gold)">住所：</strong><br>東京都杉並区西荻北2-37-12<br>ブランシュ西荻 中2階</p>
+                <p><strong style="color:var(--gold)">最寄駅：</strong><br>JR西荻窪駅より徒歩5分</p>
+            </div>
+            <div
+                style="flex: 1.5; height: 100mm; border: 2pt solid var(--gold); border-radius: 5mm; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.4);">
+                <iframe
+                    src="https://maps.google.com/maps?q=%E3%82%AB%E3%83%BC%E3%83%AD%E3%83%83%E3%82%AF%E3%83%9B%E3%83%BC%E3%83%A0%E3%82%BA%E6%A0%AA%E5%BC%8F%E4%BC%9A%E7%A4%BE+%E8%A5%BF%E8%81%BB%E7%AA%AA&hl=ja&z=15&output=embed"
+                    width="100%" height="100%" style="border:0; pointer-events: none;" allowfullscreen=""
+                    loading="lazy">
+                </iframe>
+            </div>
+        </div>
+        <div style="text-align: right; margin-top: 15px; margin-right: 1.5%;">
+            <a href="https://www.google.com/maps?q=%E3%82%AB%E3%83%BC%E3%83%AD%E3%83%83%E3%82%AF%E3%83%9B%E3%83%BC%E3%83%A0%E3%82%BA%E6%A0%AA%E5%BC%8F%E4%BC%9A%E7%A4%BE+%E6%9D%B1%E4%BA%AC%E9%83%BD%E6%9D%89%E4%B8%A6%E5%8C%BA%E8%A5%BF%E8%81%BB%E5%8C%972-37-12"
+                target="_blank"
+                style="color: var(--gold); text-decoration: none; font-size: 11pt; border: 1pt solid var(--gold); padding: 8px 20px; border-radius: 4px; font-weight: 700; transition: 0.3s; display: inline-block;">
+                Googleマップで大きな地図を見る ↗
+            </a>
+        </div>
+        <div class="footer">
+            <span>© CarlockHomes Co., Ltd.</span>
+            <span>05 / 05</span>
+        </div>
+    </section>
+
+</body>
+
+</html>

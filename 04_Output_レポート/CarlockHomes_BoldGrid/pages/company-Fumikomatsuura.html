@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Company | CarlockHomes Precision</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;900&family=Inter:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #ffffff;
+            --text: #000000;
+            --accent: #ff5c00;
+            --grid: #e5e5e5;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg);
+            color: var(--text);
+            line-height: 1.2;
+            overflow-x: hidden;
+        }
+
+        h1, h2, h3 { font-family: 'Montserrat', sans-serif; font-weight: 900; text-transform: uppercase; letter-spacing: -2px; }
+
+        .grid-bg {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            display: grid; grid-template-columns: repeat(12, 1fr);
+            z-index: -1; opacity: 0.5; pointer-events: none;
+        }
+        .grid-bg div { border-right: 1px solid var(--grid); }
+
+        .reveal { opacity: 0; transform: translateY(30px); transition: 1s cubic-bezier(0.2, 0.8, 0.2, 1); }
+        .reveal.active { opacity: 1; transform: translateY(0); }
+
+        header {
+            position: fixed; top: 0; left: 0; width: 100%; padding: 40px 5%;
+            display: flex; justify-content: space-between; align-items: center; z-index: 1000;
+            mix-blend-mode: difference; color: #fff;
+        }
+
+        .logo { font-size: 1.5rem; font-weight: 900; text-transform: uppercase; }
+        .nav-links { display: flex; gap: 4rem; }
+        .nav-links a { text-decoration: none; color: inherit; font-size: 0.7rem; font-weight: 700; text-transform: uppercase; }
+
+        .page-header { padding: 200px 5% 100px; border-bottom: 2px solid var(--text); }
+        .page-title { font-size: clamp(3rem, 12vw, 10rem); }
+        .page-subtitle { font-size: 1.2rem; font-weight: 700; color: var(--accent); margin-top: 20px; }
+
+        .section { padding: 120px 5%; border-bottom: 2px solid var(--text); position: relative; }
+        .container-12 { display: grid; grid-template-columns: repeat(12, 1fr); gap: 20px; }
+
+        .message-title { grid-column: span 12; font-size: 5rem; margin-bottom: 60px; line-height: 0.9; }
+        .message-content { grid-column: span 6; grid-start: 7; font-size: 1.1rem; line-height: 1.8; font-weight: 700; opacity: 0.8; }
+
+        .info-table { grid-column: span 12; border-top: 2px solid var(--text); }
+        .info-row { display: grid; grid-template-columns: repeat(12, 1fr); border-bottom: 1px solid var(--grid); padding: 40px 0; }
+        .info-label { grid-column: span 3; font-weight: 900; font-size: 0.8rem; text-transform: uppercase; color: var(--accent); }
+        .info-value { grid-column: span 9; font-size: 1.4rem; font-weight: 700; }
+
+        footer { padding: 80px 5% 40px; }
+        .footer-logo { font-size: 5vw; font-weight: 900; line-height: 0.8; letter-spacing: -4px; margin-bottom: 40px; }
+        .copyright { font-size: 0.6rem; font-weight: 700; letter-spacing: 4px; opacity: 0.3; text-transform: uppercase; }
+
+        @media (max-width: 991px) {
+            .nav-links { display: none; }
+            .message-content { grid-column: span 12; text-align: left; margin-top: 40px; }
+            .info-label { grid-column: span 12; margin-bottom: 10px; }
+            .info-value { grid-column: span 12; font-size: 1.1rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="grid-bg">
+        <div></div><div></div><div></div><div></div><div></div><div></div>
+        <div></div><div></div><div></div><div></div><div></div><div></div>
+    </div>
+
+    <header>
+        <a href="../index.html" class="logo" style="text-decoration: none; color: inherit;">CarlockHomes</a>
+        <nav class="nav-links">
+            <a href="../index.html">Works</a>
+            <a href="../index.html#services">Services</a>
+            <a href="company.html">Company</a>
+            <a href="recruitment.html">Recruit</a>
+        </nav>
+        <a href="#" style="font-weight: 900; color: inherit; text-decoration: none; border-bottom: 2px solid currentColor;">CONTACT</a>
+    </header>
+
+    <div class="page-header">
+        <h1 class="page-title reveal">Corporate</h1>
+        <p class="page-subtitle reveal">精密、規律、信頼の証明。</p>
+    </div>
+
+    <section class="section">
+        <div class="container-12">
+            <h2 class="message-title reveal">Our<br>Standard.</h2>
+            <div class="message-content reveal">
+                「壊れたから直す」という受動的な姿勢ではなく、住まいのライフサイクル全体を見つめた「予見的なメンテナンス」と「鉄壁のセキュリティ」を。私たちは、杉並区を拠点に全国180拠点のネットワークを統括するプロフェッショナル集団です。熟練の技術者が、1ミリの妥協も許さない精密な作業で、お客様の日常を守り続けます。
+                <br><br>
+                代表取締役　森本 芳一
+            </div>
+        </div>
+    </section>
+
+    <section class="section">
+        <div class="container-12">
+            <div class="info-table reveal">
+                <div class="info-row">
+                    <div class="info-label">Corporate Name</div>
+                    <div class="info-value">株式会社 CarlockHomes (カールロック・ホームズ)</div>
+                </div>
+                <div class="info-row">
+                    <div class="info-label">Location</div>
+                    <div class="info-value">〒167-0042 東京都杉並区西荻北2-37-12 ブランシュ西荻 中2階</div>
+                </div>
+                <div class="info-row">
+                    <div class="info-label">Representative</div>
+                    <div class="info-value">Founder & CEO / 森本 芳一</div>
+                </div>
+                <div class="info-row">
+                    <div class="info-label">Establishment</div>
+                    <div class="info-value">2014年 (平成26年) 11月</div>
+                </div>
+                <div class="info-row">
+                    <div class="info-label">Business Scope</div>
+                    <div class="info-value">
+                        ● 鍵の解錠・修理・施工（住宅・金庫・車両）<br>
+                        ● 住宅総合メンテナンス・保守点検代行<br>
+                        ● 防犯システム構築（監視カメラ・電子認証）<br>
+                        ● 集合住宅等の共用部・入居前点検
+                    </div>
+                </div>
+                <div class="info-row">
+                    <div class="info-label">Member Of</div>
+                    <div class="info-value">日本ロックセキュリティ協同組合</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="footer-logo reveal">PROFILE_SPEC</div>
+        <div class="copyright">&copy; 2026 CARLOCK HOMMES CO., LTD.</div>
+    </footer>
+
+    <script>
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) entry.target.classList.add('active');
+            });
+        }, { threshold: 0.1 });
+        document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+    </script>
+</body>
+</html>

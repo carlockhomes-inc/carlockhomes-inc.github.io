@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>14_【標準】デジタル・コミュニケーション・リテラシー指針</title>
+    <style>
+        /* Base Style */
+        body {
+            font-family: "Helvetica Neue", Arial, "Hiragino Kaku Gothic ProN", "Hiragino Sans", Meiryo, sans-serif;
+            line-height: 1.8;
+            color: #334155;
+            background-color: #f1f5f9;
+            margin: 0;
+            padding: 40px 20px;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: #fff;
+            padding: 60px;
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
+            border-radius: 12px;
+        }
+
+        /* Typography */
+        h1 {
+            color: #1e293b;
+            border-bottom: 4px solid #2563eb;
+            padding-bottom: 20px;
+            margin-bottom: 40px;
+            font-size: 28px;
+            font-weight: 900;
+            text-align: center;
+        }
+
+        h2 {
+            color: #1e293b;
+            background: #f8fafc;
+            padding: 12px 20px;
+            border-left: 6px solid #2563eb;
+            margin-top: 50px;
+            margin-bottom: 25px;
+            font-size: 22px;
+            border-radius: 0 8px 8px 0;
+        }
+
+        h3 {
+            color: #334155;
+            border-bottom: 1px solid #e2e8f0;
+            padding-bottom: 8px;
+            margin-top: 35px;
+            font-size: 19px;
+        }
+
+        p {
+            margin-bottom: 20px;
+        }
+
+        /* Lists */
+        ul {
+            padding-left: 20px;
+            margin-bottom: 25px;
+        }
+
+        li {
+            margin-bottom: 12px;
+        }
+
+        strong {
+            color: #2563eb;
+        }
+
+        /* Step List Design (Custom ol) */
+        ol {
+            counter-reset: li;
+            list-style: none;
+            padding: 0;
+            margin: 30px 0;
+        }
+
+        ol>li {
+            position: relative;
+            padding: 20px 25px 20px 70px;
+            margin-bottom: 15px;
+            background: #f8fafc;
+            border-radius: 8px;
+            border: 1px solid #e2e8f0;
+        }
+
+        ol>li::before {
+            content: counter(li);
+            counter-increment: li;
+            position: absolute;
+            left: 20px;
+            top: 22px;
+            width: 35px;
+            height: 35px;
+            background: #2563eb;
+            color: #fff;
+            text-align: center;
+            line-height: 35px;
+            border-radius: 50%;
+            font-weight: bold;
+            font-size: 18px;
+        }
+
+        /* Alert Boxes */
+        .alert {
+            padding: 20px;
+            margin: 25px 0;
+            border-radius: 8px;
+            border-left: 6px solid;
+            font-size: 0.95em;
+        }
+
+        .alert-info {
+            background-color: #f0f9ff;
+            border-color: #0ea5e9;
+            color: #0c4a6e;
+        }
+
+        .alert-warning {
+            background-color: #fffbeb;
+            border-color: #f59e0b;
+            color: #78350f;
+        }
+
+        .alert-danger {
+            background-color: #fef2f2;
+            border-color: #ef4444;
+            color: #7f1d1d;
+        }
+
+        .footer {
+            margin-top: 60px;
+            padding-top: 30px;
+            border-top: 1px solid #e2e8f0;
+            text-align: center;
+            font-size: 14px;
+            color: #64748b;
+        }
+
+        /* Print Style */
+        @media print {
+            .no-print { display: none; }
+            /* Force specific sections onto new pages when printed */
+            h2:nth-of-type(2), h2:nth-of-type(4) {
+                page-break-before: always;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1>14_【標準】デジタル・コミュニケーション・リテラシー指針</h1>
+
+        <div class="alert alert-info">
+            <strong>🎯 本指針の目的</strong><br>
+            本指針は、CarlockHomes独自のルールではなく、現代のビジネス社会において「標準的」とされているリテラシーおよびコンプライアンス基準に基づいています。全社員が「社会人としての品位」を保ち、法的・経営的リスクを回避することを目的とします。
+        </div>
+
+        <h2>1. 「デジタル・タトゥー」としての自覚</h2>
+        <p>デジタル上の発言は、プライベートな場であっても「記録」として半永久的に残ります。</p>
+        
+        <div class="alert alert-danger">
+            <strong>社会一般的視点</strong><br>
+            一度の感情的な投稿が、将来的にハラスメントの証拠として裁判で採用されたり、SNSに流出して企業のブランドを破壊したりする事例が、現代社会では多発しています。
+        </div>
+
+        <h2>2. SNS・チャットでのハラスメント基準（一般法理）</h2>
+        <p>現代のコンプライアンス基準において、以下の行為はハラスメントと見なされます。</p>
+        <ul>
+            <li><strong>グループチャット（LINE等）での個人への注意・叱責</strong>: 指摘は「1対1」の閉じた場で行うのが鉄則です。</li>
+            <li><strong>私生活（パートナー・家族・年齢等）への不必要な言及</strong>: 本人の承諾なく家族や交際相手の背景、年齢などを話題にすることは、プライバシー侵害であり、セクシャルハラスメントに該当する可能性があります。</li>
+            <li><strong>過剰な記号・強調による威圧</strong>: 大量の「！」、全大文字、攻撃的な言葉遣いは相手に精神的な圧迫を与えます。これはビジネス現場での「感情コントロールの欠如」と見なされます。</li>
+        </ul>
+
+        <h2>3. リーダーシップと心理的安全（生産性の科学）</h2>
+        <p>最新の組織心理学では、以下のことが証明されています。</p>
+        <div class="alert alert-warning">
+            <ul>
+                <li><strong>恐怖による統制の限界</strong>: 晒し行為で人を動かそうとすると、部下の思考能力は低下し、ミスを隠すようになります。</li>
+                <li><strong>現代のリーダー像</strong>: 感情をコントロールし、冷静に事実と改善策を伝える能力（EQ：心の知能指数）が、現代のビジネスパーソンには不可欠です。</li>
+            </ul>
+        </div>
+
+        <h2>4. コミュニケーションの「黄金律」</h2>
+        <ol>
+            <li>
+                <strong>注意は「Closed（非公開）」、賞賛は「Open（公開）」</strong><br>
+                これはデジタルの世界だけでなく、世界共通のマネジメント・スタンダードです。
+            </li>
+            <li>
+                <strong>送信前の「3秒ルール」</strong><br>
+                感情が高ぶっている時は、一度深呼吸を。その文章が「明日の新聞の1面に載っても恥ずかしくないか」を確認してください。
+            </li>
+        </ol>
+
+        <div class="footer">
+            ---<br>
+            CarlockHomes コンプライアンス・スタンダード<br>
+            社会人としての品位と安全を、デジタルの世界にも。
+        </div>
+    </div>
+</body>
+
+</html>

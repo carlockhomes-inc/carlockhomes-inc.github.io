@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LINE Stamp Resizer | CarlockHolmes Edition</title>
+    <style>
+        :root {
+            --primary: #FFD700;
+            --primary-glow: rgba(255, 215, 0, 0.4);
+            --secondary: #0047AB;
+            --bg: #0f1115;
+            --card: rgba(255, 255, 255, 0.05);
+            --text: #e0e0e0;
+            --glass: rgba(255, 255, 255, 0.1);
+        }
+
+        body {
+            font-family: 'Outfit', 'Inter', sans-serif;
+            background: radial-gradient(circle at top right, #1a1f35, #0f1115);
+            color: var(--text);
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+            padding: 40px 20px;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 50px;
+            animation: fadeInDown 0.8s ease-out;
+        }
+
+        @keyframes fadeInDown {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        h1 {
+            font-size: 3rem;
+            margin-bottom: 5px;
+            letter-spacing: -1px;
+            background: linear-gradient(to right, var(--primary), #fff, var(--primary));
+            background-size: 200% auto;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: shine 4s linear infinite;
+        }
+
+        @keyframes shine {
+            to { background-position: 200% center; }
+        }
+
+        .container {
+            width: 100%;
+            max-width: 900px;
+            background: var(--card);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid var(--glass);
+            border-radius: 24px;
+            padding: 50px;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+            text-align: center;
+        }
+
+        #drop-zone {
+            border: 2px dashed rgba(255, 215, 0, 0.3);
+            background: rgba(255, 215, 0, 0.02);
+            border-radius: 20px;
+            padding: 80px 20px;
+            margin-bottom: 40px;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+
+        #drop-zone:hover {
+            border-color: var(--primary);
+            background: rgba(255, 215, 0, 0.05);
+            transform: translateY(-4px);
+            box-shadow: 0 10px 30px -10px var(--primary-glow);
+        }
+
+        #drop-zone.hover {
+            background: rgba(255, 215, 0, 0.1);
+            border-style: solid;
+        }
+
+        .drop-msg {
+            font-size: 1.4rem;
+            font-weight: 600;
+            color: var(--primary);
+            margin-bottom: 10px;
+        }
+
+        .mode-btn {
+            border: 1px solid rgba(255,255,255,0.1);
+            padding: 10px 24px;
+            border-radius: 12px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            margin: 0 5px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .mode-btn:hover {
+            filter: brightness(1.2);
+            transform: translateY(-2px);
+        }
+
+        .controls {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            margin: 30px 0;
+        }
+
+        .main-button {
+            background: var(--primary);
+            color: #000;
+            border: none;
+            padding: 14px 32px;
+            border-radius: 16px;
+            font-weight: 700;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 4px 15px rgba(255, 215, 0, 0.3);
+        }
+
+        .main-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px var(--primary-glow);
+            filter: brightness(1.1);
+        }
+
+        #result-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+            gap: 25px;
+            margin-top: 40px;
+        }
+
+        .preview-card {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid var(--glass);
+            border-radius: 18px;
+            padding: 15px;
+            transition: transform 0.3s;
+            animation: zoomIn 0.4s ease-out;
+        }
+
+        @keyframes zoomIn {
+            from { opacity: 0; scale: 0.9; }
+            to { opacity: 1; scale: 1; }
+        }
+
+        .preview-card:hover {
+            transform: scale(1.03);
+            background: rgba(255, 255, 255, 0.06);
+        }
+
+        .preview-card img {
+            max-width: 100%;
+            height: 160px;
+            object-fit: contain;
+            border-radius: 12px;
+            background-color: #1a1a1a;
+            background-image: linear-gradient(45deg, #222 25%, transparent 25%), linear-gradient(-45deg, #222 25%, transparent 25%), linear-gradient(45deg, transparent 75%, #222 75%), linear-gradient(-45deg, transparent 75%, #222 75%);
+            background-size: 10px 10px;
+            background-position: 0 0, 0 5px, 5px 5px, 5px 0;
+            margin-bottom: 12px;
+        }
+
+        .preview-card p {
+            font-size: 0.8rem;
+            margin: 10px 0;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .badge {
+            font-size: 0.7rem;
+            background: var(--secondary);
+            padding: 2px 8px;
+            border-radius: 10px;
+            margin-bottom: 5px;
+            display: inline-block;
+        }
+
+        footer {
+            margin-top: auto;
+            padding: 20px;
+            color: #666;
+            font-size: 0.9rem;
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>LINE Stamp Resizer</h1>
+    <p>CarlockHolmes & Wizard Key Project</p>
+</header>
+
+<div class="container">
+    <div id="drop-zone" onclick="document.getElementById('file-input').click()">
+        <p class="drop-msg">画像をここにドラッグ＆ドロップ<br>またはクリックして選択</p>
+        <span class="mode-spec" style="font-size: 0.9rem; color: #888;">(最大 370 x 320 px / 余白10px 自動調整)</span>
+    </div>
+    <input type="file" id="file-input" multiple accept="image/*">
+
+    <div style="margin-bottom: 20px;">
+        <p style="font-size: 0.9rem; color: #aaa; margin-bottom: 10px;">書き出しモードを選択：</p>
+        <button id="btn-sticker" class="mode-btn" style="background: var(--secondary); color: white;" onclick="setMode('sticker')">スタンプ用</button>
+        <button id="btn-main" class="mode-btn" style="background: #e91e63; color: white; opacity: 0.6;" onclick="setMode('main')">メイン(240px)</button>
+        <button id="btn-tab" class="mode-btn" style="background: #4caf50; color: white; opacity: 0.6;" onclick="setMode('tab')">タブ(96x74)</button>
+    </div>
+
+    <div class="controls">
+        <button class="main-button" onclick="downloadAll()">すべてダウンロード</button>
+        <button class="main-button" style="background: rgba(255,255,255,0.1); color: #fff; box-shadow: none;" onclick="clearAll()">リセット</button>
+    </div>
+
+    <div id="result-grid"></div>
+</div>
+
+<footer>
+    &copy; 2026 M-Lab Business Tools
+</footer>
+
+<canvas id="convert-canvas" style="display: none;"></canvas>
+
+<script>
+    const dropZone = document.getElementById('drop-zone');
+    const fileInput = document.getElementById('file-input');
+    const resultGrid = document.getElementById('result-grid');
+    const canvas = document.getElementById('convert-canvas');
+    const ctx = canvas.getContext('2d');
+
+    const MAX_W_STICKER = 370;
+    const MAX_H_STICKER = 320;
+    const MAX_MAIN = 240;
+    const MAX_TAB_W = 96;
+    const MAX_TAB_H = 74;
+    
+    let currentMode = 'sticker';
+
+    function setMode(mode) {
+        currentMode = mode;
+        document.querySelectorAll('.mode-btn').forEach(b => b.style.opacity = '0.6');
+        document.getElementById('btn-' + mode).style.opacity = '1';
+        
+        const spec = mode === 'sticker' ? '最大 370 x 320 px' : (mode === 'main' ? '240 x 240 px' : '96 x 74 px');
+        document.querySelector('.mode-spec').innerText = `(${spec} / 余白10px 自動調整)`;
+    }
+
+    // Handle Drag and Drop
+    dropZone.addEventListener('dragover', (e) => {
+        e.preventDefault();
+        dropZone.classList.add('hover');
+    });
+
+    dropZone.addEventListener('dragleave', () => {
+        dropZone.classList.remove('hover');
+    });
+
+    dropZone.addEventListener('drop', (e) => {
+        e.preventDefault();
+        dropZone.classList.remove('hover');
+        processFiles(e.dataTransfer.files);
+    });
+
+    fileInput.addEventListener('change', (e) => {
+        processFiles(e.target.files);
+    });
+
+    function processFiles(files) {
+        Array.from(files).forEach(file => {
+            if (file.type.startsWith('image/')) {
+                const reader = new FileReader();
+                reader.onload = (event) => {
+                    resizeImage(event.target.result, file.name);
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+    }
+
+    function resizeImage(dataUrl, filename) {
+        const img = new Image();
+        img.onload = () => {
+            let limitW, limitH;
+            if (currentMode === 'sticker') { limitW = MAX_W_STICKER; limitH = MAX_H_STICKER; }
+            else if (currentMode === 'main') { limitW = MAX_MAIN; limitH = MAX_MAIN; }
+            else { limitW = MAX_TAB_W; limitH = MAX_TAB_H; }
+
+            const padding = (currentMode === 'tab') ? 4 : 10;
+            const targetW = limitW - (padding * 2);
+            const targetH = limitH - (padding * 2);
+
+            let drawW = img.width;
+            let drawH = img.height;
+
+            const ratio = Math.min(targetW / drawW, targetH / drawH);
+            drawW *= ratio;
+            drawH *= ratio;
+
+            canvas.width = limitW;
+            canvas.height = limitH;
+
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            
+            const x = (limitW - drawW) / 2;
+            const y = (limitH - drawH) / 2;
+            
+            ctx.drawImage(img, x, y, drawW, drawH);
+
+            const resultUrl = canvas.toDataURL('image/png');
+            addPreview(resultUrl, filename, currentMode);
+        };
+        img.src = dataUrl;
+    }
+
+    function addPreview(url, filename, mode) {
+        const div = document.createElement('div');
+        div.className = 'preview-card';
+        
+        const suffix = mode === 'sticker' ? '_line' : (mode === 'main' ? '_main' : '_tab');
+        const nameClean = filename.split('.')[0] + suffix + '.png';
+        
+        div.innerHTML = `
+            <div class="badge">${mode.toUpperCase()}</div>
+            <img src="${url}">
+            <p title="${nameClean}">${nameClean}</p>
+            <button onclick="downloadSingle('${url}', '${nameClean}')">保存</button>
+        `;
+        resultGrid.appendChild(div);
+    }
+
+    function downloadSingle(url, filename) {
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = filename;
+        a.click();
+    }
+
+    function downloadAll() {
+        const buttons = resultGrid.querySelectorAll('button');
+        buttons.forEach((btn, index) => {
+            setTimeout(() => btn.click(), index * 200);
+        });
+    }
+
+    function clearAll() {
+        resultGrid.innerHTML = '';
+        fileInput.value = '';
+    }
+</script>
+
+</body>
+</html>

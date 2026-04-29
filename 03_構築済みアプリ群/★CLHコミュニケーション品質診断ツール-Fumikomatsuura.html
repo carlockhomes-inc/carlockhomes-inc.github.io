@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CLH Professional Literacy Assessment Elite</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@600;900&family=Noto+Sans+JP:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #1a365d; --secondary: #c53030; --bg: #f1f5f9;
+            --accent: #2b6cb0; --text: #2d3748;
+        }
+        body { font-family: 'Noto Sans JP', sans-serif; background: var(--bg); color: var(--text); margin: 0; display: flex; align-items: center; justify-content: center; min-height: 100vh; }
+        .card { background: #fff; width: 95%; max-width: 650px; border-radius: 20px; box-shadow: 0 30px 80px rgba(0,0,0,0.15); padding: 50px; margin: 20px; border-top: 10px solid var(--primary); }
+        .header { text-align: center; margin-bottom: 40px; }
+        .logo { font-family: 'Outfit', sans-serif; font-size: 26px; color: var(--primary); font-weight: 900; letter-spacing: 0.15em; }
+        .title { font-size: 16px; font-weight: 700; margin-top: 12px; color: #64748b; text-transform: uppercase; letter-spacing: 0.1em; }
+        
+        .question-box { display: none; }
+        .question-box.active { display: block; animation: slideIn 0.4s ease-out; }
+        @keyframes slideIn { from { opacity: 0; transform: translateX(20px); } to { opacity: 1; transform: translateX(0); } }
+
+        .q-num { font-family: 'Outfit'; color: var(--accent); font-size: 14px; font-weight: 900; margin-bottom: 10px; }
+        .q-text { font-size: 20px; font-weight: 700; margin-bottom: 30px; line-height: 1.6; color: #1e293b; }
+        .options { display: flex; flex-direction: column; gap: 14px; }
+        .option { padding: 18px 25px; border: 2px solid #e2e8f0; border-radius: 15px; cursor: pointer; transition: 0.3s; font-weight: 500; font-size: 15.5px; text-align: left; background: #fff; line-height: 1.4; }
+        .option:hover { border-color: var(--accent); background: #f8fafc; transform: translateX(5px); }
+        
+        .result-box { display: none; text-align: center; }
+        .rank { font-size: 64px; font-weight: 900; font-family: 'Outfit'; margin: 10px 0; letter-spacing: -2px; }
+        .result-desc { font-size: 15px; line-height: 1.9; text-align: left; background: #f8fafc; padding: 25px; border-radius: 15px; margin: 25px 0; border: 1px solid #e2e8f0; }
+        .btn { background: var(--primary); color: #fff; border: none; padding: 18px 50px; border-radius: 50px; font-weight: 700; cursor: pointer; margin-top: 25px; transition: 0.3s; font-size: 16px; }
+        .btn:hover { background: var(--accent); transform: scale(1.05); box-shadow: 0 10px 25px rgba(0,0,0,0.15); }
+        
+        .progress { height: 8px; background: #f1f5f9; border-radius: 4px; margin-bottom: 40px; overflow: hidden; }
+        .progress-bar { height: 100%; background: linear-gradient(90deg, var(--accent), #6366f1); width: 0%; transition: 0.6s cubic-bezier(0.17, 0.67, 0.83, 0.67); }
+        .badge { display: inline-block; padding: 4px 12px; border-radius: 4px; font-size: 11px; font-weight: 900; background: #ebf8ff; color: #2b6cb0; margin-bottom: 15px; }
+    </style>
+</head>
+<body>
+    <div class="card">
+        <div class="header">
+            <div class="logo">CARLOCKHOMES</div>
+            <div class="title">Professional Compliance Assessment Elite</div>
+        </div>
+
+        <div class="progress"><div id="progress-bar" class="progress-bar"></div></div>
+
+        <!-- Start Screen -->
+        <div id="start-screen" class="question-box active">
+            <div style="text-align:center;">
+                <div class="badge">CONSULTING GRADE</div>
+                <p style="font-size: 15px; line-height: 1.8; color: #475569; margin-bottom: 40px;">
+                    本アセスメントは、CarlockHomesのリーダーおよび全社員を対象とした、デジタル・コンプライアンス能力の厳正な評価です。法的リスクおよび社会的信用に関する全10問を実施します。
+                </p>
+                <button class="btn" onclick="startTest()">アセスメントを開始する</button>
+            </div>
+        </div>
+
+        <!-- Questions -->
+        <div id="q1" class="question-box">
+            <div class="q-num">SCENARIO 01</div>
+            <div class="q-text">重大な業務ミスをした部下・同僚に対し、LINEグループ等の共有の場ですべき振る舞いは？</div>
+            <div class="options">
+                <button class="option" onclick="next(1, 0)">A. 指導の意味を込め、全体の面前で厳しく叱責する</button>
+                <button class="option" onclick="next(1, 10)">B. 詳細は必ず1対1のダイレクトメッセージで伝える</button>
+                <button class="option" onclick="next(1, 5)">C. グループ内では事実のみ指摘し、追及はしない</button>
+            </div>
+        </div>
+
+        <div id="q2" class="question-box">
+            <div class="q-num">SCENARIO 02</div>
+            <div class="q-text">社員の家族、交際相手、または年齢や私生活に関する情報を職場の会話で使用することについての見解は？</div>
+            <div class="options">
+                <button class="option" onclick="next(2, 0)">A. 場の空気を和ませるための良い話題である</button>
+                <button class="option" onclick="next(2, 10)">B. 重大なプライバシー侵害・ハラスメントであり厳禁である</button>
+                <button class="option" onclick="next(2, 5)">C. 本人が近くにいない場所であれば問題ない</button>
+            </div>
+        </div>
+
+        <div id="q3" class="question-box">
+            <div class="q-num">SCENARIO 03</div>
+            <div class="q-text">チャットツールにおける「！」の多用や攻撃的なトーンの投稿による影響は？</div>
+            <div class="options">
+                <button class="option" onclick="next(3, 10)">A. 心理的圧迫を与えるハラスメントリスクである</button>
+                <button class="option" onclick="next(3, 0)">B. 指導者の熱意を伝える有効な手段である</button>
+                <button class="option" onclick="next(3, 5)">C. 文字だけでは伝わりにくい情熱を補完するものだ</button>
+            </div>
+        </div>
+
+        <div id="q4" class="question-box">
+            <div class="q-num">SCENARIO 04</div>
+            <div class="q-text">業務で知り得た情報を、個人のLINEやSNS、メモ用サービス等に転記・保管する行為は？</div>
+            <div class="options">
+                <button class="option" onclick="next(4, 0)">A. 自己研鑽や効率化のために推奨される</button>
+                <button class="option" onclick="next(4, 10)">B. 会社の資産の不正持ち出しであり、重大な不祥事である</button>
+                <button class="option" onclick="next(4, 5)">C. 外部に漏らさなければ本人の自由である</button>
+            </div>
+        </div>
+
+        <div id="q5" class="question-box">
+            <div class="q-num">SCENARIO 05</div>
+            <div class="q-text">デジタル上で一度発信した情報は、二度と消えない「デジタルタトゥー」になるという認識は？</div>
+            <div class="options">
+                <button class="option" onclick="next(5, 10)">A. 正しい。法的な証拠として半永久的に残るリスクがある</button>
+                <button class="option" onclick="next(5, 5)">B. 間違い。送信取消機能を使えば痕跡は消滅する</button>
+                <button class="option" onclick="next(5, 0)">C. 気にする必要はない。ログを追うのは警察くらいだ</button>
+            </div>
+        </div>
+
+        <div id="q6" class="question-box">
+            <div class="q-num">SCENARIO 06</div>
+            <div class="q-text">職場での同僚や社員の様子を無断で写真撮影し、グループ内等で公開する行為について。</div>
+            <div class="options">
+                <button class="option" onclick="next(6, 10)">A. 肖像権の侵害およびプライバシー侵害に該当する</button>
+                <button class="option" onclick="next(6, 0)">B. 職場の楽しさを伝えるための「日常風景」である</button>
+                <button class="option" onclick="next(6, 5)">C. 業務時間内であれば何でも撮って良いルールである</button>
+            </div>
+        </div>
+
+        <div id="q7" class="question-box">
+            <div class="q-num">SCENARIO 07</div>
+            <div class="q-text">会社のアカウントやパスワード情報を、LINEやメールでそのまま送る行為のリスクは？</div>
+            <div class="options">
+                <button class="option" onclick="next(7, 0)">A. 忘れないようにすぐに送るのが最も親切である</button>
+                <button class="option" onclick="next(7, 10)">B. 第3者に傍受・ログインされる重大な漏洩リスクである</button>
+                <button class="option" onclick="next(7, 5)">C. まぁ、今まで何も起きていないから大丈夫だろう</button>
+            </div>
+        </div>
+
+        <div id="q8" class="question-box">
+            <div class="q-num">SCENARIO 08</div>
+            <div class="q-text">重要な指示に対し、了解したことを伝える際の適切なスタイルは？</div>
+            <div class="options">
+                <button class="option" onclick="next(8, 0)">A. 既読になれば伝わったということなので、返信は不要</button>
+                <button class="option" onclick="next(8, 5)">B. 分かりました、の一言またはスタンプ1つで十分</button>
+                <button class="option" onclick="next(8, 10)">C. 受信した旨と、いつまでに実行するかを言語化して返信</button>
+            </div>
+        </div>
+
+        <div id="q9" class="question-box">
+            <div class="q-num">SCENARIO 09</div>
+            <div class="q-text">ミスをした際に「叱られるのが怖い」という理由で報告が遅れることの最大の弊害は？</div>
+            <div class="options">
+                <button class="option" onclick="next(9, 10)">A. 傷口が広がり、会社に取り返しのつかない打撃を与える可能性</button>
+                <button class="option" onclick="next(9, 0)">B. 報告した本人の反省の色が見えないと怒られること</button>
+                <button class="option" onclick="next(9, 5)">C. 次の会議での報告事項が増えてしまうこと</button>
+            </div>
+        </div>
+
+        <div id="q10" class="question-box">
+            <div class="q-num">SCENARIO 10</div>
+            <div class="q-text">現代社会における「心理的安全性」のある職場づくりについての見解は？</div>
+            <div class="options">
+                <button class="option" onclick="next(10, 10)">A. リスクの早期発見と生産性を支える「最強のセキュリティ」である</button>
+                <button class="option" onclick="next(10, 0)">B. 社員を甘やかすだけの、ぬるい組織文化である</button>
+                <button class="option" onclick="next(10, 5)">C. 福利厚生の一つであり、余裕がある時だけ考えればよい</button>
+            </div>
+        </div>
+
+        <div id="q11" class="question-box">
+            <div class="q-num">SCENARIO 11</div>
+            <div class="q-text">AI（人工知能）が提示した回答やデータについての、正しい向き合い方は？</div>
+            <div class="options">
+                <button class="option" onclick="next(11, 10)">A. AIは説得力のある「嘘」をつくことがあるため、必ず人間が裏取り（検証）する</button>
+                <button class="option" onclick="next(11, 0)">B. AIは人間より正確なので、そのまま顧客への回答に流用してよい</button>
+                <button class="option" onclick="next(11, 5)">C. 有名なAIツールであれば、まず間違いないと信じて使う</button>
+            </div>
+        </div>
+
+        <div id="q12" class="question-box">
+            <div class="q-num">SCENARIO 12</div>
+            <div class="q-text">「AIマネジメント（AIMS）」において、最も重要とされる姿勢はどれ？</div>
+            <div class="options">
+                <button class="option" onclick="next(12, 10)">A. AIの判断プロセスを透明化し、人間が説明責任を果たせる状態を作る</button>
+                <button class="option" onclick="next(12, 0)">B. 全ての業務をAIに丸投げし、人間はコスト削減だけを考える</button>
+                <button class="option" onclick="next(12, 5)">C. とりあえず最新のAIを導入し、使いながらリスクを考える</button>
+            </div>
+        </div>
+
+        <!-- Result -->
+        <div id="result" class="result-box">
+            <div id="result-label" style="font-weight: 700; color: #94a3b8; font-size: 13px; text-transform: uppercase;">Final Assessment Result</div>
+            <div id="rank" class="rank">RANK A</div>
+            <div id="score-text" style="font-family: 'Outfit'; font-size: 20px; color: #475569; margin-bottom: 30px;">SCORE 0 / 120</div>
+            <div id="result-desc" class="result-desc">診断結果の詳細がここに表示されます。</div>
+            <button class="btn" onclick="location.reload()">再受検を実施する</button>
+        </div>
+    </div>
+
+    <script>
+        let score = 0; const total = 12;
+        function startTest() {
+            document.getElementById('start-screen').classList.remove('active');
+            document.getElementById('q1').classList.add('active');
+            updateProgress(0);
+        }
+        function next(qNum, qScore) {
+            score += qScore;
+            document.getElementById('q'+qNum).classList.remove('active');
+            if(qNum < total) {
+                document.getElementById('q'+(qNum+1)).classList.add('active');
+                updateProgress(qNum);
+            } else {
+                updateProgress(12);
+                showResult();
+            }
+        }
+        function updateProgress(qNum) {
+            const percent = (qNum / total) * 100;
+            document.getElementById('progress-bar').style.width = percent + '%';
+        }
+        function showResult() {
+            const r = document.getElementById('result'); const d = document.getElementById('result-desc'); const rank = document.getElementById('rank');
+            r.classList.add('active'); r.style.display = 'block';
+            document.getElementById('score-text').innerText = `TOTAL SCORE: ${score} / 120`;
+            if(score === 120) {
+                rank.innerText = 'RANK S+'; rank.style.color = '#2f855a';
+                d.innerHTML = '<strong>次世代のデジタル・マスター。</strong><br>CarlockHomesを牽引するリーダーとして、最高級の資質を証明しました。最新のAIリスク（AIMS）までも熟知しており、技術を安全に利益に変えられる逸材です。';
+            } else if(score >= 100) {
+                rank.innerText = 'RANK A'; rank.style.color = '#2b6cb0';
+                d.innerHTML = '<strong>標準レベル合格です。</strong><br>AI時代に必要な基礎的なリテラシーを備えています。AIの嘘を見抜く洞察力をさらに磨き、周囲の模範となってください。';
+            } else if(score >= 70) {
+                rank.innerText = 'RANK B'; rank.style.color = '#c05621';
+                d.innerHTML = '<strong>【再教育の必要あり】AIリスクに疎いです。</strong><br>AIを盲信したり、プライバシーを軽視したりする傾向があります。今のままではAIのミスで会社を危険にさらす可能性があります。方針を熟読してください。';
+            } else {
+                rank.innerText = 'RANK F'; rank.style.color = '#c53030';
+                d.innerHTML = '<strong>【不適格・重大リスク】緊急改善命令レベル。</strong><br>あなたの考え方は現代のAI倫理およびコンプライアンス基準から著しく逸脱しています。あなたの「勘違い」が会社の倒産を引き起こす可能性があります。直ちに全ての姿勢を修正してください。';
+            }
+        }
+    </script>
+</body>
+</html>
