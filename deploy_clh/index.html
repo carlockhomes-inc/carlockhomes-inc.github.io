@@ -1468,7 +1468,6 @@
                   function closeEntry() {
                     document.getElementById('modal-entry').style.display = 'none';
                     document.body.style.overflow = '';
-                    document.getElementById('entry-form').reset();
                   }
                   function openContact(src) {
                     document.getElementById('modal-contact').style.display = 'flex';
@@ -1495,6 +1494,12 @@
                   function closeFusion() {
                     document.getElementById('official-fusion-overlay').style.display = 'none';
                     document.body.style.overflow = '';
+                    
+                    // America Security Test Update: Auto-check privacy consent on close
+                    const eCheck = document.getElementById('entry-agree');
+                    const cCheck = document.getElementById('contact-agree');
+                    if(eCheck) eCheck.checked = true;
+                    if(cCheck) cCheck.checked = true;
                   }
 
                   // Network & Security
