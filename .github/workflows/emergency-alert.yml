@@ -36,23 +36,30 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          status=$(gh api user --jq .two_factor_authentication)
+          status=$(gh api user --jq .two_factor_authentication 2>/dev/null) || true
           if [ "$status" = "false" ]; then
             echo "*⚠️ 2FA DISABLED*" > msg.txt
             echo "Repository: ${{ github.repository }}" >> msg.txt
+          elif [ -z "$status" ]; then
+            echo "ℹ️ 2FA check skipped (token lacks user scope)"
           else
-            exit 0
+            echo "✅ 2FA is enabled"
           fi
 
       # -------------------------------------------------
-      # 3️⃣ Send Slack alert if a webhook is configured
+      # 3️⃣ Send Slack alert (Skips if SLACK_WEBHOOK_URL is not configured)
       # -------------------------------------------------
       - name: Send Slack alert
-        if: ${{ env.SLACK_WEBHOOK_URL }}
+        # SlackのWebhook URLが設定されている場合のみ実行します。
+        # 未設定の場合はこのステップ自体がスキップされ、エラー（×）になりません。
+        if: ${{ secrets.SLACK_WEBHOOK_URL != '' }}
         env:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
         run: |
           if [ -f msg.txt ]; then
+            echo "🚀 Sending alert to Slack..."
             payload=$(jq -Rs '{text: .}' < msg.txt)
-            curl -X POST -H 'Content-type: application/json' --data "$payload" $SLACK_WEBHOOK_URL
+            curl -s -f -X POST -H 'Content-type: application/json' --data "$payload" "$SLACK_WEBHOOK_URL"
+          else
+            echo "ℹ️ No message to send."
           fi
